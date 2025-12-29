@@ -1,6 +1,9 @@
 import { Header } from "@/components/header";
 import { HowIThink } from "@/components/how-i-think";
 import { WorkSection } from "@/components/work-section";
+import { PlaygroundSection } from "@/components/playground-section";
+import { SplitCTASection } from "@/components/split-cta-section";
+import { AboutSection } from "@/components/about-section";
 import { Footer } from "@/components/footer";
 import Image from "next/image";
 
@@ -8,7 +11,7 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       <Header />
-      <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 relative">
+      <main className="container mx-auto px-2 sm:px-4 pt-20 sm:pt-24 py-4 sm:py-8 relative">
         <div className="absolute inset-0 -top-20 -z-10 flex items-start justify-center overflow-hidden">
           <Image
             src="/hero-gradeint.avif"
@@ -99,11 +102,21 @@ export default function Home() {
           </div>
         </section>
 
-        <div id="how-i-think">
+        <div className="py-16 md:py-24 lg:py-32">
+          <SplitCTASection />
+        </div>
+
+        <div id="how-i-think" className="py-16 md:py-24 lg:py-32">
           <HowIThink />
         </div>
-        <div id="work">
+        <div id="work" className="py-16 md:py-24 lg:py-32">
           <WorkSection />
+        </div>
+        <div id="playground" className="py-16 md:py-24 lg:py-32">
+          <PlaygroundSection />
+        </div>
+        <div id="about" className="py-16 md:py-24 lg:py-32">
+          <AboutSection />
         </div>
       </main>
       <Footer />

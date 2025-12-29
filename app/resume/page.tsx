@@ -9,6 +9,7 @@ import { useState, useRef } from "react";
 export default function ResumePage() {
     const [isDownloading, setIsDownloading] = useState(false);
     const [showShareMenu, setShowShareMenu] = useState(false);
+    const [isSharing, setIsSharing] = useState(false);
     const cvRef = useRef<HTMLDivElement>(null);
 
     const handleDownload = () => {
@@ -27,6 +28,9 @@ export default function ResumePage() {
     };
 
     const handleNativeShare = async () => {
+        if (isSharing) return; // Prevent multiple share operations
+
+        setIsSharing(true);
         try {
             if (navigator.share) {
                 await navigator.share({
@@ -39,6 +43,8 @@ export default function ResumePage() {
             if (error instanceof Error && error.name !== "AbortError") {
                 console.error("Error sharing:", error);
             }
+        } finally {
+            setIsSharing(false);
         }
         setShowShareMenu(false);
     };

@@ -8,7 +8,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="border-b">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/25 backdrop-blur-md border-b border-white/10">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="text-lg font-semibold tracking-wide">
           nc designs
@@ -23,22 +23,22 @@ export function Header() {
             Work
           </Link>
           <Link
-            href="#about"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            About
-          </Link>
-          <Link
             href="#playground"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Playground
           </Link>
+          <Link
+            href="#about"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            About
+          </Link>
         </nav>
 
         {/* Buttons - Always visible */}
         <div className="flex items-center gap-2 md:gap-3">
-          <Button variant="outline" size="sm" asChild className="text-xs md:text-sm">
+          <Button variant="outline" size="sm" asChild className="text-xs md:text-sm bg-white/80 backdrop-blur-sm">
             <Link href="/resume">Resume</Link>
           </Button>
           <Button size="sm" asChild className="text-xs md:text-sm">
@@ -92,7 +92,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t">
+        <div className="md:hidden bg-white/95 backdrop-blur-sm border-t">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
             <Link
               href="#work"
@@ -109,7 +109,7 @@ export function Header() {
               About
             </Link>
             <Link
-              href="#playground"
+              href="/playground"
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
               onClick={() => setMobileMenuOpen(false)}
             >

@@ -4,11 +4,14 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
 
 // ============================================
 // PROJECT DATA - Replace with your real content
 // ============================================
+
+// Blur placeholder for smooth image loading (prevents whitespace)
+const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEEA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
+
 const projects = [
     {
         id: 1,
@@ -42,126 +45,140 @@ const projects = [
 
 export function WorkSection() {
     const sectionRef = useRef<HTMLElement>(null);
-    const pinnedContainerRef = useRef<HTMLDivElement>(null);
-    const projectsRef = useRef<HTMLDivElement[]>([]);
-    const lenisRef = useRef<Lenis | null>(null);
+    const imageContainerRef = useRef<HTMLDivElement>(null);
+    const textBlocksRef = useRef<HTMLDivElement[]>([]);
+    const imagesRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
 
         gsap.registerPlugin(ScrollTrigger);
 
-        // Initialize Lenis smooth scroll
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-        });
-        lenisRef.current = lenis;
-
-        lenis.on("scroll", ScrollTrigger.update);
-
-        const rafCallback = (time: number) => {
-            lenis.raf(time * 1000);
-        };
-        gsap.ticker.add(rafCallback);
-        gsap.ticker.lagSmoothing(0);
-
         const ctx = gsap.context(() => {
             const section = sectionRef.current;
-            const pinnedContainer = pinnedContainerRef.current;
-            const projectElements = projectsRef.current;
+            const imageContainer = imageContainerRef.current;
+            const textBlocks = textBlocksRef.current;
+            const images = imagesRef.current;
 
-            if (!section || !pinnedContainer || projectElements.length === 0) return;
+            if (!section || !imageContainer || textBlocks.length === 0 || images.length === 0) return;
 
             const mm = gsap.matchMedia();
 
             mm.add("(min-width: 1024px)", () => {
-                const numProjects = projects.length;
-
-                // Set initial state - first project visible, others hidden
-                projectElements.forEach((proj, i) => {
-                    gsap.set(proj, {
+                // Set initial state - first image visible, others hidden
+                images.forEach((img, i) => {
+                    gsap.set(img, {
                         opacity: i === 0 ? 1 : 0,
-                        zIndex: numProjects - i
+                        visibility: i === 0 ? "visible" : "hidden",
                     });
                 });
 
-                // Pin the entire container
+                // Pin the image container throughout the section scroll
                 ScrollTrigger.create({
                     trigger: section,
                     start: "top top",
-                    end: `+=${100 * (numProjects - 1)}vh`,
-                    pin: pinnedContainer,
-                    pinSpacing: true,
+                    end: "bottom bottom",
+                    pin: imageContainer,
+                    pinSpacing: false,
                 });
 
-                // Create scroll-linked transitions between projects
-                projectElements.forEach((proj, index) => {
-                    if (index === 0) return; // Skip first project
-
+                // Create triggers for each text block to control image visibility
+                textBlocks.forEach((textBlock, index) => {
                     ScrollTrigger.create({
-                        trigger: section,
-                        start: `top+=${100 * (index - 1)}vh top`,
-                        end: `top+=${100 * index}vh top`,
-                        scrub: 0.5,
-                        onUpdate: (self) => {
-                            const progress = self.progress;
-                            // Fade out previous project
-                            gsap.set(projectElements[index - 1], { opacity: 1 - progress });
-                            // Fade in current project
-                            gsap.set(proj, { opacity: progress });
+                        trigger: textBlock,
+                        start: "top center",
+                        end: "bottom center",
+                        onEnter: () => {
+                            // Fade in current image
+                            gsap.to(images[index], {
+                                opacity: 1,
+                                visibility: "visible",
+                                duration: 0.5,
+                                ease: "power2.out",
+                            });
+                            // Fade out other images
+                            images.forEach((img, i) => {
+                                if (i !== index) {
+                                    gsap.to(img, {
+                                        opacity: 0,
+                                        duration: 0.5,
+                                        ease: "power2.out",
+                                        onComplete: () => {
+                                            gsap.set(img, { visibility: "hidden" });
+                                        },
+                                    });
+                                }
+                            });
+                        },
+                        onEnterBack: () => {
+                            // Fade in current image
+                            gsap.to(images[index], {
+                                opacity: 1,
+                                visibility: "visible",
+                                duration: 0.5,
+                                ease: "power2.out",
+                            });
+                            // Fade out other images
+                            images.forEach((img, i) => {
+                                if (i !== index) {
+                                    gsap.to(img, {
+                                        opacity: 0,
+                                        duration: 0.5,
+                                        ease: "power2.out",
+                                        onComplete: () => {
+                                            gsap.set(img, { visibility: "hidden" });
+                                        },
+                                    });
+                                }
+                            });
                         },
                     });
                 });
             });
 
-            // Mobile: Show all projects normally (no pinning)
+            // Mobile: No pinning, show all content normally
             mm.add("(max-width: 1023px)", () => {
-                projectElements.forEach((proj) => {
-                    gsap.set(proj, { opacity: 1, position: "relative" });
+                images.forEach((img) => {
+                    gsap.set(img, { opacity: 1, visibility: "visible" });
                 });
             });
         }, sectionRef);
 
-        return () => {
-            ctx.revert();
-            lenis.destroy();
-            gsap.ticker.remove(rafCallback);
-        };
+        return () => ctx.revert();
     }, []);
 
-    const addToProjectsRef = (el: HTMLDivElement | null, index: number) => {
-        if (el) projectsRef.current[index] = el;
+    const addToTextBlocksRef = (el: HTMLDivElement | null, index: number) => {
+        if (el) textBlocksRef.current[index] = el;
+    };
+
+    const addToImagesRef = (el: HTMLDivElement | null, index: number) => {
+        if (el) imagesRef.current[index] = el;
     };
 
     return (
-        <section
-            ref={sectionRef}
-            className="relative"
-        >
-            {/* Pinned Container - holds all projects stacked */}
-            <div
-                ref={pinnedContainerRef}
-                className="relative min-h-screen lg:h-screen"
-            >
-                {projects.map((project, index) => (
-                    <div
-                        key={project.id}
-                        ref={(el) => addToProjectsRef(el, index)}
-                        className="lg:absolute lg:inset-0 lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center py-16 md:py-24"
-                    >
-                        {/* Left Column - Text Content */}
-                        <div className="flex flex-col justify-center">
+        <section ref={sectionRef} className="relative">
+            {/* Two-column layout for desktop */}
+            <div className="lg:grid lg:grid-cols-2 lg:gap-16">
+                {/* LEFT COLUMN - Scrolling text content */}
+                <div className="relative">
+                    {projects.map((project, index) => (
+                        <div
+                            key={project.id}
+                            ref={(el) => addToTextBlocksRef(el, index)}
+                            className="min-h-screen flex flex-col justify-center py-16 md:py-24"
+                        >
                             {/* Mobile Image */}
-                            <div className="lg:hidden mb-8 rounded-2xl overflow-hidden shadow-lg">
+                            <div className="lg:hidden mb-8 rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '4/3' }}>
                                 <Image
                                     src={project.image}
                                     alt={project.title}
                                     width={800}
                                     height={600}
-                                    className="w-full h-auto object-cover"
-                                    priority={index === 0}
+                                    className="w-full h-full object-cover"
+                                    priority={index < 2}
+                                    placeholder="blur"
+                                    blurDataURL={BLUR_PLACEHOLDER}
+                                    loading={index < 2 ? "eager" : "lazy"}
                                 />
                             </div>
 
@@ -190,22 +207,36 @@ export function WorkSection() {
                                 </div>
                             </div>
                         </div>
+                    ))}
+                </div>
 
-                        {/* Right Column - Image (Desktop Only) */}
-                        <div className="hidden lg:flex items-center justify-center">
-                            <div className="relative w-[770px] h-[785px] rounded-2xl overflow-hidden shadow-2xl">
+                {/* RIGHT COLUMN - Sticky image container (Desktop only) */}
+                <div
+                    ref={imageContainerRef}
+                    className="hidden lg:flex items-center justify-center h-screen sticky top-0"
+                >
+                    <div className="relative w-full max-w-[660px] h-[750px]">
+                        {projects.map((project, index) => (
+                            <div
+                                key={project.id}
+                                ref={(el) => addToImagesRef(el, index)}
+                                className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl bg-gray-100"
+                            >
                                 <Image
                                     src={project.image}
                                     alt={project.title}
                                     fill
                                     className="object-cover"
-                                    priority={index === 0}
-                                    sizes="(min-width: 1024px) 770px, 100vw"
+                                    priority={index < 2}
+                                    placeholder="blur"
+                                    blurDataURL={BLUR_PLACEHOLDER}
+                                    sizes="600px"
+                                    loading={index < 2 ? "eager" : "lazy"}
                                 />
                             </div>
-                        </div>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
         </section>
     );
