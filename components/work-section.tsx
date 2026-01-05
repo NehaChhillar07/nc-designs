@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -21,6 +22,7 @@ const projects = [
             "A complete UX overhaul for a fashion brand, focusing on mobile conversion and checkout flow. Increased mobile conversions by 34% through streamlined user journeys.",
         image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop",
         tags: ["User Research", "Prototyping", "A/B Testing"],
+        caseStudyLink: null, // No case study yet
     },
     {
         id: 2,
@@ -30,15 +32,17 @@ const projects = [
             "A real-time data visualization platform for trading analytics with dark mode UI. Designed for power users who need instant insights from complex financial data.",
         image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop",
         tags: ["Dashboard Design", "Dark Mode", "Real-time Data"],
+        caseStudyLink: null, // No case study yet
     },
     {
         id: 3,
-        title: "Travel App",
-        category: "Mobile App • AI",
+        title: "Human Resource Management System",
+        category: "Product Design · Enterprise SaaS · HR Tech",
         description:
-            "An AI-powered itinerary planner with map integrations and social sharing features. Helps travelers discover hidden gems and plan trips effortlessly.",
-        image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop",
-        tags: ["AI Integration", "Maps", "Social Features"],
+            "Designed and owned an enterprise HR management system to simplify hiring, onboarding, and core people workflows. The focus was on reducing HR friction while keeping employee experiences clear and usable.",
+        image: "/work/texlaculture-hr-dashboard.png",
+        tags: ["Product Design", "User Research", "Systems Thinking", "UX Strategy", "Collaboration"],
+        caseStudyLink: "/case-study/texlaculture", // Link to case study
     },
 ];
 // ============================================
@@ -187,9 +191,17 @@ export function WorkSection() {
                                 <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                                     {project.category}
                                 </p>
-                                <h3 className="text-[28px] md:text-[36px] font-semibold tracking-tight">
-                                    {project.title}
-                                </h3>
+                                {project.caseStudyLink ? (
+                                    <Link href={project.caseStudyLink}>
+                                        <h3 className="text-[28px] md:text-[36px] font-semibold tracking-tight hover:text-primary transition-colors cursor-pointer">
+                                            {project.title}
+                                        </h3>
+                                    </Link>
+                                ) : (
+                                    <h3 className="text-[28px] md:text-[36px] font-semibold tracking-tight">
+                                        {project.title}
+                                    </h3>
+                                )}
                                 <p className="text-[16px] md:text-[18px] text-muted-foreground leading-relaxed max-w-lg">
                                     {project.description}
                                 </p>
@@ -205,6 +217,16 @@ export function WorkSection() {
                                         </span>
                                     ))}
                                 </div>
+
+                                {/* View Case Study Link for projects with case study */}
+                                {project.caseStudyLink && (
+                                    <Link
+                                        href={project.caseStudyLink}
+                                        className="inline-flex items-center justify-center px-6 py-2 mt-4 text-sm font-medium border border-current rounded-full hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+                                    >
+                                        Understand
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     ))}

@@ -17,19 +17,19 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <Link
-            href="#work"
+            href="/#work"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Work
           </Link>
           <Link
-            href="#playground"
+            href="/#playground"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Playground
           </Link>
           <Link
-            href="#about"
+            href="/#about"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             About
@@ -42,7 +42,7 @@ export function Header() {
             <Link href="/resume">Resume</Link>
           </Button>
           <Button size="sm" asChild className="text-xs md:text-sm">
-            <a href="#connect">Connect</a>
+            <a href="/#connect">Connect</a>
           </Button>
 
           {/* Mobile Hamburger Menu Button */}
@@ -95,25 +95,25 @@ export function Header() {
         <div className="md:hidden bg-white/95 backdrop-blur-sm border-t">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
             <Link
-              href="#work"
+              href="/#work"
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Work
             </Link>
             <Link
-              href="#about"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              href="/playground"
+              href="/#playground"
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Playground
+            </Link>
+            <Link
+              href="/#about"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              About
             </Link>
           </nav>
         </div>
