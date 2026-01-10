@@ -1,7 +1,7 @@
 "use client";
 
 import { AboutGallery } from "@/components/about-gallery";
-import { aboutImages, aboutHeading, aboutParagraphs } from "@/data/about-data";
+import { aboutHeading, aboutParagraphs } from "@/data/about-data";
 import { motion } from "framer-motion";
 
 export function AboutSection() {
@@ -9,7 +9,7 @@ export function AboutSection() {
         <section className="py-16 md:py-24 lg:py-32 px-4">
             {/* Centered Gallery */}
             <div className="flex justify-center mb-16 md:mb-24">
-                <AboutGallery images={aboutImages} />
+                <AboutGallery />
             </div>
 
             {/* Text Content - Centered Below */}

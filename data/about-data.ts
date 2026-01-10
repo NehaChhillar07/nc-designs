@@ -2,97 +2,175 @@
 // ABOUT SECTION DATA - Images and text content
 // ============================================
 
-export interface AboutImage {
+export interface AboutMedia {
     id: number;
     src: string;
     alt: string;
-    aspectRatio: "3:4" | "4:5" | "1:1" | "4:3" | "16:10";
-    size: "small" | "medium" | "large";
+    type: "image" | "video";
+    aspectRatio: "3:4" | "9:16" | "4:3" | "16:9";
+    frameType: "hero" | "tall" | "standard" | "small";
     rotation: number;
 }
 
-export const aboutImages: AboutImage[] = [
+// All available media files in public/about/
+export const allAboutMedia: AboutMedia[] = [
     {
         id: 1,
-        src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=800&fit=crop",
-        alt: "Portrait",
+        src: "/about/IMG_0873.jpeg",
+        alt: "With a puppy in the mountains",
+        type: "image",
         aspectRatio: "3:4",
-        size: "large",
+        frameType: "hero",
         rotation: -2,
     },
     {
         id: 2,
-        src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop",
-        alt: "Workspace",
-        aspectRatio: "4:3",
-        size: "medium",
-        rotation: 3,
-    },
-    {
-        id: 3,
-        src: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=500&h=500&fit=crop",
-        alt: "June the dog",
-        aspectRatio: "1:1",
-        size: "small",
-        rotation: -3,
-    },
-    {
-        id: 4,
-        src: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=500&h=500&fit=crop",
-        alt: "Coffee moment",
-        aspectRatio: "1:1",
-        size: "small",
+        src: "/about/IMG_9198.jpeg",
+        alt: "At Yamuna Ghat",
+        type: "image",
+        aspectRatio: "9:16",
+        frameType: "tall",
         rotation: 2,
     },
     {
+        id: 3,
+        src: "/about/IMG_9318.jpeg",
+        alt: "With June",
+        type: "image",
+        aspectRatio: "9:16",
+        frameType: "tall",
+        rotation: -1,
+    },
+    {
+        id: 4,
+        src: "/about/IMG_7742.jpeg",
+        alt: "Night selfie",
+        type: "image",
+        aspectRatio: "9:16",
+        frameType: "tall",
+        rotation: 3,
+    },
+    {
         id: 5,
-        src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop",
-        alt: "Candid",
-        aspectRatio: "3:4",
-        size: "medium",
+        src: "/about/IMG_7595.png",
+        alt: "Standing pose",
+        type: "image",
+        aspectRatio: "9:16",
+        frameType: "tall",
         rotation: -2,
     },
     {
         id: 6,
-        src: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=500&fit=crop",
-        alt: "Desk setup",
-        aspectRatio: "16:10",
-        size: "medium",
-        rotation: 1,
+        src: "/about/WhatsApp%20Image%202026-01-10%20at%2000.40.34.jpeg",
+        alt: "Auto ride",
+        type: "image",
+        aspectRatio: "3:4",
+        frameType: "standard",
+        rotation: -3,
     },
     {
         id: 7,
-        src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=800&fit=crop",
-        alt: "Portrait 2",
+        src: "/about/WhatsApp%20Image%202026-01-10%20at%2000.42.31.jpeg",
+        alt: "June close-up",
+        type: "image",
         aspectRatio: "3:4",
-        size: "medium",
+        frameType: "standard",
         rotation: 2,
     },
     {
         id: 8,
-        src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&h=500&fit=crop",
-        alt: "Minimal moment",
-        aspectRatio: "1:1",
-        size: "small",
+        src: "/about/WhatsApp%20Image%202026-01-10%20at%2000.44.34.jpeg",
+        alt: "Taj Mahal artwork",
+        type: "image",
+        aspectRatio: "9:16",
+        frameType: "small",
         rotation: -1,
     },
     {
         id: 9,
-        src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
-        alt: "Creative work",
-        aspectRatio: "4:3",
-        size: "medium",
+        src: "/about/WhatsApp%20Image%202026-01-10%20at%2000.46.18.jpeg",
+        alt: "Random selfie",
+        type: "image",
+        aspectRatio: "3:4",
+        frameType: "standard",
         rotation: 3,
     },
     {
         id: 10,
-        src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop",
-        alt: "Detail",
-        aspectRatio: "1:1",
-        size: "small",
-        rotation: -2,
+        src: "/about/IMG_0765.mp4",
+        alt: "Video moment",
+        type: "video",
+        aspectRatio: "9:16",
+        frameType: "tall",
+        rotation: 0,
+    },
+    {
+        id: 11,
+        src: "/about/IMG_7672.mp4",
+        alt: "Video moment",
+        type: "video",
+        aspectRatio: "9:16",
+        frameType: "tall",
+        rotation: 0,
+    },
+    {
+        id: 12,
+        src: "/about/IMG_8363.mp4",
+        alt: "Video moment",
+        type: "video",
+        aspectRatio: "9:16",
+        frameType: "tall",
+        rotation: 0,
     },
 ];
+
+// Helper function to shuffle array
+function shuffleArray<T>(array: T[]): T[] {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+// Get a curated selection of media for the gallery
+export function getRandomAboutMedia(): AboutMedia[] {
+    const heroes = allAboutMedia.filter(m => m.frameType === "hero");
+    const talls = allAboutMedia.filter(m => m.frameType === "tall");
+    const standards = allAboutMedia.filter(m => m.frameType === "standard");
+    const smalls = allAboutMedia.filter(m => m.frameType === "small");
+
+    const shuffledHeroes = shuffleArray(heroes);
+    const shuffledTalls = shuffleArray(talls);
+    const shuffledStandards = shuffleArray(standards);
+    const shuffledSmalls = shuffleArray(smalls);
+
+    const selection: AboutMedia[] = [];
+
+    if (shuffledHeroes.length > 0) {
+        selection.push({ ...shuffledHeroes[0], id: 1 });
+    }
+
+    const tallVideos = shuffledTalls.filter(m => m.type === "video");
+    const tallImages = shuffledTalls.filter(m => m.type === "image");
+
+    if (tallVideos.length > 0) {
+        selection.push({ ...tallVideos[0], id: 2 });
+    }
+    selection.push(...tallImages.slice(0, tallVideos.length > 0 ? 2 : 3).map((m, i) => ({ ...m, id: 3 + i })));
+
+    selection.push(...shuffledStandards.slice(0, 3).map((m, i) => ({ ...m, id: 6 + i })));
+
+    const remaining = [...shuffledSmalls, ...shuffledStandards.slice(3)];
+    selection.push(...remaining.slice(0, 2).map((m, i) => ({ ...m, id: 9 + i })));
+
+    return selection;
+}
+
+// Legacy exports
+export type AboutImage = AboutMedia;
+export const aboutImages = allAboutMedia.filter(m => m.type === "image");
 
 export const aboutHeading = "I'm Neha Chhillar";
 

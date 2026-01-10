@@ -218,26 +218,26 @@ export const texlacultureCaseStudy = {
         title: "Ideation | Product Strategies.",
         description: "For ideation, strategizing, and product discussions, I prefer using pen and paper, a whiteboard, or sketching over any digital tools. This approach allows for a free flow of creativity, enabling countless possible ideas to emerge.",
         summary: "For both web and app development, I used this method for each module and submodule to understand, create solutions, finalize the flow, and determine possible features for MVP 1",
+        image: "/work/3rd-case study/ideation-product.svg",
     },
 
     // Wireframes
     wireframes: {
         title: "Wireframes",
         images: [
-            "/case-study/texlaculture/wireframes/wireframe-1.png",
-            "/case-study/texlaculture/wireframes/wireframe-2.png",
+            "/work/3rd-case study/wireframe-3rd.svg",
         ],
     },
 
     // Prototype Testing
     prototypeTesting: {
         description: "After creating high-fidelity designs, we prototyped each module for initial testing across multiple departments. This testing aimed to understand how quickly users could perform actions, identify if they needed assistance with any tasks, and uncover any concerns that arose during internal testing.",
+        image: "/work/3rd-case study/explore.svg",
     },
 
     // Usability Testing
     usabilityTesting: {
         title: "Usability Testing",
-        description: "I consider usability testing as a key part of the design process which can defined by 5 components: learnability, efficiency, memorability, error, and satisfaction. In a nutshell, usability is an essential factor that plays a vital role in success of a product.",
         note: "Usability testing performed with out first 3 customers that were live implemented with all the modules, free of cost.",
         components: [
             {
@@ -283,11 +283,7 @@ export const texlacultureCaseStudy = {
             username: "24",
             password: "1234",
         },
-        screens: [
-            { title: "Login Screen", image: "/case-study/texlaculture/hifi/l2.png" },
-            { title: "Home Page", image: "/case-study/texlaculture/hifi/l3.png" },
-            { title: "Time Office", image: "/case-study/texlaculture/hifi/l4.png" },
-        ],
+        screens: [],
     },
 
     // Design System
@@ -295,11 +291,10 @@ export const texlacultureCaseStudy = {
         title: "Design System",
         description: "To establish a unified design system ensuring consistent user interface (UI) elements across both web and mobile applications, thereby enhancing overall product cohesion and user experience.",
         implementation: [
-            "I Developed a comprehensive design system that included a library of reusable components, standardized color palettes, typography, and layout grids.",
-            "Handed over the design system components to the development team.",
+            "I Developed a comprehensive design system that included a library of reusable components, standardized color palettes, typography, and layout grids. Handed over the design system components to the development team.",
         ],
         note: "This collaborative approach ensured that both designers and developers were aligned, facilitating seamless integration of UI elements into the product.",
-        image: "/case-study/texlaculture/design-system.png",
+        image: "/work/3rd-case study/designsystme-3rd.svg",
     },
 };
 

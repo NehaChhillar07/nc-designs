@@ -31,27 +31,6 @@ const playgroundItems = [
         description: "Experimenting with AI image generation, prompt engineering, and creative machine learning tools.",
         image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=500&fit=crop",
     },
-    {
-        id: 4,
-        title: "3D Web Experiments",
-        category: "WebGL • Three.js",
-        description: "Pushing the boundaries of web graphics with immersive 3D scenes and interactive experiences.",
-        image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=500&fit=crop",
-    },
-    {
-        id: 5,
-        title: "Design Systems",
-        category: "UI Components",
-        description: "Building reusable component libraries and exploring new patterns in design systematization.",
-        image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=500&fit=crop",
-    },
-    {
-        id: 6,
-        title: "Typographic Play",
-        category: "Typography",
-        description: "Kinetic typography, variable fonts, and experimental text animations that push creative boundaries.",
-        image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=500&fit=crop",
-    },
 ];
 
 export function PlaygroundSection() {
@@ -98,9 +77,15 @@ export function PlaygroundSection() {
 
     return (
         <>
-            <section className="py-12 md:py-16 relative overflow-hidden bg-zinc-950 text-white rounded-3xl">
+            <section
+                className="py-16 md:py-24 relative overflow-hidden bg-zinc-950 text-white"
+                style={{
+                    borderRadius: '24px 0 0 24px',
+                    marginRight: 'calc(-50vw + 50%)'
+                }}
+            >
                 {/* Section Header - Two Column Layout */}
-                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 mb-8 md:mb-12 px-6 md:px-10 lg:px-12">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 mb-12 md:mb-20 px-6 md:px-10 lg:px-12">
                     {/* Left - Title */}
                     <div className="flex-shrink-0">
                         <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-normal tracking-tight leading-tight">
@@ -120,7 +105,7 @@ export function PlaygroundSection() {
                 <div
                     ref={scrollContainerRef}
                     onScroll={checkScrollPosition}
-                    className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide scroll-smooth px-6 md:px-10 lg:px-12"
+                    className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide scroll-smooth pl-6 md:pl-10 lg:pl-12"
                     style={{
                         scrollbarWidth: "none",
                         msOverflowStyle: "none",
@@ -129,7 +114,7 @@ export function PlaygroundSection() {
                     {playgroundItems.map((item, index) => (
                         <div
                             key={item.id}
-                            className="flex-shrink-0 w-[90vw] md:w-[55vw] lg:w-[50vw] xl:w-[45vw] max-w-[700px] group"
+                            className="flex-shrink-0 w-[90vw] md:w-[70vw] lg:w-[65vw] xl:w-[55vw] max-w-[900px] group"
                         >
                             {/* Image Card - Clickable */}
                             <button
@@ -137,7 +122,7 @@ export function PlaygroundSection() {
                                 className="block w-full text-left cursor-pointer"
                             >
                                 {/* Image Container */}
-                                <div className="relative h-[50vw] md:h-[280px] lg:h-[320px] xl:h-[340px] rounded-2xl overflow-hidden bg-zinc-800 mb-4">
+                                <div className="relative h-[55vw] md:h-[340px] lg:h-[380px] xl:h-[420px] rounded-2xl overflow-hidden bg-zinc-800 mb-4">
                                     <Image
                                         src={item.image}
                                         alt={item.title}

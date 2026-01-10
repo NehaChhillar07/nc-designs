@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Button } from "@/components/ui/button";
 
 // ============================================
 // PROJECT DATA - Replace with your real content
@@ -16,33 +17,36 @@ const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 const projects = [
     {
         id: 1,
-        title: "E-Commerce Redesign",
-        category: "UX Design • Mobile",
+        title: "Human Risk Management & Mitigation Platform",
+        category: "PRODUCT DESIGN · HUMAN RISK · AI-DRIVEN SAAS",
         description:
-            "A complete UX overhaul for a fashion brand, focusing on mobile conversion and checkout flow. Increased mobile conversions by 34% through streamlined user journeys.",
-        image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop",
-        tags: ["User Research", "Prototyping", "A/B Testing"],
-        caseStudyLink: null, // No case study yet
+            "AI-driven cybersecurity platform focused on identifying, reducing, and responding to human risk within organisations through awareness, simulations, and behavioural insights.",
+        image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
+        tags: [],
+        caseStudyLink: null,
+        comingSoon: true,
     },
     {
         id: 2,
-        title: "FinTech Dashboard",
-        category: "Product Design • Data Viz",
+        title: "eCrime Hub | Dubai Police",
+        category: "WEBSITE DESIGN · CYBERSECURITY · PUBLIC PLATFORM",
         description:
-            "A real-time data visualization platform for trading analytics with dark mode UI. Designed for power users who need instant insights from complex financial data.",
-        image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop",
-        tags: ["Dashboard Design", "Dark Mode", "Real-time Data"],
-        caseStudyLink: null, // No case study yet
+            "Public-facing cybersecurity platform designed to help citizens report cybercrime and learn about digital risks.",
+        image: "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=800&h=600&fit=crop",
+        tags: [],
+        caseStudyLink: null,
+        comingSoon: true,
     },
     {
         id: 3,
-        title: "Human Resource Management System",
-        category: "Product Design · Enterprise SaaS · HR Tech",
+        title: "Human Resource Management System (TexlaCulture)",
+        category: "Product Design · End-to-end · SaaS",
         description:
-            "Designed and owned an enterprise HR management system to simplify hiring, onboarding, and core people workflows. The focus was on reducing HR friction while keeping employee experiences clear and usable.",
+            "Simplifying hiring, onboarding, and core people workflows",
         image: "/work/texlaculture-hr-dashboard.png",
-        tags: ["Product Design", "User Research", "Systems Thinking", "UX Strategy", "Collaboration"],
-        caseStudyLink: "/case-study/texlaculture", // Link to case study
+        tags: [],
+        caseStudyLink: "/case-study/texlaculture",
+        buttonText: "Explore Product",
     },
 ];
 // ============================================
@@ -187,22 +191,24 @@ export function WorkSection() {
                             </div>
 
                             {/* Project Content */}
-                            <div className="space-y-4">
-                                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                                    {project.category}
-                                </p>
+                            <div className="space-y-6">
+                                {project.category && (
+                                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                                        {project.category}
+                                    </p>
+                                )}
                                 {project.caseStudyLink ? (
                                     <Link href={project.caseStudyLink}>
-                                        <h3 className="text-[28px] md:text-[36px] font-semibold tracking-tight hover:text-primary transition-colors cursor-pointer">
+                                        <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight hover:text-primary transition-colors cursor-pointer">
                                             {project.title}
                                         </h3>
                                     </Link>
                                 ) : (
-                                    <h3 className="text-[28px] md:text-[36px] font-semibold tracking-tight">
+                                    <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight">
                                         {project.title}
                                     </h3>
                                 )}
-                                <p className="text-[16px] md:text-[18px] text-muted-foreground leading-relaxed max-w-lg">
+                                <p className="text-[14px] md:text-[18px] text-gray-500 leading-relaxed max-w-lg mt-2">
                                     {project.description}
                                 </p>
 
@@ -218,14 +224,23 @@ export function WorkSection() {
                                     ))}
                                 </div>
 
+                                {/* Coming Soon Badge */}
+                                {project.comingSoon && (
+                                    <div className="mt-6">
+                                        <span className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-gray-100 text-gray-600 rounded-full">
+                                            <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+                                            Coming Soon
+                                        </span>
+                                    </div>
+                                )}
+
                                 {/* View Case Study Link for projects with case study */}
                                 {project.caseStudyLink && (
-                                    <Link
-                                        href={project.caseStudyLink}
-                                        className="inline-flex items-center justify-center px-6 py-2 mt-4 text-sm font-medium border border-current rounded-full hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
-                                    >
-                                        Understand
-                                    </Link>
+                                    <Button asChild size="lg" className="mt-6 rounded-2xl px-10 h-12 text-base">
+                                        <Link href={project.caseStudyLink}>
+                                            {project.buttonText || "Understand"}
+                                        </Link>
+                                    </Button>
                                 )}
                             </div>
                         </div>
@@ -242,7 +257,7 @@ export function WorkSection() {
                             <div
                                 key={project.id}
                                 ref={(el) => addToImagesRef(el, index)}
-                                className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl bg-gray-100"
+                                className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-100"
                             >
                                 <Image
                                     src={project.image}

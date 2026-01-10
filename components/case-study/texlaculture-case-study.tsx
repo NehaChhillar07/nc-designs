@@ -329,7 +329,7 @@ function ProductApproachSection() {
                     </h3>
                     <p
                         className="font-normal leading-[145%]"
-                        style={{ fontSize: "14px", color: "#637381" }}
+                        style={{ fontSize: "14px", color: "#454F5B" }}
                     >
                         {data.productApproach.subtitle}
                     </p>
@@ -350,7 +350,7 @@ function ProductApproachSection() {
                                     <li
                                         key={i}
                                         className="font-normal leading-[145%]"
-                                        style={{ fontSize: "14px", color: "#637381" }}
+                                        style={{ fontSize: "14px", color: "#454F5B" }}
                                     >
                                         {point}
                                     </li>
@@ -443,56 +443,134 @@ function TargetMarketSection() {
 function UserPersonaSection() {
     const persona = data.userPersonas.detailedPersona;
 
+    // Avatar URLs from randomuser.me for realistic human photos
+    const avatarIds = [
+        { gender: 'men', id: 32 },
+        { gender: 'women', id: 44 },
+        { gender: 'men', id: 67 },
+        { gender: 'women', id: 28 },
+        { gender: 'men', id: 75 },
+        { gender: 'women', id: 63 },
+        { gender: 'men', id: 52 },
+        { gender: 'women', id: 89 },
+    ];
+
+    // Fixed personality bar widths matching the design
+    const personalityWidths = [85, 65, 75, 55, 70];
+
     return (
         <section className="py-12 md:py-16">
-            <div>
-                <motion.h3
-                    className="text-lg font-semibold text-muted-foreground mb-6"
-                    {...fadeInUp}
-                >
-                    {data.userPersonas.title}
-                </motion.h3>
+            <motion.h3
+                className="font-semibold leading-[145%] mb-8"
+                style={{ fontSize: "20px", color: "#212B36" }}
+                {...fadeInUp}
+            >
+                {data.userPersonas.title}
+            </motion.h3>
 
-                {/* Personas Grid */}
-                <motion.div
-                    className="flex flex-wrap gap-4 mb-8"
-                    {...fadeInUp}
-                >
-                    {data.userPersonas.personas.map((p, index) => (
-                        <div key={index} className="flex flex-col items-center gap-2">
-                            <div
-                                className="w-12 h-12 rounded-full bg-muted"
-                            />
-                            <p className="text-xs font-semibold text-center text-foreground">
-                                {p.name}
-                            </p>
-                            <p className="text-xs text-center text-muted-foreground">
-                                {p.role}
-                            </p>
-                        </div>
-                    ))}
-                </motion.div>
+            {/* Two Column Layout */}
+            <div className="flex flex-col lg:flex-row" style={{ gap: "64px" }}>
+                {/* Left Side - Avatars + Disclaimer */}
+                <div className="flex flex-col lg:flex-shrink-0 self-start" style={{ maxWidth: "420px", gap: "8px" }}>
+                    {/* Personas Grid (4 columns x 2 rows) */}
+                    <motion.div
+                        className="grid grid-cols-4 content-start"
+                        style={{ gap: "24px 24px" }}
+                        {...fadeInUp}
+                    >
+                        {data.userPersonas.personas.map((p, index) => (
+                            <div key={index} className="flex flex-col items-center gap-2">
+                                <img
+                                    src={`https://randomuser.me/api/portraits/${avatarIds[index].gender}/${avatarIds[index].id}.jpg`}
+                                    alt={p.name}
+                                    className="rounded-full object-cover"
+                                    style={{
+                                        width: "72px",
+                                        height: "72px",
+                                        border: "2px solid #E5E5E5",
+                                        filter: "grayscale(100%)",
+                                    }}
+                                />
+                                <div className="text-center">
+                                    <p
+                                        className="font-medium leading-tight"
+                                        style={{ fontSize: "12px", color: "#212B36" }}
+                                    >
+                                        {p.role}
+                                    </p>
+                                    <p
+                                        className="font-normal leading-tight"
+                                        style={{ fontSize: "14px", color: "#919EAB" }}
+                                    >
+                                        {p.name}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </motion.div>
+                    {/* Disclaimer text */}
+                    <p
+                        className="font-normal italic"
+                        style={{ fontSize: "14px", color: "#919EAB" }}
+                    >
+                        *Avatars and names are for presentation purposes only. Personas represent the roles.
+                    </p>
+                </div>
 
-                {/* Detailed Persona Card */}
+                {/* Right Side - Detailed Persona Card */}
                 <motion.div
-                    className="rounded-xl overflow-hidden shadow-md bg-white"
+                    className="flex-1 rounded-xl overflow-hidden"
+                    style={{
+                        background: "#FFFFFF",
+                        border: "1px solid #DFE3E8",
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+                    }}
                     {...fadeInUp}
                 >
                     {/* Header */}
                     <div
-                        className="p-4 flex flex-wrap justify-between items-center gap-4"
+                        className="px-5 py-4 flex flex-wrap justify-between items-center gap-4"
                         style={{ background: "rgba(234, 246, 216, 0.5)" }}
                     >
-                        <div className="flex items-center gap-3">
-                            <span className="text-xs font-semibold text-foreground">Persona</span>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full bg-muted" />
-                                <span className="text-xs text-foreground">{persona.name} Role: {persona.role}</span>
+                        <div className="flex items-center gap-4">
+                            <span
+                                className="font-semibold"
+                                style={{ fontSize: "13px", color: "#637381" }}
+                            >
+                                Persona
+                            </span>
+                            <div className="flex items-center gap-3">
+                                <img
+                                    src="https://randomuser.me/api/portraits/women/55.jpg"
+                                    alt={persona.name}
+                                    className="rounded-full object-cover"
+                                    style={{
+                                        width: "32px",
+                                        height: "32px",
+                                        border: "1.5px solid #C4CDD5",
+                                    }}
+                                />
+                                <span
+                                    className="font-medium"
+                                    style={{ fontSize: "13px", color: "#212B36" }}
+                                >
+                                    {persona.name} <span style={{ color: "#637381" }}>Role:</span> {persona.role}
+                                </span>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-foreground">Age</span>
-                            <span className="text-xs text-foreground">{persona.age}</span>
+                            <span
+                                className="font-semibold"
+                                style={{ fontSize: "13px", color: "#637381" }}
+                            >
+                                Age
+                            </span>
+                            <span
+                                className="font-medium"
+                                style={{ fontSize: "13px", color: "#212B36" }}
+                            >
+                                {persona.age}
+                            </span>
                         </div>
                     </div>
 
@@ -500,70 +578,135 @@ function UserPersonaSection() {
                     <div className="p-5 space-y-5">
                         {/* Background */}
                         <div>
-                            <p className="text-xs font-semibold text-foreground mb-1">Background</p>
-                            <p className="text-sm leading-relaxed text-muted-foreground">{persona.background}</p>
+                            <p
+                                className="font-semibold mb-1"
+                                style={{ fontSize: "13px", color: "#454F5B" }}
+                            >
+                                Background
+                            </p>
+                            <p
+                                className="font-normal leading-[155%]"
+                                style={{ fontSize: "13px", color: "#637381" }}
+                            >
+                                {persona.background}
+                            </p>
                         </div>
 
                         {/* Approach */}
                         <div>
-                            <p className="text-xs font-semibold text-foreground mb-1">Approach</p>
-                            <div className="text-sm leading-relaxed text-muted-foreground">
-                                {persona.approach.map((a, i) => (
-                                    <p key={i} className="font-medium">{a}</p>
-                                ))}
+                            <p
+                                className="font-semibold mb-2"
+                                style={{ fontSize: "13px", color: "#454F5B" }}
+                            >
+                                Approach
+                            </p>
+                            <div className="space-y-1">
+                                {persona.approach.map((a, i) => {
+                                    const [title, desc] = a.split(': ');
+                                    return (
+                                        <p
+                                            key={i}
+                                            className="font-normal leading-[155%]"
+                                            style={{ fontSize: "13px", color: "#637381" }}
+                                        >
+                                            <span className="font-medium" style={{ color: "#212B36" }}>• {title}:</span> {desc}
+                                        </p>
+                                    );
+                                })}
                             </div>
                         </div>
 
                         {/* Pain Points */}
                         <div>
-                            <p className="text-xs font-semibold text-foreground mb-1">Pain Points</p>
-                            <div className="text-sm leading-relaxed text-muted-foreground">
-                                {persona.painPoints.map((p, i) => (
-                                    <p key={i} className="font-medium">{p}</p>
-                                ))}
+                            <p
+                                className="font-semibold mb-2"
+                                style={{ fontSize: "13px", color: "#454F5B" }}
+                            >
+                                Pain Points
+                            </p>
+                            <div className="space-y-1">
+                                {persona.painPoints.map((point, i) => {
+                                    const [title, desc] = point.split(': ');
+                                    return (
+                                        <p
+                                            key={i}
+                                            className="font-normal leading-[155%]"
+                                            style={{ fontSize: "13px", color: "#637381" }}
+                                        >
+                                            <span className="font-medium" style={{ color: "#212B36" }}>• {title}:</span> {desc}
+                                        </p>
+                                    );
+                                })}
                             </div>
                         </div>
 
-                        {/* Personality & Decision Power */}
-                        <div className="grid md:grid-cols-2 gap-5">
+                        {/* Personality & Decision Power - Side by Side */}
+                        <div className="grid md:grid-cols-2 gap-6 pt-2">
+                            {/* Personality */}
                             <div>
-                                <p className="text-xs font-semibold text-foreground mb-2">Personality</p>
+                                <p
+                                    className="font-semibold mb-3"
+                                    style={{ fontSize: "13px", color: "#454F5B" }}
+                                >
+                                    Personality
+                                </p>
                                 <div className="space-y-2">
                                     {persona.personality.map((trait, i) => (
                                         <div
                                             key={i}
-                                            className="py-1 px-3 rounded-r-lg text-xs text-foreground"
-                                            style={{
-                                                background: "#D3EEB3",
-                                                width: `${60 + Math.random() * 40}%`,
-                                            }}
+                                            className="flex items-center"
                                         >
-                                            {trait}
+                                            <div
+                                                className="py-1.5 px-3 text-xs font-medium"
+                                                style={{
+                                                    background: "#D3EEB3",
+                                                    borderRadius: "0 6px 6px 0",
+                                                    width: `${personalityWidths[i]}%`,
+                                                    fontSize: "12px",
+                                                    color: "#365B23",
+                                                }}
+                                            >
+                                                {trait}
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
+
+                            {/* Decision Power */}
                             <div>
-                                <p className="text-xs font-semibold text-foreground mb-2">Decision Power</p>
+                                <p
+                                    className="font-semibold mb-3"
+                                    style={{ fontSize: "13px", color: "#454F5B" }}
+                                >
+                                    Decision Power
+                                </p>
                                 <div className="space-y-2">
                                     {Object.entries(persona.decisionPower).map(([key, value]) => (
                                         <div
                                             key={key}
-                                            className="flex items-center gap-2"
-                                            style={{ background: "rgba(234, 246, 216, 0.6)" }}
+                                            className="flex items-center justify-between gap-3"
                                         >
                                             <div
-                                                className="py-1 px-3 rounded-r-lg text-xs text-foreground"
-                                                style={{ background: "#D3EEB3" }}
+                                                className="py-1.5 px-3 text-xs font-medium flex-shrink-0"
+                                                style={{
+                                                    background: "#D3EEB3",
+                                                    borderRadius: "0 6px 6px 0",
+                                                    fontSize: "12px",
+                                                    color: "#365B23",
+                                                    minWidth: "100px",
+                                                }}
                                             >
                                                 {key.replace(/([A-Z])/g, ' $1').trim()}
                                             </div>
-                                            <div className="flex gap-1">
+                                            <div className="flex gap-1.5">
                                                 {[...Array(6)].map((_, i) => (
                                                     <div
                                                         key={i}
-                                                        className="w-2.5 h-2.5 rounded-full"
+                                                        className="rounded-full"
                                                         style={{
+                                                            width: "10px",
+                                                            height: "10px",
                                                             background: i < value ? "#365B23" : "#D9D9D9"
                                                         }}
                                                     />
@@ -583,82 +726,293 @@ function UserPersonaSection() {
 
 function NavigationSystemSection() {
     return (
-        <section className="py-12 md:py-16">
-            <div>
-                <motion.h2
-                    className="text-[28px] md:text-[32px] font-bold mb-8 text-foreground"
-                    {...fadeInUp}
+        <section className="py-12 md:py-16" style={{ gap: "48px" }}>
+            {/* Section Title - 32px bold */}
+            <motion.h2
+                className="font-bold leading-[125%] mb-12"
+                style={{ fontSize: "32px", color: "#212B36" }}
+                {...fadeInUp}
+            >
+                {data.navigationSystem.title}
+            </motion.h2>
+
+            {/* Ideation Section */}
+            <motion.div className="flex flex-col" style={{ gap: "21px", marginBottom: "32px" }} {...fadeInUp}>
+                <h3
+                    className="font-normal leading-[125%]"
+                    style={{ fontSize: "20px", color: "#454F5B" }}
                 >
-                    {data.navigationSystem.title}
-                </motion.h2>
+                    {data.navigationSystem.ideation.title}
+                </h3>
 
-                {/* Ideation */}
-                <motion.div className="mb-10" {...fadeInUp}>
-                    <h3 className="text-lg font-semibold text-muted-foreground mb-4">
-                        {data.navigationSystem.ideation.title}
-                    </h3>
+                {/* Content Row - Image + Text */}
+                <div className="flex flex-col lg:flex-row" style={{ gap: "32px" }}>
+                    {/* Image - 709px width with border */}
+                    <div
+                        className="flex-shrink-0 rounded-xl overflow-hidden"
+                        style={{
+                            width: "709px",
+                            maxWidth: "100%",
+                            border: "2px solid #919EAB",
+                        }}
+                    >
+                        <img
+                            src="/work/3rd-case study/navigation-1.svg"
+                            alt="Navigation Iteration 1"
+                            className="w-full h-auto"
+                        />
+                    </div>
 
-                    <div className="grid lg:grid-cols-2 gap-6">
-                        {/* Image Placeholder */}
-                        <div
-                            className="aspect-[16/10] rounded-xl flex items-center justify-center bg-muted border border-border"
+                    {/* Text Description */}
+                    <div className="flex flex-col" style={{ gap: "8px", maxWidth: "410px" }}>
+                        {/* Iteration label */}
+                        <p
+                            className="font-medium"
+                            style={{ fontSize: "20px", lineHeight: "125%", color: "#919EAB" }}
                         >
-                            <span className="text-sm text-muted-foreground">
-                                Navigation Iteration Image
-                            </span>
-                        </div>
+                            {data.navigationSystem.ideation.iteration}
+                        </p>
 
-                        {/* Description */}
-                        <div className="space-y-3">
-                            <p className="text-sm text-muted-foreground">
-                                {data.navigationSystem.ideation.iteration}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
+                        {/* Description + Problems */}
+                        <div className="flex flex-col" style={{ gap: "24px" }}>
+                            <p
+                                className="font-medium leading-[132%]"
+                                style={{ fontSize: "14px", color: "#454F5B" }}
+                            >
                                 {data.navigationSystem.ideation.description}
                             </p>
-                            <div className="space-y-1">
+
+                            {/* Problems */}
+                            <div className="flex flex-col" style={{ gap: "4px" }}>
                                 {data.navigationSystem.ideation.problems.map((problem, i) => (
-                                    <p key={i} className="text-sm font-medium text-foreground">
+                                    <p
+                                        key={i}
+                                        className="font-semibold"
+                                        style={{ fontSize: "14px", lineHeight: "14px", color: "#212B36" }}
+                                    >
                                         {problem}
                                     </p>
                                 ))}
                             </div>
                         </div>
                     </div>
-                </motion.div>
+                </div>
+            </motion.div>
 
-                {/* Finalized */}
-                <motion.div className="mb-10" {...fadeInUp}>
-                    <div className="space-y-3 max-w-xl">
-                        <p className="text-sm font-semibold text-muted-foreground">
-                            {data.navigationSystem.finalized.title}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
+            {/* Finalized Flow Section - Row Layout */}
+            <motion.div className="flex flex-col lg:flex-row items-end" style={{ gap: "16px", marginBottom: "32px" }} {...fadeInUp}>
+                {/* Text Content - Bottom Aligned */}
+                <div className="flex flex-col justify-end" style={{ gap: "8px", maxWidth: "432px" }}>
+                    {/* Title - Same size as Iteration 1 (20px) */}
+                    <p
+                        className="font-medium"
+                        style={{ fontSize: "20px", lineHeight: "125%", color: "#919EAB" }}
+                    >
+                        {data.navigationSystem.finalized.title}
+                    </p>
+
+                    {/* Description + Features - 12px */}
+                    <div className="flex flex-col" style={{ gap: "24px" }}>
+                        <p
+                            className="font-medium leading-[132%]"
+                            style={{ fontSize: "14px", color: "#454F5B" }}
+                        >
                             {data.navigationSystem.finalized.description}
                         </p>
-                        <div className="space-y-1">
+
+                        {/* Features */}
+                        <div className="flex flex-col" style={{ gap: "10px" }}>
                             {data.navigationSystem.finalized.features.map((feature, i) => (
-                                <p key={i} className="text-sm font-medium text-foreground">
-                                    {feature}
+                                <p
+                                    key={i}
+                                    className="font-semibold"
+                                    style={{ fontSize: "14px", lineHeight: "14px", color: "#212B36" }}
+                                >
+                                    • {feature}
                                 </p>
                             ))}
                         </div>
                     </div>
+                </div>
+
+                {/* Finalized Images with Badge - 2 Image Placeholders */}
+                <div className="relative flex-1">
+                    {/* Finalized Badge */}
+                    <div
+                        className="absolute flex items-center justify-center rounded-full z-10"
+                        style={{
+                            width: "72px",
+                            height: "71px",
+                            left: "0px",
+                            top: "0px",
+                            background: "#365B23",
+                        }}
+                    >
+                        <span
+                            className="font-semibold"
+                            style={{ fontSize: "14px", lineHeight: "14px", color: "#FFFFFF" }}
+                        >
+                            Finalized
+                        </span>
+                    </div>
+
+                    {/* Images Container */}
+                    <div className="flex flex-col" style={{ marginLeft: "27px", marginTop: "27px" }}>
+                        {/* Image */}
+                        <div
+                            className="rounded-xl overflow-hidden"
+                            style={{
+                                width: "100%",
+                            }}
+                        >
+                            <img
+                                src="/work/3rd-case study/navigation-2.svg"
+                                alt="Navigation Finalized"
+                                className="w-full h-auto"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+        </section>
+    );
+}
+
+function PersonalizedThemeSection() {
+    return (
+        <section className="py-12 md:py-16 flex flex-col" style={{ gap: "55px" }}>
+            {/* Section Title - 32px bold */}
+            <motion.h2
+                className="font-bold leading-[125%]"
+                style={{ fontSize: "32px", color: "#212B36" }}
+                {...fadeInUp}
+            >
+                {data.personalizedTheme.title}
+            </motion.h2>
+
+            {/* Content Container */}
+            <div className="flex flex-col items-center" style={{ gap: "34px" }}>
+                {/* Ideation Section - Image + Text Row */}
+                <motion.div className="flex flex-col w-full" style={{ gap: "26px" }} {...fadeInUp}>
+                    {/* Ideation Title - 20px normal (matching other sections) */}
+                    <h3
+                        className="font-normal leading-[125%]"
+                        style={{ fontSize: "20px", color: "#454F5B" }}
+                    >
+                        {data.personalizedTheme.ideation.title}
+                    </h3>
+
+                    {/* Content Row - Image + Text */}
+                    <div className="flex flex-col lg:flex-row" style={{ gap: "38px" }}>
+                        {/* Image - 648px width */}
+                        <div
+                            className="flex-shrink-0 overflow-hidden"
+                            style={{
+                                width: "648px",
+                                maxWidth: "100%",
+                                borderRadius: "19px",
+                            }}
+                        >
+                            <img
+                                src="/work/3rd-case study/personalised-1.svg"
+                                alt="Theme Iteration"
+                                className="w-full h-auto"
+                            />
+                        </div>
+
+                        {/* Text Description - 466px width */}
+                        <div className="flex flex-col justify-between" style={{ width: "466px", maxWidth: "100%" }}>
+                            {/* Iteration 1 + Description */}
+                            <div className="flex flex-col" style={{ gap: "8px" }}>
+                                {/* Iteration label - 20px medium */}
+                                <p
+                                    className="font-medium"
+                                    style={{ fontSize: "20px", lineHeight: "125%", color: "#919EAB" }}
+                                >
+                                    {data.personalizedTheme.ideation.iteration}
+                                </p>
+
+                                {/* Description + Feedback */}
+                                <div className="flex flex-col" style={{ gap: "24px" }}>
+                                    <p
+                                        className="font-medium leading-[132%]"
+                                        style={{ fontSize: "14px", color: "#454F5B" }}
+                                    >
+                                        {data.personalizedTheme.ideation.description}
+                                    </p>
+
+                                    <p
+                                        className="font-semibold leading-[132%]"
+                                        style={{ fontSize: "14px", color: "#212B36" }}
+                                    >
+                                        {data.personalizedTheme.ideation.feedback}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Finalized Flow + Description */}
+                            <div className="flex flex-col" style={{ gap: "8px", marginTop: "24px" }}>
+                                {/* Finalized label - 20px medium (same as Iteration) */}
+                                <p
+                                    className="font-medium"
+                                    style={{ fontSize: "20px", lineHeight: "125%", color: "#919EAB" }}
+                                >
+                                    {data.personalizedTheme.finalized.title}
+                                </p>
+
+                                {/* Description + Result */}
+                                <div className="flex flex-col" style={{ gap: "24px" }}>
+                                    <p
+                                        className="font-medium leading-[132%]"
+                                        style={{ fontSize: "14px", color: "#454F5B" }}
+                                    >
+                                        {data.personalizedTheme.finalized.description}
+                                    </p>
+
+                                    <p
+                                        className="font-semibold leading-[132%]"
+                                        style={{ fontSize: "14px", color: "#212B36" }}
+                                    >
+                                        {data.personalizedTheme.finalized.result}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </motion.div>
 
-                {/* UX Approach Card */}
+                {/* Theme Image - Single Full Width */}
                 <motion.div
-                    className="p-5 md:p-6 rounded-xl max-w-3xl"
-                    style={{ background: "rgba(234, 246, 216, 0.6)" }}
+                    className="w-full rounded-xl overflow-hidden"
                     {...fadeInUp}
                 >
-                    <h4 className="text-base font-semibold text-muted-foreground mb-3">
+                    <img
+                        src="/work/3rd-case study/personalised-2.svg"
+                        alt="Theme Variations"
+                        className="w-full h-auto"
+                    />
+                </motion.div>
+
+                {/* UX Approach Card - Centered, matching above section */}
+                <motion.div
+                    className="p-5 md:p-6 rounded-xl mx-auto"
+                    style={{ background: "rgba(234, 246, 216, 0.6)", maxWidth: "768px" }}
+                    {...fadeInUp}
+                >
+                    <h4
+                        className="font-semibold mb-3"
+                        style={{ fontSize: "14px", color: "#212B36" }}
+                    >
                         UX Approach Implemented:
                     </h4>
                     <div className="space-y-1">
-                        {data.navigationSystem.uxApproach.map((item, i) => (
-                            <p key={i} className="text-sm text-foreground">
-                                {item}
+                        {data.personalizedTheme.uxApproach.map((item, i) => (
+                            <p
+                                key={i}
+                                className="font-medium"
+                                style={{ fontSize: "14px", color: "#212B36" }}
+                            >
+                                • {item}
                             </p>
                         ))}
                     </div>
@@ -668,80 +1022,55 @@ function NavigationSystemSection() {
     );
 }
 
-function PersonalizedThemeSection() {
+function ActualDevelopedFeatureSection() {
     return (
         <section className="py-12 md:py-16">
-            <div>
-                <motion.h2
-                    className="text-[28px] md:text-[32px] font-bold mb-8 text-foreground"
-                    {...fadeInUp}
+            {/* Section Title - 32px bold */}
+            <motion.h2
+                className="font-bold leading-[125%] mb-8"
+                style={{ fontSize: "32px", color: "#212B36" }}
+                {...fadeInUp}
+            >
+                Actual Developed Home Screen
+            </motion.h2>
+
+            {/* Full-width Image */}
+            <motion.div
+                className="rounded-xl overflow-hidden mb-8"
+                style={{ width: "100%" }}
+                {...fadeInUp}
+            >
+                <img
+                    src="/work/3rd-case study/developed-home.svg"
+                    alt="Actual Developed Home Screen"
+                    className="w-full h-auto"
+                />
+            </motion.div>
+
+            {/* UX Approach Card - Centered */}
+            <motion.div
+                className="p-5 md:p-6 rounded-xl mx-auto"
+                style={{ background: "rgba(234, 246, 216, 0.6)", maxWidth: "768px" }}
+                {...fadeInUp}
+            >
+                <h4
+                    className="font-semibold mb-3"
+                    style={{ fontSize: "14px", color: "#212B36" }}
                 >
-                    {data.personalizedTheme.title}
-                </motion.h2>
-
-                {/* Ideation */}
-                <motion.div className="mb-10" {...fadeInUp}>
-                    <h3 className="text-lg font-semibold text-muted-foreground mb-4">
-                        {data.personalizedTheme.ideation.title}
-                    </h3>
-
-                    <div className="grid lg:grid-cols-2 gap-6">
-                        {/* Image Placeholder */}
-                        <div
-                            className="aspect-[4/3] rounded-xl flex items-center justify-center bg-muted border border-border"
+                    UX Approach Implemented:
+                </h4>
+                <div className="space-y-1">
+                    {data.navigationSystem.uxApproach.map((item, i) => (
+                        <p
+                            key={i}
+                            className="font-medium"
+                            style={{ fontSize: "14px", color: "#212B36" }}
                         >
-                            <span className="text-sm text-muted-foreground">
-                                Theme Iteration Image
-                            </span>
-                        </div>
-
-                        {/* Description */}
-                        <div className="space-y-4">
-                            <div>
-                                <p className="text-sm text-muted-foreground">
-                                    {data.personalizedTheme.ideation.iteration}
-                                </p>
-                                <p className="text-sm mt-2 text-muted-foreground">
-                                    {data.personalizedTheme.ideation.description}
-                                </p>
-                                <p className="text-sm font-medium mt-2 text-foreground">
-                                    {data.personalizedTheme.ideation.feedback}
-                                </p>
-                            </div>
-
-                            <div>
-                                <p className="text-sm font-semibold text-muted-foreground">
-                                    {data.personalizedTheme.finalized.title}
-                                </p>
-                                <p className="text-sm mt-2 text-muted-foreground">
-                                    {data.personalizedTheme.finalized.description}
-                                </p>
-                                <p className="text-sm font-medium mt-2 text-foreground">
-                                    {data.personalizedTheme.finalized.result}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
-
-                {/* UX Approach Card */}
-                <motion.div
-                    className="p-5 md:p-6 rounded-xl max-w-3xl"
-                    style={{ background: "rgba(234, 246, 216, 0.6)" }}
-                    {...fadeInUp}
-                >
-                    <h4 className="text-base font-semibold text-muted-foreground mb-3">
-                        UX Approach Implemented:
-                    </h4>
-                    <div className="space-y-1">
-                        {data.personalizedTheme.uxApproach.map((item, i) => (
-                            <p key={i} className="text-sm text-foreground">
-                                {item}
-                            </p>
-                        ))}
-                    </div>
-                </motion.div>
-            </div>
+                            • {item}
+                        </p>
+                    ))}
+                </div>
+            </motion.div>
         </section>
     );
 }
@@ -749,34 +1078,61 @@ function PersonalizedThemeSection() {
 function IdeationSection() {
     return (
         <section className="py-12 md:py-16">
-            <div>
-                <motion.h2
-                    className="text-[28px] md:text-[32px] font-bold mb-8 text-foreground"
-                    {...fadeInUp}
-                >
-                    {data.ideation.title}
-                </motion.h2>
+            {/* Section Title - 32px bold */}
+            <motion.h2
+                className="font-bold leading-[125%] mb-8"
+                style={{ fontSize: "32px", color: "#212B36" }}
+                {...fadeInUp}
+            >
+                {data.ideation.title}
+            </motion.h2>
 
-                {/* Image Collage Placeholder */}
-                <motion.div
-                    className="aspect-[2/1] rounded-xl mb-6 flex items-center justify-center bg-muted border-2 border-border"
-                    {...fadeInUp}
-                >
-                    <span className="text-base text-muted-foreground">
-                        Ideation Photos Collage
-                    </span>
-                </motion.div>
+            {/* Image Collage - Full Width */}
+            <motion.div
+                className="rounded-xl mb-6 overflow-hidden"
+                style={{ width: "100%" }}
+                {...fadeInUp}
+            >
+                {data.ideation.image ? (
+                    <img
+                        src={data.ideation.image}
+                        alt="Ideation Photos Collage"
+                        className="w-full h-auto"
+                    />
+                ) : (
+                    <div
+                        className="flex items-center justify-center"
+                        style={{
+                            aspectRatio: "2 / 1",
+                            border: "2px solid #919EAB",
+                            background: "#F4F6F8",
+                        }}
+                    >
+                        <span
+                            className="font-medium"
+                            style={{ fontSize: "14px", color: "#919EAB" }}
+                        >
+                            Ideation Photos Collage
+                        </span>
+                    </div>
+                )}
+            </motion.div>
 
-                {/* Text */}
-                <motion.div className="max-w-3xl space-y-3" {...fadeInUp}>
-                    <p className="text-base text-muted-foreground">
-                        {data.ideation.description}
-                    </p>
-                    <p className="text-base font-semibold text-foreground">
-                        {data.ideation.summary}
-                    </p>
-                </motion.div>
-            </div>
+            {/* Text - Centered container with left-aligned text */}
+            <motion.div className="space-y-3 mx-auto text-left" style={{ maxWidth: "800px" }} {...fadeInUp}>
+                <p
+                    className="font-medium leading-[150%]"
+                    style={{ fontSize: "14px", color: "#454F5B" }}
+                >
+                    {data.ideation.description}
+                </p>
+                <p
+                    className="font-semibold leading-[150%]"
+                    style={{ fontSize: "14px", color: "#212B36" }}
+                >
+                    {data.ideation.summary}
+                </p>
+            </motion.div>
         </section>
     );
 }
@@ -784,28 +1140,50 @@ function IdeationSection() {
 function WireframesSection() {
     return (
         <section className="py-12 md:py-16">
-            <div>
-                <motion.h3
-                    className="text-xl font-semibold text-muted-foreground mb-6"
-                    {...fadeInUp}
-                >
-                    {data.wireframes.title}
-                </motion.h3>
+            {/* Section Title - 32px bold */}
+            <motion.h2
+                className="font-bold leading-[125%] mb-8"
+                style={{ fontSize: "32px", color: "#212B36" }}
+                {...fadeInUp}
+            >
+                {data.wireframes.title}
+            </motion.h2>
 
-                {/* Wireframes Placeholder */}
-                <motion.div
-                    className="space-y-4"
-                    {...fadeInUp}
-                >
+            {/* Wireframes - Full Width */}
+            <motion.div
+                className="-mx-8 md:-mx-16 lg:-mx-24"
+                {...fadeInUp}
+            >
+                {data.wireframes.images && data.wireframes.images.length > 0 ? (
+                    <div className="flex flex-col gap-4">
+                        {data.wireframes.images.map((image, index) => (
+                            <img
+                                key={index}
+                                src={image}
+                                alt={`Wireframe ${index + 1}`}
+                                className="w-full h-auto"
+                            />
+                        ))}
+                    </div>
+                ) : (
                     <div
-                        className="aspect-[3/1] rounded-xl flex items-center justify-center bg-muted"
+                        className="flex items-center justify-center"
+                        style={{
+                            aspectRatio: "3 / 1",
+                            border: "2px solid #919EAB",
+                            background: "#F4F6F8",
+                            width: "100%",
+                        }}
                     >
-                        <span className="text-base text-muted-foreground">
+                        <span
+                            className="font-medium"
+                            style={{ fontSize: "14px", color: "#919EAB" }}
+                        >
                             Wireframe Images
                         </span>
                     </div>
-                </motion.div>
-            </div>
+                )}
+            </motion.div>
         </section>
     );
 }
@@ -813,32 +1191,39 @@ function WireframesSection() {
 function PrototypeTestingSection() {
     return (
         <section
-            className="py-12 md:py-16 px-[42px]"
-            style={{ background: "rgba(234, 246, 216, 0.5)" }}
+            className="py-12 md:py-16"
+            style={{ background: "#F0F7E6" }}
         >
-            <div className="max-w-6xl mx-auto">
-                <motion.p
-                    className="text-sm font-semibold text-center max-w-3xl mx-auto mb-8 text-foreground"
-                    {...fadeInUp}
-                >
-                    {data.prototypeTesting.description}
-                </motion.p>
+            <div className="container mx-auto px-4">
+                {/* Heading and description */}
+                <motion.div className="mb-8" style={{ maxWidth: "800px" }} {...fadeInUp}>
+                    <p
+                        className="font-semibold mb-4"
+                        style={{ fontSize: "16px", lineHeight: "145%", color: "#212B36" }}
+                    >
+                        After creating high-fidelity designs, we prototyped each module for initial testing across multiple departments.
+                    </p>
+                    <p
+                        className="font-medium"
+                        style={{ fontSize: "14px", lineHeight: "145%", color: "#454F5B" }}
+                    >
+                        This testing aimed to understand how quickly users could perform actions, identify if they needed assistance with any tasks, and uncover any concerns that arose during internal testing.
+                    </p>
+                </motion.div>
 
-                {/* Mockups Placeholder */}
+                {/* Prototype Image */}
                 <motion.div
-                    className="flex justify-center gap-6"
+                    className="overflow-hidden rounded-xl mt-8"
+                    style={{ width: "100%" }}
                     {...fadeInUp}
                 >
-                    <div
-                        className="w-2/3 aspect-[16/10] rounded-xl flex items-center justify-center bg-white border border-border"
-                    >
-                        <span className="text-sm text-muted-foreground">Web Prototype</span>
-                    </div>
-                    <div
-                        className="w-1/4 aspect-[9/16] rounded-xl flex items-center justify-center bg-white border border-border"
-                    >
-                        <span className="text-sm text-muted-foreground">Mobile</span>
-                    </div>
+                    {data.prototypeTesting.image && (
+                        <img
+                            src={data.prototypeTesting.image}
+                            alt="Prototype Testing Flow"
+                            className="w-full h-auto"
+                        />
+                    )}
                 </motion.div>
             </div>
         </section>
@@ -848,72 +1233,51 @@ function PrototypeTestingSection() {
 function UsabilityTestingSection() {
     return (
         <section className="py-12 md:py-16">
-            <div>
-                <motion.div className="mb-6" {...fadeInUp}>
-                    <h2 className="text-[28px] md:text-[32px] font-bold mb-3 text-foreground">
-                        {data.usabilityTesting.title}
-                    </h2>
-                    <p className="text-sm text-muted-foreground">
-                        {data.usabilityTesting.description}
-                    </p>
-                    <p className="text-sm font-medium mt-2 text-foreground">
-                        {data.usabilityTesting.note}
-                    </p>
-                </motion.div>
-
-                {/* Components Grid */}
-                <motion.div
-                    className="flex flex-wrap gap-3 mb-6"
-                    {...fadeInUp}
+            {/* Section Title - 32px bold */}
+            <motion.div className="mb-8" {...fadeInUp}>
+                <h2
+                    className="font-bold leading-[125%] mb-3"
+                    style={{ fontSize: "32px", color: "#212B36" }}
                 >
-                    {data.usabilityTesting.components.map((component, index) => (
-                        <div
-                            key={index}
-                            className="flex-1 min-w-[140px] max-w-[240px] p-3 rounded-lg"
-                            style={{
-                                background: "rgba(234, 246, 216, 0.5)",
-                                border: "1px solid #C4CDD5",
-                            }}
+                    {data.usabilityTesting.title}
+                </h2>
+                <p
+                    className="font-semibold mt-2"
+                    style={{ fontSize: "14px", lineHeight: "145%", color: "#212B36" }}
+                >
+                    {data.usabilityTesting.note}
+                </p>
+            </motion.div>
+
+            {/* Components Grid - 5 equal cards */}
+            <motion.div
+                className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8"
+                {...fadeInUp}
+            >
+                {data.usabilityTesting.components.map((component, index) => (
+                    <div
+                        key={index}
+                        className="p-4 rounded-lg"
+                        style={{
+                            background: "rgba(234, 246, 216, 0.5)",
+                            border: "1px solid #C4CDD5",
+                        }}
+                    >
+                        <h4
+                            className="font-semibold mb-2"
+                            style={{ fontSize: "14px", color: "#212B36" }}
                         >
-                            <h4 className="text-base font-semibold mb-1" style={{ color: "#365B23" }}>
-                                {component.title}
-                            </h4>
-                            <p className="text-xs text-muted-foreground">
-                                {component.description}
-                            </p>
-                        </div>
-                    ))}
-                </motion.div>
-
-                {/* Challenge & Takeaway */}
-                <div className="grid md:grid-cols-2 gap-4">
-                    <motion.div
-                        className="p-4 rounded-xl"
-                        style={{ background: "#F5FBEB" }}
-                        {...fadeInUp}
-                    >
-                        <h4 className="text-xl font-semibold mb-2 text-foreground">
-                            {data.challengeTakeaway.challenge.title}
+                            {component.title}
                         </h4>
-                        <p className="text-sm text-muted-foreground">
-                            {data.challengeTakeaway.challenge.content}
+                        <p
+                            className="font-medium"
+                            style={{ fontSize: "14px", lineHeight: "145%", color: "#454F5B" }}
+                        >
+                            {component.description}
                         </p>
-                    </motion.div>
-
-                    <motion.div
-                        className="p-4 rounded-xl"
-                        style={{ background: "#F5FBEB" }}
-                        {...fadeInUp}
-                    >
-                        <h4 className="text-xl font-semibold mb-2 text-foreground">
-                            {data.challengeTakeaway.takeaway.title}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                            {data.challengeTakeaway.takeaway.content}
-                        </p>
-                    </motion.div>
-                </div>
-            </div>
+                    </div>
+                ))}
+            </motion.div>
         </section>
     );
 }
@@ -921,55 +1285,61 @@ function UsabilityTestingSection() {
 function HiFiDesignsSection() {
     return (
         <section className="py-12 md:py-16">
-            <div>
-                <motion.h3
-                    className="text-xl font-semibold text-muted-foreground mb-4"
-                    {...fadeInUp}
+            {/* Section Title - 32px bold, centered */}
+            <motion.h2
+                className="font-bold leading-[125%] text-center"
+                style={{ fontSize: "32px", color: "#212B36", marginBottom: "18px" }}
+                {...fadeInUp}
+            >
+                {data.hifiDesigns.title}
+            </motion.h2>
+
+            {/* Credentials Info - Centered */}
+            <motion.div
+                className="mb-0 flex flex-col items-center text-center"
+                style={{ gap: "24px" }}
+                {...fadeInUp}
+            >
+                <p
+                    className="font-medium leading-[145%]"
+                    style={{ fontSize: "14px", color: "#454F5B", maxWidth: "700px" }}
                 >
-                    {data.hifiDesigns.title}
-                </motion.h3>
-
-                {/* Credentials Info */}
-                <motion.div className="mb-6 space-y-3" {...fadeInUp}>
-                    <p className="text-base font-medium text-foreground">
-                        Here are the high-fidelity designs for an overview of each module. You can access the full product using the credentials below:
-                    </p>
-                    <div
-                        className="p-4 rounded-xl inline-block"
-                        style={{ background: "#F5FBEB" }}
+                    Here are the high-fidelity designs for an overview of each module. <br />
+                    You can access the full product using the credentials below:
+                </p>
+                <div
+                    className="p-8 md:p-10 rounded-2xl inline-block text-left min-w-[320px] md:min-w-[400px]"
+                    style={{ background: "#F5FBEB" }}
+                >
+                    <p
+                        className="font-medium mb-2"
+                        style={{ fontSize: "16px", color: "#212B36" }}
                     >
-                        <p className="text-sm font-medium text-foreground">url : {data.hifiDesigns.credentials.url}</p>
-                        <p className="text-sm font-medium text-foreground">User Name: {data.hifiDesigns.credentials.username}</p>
-                        <p className="text-sm font-medium text-foreground">Password: {data.hifiDesigns.credentials.password}</p>
-                    </div>
-                    <p className="text-xl font-semibold text-foreground">Feel free to explore the live product :)</p>
-                </motion.div>
-
-                {/* Screens */}
-                <div className="space-y-12">
-                    {data.hifiDesigns.screens.map((screen, index) => (
-                        <motion.div
-                            key={index}
-                            className="space-y-3"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                        >
-                            <h4 className="text-[28px] font-semibold text-center text-foreground">
-                                {screen.title}
-                            </h4>
-                            <div
-                                className="aspect-[16/10] rounded-xl flex items-center justify-center bg-muted"
-                            >
-                                <span className="text-base text-muted-foreground">
-                                    {screen.title} Screenshot
-                                </span>
-                            </div>
-                        </motion.div>
-                    ))}
+                        url : <a href={data.hifiDesigns.credentials.url} target="_blank" rel="noopener noreferrer" className="hover:underline">{data.hifiDesigns.credentials.url}</a>
+                    </p>
+                    <p
+                        className="font-medium"
+                        style={{ fontSize: "16px", color: "#212B36" }}
+                    >
+                        User Name: {data.hifiDesigns.credentials.username}
+                    </p>
+                    <p
+                        className="font-medium"
+                        style={{ fontSize: "16px", color: "#212B36" }}
+                    >
+                        Password: {data.hifiDesigns.credentials.password}
+                    </p>
                 </div>
-            </div>
+                <p
+                    className="font-medium"
+                    style={{ fontSize: "48px", lineHeight: "1.1", color: "#212B36" }}
+                >
+                    Feel free to explore the live product :)
+                </p>
+            </motion.div>
+
+            {/* Explore / Hi-Fi Image */}
+            {/* Removed Hi-Fi Image as per instruction */}
         </section>
     );
 }
@@ -977,39 +1347,98 @@ function HiFiDesignsSection() {
 function DesignSystemSection() {
     return (
         <section className="py-12 md:py-16">
-            <div>
-                <motion.div className="mb-4" {...fadeInUp}>
-                    <h3 className="text-xl font-semibold text-foreground">
+            <div className="flex flex-col" style={{ gap: "42px" }}>
+                {/* Section Header - Title + Description */}
+                <motion.div className="flex flex-col" style={{ gap: "12px", maxWidth: "712px" }} {...fadeInUp}>
+                    {/* Title - 32px bold to match other sections */}
+                    <h2
+                        className="font-bold leading-[125%]"
+                        style={{ fontSize: "32px", color: "#212B36" }}
+                    >
                         {data.designSystem.title}
-                    </h3>
-                    <p className="text-sm mt-2 text-muted-foreground">
+                    </h2>
+                    {/* Description - 14px regular grey */}
+                    <p
+                        className="font-normal"
+                        style={{ fontSize: "14px", lineHeight: "145%", color: "#454F5B" }}
+                    >
                         {data.designSystem.description}
                     </p>
                 </motion.div>
 
-                <motion.div className="mb-6" {...fadeInUp}>
-                    {data.designSystem.implementation.map((item, i) => (
-                        <p key={i} className="text-base font-medium text-foreground">
-                            {item}
-                        </p>
-                    ))}
-                </motion.div>
+                {/* Image Container with Implementation Text and Highlight Card */}
+                <motion.div className="relative" {...fadeInUp}>
+                    {/* Implementation Text - 18px semibold, positioned above image */}
+                    <div className="flex flex-col mb-4" style={{ gap: "8px", maxWidth: "697px" }}>
+                        {data.designSystem.implementation.map((item, i) => (
+                            <p
+                                key={i}
+                                className="font-semibold"
+                                style={{ fontSize: "18px", lineHeight: "145%", color: "#212B36" }}
+                            >
+                                {item}
+                            </p>
+                        ))}
+                    </div>
 
-                <motion.p
-                    className="text-sm mb-6 text-foreground"
-                    {...fadeInUp}
-                >
-                    {data.designSystem.note}
-                </motion.p>
+                    {/* Image + Highlight Card positioned relatively */}
+                    <div className="relative">
+                        {/* Green Highlight Card - Top Right, positioned above */}
+                        <div
+                            className="absolute flex items-center justify-center pointer-events-none"
+                            style={{
+                                background: "#EAF6D8", // Stronger green highlight
+                                padding: "24px",
+                                right: "0",
+                                top: "-60px",
+                                maxWidth: "460px",
+                                zIndex: 10,
+                                borderRadius: "12px",
+                            }}
+                        >
+                            <p
+                                className="font-medium"
+                                style={{ fontSize: "14px", lineHeight: "145%", color: "#000000" }}
+                            >
+                                {data.designSystem.note}
+                            </p>
+                        </div>
 
-                {/* Design System Image Placeholder */}
-                <motion.div
-                    className="aspect-[16/9] rounded-xl flex items-center justify-center bg-muted"
-                    {...fadeInUp}
-                >
-                    <span className="text-base text-muted-foreground">
-                        Design System Overview Image
-                    </span>
+                        {/* Design System Image - Full Width */}
+                        <div
+                            className="overflow-hidden"
+                            style={{
+                                width: "100%",
+                                marginTop: "36px",
+                                borderRadius: "20px",
+                            }}
+                        >
+                            {data.designSystem.image ? (
+                                <img
+                                    src={data.designSystem.image}
+                                    alt="Design System Overview"
+                                    className="w-full h-auto"
+                                />
+                            ) : (
+                                <div
+                                    className="flex items-center justify-center"
+                                    style={{
+                                        aspectRatio: "1152 / 688",
+                                        background: "#F4F6F8",
+                                        border: "2px solid #919EAB",
+                                        borderRadius: "20px",
+                                    }}
+                                >
+                                    <span
+                                        className="font-medium"
+                                        style={{ fontSize: "14px", color: "#919EAB" }}
+                                    >
+                                        Design System Overview Image
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </motion.div>
             </div>
         </section>
@@ -1037,15 +1466,18 @@ export function TexlaCultureCaseStudy() {
                 <TargetMarketSection />
                 <UserPersonaSection />
                 <NavigationSystemSection />
+                <ActualDevelopedFeatureSection />
                 <PersonalizedThemeSection />
                 <IdeationSection />
                 <WireframesSection />
             </div>
+            <div className="container mx-auto px-4">
+                <DesignSystemSection />
+                <HiFiDesignsSection />
+            </div>
             <PrototypeTestingSection />
             <div className="container mx-auto px-4">
                 <UsabilityTestingSection />
-                <HiFiDesignsSection />
-                <DesignSystemSection />
             </div>
         </article>
     );

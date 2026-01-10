@@ -1,139 +1,260 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
-import { Lightbox } from "@/components/ui/lightbox";
-import { AboutImage } from "@/data/about-data";
+import { AboutMedia, allAboutMedia } from "@/data/about-data";
 
-// Blur placeholder for smooth image loading (prevents whitespace)
-const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEEA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
+// Blur placeholder for smooth image loading
+const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEQA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
 
-interface AboutGalleryProps {
-    images: AboutImage[];
-}
-
-// Animation variants for staggered fade-in (optimized for performance)
+// Animation variants
 const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.06, // Reduced for faster reveal
-            delayChildren: 0.05,
+            staggerChildren: 0.06,
+            delayChildren: 0.1,
         },
     },
 };
 
-const imageVariants: Variants = {
-    hidden: {
-        opacity: 0,
-        y: 8, // Smaller movement for subtler effect
-    },
+const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 15, scale: 0.95 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: {
-            duration: 0.4, // Faster animation
-            ease: "easeOut",
-        },
+        scale: 1,
+        transition: { duration: 0.5, ease: "easeOut" },
     },
 };
 
-// Get aspect ratio class based on config
-function getAspectRatioClass(aspectRatio: AboutImage["aspectRatio"]): string {
-    switch (aspectRatio) {
-        case "3:4":
-        case "4:5":
-            return "aspect-[3/4]";
-        case "1:1":
-            return "aspect-square";
-        case "4:3":
-            return "aspect-[4/3]";
-        case "16:10":
-            return "aspect-[16/10]";
-        default:
-            return "aspect-square";
+// Media item component
+function MediaItem({ media, priority = false }: { media: AboutMedia; priority?: boolean }) {
+    if (media.type === "video") {
+        return (
+            <video
+                src={media.src}
+                className="absolute inset-0 w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload={priority ? "auto" : "metadata"}
+            />
+        );
     }
+
+    return (
+        <Image
+            src={media.src}
+            alt={media.alt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 160px, 280px"
+            priority={priority}
+            placeholder="blur"
+            blurDataURL={BLUR_PLACEHOLDER}
+            loading={priority ? "eager" : "lazy"}
+        />
+    );
 }
 
-// Get size classes based on config
-function getSizeClasses(size: AboutImage["size"]): string {
-    switch (size) {
-        case "large":
-            return "col-span-2 row-span-2";
-        case "medium":
-            return "col-span-1 row-span-1";
-        case "small":
-            return "col-span-1 row-span-1";
-        default:
-            return "col-span-1 row-span-1";
-    }
+// Video indicator
+function VideoIndicator() {
+    return (
+        <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm rounded-full p-1.5 z-10">
+            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+            </svg>
+        </div>
+    );
 }
 
-export function AboutGallery({ images }: AboutGalleryProps) {
-    const [selectedImage, setSelectedImage] = useState<{
-        src: string;
-        alt: string;
-    } | null>(null);
+// Shuffle array helper
+function shuffleArray<T>(array: T[]): T[] {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
 
-    const openLightbox = (src: string, alt: string) => {
-        setSelectedImage({ src, alt });
-    };
+// Get initial media (images first, then videos)
+function getInitialMedia(): AboutMedia[] {
+    const images = allAboutMedia.filter(m => m.type === "image");
+    const videos = allAboutMedia.filter(m => m.type === "video");
+    return [...images, ...videos];
+}
 
-    const closeLightbox = () => {
-        setSelectedImage(null);
-    };
+// Frame configuration for 10 frames
+const frameConfigs = [
+    { width: 220, height: 300, rotate: -2 },
+    { width: 220, height: 180, rotate: 2 },
+    { width: 180, height: 240, rotate: 1 },
+    { width: 180, height: 220, rotate: -1 },
+    { width: 260, height: 340, rotate: -1 },
+    { width: 260, height: 160, rotate: 2 },
+    { width: 180, height: 200, rotate: -2 },
+    { width: 180, height: 260, rotate: 1 },
+    { width: 200, height: 280, rotate: 2 },
+    { width: 200, height: 200, rotate: -1 },
+];
+
+export function AboutGallery() {
+    const [displayMedia, setDisplayMedia] = useState<AboutMedia[]>(getInitialMedia);
+
+    useEffect(() => {
+        const images = allAboutMedia.filter(m => m.type === "image");
+        const videos = allAboutMedia.filter(m => m.type === "video");
+        const shuffledImages = shuffleArray(images);
+        const shuffledVideos = shuffleArray(videos);
+        setDisplayMedia([...shuffledImages, ...shuffledVideos]);
+    }, []);
+
+    const media = displayMedia.slice(0, 10);
 
     return (
         <>
-            {/* Desktop Collage Grid */}
+            {/* Desktop: 5-column Masonry Collage with 10 frames */}
             <motion.div
-                className="hidden md:grid grid-cols-4 auto-rows-[120px] gap-4 w-full max-w-4xl"
+                className="hidden md:flex gap-3 w-full max-w-6xl mx-auto justify-center items-start"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
             >
-                {images.map((image, index) => {
-                    // Get row and col span based on size - using inline styles for proper dynamic support
-                    const rowSpan = image.size === "large" ? 3 : image.size === "medium" ? 2 : 1;
-                    const colSpan = image.size === "large" ? 2 : 1;
-
-                    return (
-                        <motion.button
-                            key={image.id}
-                            variants={imageVariants}
-                            className="relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer group bg-gray-100"
-                            style={{
-                                rotate: `${image.rotation}deg`,
-                                gridRow: `span ${rowSpan} / span ${rowSpan}`,
-                                gridColumn: `span ${colSpan} / span ${colSpan}`,
-                            }}
-                            whileHover={{
-                                rotate: 0,
-                                scale: 1.02,
-                                transition: { duration: 0.3, ease: "easeOut" },
-                            }}
-                            onClick={() => openLightbox(image.src, image.alt)}
-                            aria-label={`View ${image.alt}`}
+                {/* Column 1 */}
+                <div className="flex flex-col gap-3">
+                    {media[0] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[0].width, height: frameConfigs[0].height, rotate: `${frameConfigs[0].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
                         >
-                            <Image
-                                src={image.src}
-                                alt={image.alt}
-                                fill
-                                className="object-cover"
-                                sizes={image.size === "large" ? "400px" : "200px"}
-                                priority={index < 4}
-                                placeholder="blur"
-                                blurDataURL={BLUR_PLACEHOLDER}
-                                loading={index < 4 ? "eager" : "lazy"}
-                            />
-                            {/* Subtle overlay on hover */}
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-                        </motion.button>
-                    );
-                })}
+                            <MediaItem media={media[0]} priority />
+                            {media[0].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                    {media[1] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[1].width, height: frameConfigs[1].height, rotate: `${frameConfigs[1].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[1]} priority />
+                            {media[1].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                </div>
+
+                {/* Column 2 */}
+                <div className="flex flex-col gap-3 mt-8">
+                    {media[2] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[2].width, height: frameConfigs[2].height, rotate: `${frameConfigs[2].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[2]} priority />
+                            {media[2].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                    {media[3] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[3].width, height: frameConfigs[3].height, rotate: `${frameConfigs[3].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[3]} />
+                            {media[3].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                </div>
+
+                {/* Column 3 - Center (bigger frames) */}
+                <div className="flex flex-col gap-3">
+                    {media[4] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[4].width, height: frameConfigs[4].height, rotate: `${frameConfigs[4].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[4]} priority />
+                            {media[4].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                    {media[5] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[5].width, height: frameConfigs[5].height, rotate: `${frameConfigs[5].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[5]} />
+                            {media[5].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                </div>
+
+                {/* Column 4 */}
+                <div className="flex flex-col gap-3 mt-12">
+                    {media[6] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[6].width, height: frameConfigs[6].height, rotate: `${frameConfigs[6].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[6]} />
+                            {media[6].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                    {media[7] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[7].width, height: frameConfigs[7].height, rotate: `${frameConfigs[7].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[7]} />
+                            {media[7].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                </div>
+
+                {/* Column 5 */}
+                <div className="flex flex-col gap-3 mt-4">
+                    {media[8] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[8].width, height: frameConfigs[8].height, rotate: `${frameConfigs[8].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[8]} />
+                            {media[8].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                    {media[9] && (
+                        <motion.div
+                            variants={itemVariants}
+                            className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group bg-gray-200"
+                            style={{ width: frameConfigs[9].width, height: frameConfigs[9].height, rotate: `${frameConfigs[9].rotate}deg` }}
+                            whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
+                        >
+                            <MediaItem media={media[9]} />
+                            {media[9].type === "video" && <VideoIndicator />}
+                        </motion.div>
+                    )}
+                </div>
             </motion.div>
 
             {/* Mobile Horizontal Scroll */}
@@ -145,44 +266,22 @@ export function AboutGallery({ images }: AboutGalleryProps) {
                 whileInView="visible"
                 viewport={{ once: true }}
             >
-                {images.map((image, index) => (
-                    <motion.button
-                        key={image.id}
-                        variants={imageVariants}
-                        className="relative flex-shrink-0 w-48 h-64 overflow-hidden rounded-xl shadow-md cursor-pointer bg-gray-100"
-                        style={{ rotate: `${image.rotation}deg` }}
-                        onClick={() => openLightbox(image.src, image.alt)}
-                        aria-label={`View ${image.alt}`}
+                {media.slice(0, 6).map((item, index) => (
+                    <motion.div
+                        key={`mobile-${item.id}`}
+                        variants={itemVariants}
+                        className="relative flex-shrink-0 w-36 h-48 overflow-hidden rounded-2xl shadow-md bg-gray-200"
+                        style={{ rotate: `${(index % 2 === 0 ? -2 : 2)}deg` }}
                     >
-                        <Image
-                            src={image.src}
-                            alt={image.alt}
-                            fill
-                            className="object-cover"
-                            sizes="200px"
-                            priority={index < 4}
-                            placeholder="blur"
-                            blurDataURL={BLUR_PLACEHOLDER}
-                            loading={index < 4 ? "eager" : "lazy"}
-                        />
-                    </motion.button>
+                        <MediaItem media={item} priority={index < 3} />
+                        {item.type === "video" && <VideoIndicator />}
+                    </motion.div>
                 ))}
             </motion.div>
 
-            {/* Lightbox */}
-            <Lightbox
-                isOpen={selectedImage !== null}
-                onClose={closeLightbox}
-                src={selectedImage?.src || ""}
-                alt={selectedImage?.alt || ""}
-            />
-
-            {/* Hide scrollbar CSS */}
             <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
+                .scrollbar-hide::-webkit-scrollbar { display: none; }
+            `}</style>
         </>
     );
 }

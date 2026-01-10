@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Project {
     id: number;
@@ -21,44 +23,50 @@ interface ExploreMoreProps {
 const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEQA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
 
 export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
     // Filter out current project if provided
     const filteredProjects = currentProjectId
         ? projects.filter(p => p.id !== currentProjectId)
         : projects;
 
-    // Take only 2 projects
-    const displayProjects = filteredProjects.slice(0, 2);
+    // Get current visible projects (2 at a time)
+    const getVisibleProjects = () => {
+        const first = filteredProjects[currentIndex % filteredProjects.length];
+        const second = filteredProjects[(currentIndex + 1) % filteredProjects.length];
+        return [first, second].filter(Boolean);
+    };
+
+    const handlePrev = () => {
+        setCurrentIndex((prev) => (prev - 1 + filteredProjects.length) % filteredProjects.length);
+    };
+
+    const handleNext = () => {
+        setCurrentIndex((prev) => (prev + 1) % filteredProjects.length);
+    };
+
+    const displayProjects = getVisibleProjects();
 
     return (
         <section className="py-16 md:py-24 lg:py-32 px-6">
-            <div className="max-w-6xl mx-auto">
-                {/* Section Title */}
-                <motion.div
-                    className="text-center mb-12 md:mb-16"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                >
-                    <h2 className="text-[24px] md:text-[28px] font-semibold text-muted-foreground mb-4">
-                        Explore More
-                    </h2>
-                </motion.div>
-
-                {/* Project Cards */}
-                <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-16 md:mb-24">
-                    {displayProjects.map((project, index) => (
-                        <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                        >
-                            <Link href={project.link} className="group block">
-                                <div className="relative rounded-2xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
-                                    {/* Image */}
-                                    <div className="aspect-[4/3] relative overflow-hidden">
+            <div className="max-w-7xl mx-auto">
+                {/* Project Cards with Carousel Navigation */}
+                <div className="relative">
+                    <div className="flex gap-6 items-stretch">
+                        {displayProjects.map((project, index) => (
+                            <motion.div
+                                key={project.id}
+                                className="flex-1"
+                                initial={{ opacity: 0, x: index === 0 ? -30 : 30 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <Link href={project.link} className="block group">
+                                    {/* Image with Title Overlay */}
+                                    <div
+                                        className="relative rounded-2xl overflow-hidden mb-4"
+                                        style={{ aspectRatio: "4/3", background: "#E5E7EB" }}
+                                    >
                                         <Image
                                             src={project.image}
                                             alt={project.title}
@@ -68,60 +76,76 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
                                             blurDataURL={BLUR_PLACEHOLDER}
                                             sizes="(max-width: 768px) 100vw, 50vw"
                                         />
-                                        {/* Gradient Overlay */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        {/* Title Overlay on Image */}
+                                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                                            <h3
+                                                className="text-2xl md:text-3xl font-medium"
+                                                style={{ color: "#212B36" }}
+                                            >
+                                                {project.title}
+                                            </h3>
+                                        </div>
+                                        {/* Play button indicator (optional) */}
+                                        <motion.div
+                                            className="absolute bottom-4 right-4 w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                            style={{ background: "rgba(255,255,255,0.9)" }}
+                                            whileHover={{ scale: 1.1 }}
+                                        >
+                                            <svg className="w-4 h-4 ml-0.5" fill="#212B36" viewBox="0 0 24 24">
+                                                <path d="M8 5v14l11-7z" />
+                                            </svg>
+                                        </motion.div>
                                     </div>
 
-                                    {/* Content */}
-                                    <div className="p-5 md:p-6">
-                                        {/* Category */}
-                                        <p className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wide mb-2">
+                                    {/* Content Below Image */}
+                                    <div className="space-y-2">
+                                        <h4
+                                            className="text-base font-semibold"
+                                            style={{ color: "#212B36" }}
+                                        >
                                             {project.category}
-                                        </p>
-
-                                        {/* Title */}
-                                        <h3 className="text-lg md:text-xl font-semibold tracking-tight mb-2 group-hover:text-primary transition-colors">
-                                            {project.title}
-                                        </h3>
-
-                                        {/* Description */}
-                                        <p className="text-sm text-muted-foreground line-clamp-2">
+                                        </h4>
+                                        <p
+                                            className="text-sm leading-relaxed"
+                                            style={{ color: "#637381" }}
+                                        >
                                             {project.description}
                                         </p>
-
-                                        {/* Link Arrow */}
-                                        <div className="mt-4 flex items-center text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                                            View Case Study
-                                            <svg
-                                                className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                            </svg>
+                                        <div className="flex items-center gap-1 text-sm font-medium pt-1 group-hover:gap-2 transition-all" style={{ color: "#212B36" }}>
+                                            <span>View case</span>
+                                            <ChevronRight className="w-4 h-4" />
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
-                        </motion.div>
-                    ))}
-                </div>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </div>
 
-                {/* "Having an idea, let's catch up" - styled like "I am Neha Chhillar" */}
-                <motion.div
-                    className="text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                >
-                    <h2 className="text-[48px] md:text-[64px] lg:text-[80px] font-light text-gray-300 tracking-tight">
-                        Having an idea,
-                        <br />
-                        let&apos;s catch up.
-                    </h2>
-                </motion.div>
+                    {/* Carousel Navigation - Between Cards */}
+                    {filteredProjects.length > 2 && (
+                        <div
+                            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2"
+                            style={{ bottom: "180px" }}
+                        >
+                            <button
+                                onClick={handlePrev}
+                                className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100 transition-colors"
+                                style={{ borderColor: "#E5E7EB", background: "white" }}
+                                aria-label="Previous"
+                            >
+                                <ChevronLeft className="w-5 h-5" style={{ color: "#637381" }} />
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100 transition-colors"
+                                style={{ borderColor: "#E5E7EB", background: "white" }}
+                                aria-label="Next"
+                            >
+                                <ChevronRight className="w-5 h-5" style={{ color: "#637381" }} />
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         </section>
     );

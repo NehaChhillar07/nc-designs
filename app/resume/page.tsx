@@ -12,12 +12,35 @@ export default function ResumePage() {
     const [isSharing, setIsSharing] = useState(false);
     const cvRef = useRef<HTMLDivElement>(null);
 
-    const handleDownload = () => {
+    const handleDownload = async () => {
+        if (isDownloading) return;
+
         setIsDownloading(true);
-        // Use server-side API for download - bypasses Arc browser's file renaming
-        window.location.href = "/api/download-resume";
-        // Reset downloading state after a short delay
-        setTimeout(() => setIsDownloading(false), 2000);
+        try {
+            // Fetch the resume as a blob
+            const response = await fetch("/api/download-resume");
+
+            if (!response.ok) {
+                throw new Error("Download failed");
+            }
+
+            const blob = await response.blob();
+
+            // Create a download link and trigger it
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "Neha_Chhillar_Resume.jpg";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("Download error:", error);
+            alert("Failed to download resume. Please try again.");
+        } finally {
+            setIsDownloading(false);
+        }
     };
 
     const handleEmailShare = () => {
@@ -66,10 +89,9 @@ export default function ResumePage() {
                 <div className="container mx-auto flex h-16 items-center justify-between px-4">
                     <Link
                         href="/"
-                        className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                        className="text-lg font-semibold tracking-tight text-foreground hover:text-primary transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Portfolio
+                        nc designs
                     </Link>
 
                     <div className="flex items-center gap-3 relative">
@@ -150,12 +172,12 @@ export default function ResumePage() {
                         }}
                     >
                         {/* Header Section */}
-                        <header className="border-b border-gray-300 pb-6 mb-6">
+                        <header className="pb-6 mb-6">
                             <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-0.5 text-gray-900">
                                 NEHA CHHILLAR
                             </h1>
                             <p className="text-base font-medium text-gray-700 mb-3">
-                                Hybrid Product Builder • Product Designer • AI-Driven SaaS Specialist
+                                Product Designer • AI-Driven SaaS Specialist
                             </p>
                             <div className="flex justify-between items-center text-sm text-gray-600">
                                 <p>
@@ -175,16 +197,6 @@ export default function ResumePage() {
                                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
                                         LinkedIn
                                     </a>
-                                    <span className="text-gray-300">|</span>
-                                    <a
-                                        href="https://neha.design/portfolio"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-gray-600 hover:text-gray-900 hover:underline flex items-center gap-1"
-                                    >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
-                                        Portfolio
-                                    </a>
                                 </div>
                             </div>
                         </header>
@@ -195,7 +207,7 @@ export default function ResumePage() {
                                 Product Narrative
                             </h2>
                             <p className="text-gray-700 leading-relaxed text-sm">
-                                Hybrid Product Builder using agentic AI workflows to ship SaaS products faster, smarter, and with lower risk.
+                                Using agentic AI workflows to ship SaaS products faster, smarter, and with lower risk.
                                 I think like a Product Manager, design like a UX strategist, and deliver like an AI-augmented engineer.
                             </p>
                         </section>
@@ -206,10 +218,9 @@ export default function ResumePage() {
                                 Flagship Wins
                             </h2>
                             <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm font-bold">
-                                <li>48% increase in cybersecurity dashboard engagement</li>
-                                <li>37% faster hiring funnel, 52% onboarding completion uplift</li>
-                                <li>40% reduction in release cycle time using Cursor AI workflows</li>
-                                <li>Built scalable design systems → 28% engineering velocity improvement</li>
+                                <li>Improved engagement across HumanFirewall security dashboards by ~40–50%, helping enterprise admins understand and act on human risk signals more easily</li>
+                                <li>Worked on the Dubai Police eCrime & cybersecurity public platform, contributing to core reporting and awareness flows used at a national, public scale</li>
+                                <li>Contributed to phishing simulation and security awareness flows that increased completion and response rates across multiple enterprise clients</li>
                             </ul>
                         </section>
 
@@ -222,15 +233,15 @@ export default function ResumePage() {
                             {/* Infosec Ventures */}
                             <div className="mb-5">
                                 <h3 className="font-bold text-gray-900">
-                                    Infosec Ventures — Product Designer & Hybrid Product Builder
+                                    Infosec Ventures — Product Designer
                                 </h3>
                                 <p className="text-sm text-gray-600 mb-2">Jul 2024 – Present | Cybersecurity SaaS</p>
                                 <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
                                     <li>Own UX strategy for enterprise cybersecurity awareness + phishing simulation platform</li>
                                     <li>Built 3 AI-driven security tools from 0→1 using Cursor → 40% faster launch cycles</li>
-                                    <li>Redesigned dashboard hierarchy → 48% lift in admin engagement</li>
+                                    <li>Defined and prioritized dashboard hierarchy, resulting in a 48% lift in admin engagement</li>
                                     <li>Partner with CISOs + engineering for secure, compliant experience at scale</li>
-                                    <li>Drove user research loops that aligned UX with enterprise security KPIs</li>
+                                    <li>Defined UX tradeoffs to align user needs with enterprise security KPIs through continuous research loops</li>
                                 </ul>
                             </div>
 
@@ -253,10 +264,10 @@ export default function ResumePage() {
                         {/* Agentic AI Product Execution */}
                         <section className="mb-6">
                             <h2 className="text-lg font-bold text-gray-900 uppercase tracking-wide border-b border-gray-300 pb-1 mb-3">
-                                Agentic AI Product Execution (Superpower)
+                                Agentic AI Product Execution
                             </h2>
                             <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
-                                <li>Cursor-first execution → functional prototypes beyond UI mockups</li>
+                                <li>Chose a Cursor-first execution model, enabling functional prototypes beyond static UI mockups</li>
                                 <li>Automated research synthesis (NotebookLM, Perplexity)</li>
                                 <li>Early adoption testing using user analytics</li>
                                 <li>Hypothesis → Prototype → Test → Ship cycles with enterprise discipline</li>
