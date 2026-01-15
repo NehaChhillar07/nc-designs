@@ -12,7 +12,8 @@ interface Project {
     category: string;
     description: string;
     image: string;
-    link: string;
+    link: string | null;
+    comingSoon?: boolean;
 }
 
 interface ExploreMoreProps {
@@ -47,6 +48,75 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
 
     const displayProjects = getVisibleProjects();
 
+    // Project card content - shared between Link and div
+    const ProjectCardContent = ({ project }: { project: Project }) => (
+        <>
+            {/* Image with Title Overlay */}
+            <div
+                className="relative rounded-2xl overflow-hidden mb-4"
+                style={{ aspectRatio: "4/3", background: "#E5E7EB" }}
+            >
+                <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    placeholder="blur"
+                    blurDataURL={BLUR_PLACEHOLDER}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                {/* Title Overlay on Image */}
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3
+                        className="text-2xl md:text-3xl font-medium"
+                        style={{ color: "#212B36" }}
+                    >
+                        {project.title}
+                    </h3>
+                </div>
+                {/* Play button indicator (optional) - only for clickable projects */}
+                {project.link && (
+                    <motion.div
+                        className="absolute bottom-4 right-4 w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        style={{ background: "rgba(255,255,255,0.9)" }}
+                        whileHover={{ scale: 1.1 }}
+                    >
+                        <svg className="w-4 h-4 ml-0.5" fill="#212B36" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </motion.div>
+                )}
+            </div>
+
+            {/* Content Below Image */}
+            <div className="space-y-2">
+                <h4
+                    className="text-base font-semibold"
+                    style={{ color: "#212B36" }}
+                >
+                    {project.category}
+                </h4>
+                <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: "#637381" }}
+                >
+                    {project.description}
+                </p>
+                {project.comingSoon ? (
+                    <div className="flex items-center gap-2 text-sm font-medium pt-1" style={{ color: "#9CA3AF" }}>
+                        <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-1 text-sm font-medium pt-1 group-hover:gap-2 transition-all" style={{ color: "#212B36" }}>
+                        <span>View case</span>
+                        <ChevronRight className="w-4 h-4" />
+                    </div>
+                )}
+            </div>
+        </>
+    );
+
     return (
         <section className="py-16 md:py-24 lg:py-32 px-6">
             <div className="max-w-7xl mx-auto">
@@ -61,62 +131,15 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                <Link href={project.link} className="block group">
-                                    {/* Image with Title Overlay */}
-                                    <div
-                                        className="relative rounded-2xl overflow-hidden mb-4"
-                                        style={{ aspectRatio: "4/3", background: "#E5E7EB" }}
-                                    >
-                                        <Image
-                                            src={project.image}
-                                            alt={project.title}
-                                            fill
-                                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                            placeholder="blur"
-                                            blurDataURL={BLUR_PLACEHOLDER}
-                                            sizes="(max-width: 768px) 100vw, 50vw"
-                                        />
-                                        {/* Title Overlay on Image */}
-                                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                                            <h3
-                                                className="text-2xl md:text-3xl font-medium"
-                                                style={{ color: "#212B36" }}
-                                            >
-                                                {project.title}
-                                            </h3>
-                                        </div>
-                                        {/* Play button indicator (optional) */}
-                                        <motion.div
-                                            className="absolute bottom-4 right-4 w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                                            style={{ background: "rgba(255,255,255,0.9)" }}
-                                            whileHover={{ scale: 1.1 }}
-                                        >
-                                            <svg className="w-4 h-4 ml-0.5" fill="#212B36" viewBox="0 0 24 24">
-                                                <path d="M8 5v14l11-7z" />
-                                            </svg>
-                                        </motion.div>
+                                {project.link ? (
+                                    <Link href={project.link} className="block group">
+                                        <ProjectCardContent project={project} />
+                                    </Link>
+                                ) : (
+                                    <div className="block group cursor-default">
+                                        <ProjectCardContent project={project} />
                                     </div>
-
-                                    {/* Content Below Image */}
-                                    <div className="space-y-2">
-                                        <h4
-                                            className="text-base font-semibold"
-                                            style={{ color: "#212B36" }}
-                                        >
-                                            {project.category}
-                                        </h4>
-                                        <p
-                                            className="text-sm leading-relaxed"
-                                            style={{ color: "#637381" }}
-                                        >
-                                            {project.description}
-                                        </p>
-                                        <div className="flex items-center gap-1 text-sm font-medium pt-1 group-hover:gap-2 transition-all" style={{ color: "#212B36" }}>
-                                            <span>View case</span>
-                                            <ChevronRight className="w-4 h-4" />
-                                        </div>
-                                    </div>
-                                </Link>
+                                )}
                             </motion.div>
                         ))}
                     </div>

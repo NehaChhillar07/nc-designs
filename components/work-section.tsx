@@ -32,10 +32,10 @@ const projects = [
         category: "WEBSITE DESIGN · CYBERSECURITY · PUBLIC PLATFORM",
         description:
             "Public-facing cybersecurity platform designed to help citizens report cybercrime and learn about digital risks.",
-        image: "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=800&h=600&fit=crop",
+        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=600&fit=crop",
         tags: [],
-        caseStudyLink: null,
-        comingSoon: true,
+        caseStudyLink: "/case-study/ecrime-hub",
+        buttonText: "Explore",
     },
     {
         id: 3,

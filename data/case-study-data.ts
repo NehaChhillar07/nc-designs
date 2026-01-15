@@ -302,18 +302,27 @@ export const texlacultureCaseStudy = {
 export const otherProjects = [
     {
         id: 1,
-        title: "E-Commerce Redesign",
-        category: "UX Design • Mobile",
-        description: "A complete UX overhaul for a fashion brand, focusing on mobile conversion and checkout flow.",
-        image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop",
-        link: "/case-study/ecommerce",
+        title: "Human Risk Management Platform",
+        category: "PRODUCT DESIGN · HUMAN RISK · AI-DRIVEN SAAS",
+        description: "AI-driven cybersecurity platform focused on identifying, reducing, and responding to human risk within organisations.",
+        image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
+        link: null, // Coming soon
+        comingSoon: true,
     },
     {
         id: 2,
-        title: "FinTech Dashboard",
-        category: "Product Design • Data Viz",
-        description: "A real-time data visualization platform for trading analytics with dark mode UI.",
-        image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop",
-        link: "/case-study/fintech",
+        title: "eCrime Hub | Dubai Police",
+        category: "WEBSITE DESIGN · CYBERSECURITY · PUBLIC PLATFORM",
+        description: "Public-facing cybersecurity platform designed to help citizens report cybercrime and learn about digital risks.",
+        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=600&fit=crop",
+        link: "/case-study/ecrime-hub",
+    },
+    {
+        id: 3,
+        title: "TexlaCulture HRMS",
+        category: "Product Design · End-to-end · SaaS",
+        description: "Simplifying hiring, onboarding, and core people workflows for modern organizations.",
+        image: "/work/texlaculture-hr-dashboard.png",
+        link: "/case-study/texlaculture",
     },
 ];

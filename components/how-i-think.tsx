@@ -124,23 +124,19 @@ export function HowIThink() {
             }}
           >
             {tools.map((tool, index) => {
-              // Calculate wave offset using sine wave for vertical positioning
-              // Round to 2 decimal places to avoid hydration mismatch from floating-point precision
-              const waveOffset = Math.round(Math.sin((index / tools.length) * Math.PI * 2) * 25 * 100) / 100;
+              // Create a smooth wave pattern - bubbles rise and fall like ocean waves
+              const wavePhase = (index / (tools.length - 1)) * Math.PI * 2;
+              // Wave offset: negative = higher position (up), positive = lower position (down)
+              const waveOffset = Math.round(Math.sin(wavePhase) * -30);
 
-              // Default animation settings - gentle movement for all
-              let animationIntensity = 8;
-              const animationDuration = 3; // Same gentle speed for all bubbles
+              // Calculate height factor (0 = lowest, 1 = highest)
+              const heightFactor = (waveOffset + 30) / 60; // normalize to 0-1 range
 
-              // Bubbles 1, 7, 8, 9 (indices 0, 6, 7, 8): larger movement down to 4th bubble level
-              if (index === 0 || index === 6 || index === 7 || index === 8) {
-                animationIntensity = 35; // Large range - down to 4th bubble alignment
-              }
-
-              // Bubbles 2, 6 (indices 1, 5): medium movement - slightly more than default
-              if (index === 1 || index === 5) {
-                animationIntensity = 18; // Medium range
-              }
+              // ALL bubbles move - upper ones more intense and faster
+              // Upper bubbles: 50px movement, 1.8s duration (faster)
+              // Lower bubbles: 15px movement, 3.5s duration (slower)
+              const animationIntensity = 15 + (heightFactor * 35); // Range: 15px to 50px
+              const animationDuration = 3.5 - (heightFactor * 1.7); // Range: 3.5s to 1.8s
 
               // Increase icon size for NotebookLM and Perplexity
               const iconSize = (tool.name === "NotebookLM" || tool.name === "Perplexity") ? 56 : 48;
