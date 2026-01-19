@@ -1,7 +1,8 @@
 "use client";
 
 import { AboutGallery } from "@/components/about-gallery";
-import { aboutHeading, aboutParagraphs } from "@/data/about-data";
+import { aboutHeading } from "@/data/about-data";
+import { Highlighter } from "@/components/ui/highlighter";
 import { motion } from "framer-motion";
 
 export function AboutSection() {
@@ -25,20 +26,26 @@ export function AboutSection() {
                     {aboutHeading}
                 </motion.h2>
 
-                {/* Paragraphs */}
+                {/* Paragraphs with Highlights */}
                 <div className="space-y-6">
-                    {aboutParagraphs.map((paragraph, index) => (
-                        <motion.p
-                            key={index}
-                            className="text-[16px] md:text-[18px] text-muted-foreground leading-relaxed"
-                            initial={{ opacity: 0, y: 12 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 * (index + 1) }}
-                        >
-                            {paragraph}
-                        </motion.p>
-                    ))}
+                    <motion.p
+                        className="text-[16px] md:text-[18px] text-muted-foreground leading-relaxed"
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
+                    >
+                        I prefer understanding things before reacting. I like noticing patterns, sitting with unclear ideas, and bringing structure to chaos. <Highlighter action="highlight" color="#FFB4A2" isView>Messy problems don't overwhelm me</Highlighter>. They make me <Highlighter action="underline" color="#FF9800" isView>curious</Highlighter>.
+                    </motion.p>
+                    <motion.p
+                        className="text-[16px] md:text-[18px] text-muted-foreground leading-relaxed"
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+                    >
+                        I learn through experiments rather than theory. <Highlighter action="highlight" color="#87CEFA" isView>Trying things and seeing what actually works</Highlighter> matters more to me than assumptions. Outside work, I spend a lot of time with my dog, June. Being around her quietly, without words, is where I <Highlighter action="underline" color="#A8D08D" isView>slow down and observe</Highlighter>. That mindset shapes how I think about people and systems.
+                    </motion.p>
                 </div>
             </div>
         </section>

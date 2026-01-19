@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ParticleBackground } from "./particle-background";
+import { Highlighter } from "@/components/ui/highlighter";
 
 export function SplitCTASection() {
     const sectionRef = useRef<HTMLDivElement>(null);
@@ -46,8 +47,8 @@ export function SplitCTASection() {
                     {/* Left Column - Design & Execution */}
                     <div
                         className={`flex flex-col items-center md:items-start text-center md:text-left transition-all duration-700 ease-out ${isVisible
-                                ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-8"
+                            ? "opacity-100 translate-y-0"
+                            : "opacity-0 translate-y-8"
                             }`}
                         style={{ transitionDelay: "100ms" }}
                     >
@@ -58,7 +59,7 @@ export function SplitCTASection() {
                             Design & Execution
                         </h2>
                         <p className="text-[16px] md:text-[18px] text-muted-foreground mb-8 leading-relaxed max-w-sm">
-                            From ideas to real, shipped interfaces
+                            From ideas to real, <Highlighter action="underline" color="#FF9800" isView>shipped interfaces</Highlighter>
                         </p>
                         <button
                             onClick={() => handleNavigate("#work")}
@@ -71,8 +72,8 @@ export function SplitCTASection() {
                     {/* Right Column - Product & Strategy */}
                     <div
                         className={`flex flex-col items-center md:items-start text-center md:text-left transition-all duration-700 ease-out ${isVisible
-                                ? "opacity-100 translate-y-0"
-                                : "opacity-0 translate-y-8"
+                            ? "opacity-100 translate-y-0"
+                            : "opacity-0 translate-y-8"
                             }`}
                         style={{ transitionDelay: "250ms" }}
                     >
@@ -83,7 +84,7 @@ export function SplitCTASection() {
                             Product & Strategy
                         </h2>
                         <p className="text-[16px] md:text-[18px] text-muted-foreground mb-8 leading-relaxed max-w-sm">
-                            From problems to decisions and outcomes
+                            From problems to <Highlighter action="underline" color="#87CEFA" isView>decisions and outcomes</Highlighter>
                         </p>
                         <button
                             onClick={() => handleNavigate("#how-i-think")}

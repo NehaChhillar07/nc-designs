@@ -2,11 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
-import Image from "next/image";
 import { AboutMedia, allAboutMedia } from "@/data/about-data";
-
-// Blur placeholder for smooth image loading
-const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEQA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
+import { PixelImage } from "@/components/ui/pixel-image";
 
 // Animation variants
 const containerVariants: Variants = {
@@ -31,7 +28,7 @@ const itemVariants: Variants = {
 };
 
 // Media item component
-function MediaItem({ media, priority = false }: { media: AboutMedia; priority?: boolean }) {
+function MediaItem({ media }: { media: AboutMedia }) {
     if (media.type === "video") {
         return (
             <video
@@ -41,22 +38,21 @@ function MediaItem({ media, priority = false }: { media: AboutMedia; priority?: 
                 muted
                 loop
                 playsInline
-                preload={priority ? "auto" : "metadata"}
+                preload="metadata"
             />
         );
     }
 
     return (
-        <Image
+        <PixelImage
             src={media.src}
             alt={media.alt}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 160px, 280px"
-            priority={priority}
-            placeholder="blur"
-            blurDataURL={BLUR_PLACEHOLDER}
-            loading={priority ? "eager" : "lazy"}
+            customGrid={{ rows: 4, cols: 6 }}
+            grayscaleAnimation
+            pixelFadeInDuration={800}
+            maxAnimationDelay={1000}
+            colorRevealDelay={1200}
+            className="absolute inset-0 w-full h-full [&_img]:w-full [&_img]:h-full [&_img]:object-cover [&_img]:rounded-none"
         />
     );
 }
@@ -135,7 +131,7 @@ export function AboutGallery() {
                             style={{ width: frameConfigs[0].width, height: frameConfigs[0].height, rotate: `${frameConfigs[0].rotate}deg` }}
                             whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
                         >
-                            <MediaItem media={media[0]} priority />
+                            <MediaItem media={media[0]} />
                             {media[0].type === "video" && <VideoIndicator />}
                         </motion.div>
                     )}
@@ -146,7 +142,7 @@ export function AboutGallery() {
                             style={{ width: frameConfigs[1].width, height: frameConfigs[1].height, rotate: `${frameConfigs[1].rotate}deg` }}
                             whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
                         >
-                            <MediaItem media={media[1]} priority />
+                            <MediaItem media={media[1]} />
                             {media[1].type === "video" && <VideoIndicator />}
                         </motion.div>
                     )}
@@ -161,7 +157,7 @@ export function AboutGallery() {
                             style={{ width: frameConfigs[2].width, height: frameConfigs[2].height, rotate: `${frameConfigs[2].rotate}deg` }}
                             whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
                         >
-                            <MediaItem media={media[2]} priority />
+                            <MediaItem media={media[2]} />
                             {media[2].type === "video" && <VideoIndicator />}
                         </motion.div>
                     )}
@@ -187,7 +183,7 @@ export function AboutGallery() {
                             style={{ width: frameConfigs[4].width, height: frameConfigs[4].height, rotate: `${frameConfigs[4].rotate}deg` }}
                             whileHover={{ rotate: 0, scale: 1.02, zIndex: 10 }}
                         >
-                            <MediaItem media={media[4]} priority />
+                            <MediaItem media={media[4]} />
                             {media[4].type === "video" && <VideoIndicator />}
                         </motion.div>
                     )}
@@ -273,7 +269,7 @@ export function AboutGallery() {
                         className="relative flex-shrink-0 w-36 h-48 overflow-hidden rounded-2xl shadow-md bg-gray-200"
                         style={{ rotate: `${(index % 2 === 0 ? -2 : 2)}deg` }}
                     >
-                        <MediaItem media={item} priority={index < 3} />
+                        <MediaItem media={item} />
                         {item.type === "video" && <VideoIndicator />}
                     </motion.div>
                 ))}

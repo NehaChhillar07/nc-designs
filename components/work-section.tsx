@@ -6,6 +6,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
+import { useCursor } from "@/components/ui/cursor-context";
 
 // ============================================
 // PROJECT DATA - Replace with your real content
@@ -21,10 +22,11 @@ const projects = [
         category: "PRODUCT DESIGN · HUMAN RISK · AI-DRIVEN SAAS",
         description:
             "AI-driven cybersecurity platform focused on identifying, reducing, and responding to human risk within organisations through awareness, simulations, and behavioural insights.",
-        image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
+        image: "/work/humanfirewall.svg",
         tags: [],
         caseStudyLink: null,
         comingSoon: true,
+        readingTime: "Coming soon",
     },
     {
         id: 2,
@@ -32,10 +34,11 @@ const projects = [
         category: "WEBSITE DESIGN · CYBERSECURITY · PUBLIC PLATFORM",
         description:
             "Public-facing cybersecurity platform designed to help citizens report cybercrime and learn about digital risks.",
-        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=600&fit=crop",
+        image: "/work/dp.svg",
         tags: [],
         caseStudyLink: "/case-study/ecrime-hub",
-        buttonText: "Explore",
+        buttonText: "Read case study",
+        readingTime: "4 mins",
     },
     {
         id: 3,
@@ -43,10 +46,11 @@ const projects = [
         category: "Product Design · End-to-end · SaaS",
         description:
             "Simplifying hiring, onboarding, and core people workflows",
-        image: "/work/texlaculture-hr-dashboard.png",
+        image: "/work/texlaculture.svg",
         tags: [],
         caseStudyLink: "/case-study/texlaculture",
-        buttonText: "Explore Product",
+        buttonText: "Read case study",
+        readingTime: "12 mins",
     },
 ];
 // ============================================
@@ -56,6 +60,7 @@ export function WorkSection() {
     const imageContainerRef = useRef<HTMLDivElement>(null);
     const textBlocksRef = useRef<HTMLDivElement[]>([]);
     const imagesRef = useRef<HTMLDivElement[]>([]);
+    const { setCursor, resetCursor } = useCursor();
 
     useEffect(() => {
         if (typeof window === "undefined") return;
@@ -90,13 +95,31 @@ export function WorkSection() {
                     pinSpacing: false,
                 });
 
-                // Create triggers for each text block to control image visibility
+                // Separate trigger for cursor control (more reliable than combining with pin)
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    onEnter: () => setCursor("tag", projects[0].readingTime),
+                    onLeave: () => resetCursor(),
+                    onEnterBack: () => setCursor("tag", projects[projects.length - 1].readingTime),
+                    onLeaveBack: () => resetCursor(),
+                });
+
+                // Create triggers for each text block to control image visibility and cursor
                 textBlocks.forEach((textBlock, index) => {
+                    const project = projects[index];
+                    const isFirstProject = index === 0;
+                    const isLastProject = index === projects.length - 1;
+
                     ScrollTrigger.create({
                         trigger: textBlock,
                         start: "top center",
                         end: "bottom center",
                         onEnter: () => {
+                            // Update cursor to show reading time tag
+                            setCursor("tag", project.readingTime);
+
                             // Fade in current image
                             gsap.to(images[index], {
                                 opacity: 1,
@@ -118,7 +141,11 @@ export function WorkSection() {
                                 }
                             });
                         },
+                        onLeave: isLastProject ? () => resetCursor() : undefined,
                         onEnterBack: () => {
+                            // Update cursor to show reading time tag
+                            setCursor("tag", project.readingTime);
+
                             // Fade in current image
                             gsap.to(images[index], {
                                 opacity: 1,
@@ -140,6 +167,7 @@ export function WorkSection() {
                                 }
                             });
                         },
+                        onLeaveBack: isFirstProject ? () => resetCursor() : undefined,
                     });
                 });
             });
@@ -153,7 +181,7 @@ export function WorkSection() {
         }, sectionRef);
 
         return () => ctx.revert();
-    }, []);
+    }, [setCursor, resetCursor]);
 
     const addToTextBlocksRef = (el: HTMLDivElement | null, index: number) => {
         if (el) textBlocksRef.current[index] = el;
@@ -199,7 +227,7 @@ export function WorkSection() {
                                 )}
                                 {project.caseStudyLink ? (
                                     <Link href={project.caseStudyLink}>
-                                        <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight hover:text-primary transition-colors cursor-pointer">
+                                        <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight hover:text-primary transition-colors">
                                             {project.title}
                                         </h3>
                                     </Link>

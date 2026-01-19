@@ -302,12 +302,13 @@ export const texlacultureCaseStudy = {
 export const otherProjects = [
     {
         id: 1,
-        title: "Human Risk Management Platform",
-        category: "PRODUCT DESIGN · HUMAN RISK · AI-DRIVEN SAAS",
-        description: "AI-driven cybersecurity platform focused on identifying, reducing, and responding to human risk within organisations.",
+        title: "Human Firewall",
+        category: "PRODUCT DESIGN · CYBERSECURITY · AI-DRIVEN SAAS",
+        description: "AI-driven human risk management platform focused on identifying, reducing, and responding to human risk within organisations through awareness, simulations, and behavioural insights.",
         image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
-        link: null, // Coming soon
+        link: null,
         comingSoon: true,
+        readingTime: "Coming Soon",
     },
     {
         id: 2,
@@ -316,6 +317,7 @@ export const otherProjects = [
         description: "Public-facing cybersecurity platform designed to help citizens report cybercrime and learn about digital risks.",
         image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=600&fit=crop",
         link: "/case-study/ecrime-hub",
+        readingTime: "4 mins",
     },
     {
         id: 3,
@@ -324,5 +326,6 @@ export const otherProjects = [
         description: "Simplifying hiring, onboarding, and core people workflows for modern organizations.",
         image: "/work/texlaculture-hr-dashboard.png",
         link: "/case-study/texlaculture",
+        readingTime: "12 mins",
     },
 ];

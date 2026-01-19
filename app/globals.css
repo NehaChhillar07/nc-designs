@@ -121,6 +121,65 @@
 }
 
 /* ============================================
+   Hide Native Cursor Globally
+   ============================================ */
+/* Ultra-aggressive cursor hiding - single rule to rule them all */
+html,
+html *,
+body,
+body *,
+*::before,
+*::after,
+a,
+button,
+input,
+select,
+textarea,
+label,
+[role="button"],
+[tabindex],
+[onclick],
+[data-clickable],
+.cursor-pointer,
+[class*="cursor"],
+header,
+header *,
+nav,
+nav *,
+footer,
+footer *,
+[class*="fixed"],
+[class*="sticky"],
+[class*="backdrop"],
+[class*="z-"],
+iframe,
+canvas,
+svg,
+img,
+video {
+  cursor: none !important;
+}
+
+/* Show native cursor on touch/mobile devices */
+@media (pointer: coarse),
+(hover: none) {
+
+  html,
+  html *,
+  body,
+  body * {
+    cursor: auto !important;
+  }
+
+  a,
+  button,
+  [role="button"],
+  [data-clickable] {
+    cursor: pointer !important;
+  }
+}
+
+/* ============================================
    Performance Optimization Utilities
    ============================================ */
 

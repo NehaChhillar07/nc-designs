@@ -87,11 +87,14 @@ export default function ResumePage() {
             {/* Header */}
             <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-10">
                 <div className="container mx-auto flex h-16 items-center justify-between px-4">
-                    <Link
-                        href="/"
-                        className="text-lg font-semibold tracking-tight text-foreground hover:text-primary transition-colors"
-                    >
-                        nc designs
+                    <Link href="/" className="flex items-center">
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                            <img
+                                src="/logo.jpeg"
+                                alt="NC Designs"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
                     </Link>
 
                     <div className="flex items-center gap-3 relative">
@@ -207,7 +210,7 @@ export default function ResumePage() {
                                 Product Narrative
                             </h2>
                             <p className="text-gray-700 leading-relaxed text-sm">
-                                Using agentic AI workflows to ship SaaS products faster, smarter, and with lower risk.
+                                2.5 years of experience using agentic AI workflows to ship SaaS products faster, smarter, and with lower risk.
                                 I think like a Product Manager, design like a UX strategist, and deliver like an AI-augmented engineer.
                             </p>
                         </section>
@@ -311,7 +314,7 @@ export default function ResumePage() {
                         </section>
                     </article>
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }

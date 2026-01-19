@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Highlighter } from "@/components/ui/highlighter";
 
 const navLinks = [
     { label: "Home", href: "#hero" },
@@ -20,7 +21,7 @@ export function Footer() {
     };
 
     return (
-        <footer className="border-t bg-background/80 backdrop-blur-sm py-12 md:py-16">
+        <footer id="connect" className="border-t bg-background/80 backdrop-blur-sm py-12 md:py-16">
             <div className="container mx-auto px-4">
                 {/* Having an idea, let's catch up - Large CTA */}
                 <motion.div
@@ -32,14 +33,14 @@ export function Footer() {
                 >
                     <motion.a
                         href="mailto:nehachhillar07@gmail.com?subject=Let's%20catch%20up!"
-                        className="inline-block text-[32px] md:text-[56px] lg:text-[80px] xl:text-[112px] font-light tracking-tight cursor-pointer transition-all duration-300"
+                        className="inline-block text-[32px] md:text-[56px] lg:text-[80px] xl:text-[112px] font-light tracking-tight transition-all duration-300 leading-none"
                         style={{ color: "#C4CDD5" }}
                         whileHover={{
                             color: "#212B36",
                             transition: { duration: 0.3 }
                         }}
                     >
-                        Having an idea, let&apos;s catch up.
+                        Having an idea, <Highlighter action="highlight" color="#FF9800" isView>let&apos;s catch up</Highlighter>.
                     </motion.a>
                 </motion.div>
 

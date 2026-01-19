@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Caveat } from "next/font/google";
 import "./globals.css";
+import { CursorProvider } from "@/components/ui/cursor-context";
+import { CustomCursor } from "@/components/ui/custom-cursor";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
 });
 
 export const metadata: Metadata = {
@@ -18,12 +25,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning style={{ cursor: 'none' }}>
       <body
-        className={`${inter.variable} font-sans antialiased`}
+        className={`${inter.variable} ${caveat.variable} font-sans antialiased`}
         suppressHydrationWarning
+        style={{ cursor: 'none' }}
       >
-        {children}
+        <CursorProvider>
+          <CustomCursor />
+          {children}
+        </CursorProvider>
       </body>
     </html>
   );

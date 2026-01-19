@@ -14,22 +14,22 @@ const playgroundItems = [
         id: 1,
         title: "Generative Art Lab",
         category: "Creative Coding",
-        description: "Exploring algorithmic beauty through code-generated visuals and interactive canvas experiments.",
-        image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=500&fit=crop",
+        description: "Algorithmic patterns and flowing gradients created through code. Exploring the beauty of procedural generation.",
+        image: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=800&h=500&fit=crop",
     },
     {
         id: 2,
         title: "Motion Playground",
         category: "Animation",
-        description: "A collection of micro-interactions, loading states, and delightful animation experiments.",
-        image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=500&fit=crop",
+        description: "Micro-interactions, spring physics, and delightful transitions. The small details that make interfaces feel alive.",
+        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop",
     },
     {
         id: 3,
-        title: "AI Art Explorer",
-        category: "Machine Learning",
-        description: "Experimenting with AI image generation, prompt engineering, and creative machine learning tools.",
-        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=500&fit=crop",
+        title: "AI Sketch Canvas",
+        category: "Experimental Art",
+        description: "Blending human creativity with machine intelligence. Hand-drawn concepts enhanced by AI imagination.",
+        image: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&h=500&fit=crop",
     },
 ];
 
@@ -119,7 +119,7 @@ export function PlaygroundSection() {
                             {/* Image Card - Clickable */}
                             <button
                                 onClick={() => openModal(item.image, item.title)}
-                                className="block w-full text-left cursor-pointer"
+                                className="block w-full text-left"
                             >
                                 {/* Image Container */}
                                 <div className="relative h-[55vw] md:h-[340px] lg:h-[380px] xl:h-[420px] rounded-2xl overflow-hidden bg-zinc-800 mb-4">
@@ -180,8 +180,8 @@ export function PlaygroundSection() {
                         onClick={() => scroll("left")}
                         disabled={!canScrollLeft}
                         className={`w-10 h-10 rounded-full border border-zinc-700 flex items-center justify-center transition-all duration-200 ${canScrollLeft
-                            ? "hover:bg-zinc-800 cursor-pointer"
-                            : "opacity-40 cursor-not-allowed"
+                            ? "hover:bg-zinc-800"
+                            : "opacity-40"
                             }`}
                         aria-label="Scroll left"
                     >
@@ -203,8 +203,8 @@ export function PlaygroundSection() {
                         onClick={() => scroll("right")}
                         disabled={!canScrollRight}
                         className={`w-10 h-10 rounded-full border border-zinc-700 flex items-center justify-center transition-all duration-200 ${canScrollRight
-                            ? "hover:bg-zinc-800 cursor-pointer"
-                            : "opacity-40 cursor-not-allowed"
+                            ? "hover:bg-zinc-800"
+                            : "opacity-40"
                             }`}
                         aria-label="Scroll right"
                     >

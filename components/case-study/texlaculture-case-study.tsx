@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { texlacultureCaseStudy } from "@/data/case-study-data";
+import { Highlighter } from "@/components/ui/highlighter";
 
 const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEQA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
 
@@ -134,43 +135,21 @@ function BriefSection() {
                         {data.problemStatement.title}
                     </h3>
                     <ul className="flex flex-col w-full list-disc pl-5" style={{ gap: "4px" }}>
-                        {data.problemStatement.items.map((item, index) => {
-                            // Define highlights for each item
-                            const highlights: Record<number, string[]> = {
-                                0: ["complex navigation", "technical jargon"],
-                                1: ["back and forth"],
-                                2: ["Lack of customizable policy", "forced compromises"],
-                                3: ["fail", "user-friendly, human-centric design"],
-                                4: ["engages employees"],
-                            };
-
-                            let highlightedText = item;
-                            const itemHighlights = highlights[index] || [];
-
-                            return (
-                                <li
-                                    key={index}
-                                    className="font-medium leading-[145%]"
-                                    style={{
-                                        fontSize: "16px",
-                                        color: "#212B36"
-                                    }}
-                                >
-                                    {itemHighlights.length > 0 ? (
-                                        <span dangerouslySetInnerHTML={{
-                                            __html: itemHighlights.reduce((text, phrase) => {
-                                                return text.replace(
-                                                    phrase,
-                                                    `<span style="background: #FFF5CC; padding: 0 2px;">${phrase}</span>`
-                                                );
-                                            }, item)
-                                        }} />
-                                    ) : (
-                                        item
-                                    )}
-                                </li>
-                            );
-                        })}
+                        <li className="font-medium leading-[145%]" style={{ fontSize: "16px", color: "#212B36" }}>
+                            Users struggle with <Highlighter action="highlight" color="#FFE16A" isView>complex navigation</Highlighter> and <Highlighter action="highlight" color="#FFE16A" isView>technical jargon</Highlighter>, making simple tasks feel overwhelming.
+                        </li>
+                        <li className="font-medium leading-[145%]" style={{ fontSize: "16px", color: "#212B36" }}>
+                            Constant <Highlighter action="highlight" color="#FFE16A" isView>back and forth</Highlighter> between multiple disconnected tools wastes time and breaks focus.
+                        </li>
+                        <li className="font-medium leading-[145%]" style={{ fontSize: "16px", color: "#212B36" }}>
+                            <Highlighter action="highlight" color="#FFE16A" isView>Lack of customizable policy</Highlighter> settings leads to <Highlighter action="highlight" color="#FFE16A" isView>forced compromises</Highlighter> in workflow.
+                        </li>
+                        <li className="font-medium leading-[145%]" style={{ fontSize: "16px", color: "#212B36" }}>
+                            Existing solutions <Highlighter action="highlight" color="#FFE16A" isView>fail</Highlighter> to provide a <Highlighter action="underline" color="#A8D08D" isView>user-friendly, human-centric design</Highlighter> experience.
+                        </li>
+                        <li className="font-medium leading-[145%]" style={{ fontSize: "16px", color: "#212B36" }}>
+                            Need for a platform that naturally <Highlighter action="underline" color="#A8D08D" isView>engages employees</Highlighter> rather than just tracking them.
+                        </li>
                     </ul>
                 </motion.div>
             </div>

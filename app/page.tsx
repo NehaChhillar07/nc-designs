@@ -5,6 +5,7 @@ import { PlaygroundSection } from "@/components/playground-section";
 import { SplitCTASection } from "@/components/split-cta-section";
 import { AboutSection } from "@/components/about-section";
 import { Footer } from "@/components/footer";
+import { Highlighter } from "@/components/ui/highlighter";
 import Image from "next/image";
 
 export default function Home() {
@@ -29,10 +30,10 @@ export default function Home() {
           </p>
           <h1 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[52px] font-bold tracking-tight max-w-6xl leading-tight mb-6 md:mb-8">
             <span className="block">Product Designer at InfoSec Ventures,</span>
-            <span className="font-normal text-muted-foreground">a human risk management and mitigation platform.</span>
+            <span className="font-normal text-muted-foreground">a <Highlighter action="underline" color="#FF9800" isView>human risk management</Highlighter> and mitigation platform.</span>
           </h1>
           <p className="text-[16px] md:text-[20px] font-normal text-muted-foreground max-w-3xl leading-relaxed mb-8 md:mb-12 px-2">
-            I design with a product mindset, using AI to speed up ideas and structured thinking to build products that feel simple and human.
+            I design with a product mindset, using AI to speed up ideas and structured thinking to build products that feel <Highlighter action="highlight" color="#87CEFA" isView>simple and human</Highlighter>.
           </p>
           <div className="flex flex-col items-center gap-8">
             <svg

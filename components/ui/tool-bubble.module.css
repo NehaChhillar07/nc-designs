@@ -1,7 +1,6 @@
 .wrapper {
   position: relative;
   transform: translateY(var(--wave-offset));
-  cursor: pointer;
 }
 
 .bubble {

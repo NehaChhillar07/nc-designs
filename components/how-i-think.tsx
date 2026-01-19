@@ -1,7 +1,8 @@
 "use client";
 
-import { CustomCursor } from "@/components/ui/custom-cursor";
 import { ToolBubble } from "@/components/ui/tool-bubble";
+import { HighlightBg } from "@/components/ui/highlight-bg";
+import { Highlighter } from "@/components/ui/highlighter";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -86,8 +87,6 @@ export function HowIThink() {
 
   return (
     <section ref={containerRef} className="py-8 md:py-16 relative">
-      <CustomCursor />
-
       {/* Content Section */}
       <div className="max-w-4xl text-left mb-6 md:mb-8">
         <p className="text-[16px] font-normal text-muted-foreground mb-6 md:mb-8">
@@ -95,11 +94,11 @@ export function HowIThink() {
         </p>
 
         <h2 className="text-[32px] sm:text-[36px] md:text-[40px] font-normal tracking-tight leading-tight mb-6 md:mb-8">
-          Design progresses fastest when ideas meet reality early. AI built prototypes turn hypotheses into working versions quickly, making it easier to observe real behaviour and refine solutions.
+          Design progresses fastest when ideas meet reality early. <Highlighter action="underline" color="#FF9800" isView>AI built prototypes</Highlighter> turn hypotheses into working versions quickly, making it easier to <HighlightBg color="#000000" rotation={-0.85}><span className="text-white">observe real behaviour</span></HighlightBg> and refine solutions.
         </h2>
 
         <p className="text-[16px] md:text-[20px] font-normal text-muted-foreground leading-relaxed">
-          This shifts the process from long cycles of polished mockups to rapid, grounded learning keeping clarity, usefulness, and human understanding at the center.
+          This shifts the process from long cycles of polished mockups to <Highlighter action="highlight" color="#A8D08D" isView>rapid, grounded learning</Highlighter> keeping clarity, usefulness, and human understanding at the center.
         </p>
       </div>
 
@@ -133,10 +132,13 @@ export function HowIThink() {
               const heightFactor = (waveOffset + 30) / 60; // normalize to 0-1 range
 
               // ALL bubbles move - upper ones more intense and faster
-              // Upper bubbles: 50px movement, 1.8s duration (faster)
-              // Lower bubbles: 15px movement, 3.5s duration (slower)
-              const animationIntensity = 15 + (heightFactor * 35); // Range: 15px to 50px
-              const animationDuration = 3.5 - (heightFactor * 1.7); // Range: 3.5s to 1.8s
+              // First 3 bubbles: faster animation (1.2s)
+              // Upper bubbles: 50px movement, 1.5s duration (faster)
+              // Lower bubbles: 15px movement, 3.0s duration (slower)
+              const baseIntensity = 15 + (heightFactor * 35); // Range: 15px to 50px
+              const animationIntensity = index < 3 ? 25 : baseIntensity; // First 3: more up/down distance
+              const baseAnimationDuration = 3.0 - (heightFactor * 1.5); // Range: 3.0s to 1.5s
+              const animationDuration = index < 3 ? 3.0 : baseAnimationDuration; // First 3: slightly faster bob
 
               // Increase icon size for NotebookLM and Perplexity
               const iconSize = (tool.name === "NotebookLM" || tool.name === "Perplexity") ? 56 : 48;
