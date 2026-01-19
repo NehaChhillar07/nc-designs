@@ -12,24 +12,19 @@ const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 const playgroundItems = [
     {
         id: 1,
-        title: "Generative Art Lab",
-        category: "Creative Coding",
-        description: "Algorithmic patterns and flowing gradients created through code. Exploring the beauty of procedural generation.",
-        image: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=800&h=500&fit=crop",
+        title: "Kingfisher Website",
+        category: "Vibe Coding",
+        description: "An independent experiment using Cursor to build the Kingfisher homepage, blending design intuition with hands-on coding.",
+        image: "/playgrounbd/1st.mp4",
+        isVideo: true,
     },
     {
         id: 2,
-        title: "Motion Playground",
-        category: "Animation",
-        description: "Micro-interactions, spring physics, and delightful transitions. The small details that make interfaces feel alive.",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop",
-    },
-    {
-        id: 3,
-        title: "AI Sketch Canvas",
-        category: "Experimental Art",
-        description: "Blending human creativity with machine intelligence. Hand-drawn concepts enhanced by AI imagination.",
-        image: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&h=500&fit=crop",
+        title: "Art Therapy",
+        category: "Personal",
+        description: "This is my therapy. I do it often when I really want to spend time with myself.",
+        image: "/playgrounbd/2nd_flipped.mp4",
+        isVideo: true,
     },
 ];
 
@@ -37,7 +32,7 @@ export function PlaygroundSection() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
-    const [selectedImage, setSelectedImage] = useState<{ src: string; title: string } | null>(null);
+    const [selectedMedia, setSelectedMedia] = useState<{ src: string; title: string; isVideo?: boolean } | null>(null);
 
     const checkScrollPosition = () => {
         const container = scrollContainerRef.current;
@@ -65,13 +60,13 @@ export function PlaygroundSection() {
         setTimeout(checkScrollPosition, 400);
     };
 
-    const openModal = (image: string, title: string) => {
-        setSelectedImage({ src: image, title });
+    const openModal = (src: string, title: string, isVideo?: boolean) => {
+        setSelectedMedia({ src, title, isVideo });
         document.body.style.overflow = "hidden";
     };
 
     const closeModal = () => {
-        setSelectedImage(null);
+        setSelectedMedia(null);
         document.body.style.overflow = "";
     };
 
@@ -116,31 +111,35 @@ export function PlaygroundSection() {
                             key={item.id}
                             className="flex-shrink-0 w-[90vw] md:w-[70vw] lg:w-[65vw] xl:w-[55vw] max-w-[900px] group"
                         >
-                            {/* Image Card - Clickable */}
+                            {/* Card - Clickable */}
                             <button
-                                onClick={() => openModal(item.image, item.title)}
-                                className="block w-full text-left"
+                                onClick={() => openModal(item.image, item.title, item.isVideo)}
+                                className="block w-full text-left cursor-pointer"
                             >
-                                {/* Image Container */}
+                                {/* Image/Video Container */}
                                 <div className="relative h-[55vw] md:h-[340px] lg:h-[380px] xl:h-[420px] rounded-2xl overflow-hidden bg-zinc-800 mb-4">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                        sizes="(max-width: 768px) 90vw, 700px"
-                                        priority={index < 3}
-                                        placeholder="blur"
-                                        blurDataURL={BLUR_PLACEHOLDER}
-                                        loading={index < 3 ? "eager" : "lazy"}
-                                    />
-
-                                    {/* Title Overlay */}
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="text-[20px] md:text-[24px] lg:text-[28px] font-medium text-white/90 bg-black/30 backdrop-blur-sm px-6 py-3 rounded-lg">
-                                            {item.title}
-                                        </span>
-                                    </div>
+                                    {item.isVideo ? (
+                                        <video
+                                            src={item.image}
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        />
+                                    ) : (
+                                        <Image
+                                            src={item.image}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                            sizes="(max-width: 768px) 90vw, 700px"
+                                            priority={index < 3}
+                                            placeholder="blur"
+                                            blurDataURL={BLUR_PLACEHOLDER}
+                                            loading={index < 3 ? "eager" : "lazy"}
+                                        />
+                                    )}
 
                                     {/* Expand Icon */}
                                     <div className="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
@@ -160,15 +159,10 @@ export function PlaygroundSection() {
                                     </div>
                                 </div>
 
-                                {/* Card Footer Content */}
-                                <div className="space-y-2">
-                                    <h3 className="text-[16px] md:text-[18px] font-medium tracking-tight text-white">
-                                        {item.title}
-                                    </h3>
-                                    <p className="text-[14px] text-zinc-400 leading-relaxed line-clamp-3">
-                                        {item.description}
-                                    </p>
-                                </div>
+                                {/* Card Footer - Description Only */}
+                                <p className="text-[16px] md:text-[17px] text-white leading-relaxed">
+                                    {item.description}
+                                </p>
                             </button>
                         </div>
                     ))}
@@ -232,8 +226,8 @@ export function PlaygroundSection() {
                 `}</style>
             </section>
 
-            {/* Image Modal Overlay */}
-            {selectedImage && (
+            {/* Media Modal Overlay */}
+            {selectedMedia && (
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
                     onClick={closeModal}
@@ -259,26 +253,35 @@ export function PlaygroundSection() {
                         </svg>
                     </button>
 
-                    {/* Modal Image Container */}
+                    {/* Modal Content Container */}
                     <div
-                        className="relative w-[90vw] h-[80vh] max-w-[1400px]"
-                        onClick={(e) => e.stopPropagation()}
+                        className="relative w-[90vw] h-[80vh] max-w-[1400px] flex items-center justify-center pointer-events-none"
                     >
-                        <Image
-                            src={selectedImage.src}
-                            alt={selectedImage.title}
-                            fill
-                            className="object-contain"
-                            sizes="90vw"
-                            priority
-                        />
-
-                        {/* Image Title */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
-                            <h3 className="text-xl md:text-2xl font-medium text-white">
-                                {selectedImage.title}
-                            </h3>
-                        </div>
+                        {selectedMedia.isVideo ? (
+                            <video
+                                src={selectedMedia.src}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="max-w-full max-h-full object-contain rounded-lg pointer-events-auto"
+                                onClick={(e) => e.stopPropagation()}
+                            />
+                        ) : (
+                            <div
+                                className="relative w-full h-full pointer-events-auto"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <Image
+                                    src={selectedMedia.src}
+                                    alt={selectedMedia.title}
+                                    fill
+                                    className="object-contain"
+                                    sizes="90vw"
+                                    priority
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
