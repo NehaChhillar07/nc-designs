@@ -107,7 +107,7 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
                                     <ProjectCardContent project={project} />
                                 </Link>
                             ) : (
-                                <div className="block group cursor-default">
+                                <div className="block group">
                                     <ProjectCardContent project={project} />
                                 </div>
                             )}
