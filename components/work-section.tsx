@@ -219,7 +219,7 @@ export function WorkSection() {
                             </div>
 
                             {/* Project Content */}
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 {project.category && (
                                     <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                                         {project.category}
@@ -254,7 +254,7 @@ export function WorkSection() {
 
                                 {/* Coming Soon Badge */}
                                 {project.comingSoon && (
-                                    <div className="mt-6">
+                                    <div className="mt-3">
                                         <span className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-gray-100 text-gray-600 rounded-full">
                                             <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
                                             Coming Soon
@@ -264,7 +264,7 @@ export function WorkSection() {
 
                                 {/* View Case Study Link for projects with case study */}
                                 {project.caseStudyLink && (
-                                    <Button asChild size="lg" className="mt-6 rounded-2xl px-10 h-12 text-base">
+                                    <Button asChild size="lg" className="mt-3 rounded-2xl px-10 h-12 text-base">
                                         <Link href={project.caseStudyLink}>
                                             {project.buttonText || "Understand"}
                                         </Link>

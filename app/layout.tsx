@@ -22,7 +22,10 @@ export const metadata: Metadata = {
   title: "Neha Chhillar - Product Designer",
   description: "Product Designer at InfoSec Ventures, designing AI-driven systems and end-to-end experiences for global cybersecurity solutions.",
   icons: {
-    icon: "/logo.jpeg",
+    icon: [
+      { url: "/logo.jpeg", type: "image/jpeg" },
+    ],
+    shortcut: "/logo.jpeg",
     apple: "/logo.jpeg",
   },
   openGraph: {

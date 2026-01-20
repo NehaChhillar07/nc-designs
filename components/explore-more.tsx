@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { useCursor } from "@/components/ui/cursor-context";
 
@@ -51,36 +50,46 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
 
     // Project card content - shared between Link and div
     const ProjectCardContent = ({ project }: { project: Project }) => (
-        <>
-            {/* Image Container */}
-            <div
-                className="relative rounded-2xl overflow-hidden"
-                style={{ aspectRatio: "16/9", background: "#E5E7EB" }}
-            >
-                <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    placeholder="blur"
-                    blurDataURL={BLUR_PLACEHOLDER}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                />
+        <div
+            className="relative rounded-2xl overflow-hidden p-8 md:p-10 h-full"
+            style={{
+                background: "linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%)",
+                minHeight: "280px"
+            }}
+        >
+            {/* Coming Soon Badge */}
+            {project.comingSoon && (
+                <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/10 backdrop-blur-sm">
+                    <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+                    <span className="text-sm font-medium text-gray-700">Coming Soon</span>
+                </div>
+            )}
 
-                {/* Coming Soon Badge */}
-                {project.comingSoon && (
-                    <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-sm">
-                        <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
-                        <span className="text-sm font-medium text-white">Coming Soon</span>
-                    </div>
-                )}
-            </div>
+            {/* Category Label */}
+            <p className="text-[12px] md:text-[13px] font-medium text-gray-500 uppercase tracking-wide mb-4">
+                {project.category}
+            </p>
 
-            {/* Title Below Image - Left Aligned */}
-            <h3 className="mt-4 text-[18px] md:text-[20px] lg:text-[22px] font-medium text-gray-900 group-hover:text-gray-600 transition-colors">
+            {/* Title */}
+            <h3 className="text-[24px] md:text-[28px] lg:text-[32px] font-semibold text-gray-900 group-hover:text-gray-700 transition-colors mb-4 leading-tight">
                 {project.title}
             </h3>
-        </>
+
+            {/* Description */}
+            <p className="text-[15px] md:text-[16px] text-gray-600 leading-relaxed">
+                {project.description}
+            </p>
+
+            {/* Reading Time / View Indicator */}
+            {project.readingTime && !project.comingSoon && (
+                <div className="absolute bottom-6 right-6 flex items-center gap-2 text-gray-500 group-hover:text-gray-700 transition-colors">
+                    <span className="text-sm font-medium">{project.readingTime}</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+            )}
+        </div>
     );
 
     return (
