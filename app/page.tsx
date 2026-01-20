@@ -1,12 +1,30 @@
 import { Header } from "@/components/header";
-import { HowIThink } from "@/components/how-i-think";
-import { WorkSection } from "@/components/work-section";
-import { PlaygroundSection } from "@/components/playground-section";
-import { SplitCTASection } from "@/components/split-cta-section";
-import { AboutSection } from "@/components/about-section";
 import { Footer } from "@/components/footer";
 import { Highlighter } from "@/components/ui/highlighter";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+// Dynamic imports for below-fold sections - reduces initial bundle
+const HowIThink = dynamic(() => import("@/components/how-i-think").then(mod => ({ default: mod.HowIThink })), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />,
+});
+
+const WorkSection = dynamic(() => import("@/components/work-section").then(mod => ({ default: mod.WorkSection })), {
+  loading: () => <div className="min-h-[600px] animate-pulse bg-gray-100 rounded-lg" />,
+});
+
+const PlaygroundSection = dynamic(() => import("@/components/playground-section").then(mod => ({ default: mod.PlaygroundSection })), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />,
+});
+
+const SplitCTASection = dynamic(() => import("@/components/split-cta-section").then(mod => ({ default: mod.SplitCTASection })), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100 rounded-lg" />,
+});
+
+const AboutSection = dynamic(() => import("@/components/about-section").then(mod => ({ default: mod.AboutSection })), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />,
+});
 
 export default function Home() {
   return (
@@ -21,6 +39,7 @@ export default function Home() {
             height={1200}
             className="object-contain opacity-80 scale-125 md:scale-100"
             priority
+            fetchPriority="high"
           />
         </div>
 
@@ -68,6 +87,7 @@ export default function Home() {
                 width={300}
                 height={120}
                 className="h-8 md:h-10 w-auto"
+                loading="eager"
               />
             </a>
 
@@ -83,6 +103,7 @@ export default function Home() {
                 width={300}
                 height={120}
                 className="h-12 md:h-16 w-auto"
+                loading="eager"
               />
             </a>
 
@@ -98,29 +119,44 @@ export default function Home() {
                 width={300}
                 height={120}
                 className="h-12 md:h-16 w-auto"
+                loading="eager"
               />
             </a>
           </div>
         </section>
 
-        <div className="py-16 md:py-24 lg:py-32">
-          <SplitCTASection />
-        </div>
+        <Suspense fallback={<div className="min-h-[300px]" />}>
+          <div className="py-16 md:py-24 lg:py-32">
+            <SplitCTASection />
+          </div>
+        </Suspense>
 
-        <div id="how-i-think" className="py-16 md:py-24 lg:py-32">
-          <HowIThink />
-        </div>
-        <div id="work" className="py-16 md:py-24 lg:py-32">
-          <WorkSection />
-        </div>
-        <div id="playground" className="py-16 md:py-24 lg:py-32">
-          <PlaygroundSection />
-        </div>
-        <div id="about" className="py-16 md:py-24 lg:py-32">
-          <AboutSection />
-        </div>
+        <Suspense fallback={<div className="min-h-[400px]" />}>
+          <div id="how-i-think" className="py-16 md:py-24 lg:py-32">
+            <HowIThink />
+          </div>
+        </Suspense>
+
+        <Suspense fallback={<div className="min-h-[600px]" />}>
+          <div id="work" className="py-16 md:py-24 lg:py-32">
+            <WorkSection />
+          </div>
+        </Suspense>
+
+        <Suspense fallback={<div className="min-h-[400px]" />}>
+          <div id="playground" className="py-16 md:py-24 lg:py-32">
+            <PlaygroundSection />
+          </div>
+        </Suspense>
+
+        <Suspense fallback={<div className="min-h-[400px]" />}>
+          <div id="about" className="py-16 md:py-24 lg:py-32">
+            <AboutSection />
+          </div>
+        </Suspense>
       </main>
       <Footer />
     </div>
   );
 }
+
