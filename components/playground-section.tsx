@@ -114,7 +114,7 @@ export function PlaygroundSection() {
                             {/* Card - Clickable */}
                             <button
                                 onClick={() => openModal(item.image, item.title, item.isVideo)}
-                                className="block w-full text-left cursor-pointer"
+                                className="block w-full text-left"
                             >
                                 {/* Image/Video Container */}
                                 <div className="relative h-[55vw] md:h-[340px] lg:h-[380px] xl:h-[420px] rounded-2xl overflow-hidden bg-zinc-800 mb-4">
