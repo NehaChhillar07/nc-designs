@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Neha Chhillar - Resume</title>
+<style>
+body {
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #1a1a1a;
+    max-width: 8.5in;
+    margin: 0 auto;
+    padding: 0.5in;
+}
+h1 {
+    font-size: 22pt;
+    font-weight: bold;
+    margin: 0 0 2pt 0;
+    color: #111;
+}
+.subtitle {
+    font-size: 12pt;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8pt;
+}
+.contact {
+    font-size: 10pt;
+    color: #444;
+    margin-bottom: 16pt;
+}
+.contact a {
+    color: #444;
+}
+h2 {
+    font-size: 13pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 3pt;
+    margin: 16pt 0 8pt 0;
+    color: #111;
+}
+h3 {
+    font-size: 11pt;
+    font-weight: bold;
+    margin: 10pt 0 2pt 0;
+    color: #111;
+}
+.date-line {
+    font-size: 10pt;
+    color: #555;
+    margin-bottom: 4pt;
+}
+p {
+    margin: 0 0 6pt 0;
+}
+ul {
+    margin: 4pt 0;
+    padding-left: 18pt;
+}
+li {
+    margin-bottom: 3pt;
+}
+.skills-row {
+    margin-bottom: 4pt;
+}
+.skills-label {
+    font-weight: 600;
+}
+.flagship li {
+    font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<h1>NEHA CHHILLAR</h1>
+<p class="subtitle">Product Designer • AI-Driven SaaS Specialist</p>
+<p class="contact">
+    Gurugram, India | <a href="mailto:nehachhillar07@gmail.com">nehachhillar07@gmail.com</a> | +91 82872 33848 | 
+    <a href="https://www.linkedin.com/in/neha-chhillar">LinkedIn</a> | 
+    <a href="https://nc-designs.vercel.app">Portfolio</a>
+</p>
+
+<h2>Product Narrative</h2>
+<p>2.5 years of experience using agentic AI workflows to ship SaaS products faster, smarter, and with lower risk. I think like a Product Manager, design like a UX strategist, and deliver like an AI-augmented engineer.</p>
+
+<h2>Flagship Wins</h2>
+<ul class="flagship">
+    <li>Improved engagement across HumanFirewall security dashboards by ~40–50%, helping enterprise admins understand and act on human risk signals more easily</li>
+    <li>Worked on the Dubai Police eCrime & cybersecurity public platform, contributing to core reporting and awareness flows used at a national, public scale</li>
+    <li>Contributed to phishing simulation and security awareness flows that increased completion and response rates across multiple enterprise clients</li>
+</ul>
+
+<h2>Experience</h2>
+
+<h3>Infosec Ventures — Product Designer</h3>
+<p class="date-line">Jul 2024 – Present | Cybersecurity SaaS</p>
+<ul>
+    <li>Own UX strategy for enterprise cybersecurity awareness + phishing simulation platform</li>
+    <li>Built 3 AI-driven security tools from 0→1 using Cursor → 40% faster launch cycles</li>
+    <li>Defined and prioritized dashboard hierarchy, resulting in a 48% lift in admin engagement</li>
+    <li>Partner with CISOs + engineering for secure, compliant experience at scale</li>
+    <li>Defined UX tradeoffs to align user needs with enterprise security KPIs through continuous research loops</li>
+</ul>
+
+<h3>TexlaCulture — Product Designer</h3>
+<p class="date-line">Mar 2023 – Jun 2024 | HRMS SaaS</p>
+<ul>
+    <li>Owned core HR workflows used by 7,000+ users globally</li>
+    <li>Improved hiring funnel by 37%, onboarding success by 52%</li>
+    <li>Led usability research with 320+ participants → 75% satisfaction lift</li>
+    <li>Built unified design system → 28% faster engineering delivery</li>
+    <li>Worked with CXOs + customer success to drive adoption and retention</li>
+</ul>
+
+<h2>Agentic AI Product Execution</h2>
+<ul>
+    <li>Chose a Cursor-first execution model, enabling functional prototypes beyond static UI mockups</li>
+    <li>Automated research synthesis (NotebookLM, Perplexity)</li>
+    <li>Early adoption testing using user analytics</li>
+    <li>Hypothesis → Prototype → Test → Ship cycles with enterprise discipline</li>
+</ul>
+
+<h2>Skills</h2>
+<p class="skills-row"><span class="skills-label">Product & Strategy:</span> Roadmapping • Prioritization • Stakeholder Alignment • Activation/Retention Metrics</p>
+<p class="skills-row"><span class="skills-label">Design & Execution:</span> Interaction Design • Information Architecture • Secure UX • Accessibility • Usability Testing • Design Systems</p>
+<p class="skills-row"><span class="skills-label">AI & Tools:</span> Cursor AI • Perplexity • NotebookLM • Notion • ChatGPT • Figma • Miro • Jira</p>
+
+<h2>Education</h2>
+<p><span class="skills-label">University of Delhi</span> — B.A. (Hons) English</p>
+<p><span class="skills-label">Google UX Design Specialization</span> — Coursera</p>
+
+</body>
+</html>
