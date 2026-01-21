@@ -215,7 +215,7 @@ export default function ResumePage() {
                                 Product Narrative
                             </h2>
                             <p className="text-gray-700 leading-relaxed text-sm">
-                                Product Designer with 3+ years of experience leading UX for B2B SaaS platforms. Specialized in UX design, product strategy, and AI implementation, leveraging tools like Cursor and NotebookLM for accelerated research and design iterations.
+                                Product Designer with 2.5+ years of experience building enterprise SaaS products across cybersecurity and HRMS domains. Strong background in 0→1 product execution, UX strategy, and data-informed design decisions, with hands-on experience using AI-assisted workflows to accelerate delivery.
                             </p>
                         </section>
 
@@ -225,10 +225,9 @@ export default function ResumePage() {
                                 Flagship Wins
                             </h2>
                             <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm font-bold">
-                                <li>In-house SaaS Efficiency: Built 3 AI-driven security tools from 0→1 using Cursor, leading to 40% faster launch cycles.</li>
-                                <li>Dashboard Optimization: Defined and prioritized dashboard hierarchy, resulting in a 48% lift in admin engagement.</li>
-                                <li>Onboarding Success: Redesigned hiring funnel and onboarding flow, increasing success rates by 52%.</li>
-                                <li>Security Awareness: Contributed to phishing simulation and security awareness flows that increased completion and response rates across multiple enterprise clients.</li>
+                                <li>Improved engagement across HumanFirewall security dashboards by ~40–50%, helping enterprise admins understand and act on human risk signals more easily</li>
+                                <li>Worked on the Dubai Police eCrime & cybersecurity public platform, contributing to core reporting and awareness flows used at a national, public scale</li>
+                                <li>Contributed to phishing simulation and security awareness flows that increased completion and response rates across multiple enterprise clients</li>
                             </ul>
                         </section>
 
