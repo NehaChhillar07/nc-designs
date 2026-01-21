@@ -20,7 +20,7 @@ export function CustomCursor() {
   const variant = cursorContext?.variant || (isHovering ? "hover" : "default");
   const tagText = cursorContext?.tagText || null;
 
-  // Detect touch device immediately on mount
+  // Detect touch device immediately on mount and set data attribute
   useLayoutEffect(() => {
     // Check if device is touch-enabled using multiple methods
     const isTouch =
@@ -30,6 +30,19 @@ export function CustomCursor() {
 
     setIsTouchDevice(isTouch);
     setIsMounted(true);
+
+    // Set data-cursor attribute on html element for CSS cursor hiding
+    // This is the single source of truth for cursor visibility
+    if (!isTouch) {
+      document.documentElement.setAttribute('data-cursor', 'none');
+    } else {
+      document.documentElement.removeAttribute('data-cursor');
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.documentElement.removeAttribute('data-cursor');
+    };
   }, []);
 
   useEffect(() => {

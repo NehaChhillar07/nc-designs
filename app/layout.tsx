@@ -34,8 +34,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning style={{ cursor: 'none' }}>
+    <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Inline script AND style to hide cursor IMMEDIATELY before any content renders */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var isTouch = window.matchMedia('(pointer: coarse)').matches || 
+                                'ontouchstart' in window || 
+                                navigator.maxTouchPoints > 0;
+                  if (!isTouch) {
+                    document.documentElement.setAttribute('data-cursor', 'none');
+                    // Inject inline style immediately to prevent any cursor flash
+                    var style = document.createElement('style');
+                    style.id = 'cursor-hide-style';
+                    style.textContent = 'html[data-cursor="none"], html[data-cursor="none"] * { cursor: none !important; }';
+                    document.head.appendChild(style);
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
         {/* Preload critical assets */}
         <link rel="preload" href="/hero-gradeint.avif" as="image" />
         <link rel="preload" href="/logo.jpeg" as="image" />
@@ -48,7 +70,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${caveat.variable} font-sans antialiased`}
         suppressHydrationWarning
-        style={{ cursor: 'none' }}
       >
         <CursorProvider>
           <CustomCursor />

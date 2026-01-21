@@ -30,7 +30,7 @@ export default function ResumePage() {
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.download = "Neha_Chhillar_Resume.jpg";
+            link.download = "Neha_Chhillar_Resume.pdf";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -86,15 +86,10 @@ export default function ResumePage() {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
             {/* Header */}
             <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-10">
-                <div className="container mx-auto flex h-16 items-center justify-between px-4">
-                    <Link href="/" className="flex items-center">
-                        <div className="w-10 h-10 rounded-full overflow-hidden">
-                            <img
-                                src="/logo.jpeg"
-                                alt="NC Designs"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
+                <div className="container mx-auto flex h-16 items-center justify-between px-8">
+                    <Link href="/" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                        <ArrowLeft className="w-4 h-4" />
+                        <span className="text-sm font-medium">Back</span>
                     </Link>
 
                     <div className="flex items-center gap-3 relative">
@@ -158,7 +153,7 @@ export default function ResumePage() {
             )}
 
             {/* Resume Container */}
-            <main className="container mx-auto px-4 py-8 md:py-12">
+            <main className="container mx-auto px-8 py-8 md:py-12">
                 <div className="flex justify-center">
                     {/* Paper Style Resume - ATS Friendly */}
                     <article

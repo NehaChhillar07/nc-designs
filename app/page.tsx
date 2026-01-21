@@ -47,17 +47,17 @@ export default function Home() {
           <p className="text-[16px] md:text-[20px] font-normal text-muted-foreground mb-4 md:mb-6">
             Hi, I'm Neha Chhillar!
           </p>
-          <div className="relative">
-            {/* Tilted Tag Chip */}
-            <span
-              className="absolute -top-8 -left-4 md:-left-16 px-3 py-1 text-xs md:text-sm font-medium bg-gradient-to-r from-amber-100 to-orange-100 text-amber-800 rounded-full border border-amber-200 shadow-sm"
-              style={{ transform: 'rotate(-12deg)' }}
-            >
-              Clarity · AI · Trust
+          <h1 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[52px] font-bold tracking-tight max-w-6xl leading-tight mb-6 md:mb-8 relative">
+            <span className="block relative">
+              Product Designer at InfoSec Ventures,
+              {/* Tilted Capsule Tag - positioned above "Ventures" */}
+              <span
+                className="absolute -top-8 md:-top-10 right-0 md:right-8 lg:right-16 px-5 py-2 text-sm font-medium bg-white text-gray-700 rounded-full border border-gray-300 shadow-sm whitespace-nowrap"
+                style={{ transform: 'rotate(-5deg)' }}
+              >
+                Clarity · AI · Trust
+              </span>
             </span>
-          </div>
-          <h1 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[52px] font-bold tracking-tight max-w-6xl leading-tight mb-6 md:mb-8">
-            <span className="block">Product Designer at InfoSec Ventures,</span>
             <span className="font-normal text-muted-foreground">a <Highlighter action="underline" color="#FF9800" isView>human risk management</Highlighter> and mitigation platform.</span>
           </h1>
           <p className="text-[16px] md:text-[20px] font-normal text-muted-foreground max-w-3xl leading-relaxed mb-8 md:mb-12 px-2">

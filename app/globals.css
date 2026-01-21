@@ -121,68 +121,50 @@
 }
 
 /* ============================================
-   Hide Native Cursor Globally - BULLETPROOF
+   Hide Native Cursor Globally - NUCLEAR APPROACH
    ============================================ */
 
-/* Force cursor:none on absolutely everything */
-*,
-*::before,
-*::after {
+/* 
+ * Strategy: Use html[data-cursor="none"] to control cursor.
+ * JavaScript adds this attribute on non-touch devices.
+ * This approach is bulletproof because:
+ * 1. Single point of control
+ * 2. Higher specificity than any component styles
+ * 3. Touch devices get native cursor automatically
+ */
+
+/* Hide cursor when data attribute is present */
+html[data-cursor="none"],
+html[data-cursor="none"] * {
   cursor: none !important;
 }
 
-/* Root level elements */
-:root,
-html,
-body {
+/* Extra specificity for stubborn interactive elements */
+html[data-cursor="none"] a,
+html[data-cursor="none"] button,
+html[data-cursor="none"] input,
+html[data-cursor="none"] select,
+html[data-cursor="none"] textarea,
+html[data-cursor="none"] [role="button"],
+html[data-cursor="none"] [tabindex],
+html[data-cursor="none"] label,
+html[data-cursor="none"] svg,
+html[data-cursor="none"] img,
+html[data-cursor="none"] video {
   cursor: none !important;
 }
 
-/* All interactive elements with maximum specificity */
-a,
-a *,
-button,
-button *,
-input,
-select,
-textarea,
-label,
-[role="button"],
-[role="button"] *,
-[tabindex],
-[data-clickable],
-header,
-header *,
-nav,
-nav *,
-.fixed,
-[class*="fixed"],
-[class*="sticky"],
-[class*="z-"],
-svg,
-img,
-video,
-canvas {
+/* Override any :hover, :focus, :active states */
+html[data-cursor="none"] a:hover,
+html[data-cursor="none"] a:focus,
+html[data-cursor="none"] a:active,
+html[data-cursor="none"] button:hover,
+html[data-cursor="none"] button:focus,
+html[data-cursor="none"] button:active,
+html[data-cursor="none"] [role="button"]:hover,
+html[data-cursor="none"] [role="button"]:focus,
+html[data-cursor="none"] [role="button"]:active {
   cursor: none !important;
-}
-
-/* Show native cursor on touch/mobile devices */
-@media (pointer: coarse),
-(hover: none) {
-
-  html,
-  html *,
-  body,
-  body * {
-    cursor: auto !important;
-  }
-
-  a,
-  button,
-  [role="button"],
-  [data-clickable] {
-    cursor: pointer !important;
-  }
 }
 
 /* ============================================

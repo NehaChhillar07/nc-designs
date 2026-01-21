@@ -17,11 +17,10 @@ export async function GET(request: Request) {
 
         const page = await browser.newPage();
 
-        // Set viewport to A4 dimensions at 2x scale for high quality
+        // Set viewport to A4 dimensions
         await page.setViewport({
-            width: 816 * 2,  // A4 width in pixels at 96 DPI, 2x for retina
-            height: 1056 * 2, // A4 height in pixels at 96 DPI, 2x for retina
-            deviceScaleFactor: 2,
+            width: 816,  // A4 width in pixels at 96 DPI
+            height: 1056, // A4 height in pixels at 96 DPI
         });
 
         // Navigate to the resume page
@@ -33,42 +32,95 @@ export async function GET(request: Request) {
         // Wait for the CV content to be rendered
         await page.waitForSelector("#cv-content", { timeout: 10000 });
 
-        // Get the CV element
-        const cvElement = await page.$("#cv-content");
+        // Hide everything except CV content for PDF
+        await page.addStyleTag({
+            content: `
+                /* Hide ALL fixed positioned elements (avatar, nav, buttons) */
+                .fixed, [class*="fixed"], header.fixed, nav, header {
+                    display: none !important;
+                }
+                /* Hide action buttons container */
+                .download-actions, .share-actions, .action-bar, button {
+                    display: none !important;
+                }
+                /* Hide any element with z-index classes (nav overlay) */
+                [class*="z-50"], [class*="z-40"], [class*="z-10"] {
+                    display: none !important;
+                }
+                /* Remove blue border line */
+                [class*="border-b"], .border-b {
+                    border-bottom: none !important;
+                }
+                /* Remove background gradient */
+                body, html, .min-h-screen {
+                    background: white !important;
+                }
+                /* Reset all spacing */
+                html, body {
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    background: white !important;
+                }
+                main {
+                    padding: 0 !important;
+                    margin: 0 !important;
+                }
+                main > div {
+                    padding: 0 !important;
+                }
+                /* CV content - consistent padding on all sides */
+                #cv-content {
+                    box-shadow: none !important;
+                    border: none !important;
+                    margin: 0 auto !important;
+                    padding: 40px !important;
+                    max-width: 100% !important;
+                    background: white !important;
+                }
+                /* Ensure CV header section is visible */
+                #cv-content header {
+                    display: block !important;
+                }
+            `
+        });
 
-        if (!cvElement) {
-            throw new Error("CV element not found");
-        }
-
-        // Take a screenshot of just the CV element
-        const screenshot = await cvElement.screenshot({
-            type: "jpeg",
-            quality: 95,
+        // Generate PDF - consistent margins on all sides
+        const pdf = await page.pdf({
+            format: 'A4',
+            printBackground: true,
+            preferCSSPageSize: false,
+            scale: 0.72,
+            margin: {
+                top: '10mm',
+                bottom: '10mm',
+                left: '10mm',
+                right: '10mm'
+            }
         });
 
         await browser.close();
         browser = null;
 
-        // Return the image with proper headers
-        const buffer = Buffer.from(screenshot);
-        return new NextResponse(buffer, {
+        // Return the PDF with proper headers
+        const pdfBuffer = Buffer.from(pdf);
+        return new NextResponse(pdfBuffer, {
             status: 200,
             headers: {
-                "Content-Type": "image/jpeg",
-                "Content-Disposition": 'attachment; filename="Neha_Chhillar_Resume.jpg"',
+                "Content-Type": "application/pdf",
+                "Content-Disposition": 'attachment; filename="Neha_Chhillar_Resume.pdf"',
                 "Cache-Control": "no-cache, no-store, must-revalidate",
             },
         });
 
     } catch (error) {
-        console.error("Error generating resume image:", error);
+        console.error("Error generating resume PDF:", error);
 
         if (browser) {
             await browser.close();
         }
 
         return NextResponse.json(
-            { error: "Failed to generate resume image" },
+            { error: "Failed to generate resume PDF" },
             { status: 500 }
         );
     }
