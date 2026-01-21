@@ -121,22 +121,48 @@
 }
 
 /* ============================================
-   Hide Native Cursor Globally
+   Hide Native Cursor Globally - BULLETPROOF
    ============================================ */
-/* Universal cursor hiding - applies to everything */
-:where(*) {
+
+/* Force cursor:none on absolutely everything */
+*,
+*::before,
+*::after {
   cursor: none !important;
 }
 
-/* Ensure html and body also hide cursor */
+/* Root level elements */
 :root,
 html,
 body {
   cursor: none !important;
 }
 
-/* Target all interactive elements explicitly */
-:where(a, button, input, select, textarea, label, [role="button"], [tabindex], [data-clickable]) {
+/* All interactive elements with maximum specificity */
+a,
+a *,
+button,
+button *,
+input,
+select,
+textarea,
+label,
+[role="button"],
+[role="button"] *,
+[tabindex],
+[data-clickable],
+header,
+header *,
+nav,
+nav *,
+.fixed,
+[class*="fixed"],
+[class*="sticky"],
+[class*="z-"],
+svg,
+img,
+video,
+canvas {
   cursor: none !important;
 }
 
