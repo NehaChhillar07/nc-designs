@@ -188,7 +188,7 @@ export function CustomCursor() {
         </div>
       )}
 
-      <style jsx>{`
+      <style jsx global>{`
         .custom-cursor-arrow {
           position: fixed;
           pointer-events: none;
@@ -227,6 +227,34 @@ export function CustomCursor() {
           .custom-cursor-tag {
             display: none;
           }
+        }
+
+        /* NUCLEAR CURSOR HIDING */
+        /* Only apply when data-cursor attribute is present (non-touch devices) */
+        :root[data-cursor="none"],
+        :root[data-cursor="none"] body,
+        :root[data-cursor="none"] * {
+          cursor: none !important;
+        }
+
+        /* Specific overrides for stubborn elements */
+        :root[data-cursor="none"] a,
+        :root[data-cursor="none"] button,
+        :root[data-cursor="none"] input,
+        :root[data-cursor="none"] select,
+        :root[data-cursor="none"] textarea,
+        :root[data-cursor="none"] iframe,
+        :root[data-cursor="none"] .cursor-pointer,
+        :root[data-cursor="none"] [role="button"] {
+          cursor: none !important;
+        }
+        
+        /* Ensure specific header and fixed elements don't override */
+        :root[data-cursor="none"] header,
+        :root[data-cursor="none"] nav,
+        :root[data-cursor="none"] .fixed,
+        :root[data-cursor="none"] .sticky {
+          cursor: none !important;
         }
       `}</style>
     </>
