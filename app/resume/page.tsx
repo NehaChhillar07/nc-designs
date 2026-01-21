@@ -179,7 +179,7 @@ export default function ResumePage() {
                             </p>
                             <div className="flex justify-between items-center text-sm text-gray-600">
                                 <p>
-                                    Gurugram, India |{" "}
+                                    Gurgaon, Haryana |{" "}
                                     <a href="mailto:nehachhillar07@gmail.com" className="text-gray-900 hover:underline">
                                         nehachhillar07@gmail.com
                                     </a>
@@ -215,8 +215,7 @@ export default function ResumePage() {
                                 Product Narrative
                             </h2>
                             <p className="text-gray-700 leading-relaxed text-sm">
-                                2.5 years of experience using agentic AI workflows to ship SaaS products faster, smarter, and with lower risk.
-                                I think like a Product Manager, design like a UX strategist, and deliver like an AI-augmented engineer.
+                                Product Designer with 3+ years of experience leading UX for B2B SaaS platforms. Specialized in UX design, product strategy, and AI implementation, leveraging tools like Cursor and NotebookLM for accelerated research and design iterations.
                             </p>
                         </section>
 
@@ -226,9 +225,10 @@ export default function ResumePage() {
                                 Flagship Wins
                             </h2>
                             <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm font-bold">
-                                <li>Improved engagement across HumanFirewall security dashboards by ~40–50%, helping enterprise admins understand and act on human risk signals more easily</li>
-                                <li>Worked on the Dubai Police eCrime & cybersecurity public platform, contributing to core reporting and awareness flows used at a national, public scale</li>
-                                <li>Contributed to phishing simulation and security awareness flows that increased completion and response rates across multiple enterprise clients</li>
+                                <li>In-house SaaS Efficiency: Built 3 AI-driven security tools from 0→1 using Cursor, leading to 40% faster launch cycles.</li>
+                                <li>Dashboard Optimization: Defined and prioritized dashboard hierarchy, resulting in a 48% lift in admin engagement.</li>
+                                <li>Onboarding Success: Redesigned hiring funnel and onboarding flow, increasing success rates by 52%.</li>
+                                <li>Security Awareness: Contributed to phishing simulation and security awareness flows that increased completion and response rates across multiple enterprise clients.</li>
                             </ul>
                         </section>
 
@@ -243,12 +243,12 @@ export default function ResumePage() {
                                 <h3 className="font-bold text-gray-900">
                                     Infosec Ventures — Product Designer
                                 </h3>
-                                <p className="text-sm text-gray-600 mb-2">Jul 2024 – Present | Cybersecurity SaaS</p>
+                                <p className="text-sm text-gray-600 mb-2">Jul 2024 – Present | Web-Based B2B SaaS Used By Enterprise Security Teams</p>
                                 <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
                                     <li>Own UX strategy for enterprise cybersecurity awareness + phishing simulation platform</li>
                                     <li>Built 3 AI-driven security tools from 0→1 using Cursor → 40% faster launch cycles</li>
                                     <li>Defined and prioritized dashboard hierarchy, resulting in a 48% lift in admin engagement</li>
-                                    <li>Partner with CISOs + engineering for secure, compliant experience at scale</li>
+                                    <li>Partnered with CISOs, product managers, and engineering teams to design secure, scalable, and compliance-aligned enterprise UX solutions.</li>
                                     <li>Defined UX tradeoffs to align user needs with enterprise security KPIs through continuous research loops</li>
                                 </ul>
                             </div>
@@ -313,7 +313,7 @@ export default function ResumePage() {
                                     <span className="font-semibold">University of Delhi</span> — B.A. (Hons) English
                                 </p>
                                 <p>
-                                    <span className="font-semibold">Google UX Design Specialization</span> — Coursera
+                                    <span className="font-semibold">Coursera</span> — Google UX Design Specialisation
                                 </p>
                             </div>
                         </section>
