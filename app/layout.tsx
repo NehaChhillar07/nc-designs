@@ -42,16 +42,23 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var isTouch = window.matchMedia('(pointer: coarse)').matches || 
-                                'ontouchstart' in window || 
+                  var isTouch = window.matchMedia('(pointer: coarse)').matches ||
+                                'ontouchstart' in window ||
                                 navigator.maxTouchPoints > 0;
                   if (!isTouch) {
                     document.documentElement.setAttribute('data-cursor', 'none');
-                    // Inject inline style immediately to prevent any cursor flash
+                    document.documentElement.style.setProperty('cursor', 'none', 'important');
                     var style = document.createElement('style');
                     style.id = 'cursor-hide-style';
                     style.textContent = 'html[data-cursor="none"], html[data-cursor="none"] * { cursor: none !important; }';
                     document.head.appendChild(style);
+                    if (document.body) {
+                      document.body.style.setProperty('cursor', 'none', 'important');
+                    } else {
+                      document.addEventListener('DOMContentLoaded', function() {
+                        document.body.style.setProperty('cursor', 'none', 'important');
+                      });
+                    }
                   }
                 } catch(e) {}
               })();

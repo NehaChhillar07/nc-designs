@@ -23,13 +23,34 @@ export function Footer() {
     return (
         <footer id="connect" className="border-t bg-background/80 backdrop-blur-sm py-12 md:py-16">
             <div className="container mx-auto px-4">
+                {/* Vibe-led coding chip */}
+                <motion.div
+                    className="mb-6 md:mb-8"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                    <span
+                        className="inline-block px-4 py-2 rounded-full border border-gray-300 bg-white/50 backdrop-blur-sm"
+                        style={{
+                            fontFamily: "var(--font-caveat), cursive",
+                            fontSize: "18px",
+                            color: "#6B7280",
+                            transform: "rotate(-2deg)",
+                        }}
+                    >
+                        This portfolio was built through vibe-led coding experiments
+                    </span>
+                </motion.div>
+
                 {/* Having an idea, let's catch up - Large CTA */}
                 <motion.div
                     className="mb-12 md:mb-16"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
                 >
                     <motion.a
                         href="mailto:nehachhillar07@gmail.com?subject=Let's%20catch%20up!"

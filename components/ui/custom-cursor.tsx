@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState, useLayoutEffect, useCallback } from "react";
 import { useCursor } from "./cursor-context";
 
 export function CustomCursor() {
@@ -20,6 +20,18 @@ export function CustomCursor() {
   const variant = cursorContext?.variant || (isHovering ? "hover" : "default");
   const tagText = cursorContext?.tagText || null;
 
+  // Simple cursor none - let CSS handle hiding the native cursor
+  const transparentCursor = 'none';
+
+  // Force transparent cursor on html and body only - CSS handles the rest
+  const forceCursorNone = useCallback(() => {
+    if (typeof document === 'undefined') return;
+
+    // Force cursor style on body and html - highest priority
+    document.body.style.setProperty('cursor', transparentCursor, 'important');
+    document.documentElement.style.setProperty('cursor', transparentCursor, 'important');
+  }, []);
+
   // Detect touch device immediately on mount and set data attribute
   useLayoutEffect(() => {
     // Check if device is touch-enabled using multiple methods
@@ -35,6 +47,8 @@ export function CustomCursor() {
     // This is the single source of truth for cursor visibility
     if (!isTouch) {
       document.documentElement.setAttribute('data-cursor', 'none');
+      // Also set inline styles for maximum specificity
+      forceCursorNone();
     } else {
       document.documentElement.removeAttribute('data-cursor');
     }
@@ -42,8 +56,45 @@ export function CustomCursor() {
     // Cleanup on unmount
     return () => {
       document.documentElement.removeAttribute('data-cursor');
+      document.body.style.removeProperty('cursor');
+      document.documentElement.style.removeProperty('cursor');
     };
-  }, []);
+  }, [forceCursorNone]);
+
+  // MutationObserver to handle dynamically added elements with debouncing
+  useEffect(() => {
+    if (isTouchDevice || !isMounted) return;
+
+    let rafId: number | null = null;
+
+    // Debounced cursor enforcement using requestAnimationFrame
+    const debouncedForceCursor = () => {
+      if (rafId !== null) return; // Already scheduled
+      rafId = requestAnimationFrame(() => {
+        forceCursorNone();
+        rafId = null;
+      });
+    };
+
+    // Continuously enforce cursor hiding with debouncing
+    const observer = new MutationObserver(() => {
+      debouncedForceCursor();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class'],
+    });
+
+    return () => {
+      observer.disconnect();
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, [isTouchDevice, isMounted, forceCursorNone]);
 
   useEffect(() => {
     if (isTouchDevice || !isMounted) return;
@@ -229,31 +280,82 @@ export function CustomCursor() {
           }
         }
 
-        /* NUCLEAR CURSOR HIDING */
+        /* COMPREHENSIVE CURSOR HIDING - Component level backup */
+        /* Using transparent 1x1 PNG for reliable cursor hiding at browser engine level */
         /* Only apply when data-cursor attribute is present (non-touch devices) */
-        :root[data-cursor="none"],
-        :root[data-cursor="none"] body,
-        :root[data-cursor="none"] * {
+        html[data-cursor="none"],
+        html[data-cursor="none"] body,
+        html[data-cursor="none"] *,
+        html[data-cursor="none"] *::before,
+        html[data-cursor="none"] *::after {
           cursor: none !important;
         }
 
-        /* Specific overrides for stubborn elements */
-        :root[data-cursor="none"] a,
-        :root[data-cursor="none"] button,
-        :root[data-cursor="none"] input,
-        :root[data-cursor="none"] select,
-        :root[data-cursor="none"] textarea,
-        :root[data-cursor="none"] iframe,
-        :root[data-cursor="none"] .cursor-pointer,
-        :root[data-cursor="none"] [role="button"] {
+        /* All interactive elements */
+        html[data-cursor="none"] a,
+        html[data-cursor="none"] button,
+        html[data-cursor="none"] input,
+        html[data-cursor="none"] select,
+        html[data-cursor="none"] textarea,
+        html[data-cursor="none"] label,
+        html[data-cursor="none"] iframe,
+        html[data-cursor="none"] canvas,
+        html[data-cursor="none"] img,
+        html[data-cursor="none"] svg,
+        html[data-cursor="none"] video,
+        html[data-cursor="none"] [role="button"],
+        html[data-cursor="none"] [tabindex],
+        html[data-cursor="none"] [draggable],
+        html[data-cursor="none"] [contenteditable] {
           cursor: none !important;
         }
-        
-        /* Ensure specific header and fixed elements don't override */
-        :root[data-cursor="none"] header,
-        :root[data-cursor="none"] nav,
-        :root[data-cursor="none"] .fixed,
-        :root[data-cursor="none"] .sticky {
+
+        /* All Tailwind cursor classes */
+        html[data-cursor="none"] [class*="cursor-"],
+        html[data-cursor="none"] .cursor-pointer,
+        html[data-cursor="none"] .cursor-default,
+        html[data-cursor="none"] .cursor-text,
+        html[data-cursor="none"] .cursor-grab,
+        html[data-cursor="none"] .cursor-grabbing {
+          cursor: none !important;
+        }
+
+        /* Layout and positioned elements */
+        html[data-cursor="none"] header,
+        html[data-cursor="none"] nav,
+        html[data-cursor="none"] footer,
+        html[data-cursor="none"] main,
+        html[data-cursor="none"] .fixed,
+        html[data-cursor="none"] .sticky,
+        html[data-cursor="none"] .absolute,
+        html[data-cursor="none"] .relative {
+          cursor: none !important;
+        }
+
+        /* All states */
+        html[data-cursor="none"] *:hover,
+        html[data-cursor="none"] *:focus,
+        html[data-cursor="none"] *:focus-visible,
+        html[data-cursor="none"] *:active {
+          cursor: none !important;
+        }
+
+        /* Scrollbars */
+        html[data-cursor="none"]::-webkit-scrollbar,
+        html[data-cursor="none"]::-webkit-scrollbar-thumb,
+        html[data-cursor="none"]::-webkit-scrollbar-track,
+        html[data-cursor="none"] *::-webkit-scrollbar,
+        html[data-cursor="none"] *::-webkit-scrollbar-thumb,
+        html[data-cursor="none"] *::-webkit-scrollbar-track {
+          cursor: none !important;
+        }
+
+        /* Backdrop-filter elements create new compositing layers */
+        html[data-cursor="none"] [class*="backdrop-blur"],
+        html[data-cursor="none"] [class*="backdrop-filter"],
+        html[data-cursor="none"] [class*="backdrop-blur"] *,
+        html[data-cursor="none"] header,
+        html[data-cursor="none"] header * {
           cursor: none !important;
         }
       `}</style>

@@ -44,15 +44,22 @@ export default function Home() {
         </div>
 
         <div id="hero" className="flex flex-col items-center justify-center min-h-[calc(100vh-12rem)] text-center relative px-4">
+          {/* Tilted Capsule Tag - mobile: above greeting, desktop: above "Ventures" */}
+          <span
+            className="sm:hidden px-4 py-1.5 text-xs font-medium bg-white text-gray-700 rounded-full border border-gray-300 shadow-sm whitespace-nowrap mb-4"
+            style={{ transform: 'rotate(-5deg)' }}
+          >
+            Clarity · AI · Trust
+          </span>
           <p className="text-[16px] md:text-[20px] font-normal text-muted-foreground mb-4 md:mb-6">
             Hi, I'm Neha Chhillar!
           </p>
           <h1 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[52px] font-bold tracking-tight max-w-6xl leading-tight mb-6 md:mb-8 relative">
             <span className="block relative">
               Product Designer at InfoSec Ventures,
-              {/* Tilted Capsule Tag - positioned above "Ventures" */}
+              {/* Desktop version of the tag */}
               <span
-                className="absolute -top-8 md:-top-10 right-0 md:right-8 lg:right-16 px-5 py-2 text-sm font-medium bg-white text-gray-700 rounded-full border border-gray-300 shadow-sm whitespace-nowrap"
+                className="hidden sm:block absolute -top-10 right-4 md:right-8 lg:right-16 px-5 py-2 text-sm font-medium bg-white text-gray-700 rounded-full border border-gray-300 shadow-sm whitespace-nowrap"
                 style={{ transform: 'rotate(-5deg)' }}
               >
                 Clarity · AI · Trust

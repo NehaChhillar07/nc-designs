@@ -121,49 +121,304 @@
 }
 
 /* ============================================
-   Hide Native Cursor Globally - NUCLEAR APPROACH
+   Hide Native Cursor Globally - COMPREHENSIVE FIX
    ============================================ */
 
-/* 
+/*
  * Strategy: Use html[data-cursor="none"] to control cursor.
  * JavaScript adds this attribute on non-touch devices.
- * This approach is bulletproof because:
- * 1. Single point of control
- * 2. Higher specificity than any component styles
- * 3. Touch devices get native cursor automatically
+ * This is truly comprehensive - covers ALL possible cursor sources.
  */
 
-/* Hide cursor when data attribute is present */
+/* Base rule - hide cursor on everything */
 html[data-cursor="none"],
-html[data-cursor="none"] * {
+html[data-cursor="none"] *,
+html[data-cursor="none"] *::before,
+html[data-cursor="none"] *::after {
   cursor: none !important;
 }
 
-/* Extra specificity for stubborn interactive elements */
+/* All interactive HTML elements */
 html[data-cursor="none"] a,
 html[data-cursor="none"] button,
 html[data-cursor="none"] input,
 html[data-cursor="none"] select,
 html[data-cursor="none"] textarea,
-html[data-cursor="none"] [role="button"],
-html[data-cursor="none"] [tabindex],
 html[data-cursor="none"] label,
-html[data-cursor="none"] svg,
-html[data-cursor="none"] img,
-html[data-cursor="none"] video {
+html[data-cursor="none"] option,
+html[data-cursor="none"] optgroup,
+html[data-cursor="none"] details,
+html[data-cursor="none"] summary,
+html[data-cursor="none"] dialog,
+html[data-cursor="none"] menu,
+html[data-cursor="none"] menuitem {
   cursor: none !important;
 }
 
-/* Override any :hover, :focus, :active states */
+/* All ARIA roles that typically have cursor changes */
+html[data-cursor="none"] [role="button"],
+html[data-cursor="none"] [role="link"],
+html[data-cursor="none"] [role="checkbox"],
+html[data-cursor="none"] [role="radio"],
+html[data-cursor="none"] [role="switch"],
+html[data-cursor="none"] [role="tab"],
+html[data-cursor="none"] [role="menuitem"],
+html[data-cursor="none"] [role="option"],
+html[data-cursor="none"] [role="slider"],
+html[data-cursor="none"] [role="spinbutton"],
+html[data-cursor="none"] [role="textbox"],
+html[data-cursor="none"] [role="combobox"],
+html[data-cursor="none"] [role="listbox"],
+html[data-cursor="none"] [role="gridcell"],
+html[data-cursor="none"] [role="row"],
+html[data-cursor="none"] [role="columnheader"],
+html[data-cursor="none"] [role="rowheader"] {
+  cursor: none !important;
+}
+
+/* All focusable and interactive attributes */
+html[data-cursor="none"] [tabindex],
+html[data-cursor="none"] [draggable],
+html[data-cursor="none"] [contenteditable],
+html[data-cursor="none"] [data-clickable],
+html[data-cursor="none"] [onclick],
+html[data-cursor="none"] [onmousedown],
+html[data-cursor="none"] [onmouseup] {
+  cursor: none !important;
+}
+
+/* Media and embedded content */
+html[data-cursor="none"] img,
+html[data-cursor="none"] svg,
+html[data-cursor="none"] video,
+html[data-cursor="none"] audio,
+html[data-cursor="none"] canvas,
+html[data-cursor="none"] iframe,
+html[data-cursor="none"] embed,
+html[data-cursor="none"] object,
+html[data-cursor="none"] picture,
+html[data-cursor="none"] source {
+  cursor: none !important;
+}
+
+/* Layout and structural elements that often get cursor styles */
+html[data-cursor="none"] header,
+html[data-cursor="none"] nav,
+html[data-cursor="none"] main,
+html[data-cursor="none"] footer,
+html[data-cursor="none"] aside,
+html[data-cursor="none"] section,
+html[data-cursor="none"] article,
+html[data-cursor="none"] div,
+html[data-cursor="none"] span,
+html[data-cursor="none"] p {
+  cursor: none !important;
+}
+
+/* Fixed, sticky, and positioned elements */
+html[data-cursor="none"] .fixed,
+html[data-cursor="none"] .sticky,
+html[data-cursor="none"] .absolute,
+html[data-cursor="none"] .relative {
+  cursor: none !important;
+}
+
+/* ALL Tailwind cursor utility classes - override them all */
+html[data-cursor="none"] .cursor-auto,
+html[data-cursor="none"] .cursor-default,
+html[data-cursor="none"] .cursor-pointer,
+html[data-cursor="none"] .cursor-wait,
+html[data-cursor="none"] .cursor-text,
+html[data-cursor="none"] .cursor-move,
+html[data-cursor="none"] .cursor-help,
+html[data-cursor="none"] .cursor-not-allowed,
+html[data-cursor="none"] .cursor-none,
+html[data-cursor="none"] .cursor-context-menu,
+html[data-cursor="none"] .cursor-progress,
+html[data-cursor="none"] .cursor-cell,
+html[data-cursor="none"] .cursor-crosshair,
+html[data-cursor="none"] .cursor-vertical-text,
+html[data-cursor="none"] .cursor-alias,
+html[data-cursor="none"] .cursor-copy,
+html[data-cursor="none"] .cursor-no-drop,
+html[data-cursor="none"] .cursor-grab,
+html[data-cursor="none"] .cursor-grabbing,
+html[data-cursor="none"] .cursor-all-scroll,
+html[data-cursor="none"] .cursor-col-resize,
+html[data-cursor="none"] .cursor-row-resize,
+html[data-cursor="none"] .cursor-n-resize,
+html[data-cursor="none"] .cursor-e-resize,
+html[data-cursor="none"] .cursor-s-resize,
+html[data-cursor="none"] .cursor-w-resize,
+html[data-cursor="none"] .cursor-ne-resize,
+html[data-cursor="none"] .cursor-nw-resize,
+html[data-cursor="none"] .cursor-se-resize,
+html[data-cursor="none"] .cursor-sw-resize,
+html[data-cursor="none"] .cursor-ew-resize,
+html[data-cursor="none"] .cursor-ns-resize,
+html[data-cursor="none"] .cursor-nesw-resize,
+html[data-cursor="none"] .cursor-nwse-resize,
+html[data-cursor="none"] .cursor-zoom-in,
+html[data-cursor="none"] .cursor-zoom-out,
+html[data-cursor="none"] [class*="cursor-"] {
+  cursor: none !important;
+}
+
+/* Override ALL interactive states */
 html[data-cursor="none"] a:hover,
 html[data-cursor="none"] a:focus,
+html[data-cursor="none"] a:focus-visible,
 html[data-cursor="none"] a:active,
+html[data-cursor="none"] a:visited,
 html[data-cursor="none"] button:hover,
 html[data-cursor="none"] button:focus,
+html[data-cursor="none"] button:focus-visible,
 html[data-cursor="none"] button:active,
+html[data-cursor="none"] button:disabled,
+html[data-cursor="none"] input:hover,
+html[data-cursor="none"] input:focus,
+html[data-cursor="none"] input:focus-visible,
+html[data-cursor="none"] input:disabled,
+html[data-cursor="none"] textarea:hover,
+html[data-cursor="none"] textarea:focus,
+html[data-cursor="none"] textarea:focus-visible,
+html[data-cursor="none"] select:hover,
+html[data-cursor="none"] select:focus,
+html[data-cursor="none"] select:focus-visible,
 html[data-cursor="none"] [role="button"]:hover,
 html[data-cursor="none"] [role="button"]:focus,
-html[data-cursor="none"] [role="button"]:active {
+html[data-cursor="none"] [role="button"]:focus-visible,
+html[data-cursor="none"] [role="button"]:active,
+html[data-cursor="none"] [tabindex]:hover,
+html[data-cursor="none"] [tabindex]:focus,
+html[data-cursor="none"] [tabindex]:focus-visible,
+html[data-cursor="none"] *:hover,
+html[data-cursor="none"] *:focus,
+html[data-cursor="none"] *:focus-visible,
+html[data-cursor="none"] *:active {
+  cursor: none !important;
+}
+
+/* Scrollbar cursor hiding - WebKit browsers */
+html[data-cursor="none"]::-webkit-scrollbar,
+html[data-cursor="none"]::-webkit-scrollbar-track,
+html[data-cursor="none"]::-webkit-scrollbar-thumb,
+html[data-cursor="none"]::-webkit-scrollbar-button,
+html[data-cursor="none"]::-webkit-scrollbar-corner,
+html[data-cursor="none"] *::-webkit-scrollbar,
+html[data-cursor="none"] *::-webkit-scrollbar-track,
+html[data-cursor="none"] *::-webkit-scrollbar-thumb,
+html[data-cursor="none"] *::-webkit-scrollbar-button,
+html[data-cursor="none"] *::-webkit-scrollbar-corner {
+  cursor: none !important;
+}
+
+/* Text selection - cursor should still be none during selection */
+html[data-cursor="none"] ::selection,
+html[data-cursor="none"] ::-moz-selection {
+  cursor: none !important;
+}
+
+/* Form element specific cursors */
+html[data-cursor="none"] input[type="text"],
+html[data-cursor="none"] input[type="password"],
+html[data-cursor="none"] input[type="email"],
+html[data-cursor="none"] input[type="number"],
+html[data-cursor="none"] input[type="search"],
+html[data-cursor="none"] input[type="tel"],
+html[data-cursor="none"] input[type="url"],
+html[data-cursor="none"] input[type="date"],
+html[data-cursor="none"] input[type="time"],
+html[data-cursor="none"] input[type="datetime-local"],
+html[data-cursor="none"] input[type="month"],
+html[data-cursor="none"] input[type="week"],
+html[data-cursor="none"] input[type="color"],
+html[data-cursor="none"] input[type="file"],
+html[data-cursor="none"] input[type="range"],
+html[data-cursor="none"] input[type="submit"],
+html[data-cursor="none"] input[type="reset"],
+html[data-cursor="none"] input[type="button"],
+html[data-cursor="none"] input[type="image"],
+html[data-cursor="none"] input[type="checkbox"],
+html[data-cursor="none"] input[type="radio"] {
+  cursor: none !important;
+}
+
+/* Links with any href */
+html[data-cursor="none"] a[href],
+html[data-cursor="none"] area[href] {
+  cursor: none !important;
+}
+
+/* Resizable elements */
+html[data-cursor="none"] [style*="resize"],
+html[data-cursor="none"] .resize,
+html[data-cursor="none"] .resize-x,
+html[data-cursor="none"] .resize-y,
+html[data-cursor="none"] .resize-none {
+  cursor: none !important;
+}
+
+/* Ensure body and html also covered */
+html[data-cursor="none"],
+html[data-cursor="none"] body {
+  cursor: none !important;
+}
+
+/* Override elements with inline cursor styles */
+html[data-cursor="none"] [style*="cursor"],
+html[data-cursor="none"] [style*="cursor"]:hover,
+html[data-cursor="none"] [style*="cursor"]:focus,
+html[data-cursor="none"] [style*="cursor"]:active {
+  cursor: none !important;
+}
+
+/* Highest specificity rule using ID selector pattern */
+html[data-cursor="none"]#__next,
+html[data-cursor="none"] #__next,
+html[data-cursor="none"] #__next *,
+html[data-cursor="none"] [id],
+html[data-cursor="none"] [id] * {
+  cursor: none !important;
+}
+
+/* Target Next.js specific elements */
+html[data-cursor="none"] [data-nextjs-scroll-focus-boundary],
+html[data-cursor="none"] [data-nextjs-scroll-focus-boundary] * {
+  cursor: none !important;
+}
+
+/* Force cursor none on document level using !important in multiple ways */
+html[data-cursor="none"],
+html[data-cursor="none"]:root,
+:root[data-cursor="none"],
+:root[data-cursor="none"] body,
+:root[data-cursor="none"] * {
+  cursor: none !important;
+}
+
+/* Backdrop-filter elements create new compositing layers - ensure cursor is hidden */
+html[data-cursor="none"] [class*="backdrop-blur"],
+html[data-cursor="none"] [class*="backdrop-filter"],
+html[data-cursor="none"] [style*="backdrop-filter"],
+html[data-cursor="none"] .backdrop-blur-sm,
+html[data-cursor="none"] .backdrop-blur-md,
+html[data-cursor="none"] .backdrop-blur-lg,
+html[data-cursor="none"] .backdrop-blur-xl,
+html[data-cursor="none"] .backdrop-blur-2xl,
+html[data-cursor="none"] .backdrop-blur-3xl,
+html[data-cursor="none"] [class*="backdrop-blur"] *,
+html[data-cursor="none"] [class*="backdrop-filter"] * {
+  cursor: none !important;
+}
+
+/* Fixed/sticky elements with transparency need explicit cursor hiding */
+html[data-cursor="none"] .fixed[class*="bg-white/"],
+html[data-cursor="none"] .sticky[class*="bg-white/"],
+html[data-cursor="none"] header.fixed,
+html[data-cursor="none"] nav.fixed,
+html[data-cursor="none"] header.sticky,
+html[data-cursor="none"] nav.sticky {
   cursor: none !important;
 }
 

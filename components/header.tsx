@@ -12,7 +12,9 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/25 backdrop-blur-md border-b border-white/10">
+      <header
+        className="fixed top-0 left-0 right-0 z-50 bg-white/25 backdrop-blur-md border-b border-white/10"
+      >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center">
             <div className="w-10 h-10 rounded-full overflow-hidden">
@@ -108,7 +110,9 @@ export function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white/95 backdrop-blur-sm border-t">
+          <div
+            className="md:hidden bg-white/95 backdrop-blur-sm border-t"
+          >
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
               <Link
                 href="/#work"
