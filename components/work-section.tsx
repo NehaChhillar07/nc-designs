@@ -18,15 +18,16 @@ const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 const projects = [
     {
         id: 1,
-        title: "Human Risk Management & Mitigation Platform",
+        title: "Cybersecurity AI-Driven SaaS Platform",
         category: "PRODUCT DESIGN · HUMAN RISK · AI-DRIVEN SAAS",
         description:
-            "AI-driven cybersecurity platform focused on identifying, reducing, and responding to human risk within organisations through awareness, simulations, and behavioural insights.",
+            "Enterprise platform helping organizations identify and reduce human-driven security risks through AI-powered awareness and training.",
         image: "/work/humanfirewall.svg",
         tags: [],
         caseStudyLink: null,
         comingSoon: true,
         readingTime: "Coming soon",
+        isCurrentProject: true,
     },
     {
         id: 2,
@@ -39,6 +40,7 @@ const projects = [
         caseStudyLink: "/case-study/ecrime-hub",
         buttonText: "Read case study",
         readingTime: "4 mins",
+        isCurrentProject: true,
     },
     {
         id: 3,
@@ -221,9 +223,25 @@ export function WorkSection() {
                             {/* Project Content */}
                             <div className="space-y-4">
                                 {project.category && (
-                                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                                        {project.category}
-                                    </p>
+                                    <div className="flex flex-wrap items-center gap-3">
+                                        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                                            {project.category}
+                                        </p>
+                                        {project.isCurrentProject && (
+                                            <span
+                                                className="inline-block px-3 py-1 rounded-full"
+                                                style={{
+                                                    fontFamily: "var(--font-caveat), cursive",
+                                                    fontSize: "15px",
+                                                    transform: "rotate(-3deg)",
+                                                    backgroundColor: "#FF9800",
+                                                    color: "#fff",
+                                                }}
+                                            >
+                                                @ Current Role
+                                            </span>
+                                        )}
+                                    </div>
                                 )}
                                 {project.caseStudyLink ? (
                                     <Link href={project.caseStudyLink}>
