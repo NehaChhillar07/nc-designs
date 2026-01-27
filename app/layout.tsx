@@ -19,12 +19,40 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Neha Chhillar - Product Designer",
+  metadataBase: new URL("https://nehachhillar.com"),
+  title: {
+    default: "Neha Chhillar - Product Designer",
+    template: "%s | Neha Chhillar",
+  },
   description: "Product Designer at InfoSec Ventures, designing AI-driven systems and end-to-end experiences for global cybersecurity solutions.",
+  keywords: ["Product Designer", "UX Designer", "Cybersecurity", "AI", "SaaS", "InfoSec Ventures", "Dubai"],
+  authors: [{ name: "Neha Chhillar" }],
+  creator: "Neha Chhillar",
   openGraph: {
     title: "Neha Chhillar - Product Designer",
-    description: "Product Designer at InfoSec Ventures",
+    description: "Product Designer at InfoSec Ventures, designing AI-driven systems and end-to-end experiences for global cybersecurity solutions.",
     type: "website",
+    url: "https://nehachhillar.com",
+    siteName: "Neha Chhillar Portfolio",
+    images: [
+      {
+        url: "/logo.jpeg",
+        width: 400,
+        height: 400,
+        alt: "Neha Chhillar - Product Designer",
+      },
+    ],
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "Neha Chhillar - Product Designer",
+    description: "Product Designer at InfoSec Ventures, designing AI-driven systems for cybersecurity.",
+    images: ["/logo.jpeg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
