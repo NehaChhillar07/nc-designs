@@ -302,9 +302,9 @@ export const texlacultureCaseStudy = {
 export const otherProjects = [
     {
         id: 1,
-        title: "Human Firewall",
-        category: "PRODUCT DESIGN · CYBERSECURITY · AI-DRIVEN SAAS",
-        description: "AI-driven human risk management platform focused on identifying, reducing, and responding to human risk within organisations through awareness, simulations, and behavioural insights.",
+        title: "Designing a Human Firewall Platform to Reduce Enterprise Human Risk",
+        category: "Enterprise cybersecurity SaaS · Admin-heavy workflows",
+        description: "End-to-End UX Architecture for Phishing Simulations, Training & AI-Assisted Risk Insights",
         image: "/work/humanfirewall.svg",
         link: null,
         comingSoon: true,

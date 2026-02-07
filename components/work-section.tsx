@@ -18,10 +18,10 @@ const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 const projects = [
     {
         id: 1,
-        title: "Cybersecurity AI-Driven SaaS Platform",
-        category: "PRODUCT DESIGN · HUMAN RISK · AI-DRIVEN SAAS",
+        title: "Designing a Human Firewall Platform to Reduce Enterprise Human Risk",
+        category: "Enterprise cybersecurity SaaS · Admin-heavy workflows",
         description:
-            "Enterprise platform helping organizations identify and reduce human-driven security risks through AI-powered awareness and training.",
+            "End-to-End UX Architecture for Phishing Simulations, Training & AI-Assisted Risk Insights",
         image: "/work/humanfirewall.svg",
         tags: [],
         caseStudyLink: null,

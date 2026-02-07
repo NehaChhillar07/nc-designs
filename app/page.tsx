@@ -49,7 +49,7 @@ export default function Home() {
             className="sm:hidden px-4 py-1.5 text-xs font-medium bg-white text-gray-700 rounded-full border border-gray-300 shadow-sm whitespace-nowrap mb-4"
             style={{ transform: 'rotate(-5deg)' }}
           >
-            Clarity · AI · Trust
+            Understand → Design → Validate
           </span>
           <p className="text-[16px] md:text-[20px] font-normal text-muted-foreground mb-4 md:mb-6">
             Hi, I'm Neha Chhillar!
@@ -62,7 +62,7 @@ export default function Home() {
                 className="hidden sm:block absolute -top-10 right-4 md:right-8 lg:right-16 px-5 py-2 text-sm font-medium bg-white text-gray-700 rounded-full border border-gray-300 shadow-sm whitespace-nowrap"
                 style={{ transform: 'rotate(-5deg)' }}
               >
-                Clarity · AI · Trust
+                Understand → Design → Validate
               </span>
             </span>
             <span className="font-normal text-muted-foreground">a <Highlighter action="underline" color="#FF9800" isView>human risk management</Highlighter> and mitigation platform.</span>

@@ -215,7 +215,7 @@ export default function ResumePage() {
                                 Product Narrative
                             </h2>
                             <p className="text-gray-700 leading-relaxed text-sm">
-                                Product Designer with 2.5+ years of experience building enterprise SaaS products across cybersecurity and HRMS domains. Strong background in 0→1 product execution, UX strategy, and data-informed design decisions, with hands-on experience using AI-assisted workflows to accelerate delivery.
+                                Product Designer with 3+ years of experience designing complex enterprise SaaS products across cybersecurity and HRMS domains. Experienced in simplifying high-complexity systems through strong UX architecture, analytical thinking, and system-level design.
                             </p>
                         </section>
 
@@ -225,9 +225,10 @@ export default function ResumePage() {
                                 Flagship Wins
                             </h2>
                             <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm font-bold">
-                                <li>Improved engagement across HumanFirewall security dashboards by ~40–50%, helping enterprise admins understand and act on human risk signals more easily</li>
-                                <li>Worked on the Dubai Police eCrime & cybersecurity public platform, contributing to core reporting and awareness flows used at a national, public scale</li>
-                                <li>Contributed to phishing simulation and security awareness flows that increased completion and response rates across multiple enterprise clients</li>
+                                <li>Led end-to-end UX and product flow design for an enterprise Human Firewall platform, covering phishing campaigns, security training (LMS), and multi-channel attack simulations</li>
+                                <li>Designed clear, scalable user flows across complex security modules, helping engineering teams build features faster and more consistently</li>
+                                <li>Added GenAI support to campaign setup, reporting, and risk analysis flows to reduce manual admin work</li>
+                                <li>Designed admin dashboards and reports that made human risk data easier to understand and act on, contributing to a 48% increase in admin engagement</li>
                             </ul>
                         </section>
 
@@ -242,13 +243,12 @@ export default function ResumePage() {
                                 <h3 className="font-bold text-gray-900">
                                     Infosec Ventures — Product Designer
                                 </h3>
-                                <p className="text-sm text-gray-600 mb-2">Jul 2024 – Present | Web-Based B2B SaaS Used By Enterprise Security Teams</p>
+                                <p className="text-sm text-gray-600 mb-2">Jul 2024 – Present | Web-based B2B SaaS used by enterprise security teams</p>
                                 <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
-                                    <li>Own UX strategy for enterprise cybersecurity awareness + phishing simulation platform</li>
-                                    <li>Built 3 AI-driven security tools from 0→1 using Cursor → 40% faster launch cycles</li>
-                                    <li>Defined and prioritized dashboard hierarchy, resulting in a 48% lift in admin engagement</li>
-                                    <li>Partnered with CISOs, product managers, and engineering teams to design secure, scalable, and compliance-aligned enterprise UX solutions.</li>
-                                    <li>Defined UX tradeoffs to align user needs with enterprise security KPIs through continuous research loops</li>
+                                    <li>Owned end-to-end UX and product definition for multiple cybersecurity platforms, partnering with product and engineering to decide what to build and how it should function</li>
+                                    <li>Led UX architecture for a Human Firewall platform spanning phishing campaigns, security training (LMS), and multi-channel social engineering simulations</li>
+                                    <li>Integrated GenAI capabilities into core workflows to reduce manual admin effort and accelerate campaign setup, reporting, and risk analysis</li>
+                                    <li>Designed enterprise dashboards and analytics frameworks, resulting in a 48% increase in admin engagement</li>
                                 </ul>
                             </div>
 
@@ -259,25 +259,23 @@ export default function ResumePage() {
                                 </h3>
                                 <p className="text-sm text-gray-600 mb-2">Mar 2023 – Jun 2024 | HRMS SaaS</p>
                                 <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
-                                    <li>Owned core HR workflows used by 7,000+ users globally</li>
-                                    <li>Improved hiring funnel by 37%, onboarding success by 52%</li>
-                                    <li>Led usability research with 320+ participants → 75% satisfaction lift</li>
-                                    <li>Built unified design system → 28% faster engineering delivery</li>
-                                    <li>Worked with CXOs + customer success to drive adoption and retention</li>
+                                    <li>Led UX design across the HRMS suite (onboarding, attendance, leave, hiring, LMS, performance, payroll), simplifying complex enterprise workflows into intuitive user journeys</li>
+                                    <li>Designed analytics, reports, and dashboards for each HR module, improving data accessibility and interpretability for HR admins and managers</li>
+                                    <li>Redesigned hiring workflows and candidate progression flows, contributing to a 37% improvement in funnel completion during post-release rollout</li>
+                                    <li>Simplified employee onboarding flows and system guidance, contributing to a 52% increase in successful onboarding completions in early adoption phases</li>
                                 </ul>
                             </div>
                         </section>
 
-                        {/* Agentic AI Product Execution */}
+                        {/* AI-Enabled Product Execution */}
                         <section className="mb-6">
                             <h2 className="text-lg font-bold text-gray-900 uppercase tracking-wide border-b border-gray-300 pb-1 mb-3">
-                                Agentic AI Product Execution
+                                AI-Enabled Product Execution
                             </h2>
                             <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
-                                <li>Chose a Cursor-first execution model, enabling functional prototypes beyond static UI mockups</li>
-                                <li>Automated research synthesis (NotebookLM, Perplexity)</li>
-                                <li>Early adoption testing using user analytics</li>
-                                <li>Hypothesis → Prototype → Test → Ship cycles with enterprise discipline</li>
+                                <li>Defined feature behavior and UX flows with product and engineering before development</li>
+                                <li>Used Cursor and AI tools to create functional UX logic and reduce engineering rework</li>
+                                <li>Applied AI selectively to reduce manual effort while maintaining admin control in security workflows</li>
                             </ul>
                         </section>
 
@@ -289,7 +287,7 @@ export default function ResumePage() {
                             <div className="text-sm text-gray-700 space-y-2">
                                 <p>
                                     <span className="font-semibold">Product & Strategy:</span>{" "}
-                                    Roadmapping • Prioritization • Stakeholder Alignment • Activation/Retention Metrics
+                                    UX Problem Solving • Roadmapping • Prioritisation • Stakeholder Alignment • Analytical Thinking & Data Interpretation • Iterative Validation & Feedback Loops
                                 </p>
                                 <p>
                                     <span className="font-semibold">Design & Execution:</span>{" "}
@@ -297,7 +295,7 @@ export default function ResumePage() {
                                 </p>
                                 <p>
                                     <span className="font-semibold">AI & Tools:</span>{" "}
-                                    Cursor AI • Perplexity • NotebookLM • Notion • ChatGPT • Figma • Miro • Jira
+                                    Cursor AI • Perplexity • NotebookLM • Notion • ChatGPT • Figma • Jira
                                 </p>
                             </div>
                         </section>

@@ -5,7 +5,7 @@ import path from "path";
 export async function GET() {
     try {
         // Serve static PDF from public folder
-        const pdfPath = path.join(process.cwd(), "public", "nehachhillar-resume.pdf");
+        const pdfPath = path.join(process.cwd(), "public", "neha-chhilla-cv.pdf");
         const pdfBuffer = await readFile(pdfPath);
 
         return new NextResponse(pdfBuffer, {
