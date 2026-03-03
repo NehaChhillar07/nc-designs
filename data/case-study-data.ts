@@ -306,9 +306,8 @@ export const otherProjects = [
         category: "Enterprise cybersecurity SaaS · Admin-heavy workflows",
         description: "End-to-End UX Architecture for Phishing Simulations, Training & AI-Assisted Risk Insights",
         image: "/work/humanfirewall.svg",
-        link: null,
-        comingSoon: true,
-        readingTime: "Coming Soon",
+        link: "/case-study/human-firewall",
+        readingTime: "8 mins",
     },
     {
         id: 2,

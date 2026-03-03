@@ -1,0 +1,861 @@
+"use client";
+
+import { motion } from "framer-motion";
+import type { ReactNode } from "react";
+import { ArrowRight } from "lucide-react";
+import { Highlighter } from "@/components/ui/highlighter";
+import { humanFirewallCaseStudyData } from "@/data/human-firewall-data";
+
+// ============================================
+// ANIMATION — Slow, natural, predictable
+// No bounce. No elastic. Motion as orientation.
+// ============================================
+
+const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
+};
+
+const fadeIn = {
+    initial: { opacity: 0 },
+    whileInView: { opacity: 1 },
+    viewport: { once: true },
+    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const },
+};
+
+const data = humanFirewallCaseStudyData;
+
+// ============================================
+// UTILITY COMPONENTS — Inline, file-scoped
+// ============================================
+
+function SectionLabel({ number, title }: { number: string; title: string }) {
+    return (
+        <motion.p
+            {...fadeInUp}
+            className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4"
+        >
+            {number} — {title}
+        </motion.p>
+    );
+}
+
+function PullQuote({ children }: { children: ReactNode }) {
+    return (
+        <motion.blockquote
+            {...fadeInUp}
+            className="border-l-[3px] border-gray-900/20 pl-6 py-2 my-10"
+        >
+            <p className="text-xl md:text-2xl font-light italic leading-relaxed text-gray-900/80">
+                {children}
+            </p>
+        </motion.blockquote>
+    );
+}
+
+function Callout({ children }: { children: ReactNode }) {
+    return (
+        <motion.div
+            {...fadeInUp}
+            className="bg-gray-50 border border-gray-200 rounded-lg px-6 py-5 my-8"
+        >
+            {children}
+        </motion.div>
+    );
+}
+
+// ============================================
+// SECTION 1: HERO
+// Purpose: Orientation and authority
+// ============================================
+
+function HeroSection() {
+    const { hero } = data;
+
+    return (
+        <section className="pt-24 md:pt-32 pb-20 md:pb-28">
+            <div className="max-w-5xl mx-auto px-6">
+                {/* Meta */}
+                <motion.p
+                    {...fadeInUp}
+                    className="text-sm font-medium text-gray-900 tracking-wide mb-8"
+                >
+                    {hero.meta}
+                </motion.p>
+
+                {/* Title with Highlighter */}
+                <motion.h1
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-8 max-w-4xl"
+                >
+                    Evolving a legacy security platform into an{" "}
+                    <Highlighter action="highlight" color="#93C5FD" isView>AI-native</Highlighter>{" "}
+                    <Highlighter action="highlight" color="#6EE7B7" isView>risk intelligence</Highlighter>{" "}
+                    system
+                </motion.h1>
+
+                {/* Tags */}
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.2 }}
+                    className="text-sm text-gray-400 tracking-wide"
+                >
+                    {hero.tags}
+                </motion.p>
+
+                {/* Timeline / Team / Role */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.25 }}
+                    className="mt-12 flex flex-wrap items-start justify-between w-full"
+                >
+                    {[
+                        ["Timeline", hero.timeline],
+                        ["Team", hero.team],
+                        ["Role", hero.role],
+                    ].map(([label, value]) => (
+                        <div key={label}>
+                            <p className="text-sm md:text-base text-gray-400 mb-1">{label}</p>
+                            <p className="text-lg md:text-xl font-medium text-gray-900">{value}</p>
+                        </div>
+                    ))}
+                </motion.div>
+            </div>
+
+            {/* Hero Image Frame */}
+            <motion.div
+                {...fadeIn}
+                transition={{ ...fadeIn.transition, delay: 0.3 }}
+                className="max-w-5xl mx-auto px-6 mt-16"
+            >
+                <div
+                    className="rounded-2xl overflow-hidden"
+                    style={{
+                        background: "#f4f4f5",
+                        border: "1px solid #e4e4e7",
+                    }}
+                >
+                    {/* Browser Dots */}
+                    <div
+                        className="flex items-center gap-2 px-4 py-3"
+                        style={{ background: "#e4e4e7" }}
+                    >
+                        <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+                            <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+                            <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+                        </div>
+                        <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
+                            HF 3 — Dashboard Overview
+                        </span>
+                    </div>
+                    {/* Placeholder area */}
+                    <div
+                        className="flex items-center justify-center"
+                        style={{ aspectRatio: "16/9", background: "#fafafa" }}
+                    >
+                        <span className="text-gray-300 text-sm tracking-widest uppercase">
+                            Screenshot — Coming Soon
+                        </span>
+                    </div>
+                </div>
+            </motion.div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 2: THE STARTING POINT
+// Purpose: Establish context without drama
+// ============================================
+
+function StartingPointSection() {
+    const { startingPoint } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="01" title="The Starting Point" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
+                >
+                    {startingPoint.heading}{" "}
+                    <span className="text-gray-400">{startingPoint.headingSuffix}</span>
+                </motion.h2>
+
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="max-w-4xl space-y-4 text-base leading-relaxed text-gray-600 mb-10"
+                >
+                    {startingPoint.body.map((p, i) => (
+                        <p key={i}>{p}</p>
+                    ))}
+                </motion.div>
+
+                <Callout>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                                {startingPoint.legacy.label}
+                            </p>
+                            <ul className="space-y-1.5 text-sm text-gray-500">
+                                {startingPoint.legacy.items.map((item) => (
+                                    <li key={item}>• {item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                                {startingPoint.needed.label}
+                            </p>
+                            <ul className="space-y-1.5 text-sm text-gray-500">
+                                {startingPoint.needed.items.map((item) => (
+                                    <li key={item}>• {item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </Callout>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 3: THE AI SHIFT
+// Purpose: Retrofit vs Rebuild decision
+// ============================================
+
+function AIShiftSection() {
+    const { aiShift } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="02" title="The AI Shift" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
+                >
+                    <Highlighter action="highlight" color="#FBBF24" isView>Retrofit</Highlighter>{" "}
+                    vs.{" "}
+                    <Highlighter action="highlight" color="#6EE7B7" isView>Rebuild</Highlighter>
+                </motion.h2>
+
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="max-w-4xl space-y-4 text-base leading-relaxed text-gray-600 mb-10"
+                >
+                    {aiShift.body.map((p, i) => (
+                        <p key={i}>{p}</p>
+                    ))}
+                </motion.div>
+
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="grid md:grid-cols-2 gap-4 mb-10"
+                >
+                    <div className="border border-gray-200 rounded-lg p-6">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                            {aiShift.optionA.label}
+                        </p>
+                        <p className="font-semibold text-gray-900 mb-1">{aiShift.optionA.title}</p>
+                        <p className="text-sm text-gray-500">{aiShift.optionA.desc}</p>
+                    </div>
+                    <div className="border-2 border-gray-900 rounded-lg p-6 bg-gray-900/[0.02]">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-900 mb-2">
+                            {aiShift.optionB.label}
+                        </p>
+                        <p className="font-semibold text-gray-900 mb-1">{aiShift.optionB.title}</p>
+                        <p className="text-sm text-gray-500">{aiShift.optionB.desc}</p>
+                    </div>
+                </motion.div>
+
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.2 }}
+                    className="text-base text-gray-600 max-w-4xl mb-10"
+                >
+                    {aiShift.closing}
+                </motion.p>
+
+                {/* Browser Frame Placeholder */}
+                <motion.div
+                    {...fadeIn}
+                    transition={{ ...fadeIn.transition, delay: 0.25 }}
+                >
+                    <BrowserFrame label="HF 3 — AI-Assisted Campaign Creation" />
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// BROWSER FRAME — Reusable placeholder
+// ============================================
+
+function BrowserFrame({ label }: { label: string }) {
+    return (
+        <div
+            className="rounded-2xl overflow-hidden"
+            style={{
+                background: "#f4f4f5",
+                border: "1px solid #e4e4e7",
+            }}
+        >
+            <div
+                className="flex items-center gap-2 px-4 py-3"
+                style={{ background: "#e4e4e7" }}
+            >
+                <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+                    <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+                    <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+                </div>
+                <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
+                    {label}
+                </span>
+            </div>
+            <div
+                className="flex items-center justify-center"
+                style={{ aspectRatio: "16/9", background: "#fafafa" }}
+            >
+                <span className="text-gray-300 text-sm tracking-widest uppercase">
+                    Screenshot — Coming Soon
+                </span>
+            </div>
+        </div>
+    );
+}
+
+// ============================================
+// SECTION 4: LOW COMPROMISE ≠ LOW RISK
+// Purpose: Behavioral funnel + insight
+// ============================================
+
+function CompromiseInsightSection() {
+    const { compromiseInsight, behavioralFunnel } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="03" title="Low Compromise ≠ Low Risk" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-4 max-w-4xl"
+                >
+                    {compromiseInsight.heading}{" "}
+                    <Highlighter action="highlight" color="#FBBF24" isView>
+                        {compromiseInsight.headingHighlight}
+                    </Highlighter>
+                </motion.h2>
+
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="text-base text-gray-600 max-w-4xl mb-4"
+                >
+                    {compromiseInsight.body}
+                </motion.p>
+
+                {/* Behavioral Funnel */}
+                <div className="space-y-3 my-10">
+                    {behavioralFunnel.map((s, i) => (
+                        <div key={s.label} className="flex items-center gap-4">
+                            <span className="w-28 text-right text-sm font-medium text-gray-400">
+                                {s.label}
+                            </span>
+                            <div className="flex-1 h-9 bg-gray-100 rounded overflow-hidden">
+                                <motion.div
+                                    className="h-full rounded"
+                                    style={{ backgroundColor: s.color }}
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: `${s.pct}%` }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 1, ease: "easeOut", delay: i * 0.12 }}
+                                />
+                            </div>
+                            <span
+                                className="w-12 text-sm font-semibold tabular-nums"
+                                style={{ color: s.color }}
+                            >
+                                {s.pct}%
+                            </span>
+                        </div>
+                    ))}
+                </div>
+
+                <Callout>
+                    <p className="text-sm font-semibold text-gray-900 mb-2">
+                        {compromiseInsight.improvements.title}
+                    </p>
+                    <ul className="space-y-1 text-sm text-gray-600">
+                        {compromiseInsight.improvements.items.map((item) => (
+                            <li key={item.label}>
+                                • <strong>{item.label}</strong> — {item.desc}
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="text-sm text-gray-400 mt-3 italic">
+                        {compromiseInsight.improvements.footnote}
+                    </p>
+                </Callout>
+
+                <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.25 }}>
+                    <BrowserFrame label="Action-Based Delivery Logic" />
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 5: AI COULD LAUNCH. WE SAID NO.
+// Purpose: Automation vs Authority
+// ============================================
+
+function AILaunchSection() {
+    const { aiLaunch } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="04" title="AI Could Launch. We Said No." />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
+                >
+                    {aiLaunch.heading}{" "}
+                    <span className="text-gray-400">{aiLaunch.headingSuffix}</span>
+                </motion.h2>
+
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="my-10 max-w-2xl"
+                >
+                    <div className="grid grid-cols-2 text-center">
+                        <div className="border border-gray-200 rounded-l-lg p-6">
+                            <p className="text-xs uppercase tracking-wider text-gray-400 mb-2">Automation</p>
+                            <p className="text-lg font-semibold text-gray-900">AI prepares</p>
+                        </div>
+                        <div className="border border-gray-200 border-l-0 rounded-r-lg p-6 bg-gray-900/[0.02]">
+                            <p className="text-xs uppercase tracking-wider text-gray-400 mb-2">Authority</p>
+                            <p className="text-lg font-semibold text-gray-900">Admins approve</p>
+                        </div>
+                    </div>
+                </motion.div>
+
+                <PullQuote>{aiLaunch.pullQuote}</PullQuote>
+
+                <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.2 }}>
+                    <BrowserFrame label="Campaign Review & Preview — HF 3" />
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 6: RISK SCORE REDESIGN
+// Purpose: Structure > Number
+// ============================================
+
+function RiskScoreSection() {
+    const { riskScore } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="05" title="Risk Score Redesign" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
+                >
+                    {riskScore.heading}{" "}
+                    <Highlighter action="highlight" color="#FBBF24" isView>
+                        {riskScore.headingHighlight}
+                    </Highlighter>
+                </motion.h2>
+
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="text-base text-gray-600 max-w-4xl mb-8"
+                >
+                    {riskScore.body}
+                </motion.p>
+
+                {/* Three Pillars */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="grid grid-cols-3 gap-4 mb-10"
+                >
+                    {riskScore.pillars.map((p) => (
+                        <div key={p.label} className="border border-gray-200 rounded-lg p-5 text-center">
+                            <p className="font-semibold text-sm text-gray-900 mb-1">{p.label}</p>
+                            <p className="text-xs text-gray-400">{p.desc}</p>
+                        </div>
+                    ))}
+                </motion.div>
+
+                {/* Hierarchy */}
+                <Callout>
+                    <p className="font-semibold text-sm text-gray-900 mb-3">Hierarchy breakdown</p>
+                    <div className="flex items-center gap-2 text-sm flex-wrap">
+                        {riskScore.hierarchy.map((level, i) => (
+                            <span key={level} className="flex items-center gap-2">
+                                <span className="bg-gray-100 px-3 py-1.5 rounded font-medium text-gray-700">
+                                    {level}
+                                </span>
+                                {i < riskScore.hierarchy.length - 1 && (
+                                    <ArrowRight className="w-3.5 h-3.5 text-gray-400" />
+                                )}
+                            </span>
+                        ))}
+                    </div>
+                </Callout>
+
+                <PullQuote>{riskScore.pullQuote}</PullQuote>
+
+                <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.3 }}>
+                    <BrowserFrame label="vCRO — Radar Chart & Factor Breakdown" />
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 7: REPORTING WITHOUT DISTORTION
+// Purpose: Ethical reporting design
+// ============================================
+
+function ReportingSection() {
+    const { reporting } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="06" title="Reporting Without Distortion" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
+                >
+                    {reporting.heading}{" "}
+                    <Highlighter action="highlight" color="#FBBF24" isView>
+                        {reporting.headingHighlight}
+                    </Highlighter>{" "}
+                    {reporting.headingSuffix}
+                </motion.h2>
+
+                {/* Legend */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="flex gap-6 my-8 max-w-xs"
+                >
+                    <div className="flex items-center gap-2">
+                        <div className="w-3.5 h-3.5 rounded-full" style={{ background: "hsl(0 65% 58%)" }} />
+                        <span className="text-sm font-medium text-gray-900">Compromised</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="w-3.5 h-3.5 rounded-full" style={{ background: "hsl(140 50% 50%)" }} />
+                        <span className="text-sm font-medium text-gray-900">Reported</span>
+                    </div>
+                </motion.div>
+
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="max-w-4xl space-y-4 text-base leading-relaxed text-gray-600 mb-10"
+                >
+                    {reporting.body.map((p, i) => (
+                        <p key={i}>{p}</p>
+                    ))}
+                </motion.div>
+
+                <PullQuote>{reporting.pullQuote}</PullQuote>
+
+                <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.25 }}>
+                    <BrowserFrame label="Gamification Dashboard — Points & Badges" />
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 8: COMPROMISE → MICRO-LEARNING
+// Purpose: Intervention, not punishment
+// ============================================
+
+function MicroLearningSection() {
+    const { microLearning } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="07" title="Compromise → Micro-Learning" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
+                >
+                    {microLearning.heading}{" "}
+                    <Highlighter action="highlight" color="#6EE7B7" isView>
+                        {microLearning.headingHighlight}
+                    </Highlighter>{" "}
+                    {microLearning.headingSuffix}
+                </motion.h2>
+
+                {/* Step Flow */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="flex items-center gap-2 flex-wrap my-8 text-sm"
+                >
+                    {microLearning.steps.map((step, i) => (
+                        <span key={step} className="flex items-center gap-2">
+                            <span className="bg-gray-100 border border-gray-200 px-4 py-2 rounded-lg font-medium text-gray-700">
+                                {step}
+                            </span>
+                            {i < microLearning.steps.length - 1 && (
+                                <ArrowRight className="w-4 h-4 text-gray-400" />
+                            )}
+                        </span>
+                    ))}
+                </motion.div>
+
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="max-w-4xl space-y-4 text-base leading-relaxed text-gray-600 mb-10"
+                >
+                    {microLearning.body.map((p, i) => (
+                        <p key={i}>{p}</p>
+                    ))}
+                </motion.div>
+
+                <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.2 }}>
+                    <BrowserFrame label="Flashcard Training Interface" />
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 9: BUILDING HF3 WHILE HF2 LIVED
+// Purpose: Migration with trust
+// ============================================
+
+function MigrationSection() {
+    const { migration } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="08" title="Building HF3 While HF2 Lived" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
+                >
+                    {migration.heading}{" "}
+                    <span className="text-gray-400">{migration.headingSuffix}</span>
+                </motion.h2>
+
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="text-base text-gray-600 max-w-4xl mb-8"
+                >
+                    {migration.body}
+                </motion.p>
+
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="space-y-4 my-10 max-w-3xl"
+                >
+                    {migration.quotes.map((q) => (
+                        <PullQuote key={q}>{q}</PullQuote>
+                    ))}
+                </motion.div>
+
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.2 }}
+                    className="text-base text-gray-600 max-w-4xl mb-10"
+                >
+                    {migration.closing}
+                </motion.p>
+
+                <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.25 }}>
+                    <BrowserFrame label="HF 2 vs HF 3 — Side by Side" />
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 10: CONFIDENCE REPLACED DEPENDENCY
+// Purpose: Behavioral outcomes
+// ============================================
+
+function ConfidenceSection() {
+    const { confidence } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="09" title="Confidence Replaced Dependency" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-8 max-w-4xl"
+                >
+                    {confidence.heading}{" "}
+                    <Highlighter action="highlight" color="#93C5FD" isView>
+                        {confidence.headingHighlight}
+                    </Highlighter>
+                </motion.h2>
+
+                {/* Outcome Grid */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="grid sm:grid-cols-2 gap-4 mb-10"
+                >
+                    {confidence.outcomes.map((item) => (
+                        <div key={item} className="border border-gray-200 rounded-lg px-5 py-4">
+                            <p className="text-sm font-medium text-gray-900">{item}</p>
+                        </div>
+                    ))}
+                </motion.div>
+
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="text-base text-gray-600 max-w-4xl"
+                >
+                    {confidence.closing}
+                </motion.p>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// SECTION 11: PERSONAL REFLECTION
+// Purpose: Maturity and closing
+// ============================================
+
+function ReflectionSection() {
+    const { reflection } = data;
+
+    return (
+        <section className="py-20 md:py-28">
+            <div className="max-w-5xl mx-auto px-6">
+                <SectionLabel number="10" title="What This Project Changed in Me" />
+
+                <motion.h2
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.05 }}
+                    className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
+                >
+                    {reflection.heading}{" "}
+                    <Highlighter action="highlight" color="#6EE7B7" isView>
+                        {reflection.headingHighlight}
+                    </Highlighter>
+                </motion.h2>
+
+                <motion.ul
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="space-y-2 text-base text-gray-600 max-w-4xl mb-10"
+                >
+                    {reflection.lessons.map((l) => (
+                        <li key={l}>{l}</li>
+                    ))}
+                </motion.ul>
+
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="text-base text-gray-600 max-w-4xl mb-16"
+                >
+                    {reflection.closing}
+                </motion.p>
+
+                {/* Closing Statement — fading opacity */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.2 }}
+                    className="border-t border-gray-200 pt-10 max-w-4xl"
+                >
+                    {reflection.statement.map((line, i) => {
+                        const opacities = [1, 0.6, 0.3];
+                        return (
+                            <p
+                                key={line}
+                                className="text-xl md:text-2xl font-semibold leading-relaxed tracking-tight"
+                                style={{ color: `rgba(17, 24, 39, ${opacities[i]})` }}
+                            >
+                                {line}
+                            </p>
+                        );
+                    })}
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ============================================
+// MAIN COMPONENT
+// ============================================
+
+export function HumanFirewallCaseStudy() {
+    return (
+        <article className="bg-white">
+            <HeroSection />
+            <StartingPointSection />
+            <AIShiftSection />
+            <CompromiseInsightSection />
+            <AILaunchSection />
+            <RiskScoreSection />
+            <ReportingSection />
+            <MicroLearningSection />
+            <MigrationSection />
+            <ConfidenceSection />
+            <ReflectionSection />
+        </article>
+    );
+}

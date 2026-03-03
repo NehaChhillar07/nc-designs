@@ -24,9 +24,9 @@ const projects = [
             "End-to-End UX Architecture for Phishing Simulations, Training & AI-Assisted Risk Insights",
         image: "/work/humanfirewall.svg",
         tags: [],
-        caseStudyLink: null,
-        comingSoon: true,
-        readingTime: "Coming soon",
+        caseStudyLink: "/case-study/human-firewall",
+        buttonText: "Read case study",
+        readingTime: "8 mins",
         isCurrentProject: true,
     },
     {
@@ -270,15 +270,6 @@ export function WorkSection() {
                                     ))}
                                 </div>
 
-                                {/* Coming Soon Badge */}
-                                {project.comingSoon && (
-                                    <div className="mt-3">
-                                        <span className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-gray-100 text-gray-600 rounded-full">
-                                            <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
-                                            Coming Soon
-                                        </span>
-                                    </div>
-                                )}
 
                                 {/* View Case Study Link for projects with case study */}
                                 {project.caseStudyLink && (
