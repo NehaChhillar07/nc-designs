@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Highlighter } from "@/components/ui/highlighter";
 import { humanFirewallCaseStudyData } from "@/data/human-firewall-data";
@@ -136,6 +137,7 @@ function HeroSection() {
                     style={{
                         background: "#f4f4f5",
                         border: "1px solid #e4e4e7",
+                        boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
                     }}
                 >
                     {/* Browser Dots */}
@@ -152,15 +154,14 @@ function HeroSection() {
                             HF 3 — Dashboard Overview
                         </span>
                     </div>
-                    {/* Placeholder area */}
-                    <div
-                        className="flex items-center justify-center"
-                        style={{ aspectRatio: "16/9", background: "#fafafa" }}
-                    >
-                        <span className="text-gray-300 text-sm tracking-widest uppercase">
-                            Screenshot — Coming Soon
-                        </span>
-                    </div>
+                    <Image
+                        src="/work/1st-case study/hf-dashboard-overview.jpeg"
+                        alt="Human Firewall 3 — Dashboard Overview showing campaign stats, action hotspots, and department performance"
+                        width={3360}
+                        height={1922}
+                        className="w-full h-auto"
+                        priority
+                    />
                 </div>
             </motion.div>
         </section>
@@ -199,30 +200,45 @@ function StartingPointSection() {
                     ))}
                 </motion.div>
 
-                <Callout>
-                    <div className="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
-                                {startingPoint.legacy.label}
-                            </p>
-                            <ul className="space-y-1.5 text-sm text-gray-500">
-                                {startingPoint.legacy.items.map((item) => (
-                                    <li key={item}>• {item}</li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div>
-                            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
-                                {startingPoint.needed.label}
-                            </p>
-                            <ul className="space-y-1.5 text-sm text-gray-500">
-                                {startingPoint.needed.items.map((item) => (
-                                    <li key={item}>• {item}</li>
-                                ))}
-                            </ul>
-                        </div>
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="grid md:grid-cols-2 gap-4 my-10"
+                >
+                    {/* HF2 — Legacy (faded, de-emphasized) */}
+                    <div className="border border-gray-200 rounded-xl p-6 bg-gray-50/50">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">
+                            {startingPoint.legacy.label}
+                        </p>
+                        <ul className="space-y-3">
+                            {startingPoint.legacy.items.map((item) => (
+                                <li key={item} className="flex items-start gap-3">
+                                    <span className="mt-0.5 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                                        <span className="text-gray-400 text-xs">✕</span>
+                                    </span>
+                                    <span className="text-sm text-gray-400 line-through decoration-gray-300">{item}</span>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                </Callout>
+
+                    {/* HF3 — What Was Needed (bold, confident) */}
+                    <div className="border-2 border-gray-900 rounded-xl p-6 bg-gray-900/[0.02]">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-900 mb-4">
+                            {startingPoint.needed.label}
+                        </p>
+                        <ul className="space-y-3">
+                            {startingPoint.needed.items.map((item) => (
+                                <li key={item} className="flex items-start gap-3">
+                                    <span className="mt-0.5 w-5 h-5 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0">
+                                        <span className="text-white text-xs">✓</span>
+                                    </span>
+                                    <span className="text-sm font-medium text-gray-900">{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );
@@ -290,12 +306,42 @@ function AIShiftSection() {
                     {aiShift.closing}
                 </motion.p>
 
-                {/* Browser Frame Placeholder */}
+                {/* Browser Frame — AI-Assisted Campaign Creation */}
                 <motion.div
                     {...fadeIn}
                     transition={{ ...fadeIn.transition, delay: 0.25 }}
                 >
-                    <BrowserFrame label="HF 3 — AI-Assisted Campaign Creation" />
+                    <div
+                        className="rounded-2xl overflow-hidden"
+                        style={{
+                            background: "#ffffff",
+                            border: "1px solid #e4e4e7",
+                            boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                        }}
+                    >
+                        <div
+                            className="flex items-center gap-2 px-4 py-3"
+                            style={{ background: "#e4e4e7" }}
+                        >
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+                            </div>
+                            <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
+                                HF 3 — AI-Assisted Campaign Creation
+                            </span>
+                        </div>
+                        <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
+                            <Image
+                                src="/work/1st-case study/ai-assisted-campaigncreation.png"
+                                alt="HF 3 — AI-Assisted Campaign Creation flow"
+                                width={3360}
+                                height={3970}
+                                className="w-full h-auto block"
+                            />
+                        </div>
+                    </div>
                 </motion.div>
             </div>
         </section>
@@ -416,7 +462,37 @@ function CompromiseInsightSection() {
                 </Callout>
 
                 <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.25 }}>
-                    <BrowserFrame label="Action-Based Delivery Logic" />
+                    <div
+                        className="rounded-2xl overflow-hidden"
+                        style={{
+                            background: "#ffffff",
+                            border: "1px solid #e4e4e7",
+                            boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                        }}
+                    >
+                        <div
+                            className="flex items-center gap-2 px-4 py-3"
+                            style={{ background: "#e4e4e7" }}
+                        >
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+                            </div>
+                            <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
+                                Action-Based Delivery Logic
+                            </span>
+                        </div>
+                        <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
+                            <Image
+                                src="/work/1st-case study/action-based-delivery.jpeg"
+                                alt="Action-Based Delivery Logic"
+                                width={3360}
+                                height={1922}
+                                className="w-full h-auto block"
+                            />
+                        </div>
+                    </div>
                 </motion.div>
             </div>
         </section>
@@ -465,7 +541,37 @@ function AILaunchSection() {
                 <PullQuote>{aiLaunch.pullQuote}</PullQuote>
 
                 <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.2 }}>
-                    <BrowserFrame label="Campaign Review & Preview — HF 3" />
+                    <div
+                        className="rounded-2xl overflow-hidden"
+                        style={{
+                            background: "#ffffff",
+                            border: "1px solid #e4e4e7",
+                            boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                        }}
+                    >
+                        <div
+                            className="flex items-center gap-2 px-4 py-3"
+                            style={{ background: "#e4e4e7" }}
+                        >
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+                            </div>
+                            <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
+                                Campaign Review & Preview — HF 3
+                            </span>
+                        </div>
+                        <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
+                            <Image
+                                src="/work/1st-case study/review.jpeg"
+                                alt="Campaign Review & Preview — HF 3"
+                                width={3360}
+                                height={1922}
+                                className="w-full h-auto block"
+                            />
+                        </div>
+                    </div>
                 </motion.div>
             </div>
         </section>
@@ -538,7 +644,35 @@ function RiskScoreSection() {
                 <PullQuote>{riskScore.pullQuote}</PullQuote>
 
                 <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.3 }}>
-                    <BrowserFrame label="vCRO — Radar Chart & Factor Breakdown" />
+                    <div
+                        className="rounded-2xl overflow-hidden"
+                        style={{
+                            background: "#ffffff",
+                            border: "1px solid #e4e4e7",
+                            boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                        }}
+                    >
+                        <div
+                            className="flex items-center gap-2 px-4 py-3"
+                            style={{ background: "#e4e4e7" }}
+                        >
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+                            </div>
+                            <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
+                                vCRO — Radar Chart & Factor Breakdown
+                            </span>
+                        </div>
+                        <Image
+                            src="/work/1st-case study/vcro.jpeg"
+                            alt="vCRO — Radar Chart & Factor Breakdown"
+                            width={2852}
+                            height={1918}
+                            className="w-full h-auto block"
+                        />
+                    </div>
                 </motion.div>
             </div>
         </section>
@@ -599,7 +733,35 @@ function ReportingSection() {
                 <PullQuote>{reporting.pullQuote}</PullQuote>
 
                 <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.25 }}>
-                    <BrowserFrame label="Gamification Dashboard — Points & Badges" />
+                    <div
+                        className="rounded-2xl overflow-hidden"
+                        style={{
+                            background: "#ffffff",
+                            border: "1px solid #e4e4e7",
+                            boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                        }}
+                    >
+                        <div
+                            className="flex items-center gap-2 px-4 py-3"
+                            style={{ background: "#e4e4e7" }}
+                        >
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+                            </div>
+                            <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
+                                Gamification Dashboard — Points & Badges
+                            </span>
+                        </div>
+                        <Image
+                            src="/work/1st-case study/gamification.jpeg"
+                            alt="Gamification Dashboard — Points & Badges"
+                            width={2846}
+                            height={1766}
+                            className="w-full h-auto block"
+                        />
+                    </div>
                 </motion.div>
             </div>
         </section>
@@ -716,7 +878,96 @@ function MigrationSection() {
                 </motion.p>
 
                 <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.25 }}>
-                    <BrowserFrame label="HF 2 vs HF 3 — Side by Side" />
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {/* HF 2 — Legacy */}
+                        <div>
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.3 }}
+                                className="hidden md:block mb-3"
+                                style={{
+                                    fontFamily: "var(--font-caveat), cursive",
+                                    fontSize: "22px",
+                                    color: "#94a3b8",
+                                    fontWeight: 500,
+                                }}
+                            >
+                                7 tabs, manual setup, CS-dependent
+                            </motion.p>
+                            <div
+                                className="rounded-2xl overflow-hidden"
+                                style={{
+                                    background: "#ffffff",
+                                    border: "1px solid #e4e4e7",
+                                }}
+                            >
+                                <div className="flex items-center gap-2 px-3 py-2" style={{ background: "#e4e4e7" }}>
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f57" }} />
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#febc2e" }} />
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#28c840" }} />
+                                    </div>
+                                    <span className="ml-2 text-xs text-gray-400 font-medium tracking-wide">
+                                        HF 2 — Legacy
+                                    </span>
+                                </div>
+                                <Image
+                                    src="/work/1st-case study/WhatsApp Image 2026-03-22 at 12.58.37.jpeg"
+                                    alt="HF 2 — Legacy campaign creation with 7-tab manual workflow"
+                                    width={3354}
+                                    height={1928}
+                                    className="w-full h-auto block"
+                                />
+                            </div>
+                        </div>
+
+                        {/* HF 3 — Redesigned */}
+                        <div>
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.4 }}
+                                className="hidden md:block mb-3"
+                                style={{
+                                    fontFamily: "var(--font-caveat), cursive",
+                                    fontSize: "22px",
+                                    color: "#475569",
+                                    fontWeight: 500,
+                                }}
+                            >
+                                AI-assisted, self-serve, clean structure
+                            </motion.p>
+                            <div
+                                className="rounded-2xl overflow-hidden"
+                                style={{
+                                    background: "#ffffff",
+                                    border: "1px solid #e4e4e7",
+                                    boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                                }}
+                            >
+                                <div className="flex items-center gap-2 px-3 py-2" style={{ background: "#e4e4e7" }}>
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f57" }} />
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#febc2e" }} />
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#28c840" }} />
+                                    </div>
+                                    <span className="ml-2 text-xs text-gray-500 font-medium tracking-wide">
+                                        HF 3 — Redesigned
+                                    </span>
+                                </div>
+                                <Image
+                                    src="/work/1st-case study/WhatsApp Image 2026-03-22 at 12.59.11.jpeg"
+                                    alt="HF 3 — Redesigned campaign creation with AI-assisted workflow"
+                                    width={3352}
+                                    height={1914}
+                                    className="w-full h-auto block"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </motion.div>
             </div>
         </section>

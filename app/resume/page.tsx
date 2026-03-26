@@ -175,7 +175,7 @@ export default function ResumePage() {
                                 NEHA CHHILLAR
                             </h1>
                             <p className="text-base font-medium text-gray-700 mb-3">
-                                Product Designer • AI-Driven SaaS Specialist
+                                Product Designer | UX & AI-Driven Experiences
                             </p>
                             <div className="flex justify-between items-center text-sm text-gray-600">
                                 <p>
@@ -215,20 +215,20 @@ export default function ResumePage() {
                                 Product Narrative
                             </h2>
                             <p className="text-gray-700 leading-relaxed text-sm">
-                                Product Designer with 3+ years of experience designing complex enterprise SaaS products across cybersecurity and HRMS domains. Experienced in simplifying high-complexity systems through strong UX architecture, analytical thinking, and system-level design.
+                                Product Designer with 3+ years of experience designing complex B2B SaaS products across cybersecurity and HR systems. Specialized in simplifying high-complexity workflows into intuitive, scalable experiences. Strong focus on end-to-end product design, AI-assisted workflows, and translating data into actionable user outcomes. Experienced in collaborating with product, engineering, and stakeholders to take products from concept to launch.
                             </p>
                         </section>
 
-                        {/* Flagship Wins */}
+                        {/* Selected Work & Impact */}
                         <section className="mb-6">
                             <h2 className="text-lg font-bold text-gray-900 uppercase tracking-wide border-b border-gray-300 pb-1 mb-3">
-                                Flagship Wins
+                                Selected Work & Impact
                             </h2>
                             <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm font-bold">
-                                <li>Led end-to-end UX and product flow design for an enterprise Human Firewall platform, covering phishing campaigns, security training (LMS), and multi-channel attack simulations</li>
-                                <li>Designed clear, scalable user flows across complex security modules, helping engineering teams build features faster and more consistently</li>
-                                <li>Added GenAI support to campaign setup, reporting, and risk analysis flows to reduce manual admin work</li>
-                                <li>Designed admin dashboards and reports that made human risk data easier to understand and act on, contributing to a 48% increase in admin engagement</li>
+                                <li>Led end-to-end UX design for a Human Firewall platform, covering phishing simulations, security training, and risk analysis</li>
+                                <li>Translated complex security workflows into structured, scalable product flows, improving clarity for engineering execution</li>
+                                <li>Introduced GenAI-assisted workflows in campaign setup and reporting, reducing manual effort for administrators</li>
+                                <li>Redesigned dashboards to surface actionable insights, contributing to a 48% increase in admin engagement</li>
                             </ul>
                         </section>
 
@@ -245,10 +245,12 @@ export default function ResumePage() {
                                 </h3>
                                 <p className="text-sm text-gray-600 mb-2">Jul 2024 – Present | Web-based B2B SaaS used by enterprise security teams</p>
                                 <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
-                                    <li>Owned end-to-end UX and product definition for multiple cybersecurity platforms, partnering with product and engineering to decide what to build and how it should function</li>
-                                    <li>Led UX architecture for a Human Firewall platform spanning phishing campaigns, security training (LMS), and multi-channel social engineering simulations</li>
-                                    <li>Integrated GenAI capabilities into core workflows to reduce manual admin effort and accelerate campaign setup, reporting, and risk analysis</li>
-                                    <li>Designed enterprise dashboards and analytics frameworks, resulting in a 48% increase in admin engagement</li>
+                                    <li>Owned end-to-end design execution, from problem definition to high-fidelity UI and delivery</li>
+                                    <li>Designed the Human Firewall platform by integrating phishing simulations, LMS training, and risk reporting into a unified experience</li>
+                                    <li>Partnered closely with product and engineering to define feature behavior, system logic, and user flows</li>
+                                    <li>Applied AI-assisted design approaches to improve efficiency in campaign creation and reporting workflows</li>
+                                    <li>Designed data-driven dashboards focused on decision-making, increasing engagement by 48%</li>
+                                    <li>Created prototypes to validate concepts and communicate design intent across teams</li>
                                 </ul>
                             </div>
 
@@ -259,10 +261,11 @@ export default function ResumePage() {
                                 </h3>
                                 <p className="text-sm text-gray-600 mb-2">Mar 2023 – Jun 2024 | HRMS SaaS</p>
                                 <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
-                                    <li>Led UX design across the HRMS suite (onboarding, attendance, leave, hiring, LMS, performance, payroll), simplifying complex enterprise workflows into intuitive user journeys</li>
-                                    <li>Designed analytics, reports, and dashboards for each HR module, improving data accessibility and interpretability for HR admins and managers</li>
-                                    <li>Redesigned hiring workflows and candidate progression flows, contributing to a 37% improvement in funnel completion during post-release rollout</li>
-                                    <li>Simplified employee onboarding flows and system guidance, contributing to a 52% increase in successful onboarding completions in early adoption phases</li>
+                                    <li>Led UX design across multiple modules including onboarding, hiring, attendance, LMS, and performance management</li>
+                                    <li>Simplified complex HR workflows into intuitive experiences for admins and employees</li>
+                                    <li>Improved onboarding journeys and system guidance, increasing completion rates by 52%</li>
+                                    <li>Designed reporting and analytics interfaces to enhance data comprehension and decision-making</li>
+                                    <li>Conducted usability improvements based on qualitative and quantitative insights</li>
                                 </ul>
                             </div>
                         </section>
@@ -273,9 +276,9 @@ export default function ResumePage() {
                                 AI-Enabled Product Execution
                             </h2>
                             <ul className="text-gray-700 space-y-1 list-disc list-inside text-sm">
-                                <li>Defined feature behavior and UX flows with product and engineering before development</li>
-                                <li>Used Cursor and AI tools to create functional UX logic and reduce engineering rework</li>
-                                <li>Applied AI selectively to reduce manual effort while maintaining admin control in security workflows</li>
+                                <li>Defined product flows and interaction models before development in collaboration with cross-functional teams</li>
+                                <li>Leveraged AI tools for research synthesis, ideation, and prototyping, reducing iteration cycles</li>
+                                <li>Integrated AI thoughtfully into product experiences to enhance efficiency while maintaining user control</li>
                             </ul>
                         </section>
 
@@ -287,15 +290,15 @@ export default function ResumePage() {
                             <div className="text-sm text-gray-700 space-y-2">
                                 <p>
                                     <span className="font-semibold">Product & Strategy:</span>{" "}
-                                    UX Problem Solving • Roadmapping • Prioritisation • Stakeholder Alignment • Analytical Thinking & Data Interpretation • Iterative Validation & Feedback Loops
+                                    UX Problem Solving • Product Flows • Prioritization • Stakeholder Collaboration • Analytical Thinking
                                 </p>
                                 <p>
                                     <span className="font-semibold">Design & Execution:</span>{" "}
-                                    Interaction Design • Information Architecture • Secure UX • Accessibility • Usability Testing • Design Systems
+                                    Interaction Design • Information Architecture • Usability Testing • Prototyping (Low to High Fidelity) • Accessibility • Design Systems
                                 </p>
                                 <p>
                                     <span className="font-semibold">AI & Tools:</span>{" "}
-                                    Cursor AI • Perplexity • NotebookLM • Notion • ChatGPT • Figma • Jira
+                                    Figma • Cursor • ChatGPT • Perplexity • Claude • NotebookLM • Lovable • Jira • Notion
                                 </p>
                             </div>
                         </section>
@@ -306,12 +309,18 @@ export default function ResumePage() {
                                 Education
                             </h2>
                             <div className="text-gray-700 space-y-2 text-sm">
-                                <p>
-                                    <span className="font-semibold">University of Delhi</span> — B.A. (Hons) English
-                                </p>
-                                <p>
-                                    <span className="font-semibold">Coursera</span> — Google UX Design Specialisation
-                                </p>
+                                <div className="flex justify-between">
+                                    <p>
+                                        <span className="font-semibold">University of Delhi</span> — B.A. (Hons) English
+                                    </p>
+                                    <p className="text-gray-500">Jun 2020 – Jun 2023</p>
+                                </div>
+                                <div className="flex justify-between">
+                                    <p>
+                                        <span className="font-semibold">Coursera</span> — Google UX Design Specialisation
+                                    </p>
+                                    <p className="text-gray-500">Nov 2023 – Feb 2024</p>
+                                </div>
                             </div>
                         </section>
                     </article>
