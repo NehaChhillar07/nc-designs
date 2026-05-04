@@ -52,7 +52,7 @@ const projects = [
         tags: [],
         caseStudyLink: "/case-study/texlaculture",
         buttonText: "Read case study",
-        readingTime: "12 mins",
+        readingTime: "5 mins",
     },
 ];
 // ============================================

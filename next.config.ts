@@ -31,6 +31,15 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 31536000, // 1 year cache
   },
 
+  // Redirect guessed URLs to home page anchors
+  async redirects() {
+    return [
+      { source: "/about", destination: "/#about", permanent: true },
+      { source: "/work", destination: "/#work", permanent: true },
+      { source: "/playground", destination: "/#playground", permanent: true },
+    ];
+  },
+
   // Performance headers
   async headers() {
     return [

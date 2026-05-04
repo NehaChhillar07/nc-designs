@@ -17,14 +17,14 @@ const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
+    viewport: { once: true, margin: "0px 0px -100px 0px" },
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
 };
 
 const fadeIn = {
     initial: { opacity: 0 },
     whileInView: { opacity: 1 },
-    viewport: { once: true },
+    viewport: { once: true, margin: "0px 0px -100px 0px" },
     transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const },
 };
 
@@ -150,6 +150,8 @@ function HeroSection() {
 // ============================================
 
 function ContextSection() {
+    const { context } = eCrimeHubCaseStudyData;
+
     return (
         <section className="py-20 md:py-28">
             <div className="max-w-5xl mx-auto px-6">
@@ -159,6 +161,22 @@ function ContextSection() {
                 >
                     Cybercrime incidents were rapidly increasing, accelerated by AI-driven attacks. Dubai Police needed a single, <Highlighter action="underline" color="#212B36" strokeWidth={2} isView>trusted public platform</Highlighter> that could both enable cybercrime reporting and educate citizens on digital and human risks, without compromising clarity, authority, or trust.
                 </motion.h2>
+
+                {/* Cross-functional collaboration moment */}
+                {context.collaboration && (
+                    <motion.div
+                        {...fadeInUp}
+                        transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                        className="bg-gray-50 border border-gray-200 rounded-lg px-6 py-5 mt-12 max-w-4xl"
+                    >
+                        <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">
+                            Working with Dubai Police
+                        </p>
+                        <p className="text-sm leading-relaxed text-gray-600">
+                            {context.collaboration}
+                        </p>
+                    </motion.div>
+                )}
             </div>
         </section>
     );
@@ -361,7 +379,7 @@ const sketchyNotes = [
         arrowPath: "M 55 8 C 48 15 40 18 35 28 C 28 42 38 48 45 38 C 52 28 42 22 35 32 C 28 45 22 58 25 70 M 25 70 L 18 65 M 25 70 L 32 66"
     },
     {
-        text: "Dubai Police Bot guides users and flags suspicious activity",
+        text: "One report blocks a threat city-wide through AI validation",
         position: "top-left" as const,
         // Spiral loop with arrow pointing down
         arrowPath: "M 18 5 C 10 12 8 25 18 32 C 30 40 42 32 38 20 C 35 10 22 12 25 25 C 28 40 35 55 40 68 M 40 68 L 33 62 M 40 68 L 46 62"
@@ -376,16 +394,16 @@ function DesignApproachSection() {
         // Define key phrases to highlight based on section index
         const highlightPhrases: Record<number, { phrase: string; color: string }[]> = {
             0: [
-                { phrase: "linear, distraction-free", color: "#60A5FA" },
-                { phrase: "users under stress or urgency", color: "#FBBF24" },
+                { phrase: "Dubai Police's official reporting portal", color: "#60A5FA" },
+                { phrase: "automatic escalation", color: "#FBBF24" },
             ],
             1: [
                 { phrase: "clear, scannable topics", color: "#34D399" },
                 { phrase: "non-technical users", color: "#60A5FA" },
             ],
             2: [
-                { phrase: "AI-powered cyber assistant", color: "#F472B6" },
-                { phrase: "conversationally", color: "#34D399" },
+                { phrase: "structured prompting rules", color: "#F472B6" },
+                { phrase: "blocks the threat city-wide", color: "#34D399" },
             ],
         };
 
@@ -426,7 +444,7 @@ function DesignApproachSection() {
     };
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-20 md:py-28 overflow-x-clip">
             {/* Match hero content width: max-w-5xl */}
             <div className="max-w-5xl mx-auto px-6">
                 <div className="space-y-24">
@@ -448,6 +466,22 @@ function DesignApproachSection() {
                             >
                                 {renderBodyWithHighlights(section.body, index)}
                             </motion.h3>
+
+                            {/* Design Decision callout — reporting section only */}
+                            {index === 0 && (
+                                <motion.div
+                                    {...fadeInUp}
+                                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                                    className="bg-gray-50 border border-gray-200 rounded-lg px-6 py-5 max-w-4xl"
+                                >
+                                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">
+                                        Design Decision
+                                    </p>
+                                    <p className="text-sm leading-relaxed text-gray-600">
+                                        We pushed to route formal crime reports to Dubai Police's existing portal rather than rebuilding reporting infrastructure inside eCrime Hub. Stakeholders initially wanted everything in one place, but duplicating the government's reporting system would have created data inconsistencies and legal ambiguity. By redirecting to the official portal, we preserved chain-of-custody requirements while keeping the user journey under 3 clicks from homepage to report submission.
+                                    </p>
+                                </motion.div>
+                            )}
 
                             {section.image && (
                                 <motion.div
@@ -474,10 +508,10 @@ function DesignApproachSection() {
                                             whileInView={{ opacity: 1, x: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ duration: 0.6, delay: 0.6 }}
-                                            className={`absolute ${index === 0 ? "-right-48 md:-right-64 top-1/4" :
-                                                index === 1 ? "-left-48 md:-left-64 top-1/3" :
-                                                    "-right-48 md:-right-64 top-1/2"
-                                                } hidden md:flex items-center gap-2 z-10`}
+                                            className={`absolute ${index === 0 ? "-right-4 lg:-right-48 xl:-right-64 top-1/4" :
+                                                index === 1 ? "-left-4 lg:-left-48 xl:-left-64 top-1/3" :
+                                                    "-right-4 lg:-right-48 xl:-right-64 top-1/2"
+                                                } hidden lg:flex items-center gap-2 z-10`}
                                         >
                                             {/* For left-side annotations (index 1), text comes first */}
                                             {index === 1 && (
@@ -579,10 +613,10 @@ function DesignApproachSection() {
                                             whileInView={{ opacity: 1, x: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ duration: 0.6, delay: 0.6 }}
-                                            className={`absolute ${index === 0 ? "-right-48 md:-right-64 top-1/4" :
-                                                index === 1 ? "-left-48 md:-left-64 top-1/3" :
-                                                    "-right-48 md:-right-64 top-1/2"
-                                                } hidden md:flex items-center gap-2 z-10`}
+                                            className={`absolute ${index === 0 ? "-right-4 lg:-right-48 xl:-right-64 top-1/4" :
+                                                index === 1 ? "-left-4 lg:-left-48 xl:-left-64 top-1/3" :
+                                                    "-right-4 lg:-right-48 xl:-right-64 top-1/2"
+                                                } hidden lg:flex items-center gap-2 z-10`}
                                         >
                                             {/* For left-side annotations (index 1), text comes first */}
                                             {index === 1 && (
@@ -667,7 +701,7 @@ function VisualSystemSection() {
     const { visualSystem } = eCrimeHubCaseStudyData;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-20 md:py-28 overflow-x-clip">
             <div className="max-w-5xl mx-auto px-6">
                 {/* Small label - subtle */}
                 <motion.p
@@ -727,7 +761,7 @@ function VisualSystemSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.5 }}
-                        className="absolute -right-48 md:-right-56 top-1/3 hidden lg:flex items-center gap-2 z-10"
+                        className="absolute -right-4 lg:-right-48 xl:-right-56 top-1/3 hidden lg:flex items-center gap-2 z-10"
                     >
                         <svg width="50" height="50" viewBox="0 0 80 80" fill="none" className="flex-shrink-0">
                             <motion.path
@@ -867,7 +901,7 @@ function PublicImpactSection() {
                         Following launch, the platform became part of ongoing cybersecurity awareness efforts. Monthly quizzes, public education initiatives, and school programs were introduced to keep citizens informed as cyber threats continued to evolve.
                     </p>
                     <p className="text-base text-gray-400 leading-relaxed italic mb-10">
-                        The impact of the platform is measured through sustained public participation and trust, not short-term engagement metrics.
+                        The platform's value is reflected in sustained public participation, growing awareness, and continued institutional trust.
                     </p>
 
                     {/* 3 Awareness Campaign Images */}
@@ -886,6 +920,23 @@ function PublicImpactSection() {
                         ))}
                     </div>
                 </motion.div>
+
+                {/* Metrics Row */}
+                {publicImpact.metrics && (
+                    <motion.div
+                        {...fadeInUp}
+                        transition={{ ...fadeInUp.transition, delay: 0.25 }}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                    >
+                        {publicImpact.metrics.map((metric, index) => (
+                            <div key={index} className="border border-gray-200 rounded-xl p-6">
+                                <p className="text-3xl font-semibold text-gray-900 mb-1">{metric.value}</p>
+                                <p className="text-sm font-medium text-gray-900 mb-2">{metric.label}</p>
+                                <p className="text-xs text-gray-400">{metric.context}</p>
+                            </div>
+                        ))}
+                    </motion.div>
+                )}
             </div>
         </section>
     );

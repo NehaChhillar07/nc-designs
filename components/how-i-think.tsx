@@ -30,58 +30,34 @@ export function HowIThink() {
 
   const tools = [
     {
-      name: "Pen & Paper",
-      icon: "/how-i-think-logos/notepad.png",
-      delay: 0,
-      usageNote: "My first space for raw ideas, sketches and early hypothesis thinking."
-    },
-    {
       name: "Perplexity",
       icon: "/how-i-think-logos/perplexity.png",
-      delay: 0.1,
-      usageNote: "My go-to for fast research, market updates and seeing what competitors are doing."
+      delay: 0,
+      usageNote: "Domain research before diving in — competitor links, market context, and related assets gathered in one pass."
     },
     {
       name: "NotebookLM",
       icon: "/how-i-think-logos/notebooklm.png",
-      delay: 0.2,
-      usageNote: "Where I break down long documents and complex topics into clear, simple insights."
-    },
-    {
-      name: "Notion",
-      icon: "/how-i-think-logos/notion-logo.png",
-      delay: 0.3,
-      usageNote: "My place to record research, documents and everything happening in the process."
+      delay: 0.1,
+      usageNote: "All research assets go here. I synthesise findings into a structured brief before touching any design tool."
     },
     {
       name: "Figma",
       icon: "/how-i-think-logos/figma.png",
-      delay: 0.4,
-      usageNote: "Where I maintain my design system and keep all components consistent and clean."
-    },
-    {
-      name: "Lovable",
-      icon: "/how-i-think-logos/lovable-logo-icon.png",
-      delay: 0.5,
-      usageNote: "I use it when I need fresh UI ideas or interactive concepts to unblock my thinking."
+      delay: 0.2,
+      usageNote: "Design system home — components, tokens, and layout decisions live here."
     },
     {
       name: "Cursor",
       icon: "/how-i-think-logos/cursor.png",
-      delay: 0.6,
-      usageNote: "My source of truth for features, flows and how the product should actually work."
+      delay: 0.3,
+      usageNote: "Functionality-first prototyping. When the problem is about flows and logic, I build it directly in code."
     },
     {
-      name: "Firebase",
-      icon: "/how-i-think-logos/firebase.png",
-      delay: 0.7,
-      usageNote: "My quick tool to build agentic flows and test features with real behaviour."
-    },
-    {
-      name: "Jira",
-      icon: "/how-i-think-logos/jira_5968875.png",
-      delay: 0.8,
-      usageNote: "Where I document tasks and move product work forward with the team."
+      name: "Lovable",
+      icon: "/how-i-think-logos/lovable-logo-icon.png",
+      delay: 0.4,
+      usageNote: "Interface exploration. When I need fresh UI ideas or interactive concepts, this unblocks my thinking fastest."
     },
   ];
 

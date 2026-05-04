@@ -12,10 +12,10 @@ const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 const playgroundItems = [
     {
         id: 1,
-        title: "Kingfisher Website",
-        category: "Vibe Coding",
-        description: "An independent experiment using Cursor to build the Kingfisher homepage, blending design intuition with hands-on coding.",
-        image: "/playgrounbd/1st.mp4",
+        title: "Kingphisher Website",
+        category: "AI-assisted Build",
+        description: "An independent experiment using Cursor to build the Kingphisher homepage, blending design intuition with hands-on coding.",
+        image: "/playground/1st.mp4",
         isVideo: true,
     },
     {
@@ -23,7 +23,7 @@ const playgroundItems = [
         title: "Art Therapy",
         category: "Personal",
         description: "This is my therapy. I do it often when I really want to spend time with myself.",
-        image: "/playgrounbd/2nd_flipped.mp4",
+        image: "/playground/2nd_flipped.mp4",
         isVideo: true,
     },
 ];

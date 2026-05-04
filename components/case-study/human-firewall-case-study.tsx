@@ -15,14 +15,14 @@ import { humanFirewallCaseStudyData } from "@/data/human-firewall-data";
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
+    viewport: { once: true, margin: "0px 0px -100px 0px" },
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
 };
 
 const fadeIn = {
     initial: { opacity: 0 },
     whileInView: { opacity: 1 },
-    viewport: { once: true },
+    viewport: { once: true, margin: "0px 0px -100px 0px" },
     transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const },
 };
 
@@ -306,6 +306,20 @@ function AIShiftSection() {
                     {aiShift.closing}
                 </motion.p>
 
+                {/* Cross-functional collaboration moment */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.25 }}
+                    className="bg-gray-50 border border-gray-200 rounded-lg px-6 py-5 my-8 max-w-4xl"
+                >
+                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">
+                        Working with Engineering
+                    </p>
+                    <p className="text-sm leading-relaxed text-gray-600">
+                        {aiShift.collaboration}
+                    </p>
+                </motion.div>
+
                 {/* Browser Frame — AI-Assisted Campaign Creation */}
                 <motion.div
                     {...fadeIn}
@@ -345,44 +359,6 @@ function AIShiftSection() {
                 </motion.div>
             </div>
         </section>
-    );
-}
-
-// ============================================
-// BROWSER FRAME — Reusable placeholder
-// ============================================
-
-function BrowserFrame({ label }: { label: string }) {
-    return (
-        <div
-            className="rounded-2xl overflow-hidden"
-            style={{
-                background: "#f4f4f5",
-                border: "1px solid #e4e4e7",
-            }}
-        >
-            <div
-                className="flex items-center gap-2 px-4 py-3"
-                style={{ background: "#e4e4e7" }}
-            >
-                <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
-                    <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
-                    <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
-                </div>
-                <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                    {label}
-                </span>
-            </div>
-            <div
-                className="flex items-center justify-center"
-                style={{ aspectRatio: "16/9", background: "#fafafa" }}
-            >
-                <span className="text-gray-300 text-sm tracking-widest uppercase">
-                    Screenshot — Coming Soon
-                </span>
-            </div>
-        </div>
     );
 }
 
@@ -821,9 +797,7 @@ function MicroLearningSection() {
                     ))}
                 </motion.div>
 
-                <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.2 }}>
-                    <BrowserFrame label="Flashcard Training Interface" />
-                </motion.div>
+                {/* Flashcard Training now lives in the Quick Case Studies homepage section */}
             </div>
         </section>
     );

@@ -18,6 +18,13 @@ interface HighlighterProps {
   isView?: boolean
 }
 
+function toTransparent(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16) || 0
+  const g = parseInt(hex.slice(3, 5), 16) || 0
+  const b = parseInt(hex.slice(5, 7), 16) || 0
+  return `rgba(${r}, ${g}, ${b}, 0)`
+}
+
 export function Highlighter({
   children,
   action = "highlight",
@@ -41,12 +48,12 @@ export function Highlighter({
         ref={elementRef}
         style={{
           textDecoration: "underline",
-          textDecorationColor: shouldAnimate ? color : "transparent",
+          textDecorationColor: shouldAnimate ? color : toTransparent(color),
           textDecorationThickness: "2px",
           textUnderlineOffset: "3px",
         }}
-        initial={{ textDecorationColor: "transparent" }}
-        animate={{ textDecorationColor: shouldAnimate ? color : "transparent" }}
+        initial={{ textDecorationColor: toTransparent(color) }}
+        animate={{ textDecorationColor: shouldAnimate ? color : toTransparent(color) }}
         transition={{
           duration: animationDuration / 1000,
           ease: "easeOut",

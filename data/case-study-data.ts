@@ -3,17 +3,14 @@
 export const texlacultureCaseStudy = {
     // Hero Section
     hero: {
+        meta: "TexlaCulture — HR Technology",
         title: "Building Solutions, Not just HR Management Software",
         subtitle: "TexlaCulture",
+        tags: "SaaS · HR Technology · End-to-end Product Design",
         backgroundImage: "/case-study/texlaculture/hero-banner.png",
-    },
-
-    // Project Metadata
-    metadata: {
-        type: { label: "Type", value: "SaaS, Web & App Product" },
-        sector: { label: "Sector", value: "HR Technology" },
-        responsibility: { label: "Responsibility", value: "Brand / Design System / Product" },
-        timeline: { label: "Timeline", value: "18 Months" },
+        timeline: "18 Months",
+        team: "Founder, 2 Engineers, QA",
+        role: "Brand / Design System / Product",
     },
 
     // Process Steps
@@ -26,6 +23,11 @@ export const texlacultureCaseStudy = {
         { number: 6, label: "User Testing" },
         { number: 7, label: "HiFi Designs & Development" },
     ],
+
+    // Self-awareness intro — highest-ROI single edit per reviewer
+    selfAwareness: {
+        content: "This was my first end-to-end SaaS project. Looking back, I'd approach the persona work very differently — fewer composite personas, more grounded interview quotes. What I learned here directly informed the research approach in Human Firewall.",
+    },
 
     // Brief Section
     brief: {
@@ -105,56 +107,6 @@ export const texlacultureCaseStudy = {
         ],
     },
 
-    // Target Market
-    targetMarket: {
-        title: "Target Market",
-        stats: [
-            { label: "Serviceable Obtainable Market", value: "241.1 Million", companies: "1.1 Million Companies" },
-            { label: "Serviceable Available Market", value: "344.45 Million", companies: "1.6 Million Companies" },
-            { label: "Total Available Market", value: "24.25 billion", companies: "300 Million Companies" },
-        ],
-        summary: "1.1 Million Companies Startups, SME's, Large Enterprise",
-    },
-
-    // User Personas
-    userPersonas: {
-        title: "User Persona",
-        personas: [
-            { name: "Ronald Richards", role: "CHRO" },
-            { name: "Arlene McCoy", role: "Hiring Manager" },
-            { name: "Devon Lane", role: "Team Leader" },
-            { name: "Jenny Wilson", role: "IT & Technology" },
-            { name: "Jerome Bell", role: "Finance Manager" },
-            { name: "Eleanor Pena", role: "HR Admin" },
-            { name: "Jacob Jones", role: "Executive" },
-            { name: "Leslie Alexander", role: "Learning Manager" },
-        ],
-        detailedPersona: {
-            name: "Sarah Williams",
-            role: "HR Manager at XYZ Company",
-            age: "35 Years",
-            background: "Sarah has been in HR for 12 years, holding a degree in Human Resources Management and various industry certifications.",
-            approach: [
-                "Proactive: Anticipates issues and addresses them early.",
-                "Data-Driven: Relies on data for informed decisions.",
-                "Employee-Centric: Focuses on employee satisfaction and engagement.",
-            ],
-            painPoints: [
-                "Complex Navigation: Frustrated with the current system's inefficient navigation.",
-                "Technical Jargon: Finds it hard to explain technical terms to non-HR staff.",
-                "Customization Limits: Current tools lack flexibility for XYZ Company's needs.",
-                "Coordination Delays: Time-consuming coordination with the product team for small requests.",
-                "Employee Engagement: Struggles to effectively engage employees.",
-            ],
-            personality: ["Analytical", "Vibrant", "Empathetic", "Non-Tech", "Collaborative"],
-            decisionPower: {
-                decisionMaker: 5,
-                actionDoer: 5,
-                implementer: 3,
-                user: 6,
-            },
-        },
-    },
 
     // Navigation System
     navigationSystem: {
@@ -162,15 +114,15 @@ export const texlacultureCaseStudy = {
         ideation: {
             title: "Ideation / Approachable design strategy",
             iteration: "Iteration 1",
-            description: "Navigation bar has 4 major sections My Space, Team Space, HR Space, Admin. Each section has 10+ modules that can further expand with submodules.",
+            description: "The original sidebar listed every module across all roles — Employee, HR, and Admin — in a single vertical scroll. An admin with full access saw 30+ tabs at once. There was no separation between what you needed as an employee versus what you needed as an admin.",
             problems: [
-                "Making it difficult for them to quickly find and focus on the specific module or submodule",
-                "Decreased productivity and user satisfaction",
+                "Finding the right module meant scrolling through irrelevant role-specific sections every time",
+                "No role context — admins, HR managers, and employees all saw the same overwhelming wall of tabs",
             ],
         },
         finalized: {
             title: "Finalized Flow",
-            description: "An overlay modal segregated into three modes: Employee Mode, HR Space, and Admin Mode, each consisting of individual module app icons.",
+            description: "We moved to an overlay modal split into three modes: Employee, HR Space, and Admin. An admin who needs to check something as an employee simply switches mode — they see only what's relevant to that role. No more scrolling through a wall of tabs to find one action.",
             features: [
                 "Search bar makes it easy to search with keywords.",
                 "Pin app feature help users to access from side bar at any point of time.",
@@ -245,16 +197,8 @@ export const texlacultureCaseStudy = {
                 description: "Users found it easy to accomplish the basic functionality of the product. Users with experience using complex tools had a strong positive view of the product.",
             },
             {
-                title: "Efficiency",
-                description: "20% of users had difficulty memorizing the product flow.",
-            },
-            {
                 title: "Memorability",
                 description: "Users were able to perform actions after understanding the product.",
-            },
-            {
-                title: "Errors",
-                description: "After gaining understanding, 8% of users still made errors while performing certain actions.",
             },
             {
                 title: "Satisfaction",
@@ -273,15 +217,15 @@ export const texlacultureCaseStudy = {
             title: "Take away",
             content: "I learned the importance of thoroughly engaging with users during testing to gather valuable insights. Conducting user testing before development is crucial, as it significantly reduces the need for extensive iterations post-development. This approach ensures a more efficient and user-centered development process.",
         },
+        collaboration: "The development team flagged the mode-segregated navigation overlay as complex to build within the sprint timeline. We agreed to ship the core three-mode structure first with basic search, deferring the pin-to-sidebar feature to a follow-up release. This let us validate the navigation model with real users before investing in the secondary interaction pattern.",
     },
 
     // Hi-Fi Designs
     hifiDesigns: {
         title: "Hi-Fi Designs",
-        credentials: {
-            url: "https://dev.texlaculture.ai/",
-            username: "24",
-            password: "1234",
+        requestAccess: {
+            label: "Request access to explore the live product",
+            mailto: "mailto:neha.chhillar@gmail.com?subject=TexlaCulture%20Demo%20Access%20Request",
         },
         screens: [],
     },
@@ -325,6 +269,6 @@ export const otherProjects = [
         description: "Simplifying hiring, onboarding, and core people workflows for modern organizations.",
         image: "/work/texlaculture.svg",
         link: "/case-study/texlaculture",
-        readingTime: "12 mins",
+        readingTime: "5 mins",
     },
 ];

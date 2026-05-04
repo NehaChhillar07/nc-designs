@@ -9,7 +9,7 @@ export const humanFirewallCaseStudyData = {
         meta: "Human Firewall — InfoSec Ventures",
         title: "Evolving a legacy security platform into an AI-native risk intelligence system",
         tags: "Enterprise SaaS · Cybersecurity · AI-Assisted Design",
-        timeline: "2024 — Present",
+        timeline: "2024 – Q1 2026",
         team: "Product, Eng, CS",
         role: "Product Designer",
     },
@@ -60,6 +60,7 @@ export const humanFirewallCaseStudyData = {
             desc: "Design around AI, not on top of it.",
         },
         closing: "I used Gen AI tools (Cursor, Claude, ChatGPT) to rapidly explore flows and prototype campaign structures. AI accelerated exploration — direction and constraints were always human-defined.",
+        collaboration: "Engineering pushed to defer AI-assisted content creation to a later MVP — the LLM fine-tuning needed for realistic phishing templates and landing pages required time we didn't have. We treated base-level AI assistance as non-negotiable for launch: users had to feel that HF3 was doing the heavy lifting from day one. The compromise — ship a curated pre-made library for MVP1 while building the AI creation flow in parallel. Building that library manually taught us exactly how our backend prompts needed to behave, so when AI creation shipped in MVP2, it was grounded in real content patterns, not guesswork.",
     },
 
     // Section 03 — Low Compromise ≠ Low Risk
@@ -149,6 +150,8 @@ export const humanFirewallCaseStudyData = {
         heading: "The shift wasn\u2019t loud — it was",
         headingHighlight: "behavioral",
         outcomes: [
+            "48% increase in admin engagement — driven by self-serve campaign creation and AI-assisted workflows",
+            "52% lift in onboarding completion — attributed to the redesigned flashcard training and micro-learning flow",
             "Fewer CS escalations",
             "Smoother campaign launches",
             "More feature exploration",

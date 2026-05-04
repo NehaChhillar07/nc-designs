@@ -13,63 +13,122 @@ const data = texlacultureCaseStudy;
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
+    viewport: { once: true, margin: "0px 0px -100px 0px" },
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
 };
 
-// Hero Section
+// Hero Section — text-first pattern matching HF/eCrime
 function HeroSection() {
+    const { hero } = data;
+
     return (
-        <section
-            className="relative rounded-[15px] overflow-hidden w-full"
-            style={{
-                background: "#EAF6D8",
-                height: "675px",
-                maxHeight: "675px",
-            }}
-        >
-            {/* Hero Image - Centered */}
-            <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-[881px] h-[492px]" style={{ marginTop: "-40px" }}>
-                    <Image
-                        src="/work/3rd-case study/hero-3rd-project.svg"
-                        alt="TexlaCulture Dashboard"
-                        fill
-                        className="object-contain"
-                        priority
-                    />
-                </div>
+        <section className="pt-24 md:pt-32 pb-20 md:pb-28">
+            <div className="max-w-5xl mx-auto px-6">
+                {/* Meta */}
+                <motion.p
+                    {...fadeInUp}
+                    className="text-sm font-medium text-gray-900 tracking-wide mb-8"
+                >
+                    {hero.meta}
+                </motion.p>
+
+                {/* Title with Highlighter */}
+                <motion.h1
+                    {...fadeInUp}
+                    transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
+                    className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight leading-tight mb-8 max-w-4xl"
+                    style={{ color: "#212B36" }}
+                >
+                    Building{" "}
+                    <Highlighter action="highlight" color="#D3EEB3" isView>Solutions</Highlighter>
+                    , Not just HR Management Software
+                </motion.h1>
+
+                {/* Tags */}
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
+                    className="text-sm text-gray-400 tracking-wide"
+                >
+                    {hero.tags}
+                </motion.p>
+
+                {/* Timeline / Team / Role */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 0.25 }}
+                    className="mt-12 flex flex-wrap items-start justify-between w-full gap-6"
+                >
+                    {[
+                        ["Timeline", hero.timeline],
+                        ["Team", hero.team],
+                        ["Role", hero.role],
+                    ].map(([label, value]) => (
+                        <div key={label}>
+                            <p className="text-sm md:text-base text-gray-400 mb-1">{label}</p>
+                            <p className="text-lg md:text-xl font-medium" style={{ color: "#212B36" }}>{value}</p>
+                        </div>
+                    ))}
+                </motion.div>
             </div>
 
-            {/* Metadata Row - Positioned at bottom */}
+            {/* Hero Image Frame */}
             <motion.div
-                className="absolute bottom-[42px] left-0 right-0 px-8 flex flex-row items-start justify-center gap-28"
-                {...fadeInUp}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+                transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
+                className="max-w-5xl mx-auto px-6 mt-16"
             >
-                {Object.values(data.metadata).map((item) => (
-                    <div
-                        key={item.label}
-                        className="flex flex-col gap-1"
-                    >
-                        <span
-                            className="text-sm font-medium leading-4"
-                            style={{ color: "#000000" }}
-                        >
-                            {item.label}
-                        </span>
-                        <span
-                            className="text-lg font-semibold leading-[21px]"
-                            style={{ color: "#000000" }}
-                        >
-                            {item.value}
-                        </span>
+                <div
+                    className="rounded-2xl overflow-hidden"
+                    style={{
+                        background: "#EAF6D8",
+                        border: "1px solid #DFE3E8",
+                    }}
+                >
+                    <div className="p-8 md:p-12 flex items-center justify-center">
+                        <div className="relative w-full max-w-[881px] aspect-[881/492]">
+                            <Image
+                                src="/work/3rd-case study/hero-3rd-project.svg"
+                                alt="TexlaCulture Dashboard"
+                                fill
+                                className="object-contain"
+                                priority
+                            />
+                        </div>
                     </div>
-                ))}
+                </div>
             </motion.div>
         </section>
     );
 }
 
+
+// Self-Awareness Intro
+function SelfAwarenessIntro() {
+    return (
+        <section className="py-8 md:py-12">
+            <div className="flex flex-col items-start max-w-[900px] mx-auto">
+                <motion.div
+                    className="rounded-xl p-6 md:p-8"
+                    style={{
+                        background: "rgba(234, 246, 216, 0.4)",
+                        border: "1px solid #DFE3E8",
+                    }}
+                    {...fadeInUp}
+                >
+                    <p
+                        className="font-normal italic leading-[160%]"
+                        style={{ fontSize: "16px", color: "#454F5B" }}
+                    >
+                        {data.selfAwareness.content}
+                    </p>
+                </motion.div>
+            </div>
+        </section>
+    );
+}
 
 // Brief & Problem Statement
 function BriefSection() {
@@ -221,17 +280,20 @@ function TestimonialsSection() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.15 }}
                             >
-                                {/* Avatar - Real person photos */}
-                                <img
-                                    src={`https://randomuser.me/api/portraits/${index === 1 ? 'men' : 'men'}/${index === 0 ? 32 : index === 1 ? 45 : 67}.jpg`}
-                                    alt={quote.name}
-                                    className="flex-shrink-0 rounded-full object-cover"
+                                {/* Avatar - Initials */}
+                                <div
+                                    className="flex-shrink-0 rounded-full flex items-center justify-center font-semibold"
                                     style={{
                                         width: "65.57px",
                                         height: "65.57px",
-                                        border: "1.66px solid #C4CDD5"
+                                        border: "1.66px solid #C4CDD5",
+                                        background: ["#D3EEB3", "#B8D4E3", "#F5D5A0"][index],
+                                        color: "#365B23",
+                                        fontSize: "20px",
                                     }}
-                                />
+                                >
+                                    {quote.name.split(' ').map(n => n[0]).join('')}
+                                </div>
 
                                 {/* Quote Card */}
                                 <div
@@ -343,365 +405,7 @@ function ProductApproachSection() {
     );
 }
 
-// Target Market Section
-function TargetMarketSection() {
-    return (
-        <section className="py-12 md:py-16">
-            <div>
-                <motion.h3
-                    className="font-semibold leading-[145%] mb-6"
-                    style={{ fontSize: "20px", color: "#212B36" }}
-                    {...fadeInUp}
-                >
-                    {data.targetMarket.title}
-                </motion.h3>
 
-                {/* Stats Grid - 3 columns */}
-                <div className="grid md:grid-cols-3 gap-4 mb-6">
-                    {data.targetMarket.stats.map((stat, index) => (
-                        <motion.div
-                            key={index}
-                            className="flex flex-col"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                        >
-                            {/* Label outside card */}
-                            <p
-                                className="font-normal leading-[145%] mb-2"
-                                style={{ fontSize: "12px", color: "#919EAB" }}
-                            >
-                                {stat.label}
-                            </p>
-                            {/* Card with shadow */}
-                            <div
-                                className="p-4 rounded-lg bg-white shadow-sm"
-                                style={{
-                                    border: "1px solid #DFE3E8",
-                                }}
-                            >
-                                <p
-                                    className="font-normal leading-[145%] mb-1"
-                                    style={{ fontSize: "14px", color: "#637381" }}
-                                >
-                                    {stat.companies}
-                                </p>
-                                <p
-                                    className="font-semibold leading-[125%]"
-                                    style={{ fontSize: "24px", color: "#212B36" }}
-                                >
-                                    {stat.value}
-                                </p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Summary Banner - Yellow/Green */}
-                <motion.div
-                    className="p-5 rounded-lg"
-                    style={{
-                        background: "#FFF5CC",
-                        border: "1px solid #FFE16A",
-                    }}
-                    {...fadeInUp}
-                >
-                    <p
-                        className="font-semibold leading-[145%]"
-                        style={{ fontSize: "20px", color: "#212B36" }}
-                    >
-                        {data.targetMarket.summary}
-                    </p>
-                </motion.div>
-            </div>
-        </section>
-    );
-}
-
-function UserPersonaSection() {
-    const persona = data.userPersonas.detailedPersona;
-
-    // Avatar URLs from randomuser.me for realistic human photos
-    const avatarIds = [
-        { gender: 'men', id: 32 },
-        { gender: 'women', id: 44 },
-        { gender: 'men', id: 67 },
-        { gender: 'women', id: 28 },
-        { gender: 'men', id: 75 },
-        { gender: 'women', id: 63 },
-        { gender: 'men', id: 52 },
-        { gender: 'women', id: 89 },
-    ];
-
-    // Fixed personality bar widths matching the design
-    const personalityWidths = [85, 65, 75, 55, 70];
-
-    return (
-        <section className="py-12 md:py-16">
-            <motion.h3
-                className="font-semibold leading-[145%] mb-8"
-                style={{ fontSize: "20px", color: "#212B36" }}
-                {...fadeInUp}
-            >
-                {data.userPersonas.title}
-            </motion.h3>
-
-            {/* Two Column Layout */}
-            <div className="flex flex-col lg:flex-row" style={{ gap: "64px" }}>
-                {/* Left Side - Avatars + Disclaimer */}
-                <div className="flex flex-col lg:flex-shrink-0 self-start" style={{ maxWidth: "420px", gap: "8px" }}>
-                    {/* Personas Grid (4 columns x 2 rows) */}
-                    <motion.div
-                        className="grid grid-cols-4 content-start"
-                        style={{ gap: "24px 24px" }}
-                        {...fadeInUp}
-                    >
-                        {data.userPersonas.personas.map((p, index) => (
-                            <div key={index} className="flex flex-col items-center gap-2">
-                                <img
-                                    src={`https://randomuser.me/api/portraits/${avatarIds[index].gender}/${avatarIds[index].id}.jpg`}
-                                    alt={p.name}
-                                    className="rounded-full object-cover"
-                                    style={{
-                                        width: "72px",
-                                        height: "72px",
-                                        border: "2px solid #E5E5E5",
-                                        filter: "grayscale(100%)",
-                                    }}
-                                />
-                                <div className="text-center">
-                                    <p
-                                        className="font-medium leading-tight"
-                                        style={{ fontSize: "12px", color: "#212B36" }}
-                                    >
-                                        {p.role}
-                                    </p>
-                                    <p
-                                        className="font-normal leading-tight"
-                                        style={{ fontSize: "14px", color: "#919EAB" }}
-                                    >
-                                        {p.name}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-                    </motion.div>
-                    {/* Disclaimer text */}
-                    <p
-                        className="font-normal italic"
-                        style={{ fontSize: "14px", color: "#919EAB" }}
-                    >
-                        *Avatars and names are for presentation purposes only. Personas represent the roles.
-                    </p>
-                </div>
-
-                {/* Right Side - Detailed Persona Card */}
-                <motion.div
-                    className="flex-1 rounded-xl overflow-hidden"
-                    style={{
-                        background: "#FFFFFF",
-                        border: "1px solid #DFE3E8",
-                        boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-                    }}
-                    {...fadeInUp}
-                >
-                    {/* Header */}
-                    <div
-                        className="px-5 py-4 flex flex-wrap justify-between items-center gap-4"
-                        style={{ background: "rgba(234, 246, 216, 0.5)" }}
-                    >
-                        <div className="flex items-center gap-4">
-                            <span
-                                className="font-semibold"
-                                style={{ fontSize: "13px", color: "#637381" }}
-                            >
-                                Persona
-                            </span>
-                            <div className="flex items-center gap-3">
-                                <img
-                                    src="https://randomuser.me/api/portraits/women/55.jpg"
-                                    alt={persona.name}
-                                    className="rounded-full object-cover"
-                                    style={{
-                                        width: "32px",
-                                        height: "32px",
-                                        border: "1.5px solid #C4CDD5",
-                                    }}
-                                />
-                                <span
-                                    className="font-medium"
-                                    style={{ fontSize: "13px", color: "#212B36" }}
-                                >
-                                    {persona.name} <span style={{ color: "#637381" }}>Role:</span> {persona.role}
-                                </span>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <span
-                                className="font-semibold"
-                                style={{ fontSize: "13px", color: "#637381" }}
-                            >
-                                Age
-                            </span>
-                            <span
-                                className="font-medium"
-                                style={{ fontSize: "13px", color: "#212B36" }}
-                            >
-                                {persona.age}
-                            </span>
-                        </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-5 space-y-5">
-                        {/* Background */}
-                        <div>
-                            <p
-                                className="font-semibold mb-1"
-                                style={{ fontSize: "13px", color: "#454F5B" }}
-                            >
-                                Background
-                            </p>
-                            <p
-                                className="font-normal leading-[155%]"
-                                style={{ fontSize: "13px", color: "#637381" }}
-                            >
-                                {persona.background}
-                            </p>
-                        </div>
-
-                        {/* Approach */}
-                        <div>
-                            <p
-                                className="font-semibold mb-2"
-                                style={{ fontSize: "13px", color: "#454F5B" }}
-                            >
-                                Approach
-                            </p>
-                            <div className="space-y-1">
-                                {persona.approach.map((a, i) => {
-                                    const [title, desc] = a.split(': ');
-                                    return (
-                                        <p
-                                            key={i}
-                                            className="font-normal leading-[155%]"
-                                            style={{ fontSize: "13px", color: "#637381" }}
-                                        >
-                                            <span className="font-medium" style={{ color: "#212B36" }}>• {title}:</span> {desc}
-                                        </p>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        {/* Pain Points */}
-                        <div>
-                            <p
-                                className="font-semibold mb-2"
-                                style={{ fontSize: "13px", color: "#454F5B" }}
-                            >
-                                Pain Points
-                            </p>
-                            <div className="space-y-1">
-                                {persona.painPoints.map((point, i) => {
-                                    const [title, desc] = point.split(': ');
-                                    return (
-                                        <p
-                                            key={i}
-                                            className="font-normal leading-[155%]"
-                                            style={{ fontSize: "13px", color: "#637381" }}
-                                        >
-                                            <span className="font-medium" style={{ color: "#212B36" }}>• {title}:</span> {desc}
-                                        </p>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        {/* Personality & Decision Power - Side by Side */}
-                        <div className="grid md:grid-cols-2 gap-6 pt-2">
-                            {/* Personality */}
-                            <div>
-                                <p
-                                    className="font-semibold mb-3"
-                                    style={{ fontSize: "13px", color: "#454F5B" }}
-                                >
-                                    Personality
-                                </p>
-                                <div className="space-y-2">
-                                    {persona.personality.map((trait, i) => (
-                                        <div
-                                            key={i}
-                                            className="flex items-center"
-                                        >
-                                            <div
-                                                className="py-1.5 px-3 text-xs font-medium"
-                                                style={{
-                                                    background: "#D3EEB3",
-                                                    borderRadius: "0 6px 6px 0",
-                                                    width: `${personalityWidths[i]}%`,
-                                                    fontSize: "12px",
-                                                    color: "#365B23",
-                                                }}
-                                            >
-                                                {trait}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Decision Power */}
-                            <div>
-                                <p
-                                    className="font-semibold mb-3"
-                                    style={{ fontSize: "13px", color: "#454F5B" }}
-                                >
-                                    Decision Power
-                                </p>
-                                <div className="space-y-2">
-                                    {Object.entries(persona.decisionPower).map(([key, value]) => (
-                                        <div
-                                            key={key}
-                                            className="flex items-center justify-between gap-3"
-                                        >
-                                            <div
-                                                className="py-1.5 px-3 text-xs font-medium flex-shrink-0"
-                                                style={{
-                                                    background: "#D3EEB3",
-                                                    borderRadius: "0 6px 6px 0",
-                                                    fontSize: "12px",
-                                                    color: "#365B23",
-                                                    minWidth: "100px",
-                                                }}
-                                            >
-                                                {key.replace(/([A-Z])/g, ' $1').trim()}
-                                            </div>
-                                            <div className="flex gap-1.5">
-                                                {[...Array(6)].map((_, i) => (
-                                                    <div
-                                                        key={i}
-                                                        className="rounded-full"
-                                                        style={{
-                                                            width: "10px",
-                                                            height: "10px",
-                                                            background: i < value ? "#365B23" : "#D9D9D9"
-                                                        }}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
-        </section>
-    );
-}
 
 function NavigationSystemSection() {
     return (
@@ -735,10 +439,14 @@ function NavigationSystemSection() {
                             border: "2px solid #919EAB",
                         }}
                     >
-                        <img
+                        <Image
                             src="/work/3rd-case study/navigation-1.svg"
                             alt="Navigation Iteration 1"
                             className="w-full h-auto"
+                            width={709}
+                            height={400}
+                            sizes="(max-width: 1024px) 100vw, 709px"
+                            unoptimized
                         />
                     </div>
 
@@ -844,15 +552,44 @@ function NavigationSystemSection() {
                                 width: "100%",
                             }}
                         >
-                            <img
+                            <Image
                                 src="/work/3rd-case study/navigation-2.svg"
                                 alt="Navigation Finalized"
                                 className="w-full h-auto"
+                                width={1200}
+                                height={600}
+                                sizes="100vw"
+                                unoptimized
                             />
                         </div>
                     </div>
                 </div>
             </motion.div>
+
+            {/* Cross-functional collaboration moment */}
+            {data.challengeTakeaway.collaboration && (
+                <motion.div
+                    className="rounded-xl p-5 md:p-6 mt-8"
+                    style={{
+                        background: "rgba(234, 246, 216, 0.4)",
+                        border: "1px solid #DFE3E8",
+                    }}
+                    {...fadeInUp}
+                >
+                    <p
+                        className="font-semibold mb-2"
+                        style={{ fontSize: "12px", color: "#919EAB", letterSpacing: "0.2em", textTransform: "uppercase" }}
+                    >
+                        Working with Engineering
+                    </p>
+                    <p
+                        className="font-medium leading-[155%]"
+                        style={{ fontSize: "14px", color: "#454F5B" }}
+                    >
+                        {data.challengeTakeaway.collaboration}
+                    </p>
+                </motion.div>
+            )}
         </section>
     );
 }
@@ -892,10 +629,14 @@ function PersonalizedThemeSection() {
                                 borderRadius: "19px",
                             }}
                         >
-                            <img
+                            <Image
                                 src="/work/3rd-case study/personalised-1.svg"
                                 alt="Theme Iteration"
                                 className="w-full h-auto"
+                                width={709}
+                                height={400}
+                                sizes="(max-width: 1024px) 100vw, 709px"
+                                unoptimized
                             />
                         </div>
 
@@ -965,10 +706,14 @@ function PersonalizedThemeSection() {
                     className="w-full rounded-xl overflow-hidden"
                     {...fadeInUp}
                 >
-                    <img
+                    <Image
                         src="/work/3rd-case study/personalised-2.svg"
                         alt="Theme Variations"
                         className="w-full h-auto"
+                        width={1200}
+                        height={600}
+                        sizes="100vw"
+                        unoptimized
                     />
                 </motion.div>
 
@@ -1019,10 +764,14 @@ function ActualDevelopedFeatureSection() {
                 style={{ width: "100%" }}
                 {...fadeInUp}
             >
-                <img
+                <Image
                     src="/work/3rd-case study/developed-home.svg"
                     alt="Actual Developed Home Screen"
                     className="w-full h-auto"
+                    width={1200}
+                    height={600}
+                    sizes="100vw"
+                    unoptimized
                 />
             </motion.div>
 
@@ -1073,10 +822,14 @@ function IdeationSection() {
                 {...fadeInUp}
             >
                 {data.ideation.image ? (
-                    <img
+                    <Image
                         src={data.ideation.image}
                         alt="Ideation Photos Collage"
                         className="w-full h-auto"
+                        width={1200}
+                        height={600}
+                        sizes="100vw"
+                        unoptimized
                     />
                 ) : (
                     <div
@@ -1136,11 +889,15 @@ function WireframesSection() {
                 {data.wireframes.images && data.wireframes.images.length > 0 ? (
                     <div className="flex flex-col gap-4">
                         {data.wireframes.images.map((image, index) => (
-                            <img
+                            <Image
                                 key={index}
                                 src={image}
                                 alt={`Wireframe ${index + 1}`}
                                 className="w-full h-auto"
+                                width={1200}
+                                height={600}
+                                sizes="100vw"
+                                unoptimized
                             />
                         ))}
                     </div>
@@ -1197,10 +954,14 @@ function PrototypeTestingSection() {
                     {...fadeInUp}
                 >
                     {data.prototypeTesting.image && (
-                        <img
+                        <Image
                             src={data.prototypeTesting.image}
                             alt="Prototype Testing Flow"
                             className="w-full h-auto"
+                            width={1200}
+                            height={600}
+                            sizes="100vw"
+                            unoptimized
                         />
                     )}
                 </motion.div>
@@ -1273,7 +1034,7 @@ function HiFiDesignsSection() {
                 {data.hifiDesigns.title}
             </motion.h2>
 
-            {/* Credentials Info - Centered */}
+            {/* Access Request - Centered */}
             <motion.div
                 className="mb-0 flex flex-col items-center text-center"
                 style={{ gap: "24px" }}
@@ -1283,38 +1044,15 @@ function HiFiDesignsSection() {
                     className="font-medium leading-[145%]"
                     style={{ fontSize: "14px", color: "#454F5B", maxWidth: "700px" }}
                 >
-                    Here are the high-fidelity designs for an overview of each module. <br />
-                    You can access the full product using the credentials below:
+                    Here are the high-fidelity designs for an overview of each module.
                 </p>
-                <div
-                    className="p-8 md:p-10 rounded-2xl inline-block text-left min-w-[320px] md:min-w-[400px]"
-                    style={{ background: "#F5FBEB" }}
+                <a
+                    href={data.hifiDesigns.requestAccess.mailto}
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-medium transition-colors hover:opacity-90"
+                    style={{ background: "#365B23", color: "#FFFFFF", fontSize: "16px" }}
                 >
-                    <p
-                        className="font-medium mb-2"
-                        style={{ fontSize: "16px", color: "#212B36" }}
-                    >
-                        url : <a href={data.hifiDesigns.credentials.url} target="_blank" rel="noopener noreferrer" className="hover:underline">{data.hifiDesigns.credentials.url}</a>
-                    </p>
-                    <p
-                        className="font-medium"
-                        style={{ fontSize: "16px", color: "#212B36" }}
-                    >
-                        User Name: {data.hifiDesigns.credentials.username}
-                    </p>
-                    <p
-                        className="font-medium"
-                        style={{ fontSize: "16px", color: "#212B36" }}
-                    >
-                        Password: {data.hifiDesigns.credentials.password}
-                    </p>
-                </div>
-                <p
-                    className="font-medium"
-                    style={{ fontSize: "48px", lineHeight: "1.1", color: "#212B36" }}
-                >
-                    Feel free to explore the live product :)
-                </p>
+                    {data.hifiDesigns.requestAccess.label}
+                </a>
             </motion.div>
 
             {/* Explore / Hi-Fi Image */}
@@ -1393,10 +1131,14 @@ function DesignSystemSection() {
                             }}
                         >
                             {data.designSystem.image ? (
-                                <img
+                                <Image
                                     src={data.designSystem.image}
                                     alt="Design System Overview"
                                     className="w-full h-auto"
+                                    width={1200}
+                                    height={600}
+                                    sizes="100vw"
+                                    unoptimized
                                 />
                             ) : (
                                 <div
@@ -1437,13 +1179,12 @@ export function TexlaCultureCaseStudy() {
                 <HeroSection />
             </div>
             <div className="container mx-auto px-4">
+                <SelfAwarenessIntro />
                 <BriefSection />
             </div>
             <TestimonialsSection />
             <div className="container mx-auto px-4">
                 <ProductApproachSection />
-                <TargetMarketSection />
-                <UserPersonaSection />
                 <NavigationSystemSection />
                 <ActualDevelopedFeatureSection />
                 <PersonalizedThemeSection />

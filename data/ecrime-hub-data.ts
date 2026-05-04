@@ -13,6 +13,7 @@ export interface eCrimeHubData {
     context: {
         heading: string;
         body: string;
+        collaboration?: string;
     };
     objective: {
         heading: string;
@@ -88,6 +89,7 @@ export interface eCrimeHubData {
             mediaCluster: Array<{ src: string; alt: string; aspect: 'vertical' | 'square' | 'landscape' }>;
         };
         closingStatement: string;
+        metrics?: Array<{ label: string; value: string; context: string }>;
     };
 }
 
@@ -102,6 +104,7 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
     context: {
         heading: "Why this existed",
         body: "Cybercrime incidents were rapidly increasing, accelerated by AI-driven attacks. Dubai Police needed a single, trusted public platform that could both enable cybercrime reporting and educate citizens on digital and human risks, without compromising clarity, authority, or trust.",
+        collaboration: "Dubai Police initially referenced Australia's national cybersecurity website as the benchmark. We pushed back — the audiences, cultural context, and threat landscape were different. Rather than replicating an existing model, we proposed concepts rooted in Dubai Police's own visual identity and government design language, while introducing a modern, approachable tone that treated cybersecurity as something new and relevant to the general public. The team responded well once they saw their identity reflected in a format that felt distinctly theirs.",
     },
 
     objective: {
@@ -132,6 +135,7 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
             "Highly sensitive and data-heavy content",
             "Multi-language public audience",
             "Accelerated delivery timeline",
+            "Arabic/English parity was non-negotiable — every page, every flow had to work identically in both languages, forcing layouts that accommodated 30% text expansion without breaking visual hierarchy",
         ],
     },
 
@@ -140,7 +144,7 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
         sections: [
             {
                 title: "Reporting-first experience",
-                body: "Reporting flows were designed to be linear, distraction-free, and easy to complete, especially for users under stress or urgency.",
+                body: "Clicking 'Report' redirects the user to Dubai Police's official reporting portal — a deliberate choice to keep formal reports within the government's own system rather than duplicating infrastructure. Users who describe an issue to the AI chatbot trigger an automatic escalation to the Dubai Police team, ensuring critical threats surface fast even without a formal report.",
                 image: "/work/2nd-case study/passwords-page.png",
                 imageAlt: "Education content page",
             },
@@ -150,8 +154,8 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
                 video: "/work/2nd-case study/content &.mp4",
             },
             {
-                title: "Assisted learning",
-                body: "An AI-powered cyber assistant was introduced to help users ask questions and understand cyber risks conversationally, without navigating heavy content.",
+                title: "AI-powered cyber assistant",
+                body: "A chatbot with a Dubai Police officer mascot answers public questions about cybersecurity risks conversationally. Content topics and guardrails were defined through structured prompting rules — the bot stays within approved education topics. When a citizen reports a suspicious email or phone number, the AI system validates it in the backend and, if confirmed, blocks the threat city-wide — one person's report protects millions.",
                 video: "/work/2nd-case study/bot.mp4",
             },
         ],
@@ -234,6 +238,11 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
                 { src: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=600&h=400&fit=crop", alt: "Public digital content", aspect: "landscape" },
             ],
         },
-        closingStatement: "The impact of the platform is measured through sustained public participation and trust, not short-term engagement metrics.",
+        closingStatement: "The platform's value is reflected in sustained public participation, growing awareness, and continued institutional trust.",
+        metrics: [
+            { label: "Homepage to report", value: "< 3 clicks", context: "Reduced from 6+ steps on the previous process" },
+            { label: "Content pages designed", value: "40+", context: "All built from 3 core templates" },
+            { label: "Languages supported", value: "2", context: "Full Arabic/English parity from day one" },
+        ],
     },
 };

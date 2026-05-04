@@ -94,7 +94,7 @@ export default function RootLayout({
           }}
         />
         {/* Preload critical assets */}
-        <link rel="preload" href="/hero-gradeint.avif" as="image" />
+        <link rel="preload" href="/hero-gradient.avif" as="image" />
         <link rel="preload" href="/logo.jpeg" as="image" />
 
         {/* DNS prefetch for external resources */}
