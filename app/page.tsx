@@ -60,13 +60,13 @@ export default function Home() {
             Understand → Design → Validate
           </span>
           <p className="text-[16px] md:text-[20px] font-normal text-muted-foreground mb-4 md:mb-6">
-            Hi, I'm Neha Chhillar!
+            Hi, I'm Neha.
           </p>
           <h1 className="text-[28px] sm:text-[40px] md:text-[48px] lg:text-[52px] font-bold tracking-tight max-w-6xl leading-tight mb-6 md:mb-8 relative break-words">
             <span className="block relative">
-              Rebuilt a 10-year-old security platform —{" "}
-              <Highlighter action="highlight" color="#87CEFA" isView>48% lift</Highlighter> in admin engagement,{" "}
-              <Highlighter action="highlight" color="#6EE7B7" isView>52%</Highlighter> in onboarding completion
+              I design B2B products that turn{" "}
+              <Highlighter action="highlight" color="#87CEFA" isView>admin-heavy workflows</Highlighter> into something{" "}
+              <Highlighter action="highlight" color="#6EE7B7" isView>people can actually run themselves</Highlighter>.
               {/* Desktop version of the tag */}
               <span
                 className="hidden sm:block absolute -top-12 md:-top-10 right-0 sm:right-4 md:right-8 lg:right-16 px-5 py-2 text-sm font-medium bg-white text-gray-700 rounded-full border border-gray-300 shadow-sm whitespace-nowrap z-10 pointer-events-none"
@@ -75,7 +75,7 @@ export default function Home() {
                 Understand → Design → Validate
               </span>
             </span>
-            <span className="font-normal text-muted-foreground">as Product Designer at <Highlighter action="underline" color="#FF9800" isView>InfoSec Ventures</Highlighter>.</span>
+            <span className="font-normal text-muted-foreground">Currently at <Highlighter action="underline" color="#FF9800" isView>Infosec Ventures</Highlighter>.</span>
           </h1>
           <p className="text-[16px] md:text-[20px] font-normal text-muted-foreground max-w-3xl leading-relaxed mb-8 md:mb-12 px-2">
             I design with a product mindset, turning <Highlighter action="highlight" color="#87CEFA" isView>complex security workflows</Highlighter> into experiences that feel <Highlighter action="highlight" color="#6EE7B7" isView>simple and human</Highlighter>.
