@@ -27,7 +27,7 @@ const projects = [
         caseStudyLink: "/case-study/human-firewall",
         buttonText: "Read case study",
         readingTime: "8 mins",
-        isCurrentProject: true,
+        roleTag: "@ Current Role",
     },
     {
         id: 2,
@@ -40,19 +40,33 @@ const projects = [
         caseStudyLink: "/case-study/ecrime-hub",
         buttonText: "Read case study",
         readingTime: "4 mins",
-        isCurrentProject: true,
+        roleTag: "@ Current Role",
     },
     {
         id: 3,
-        title: "Human Resource Management System (TexlaCulture)",
-        category: "Product Design · End-to-end · SaaS",
+        title: "Designing Kingphisher to Score\nEvery Email Before the User Clicks",
+        category: "AI email security · Inbox side defense",
         description:
-            "Simplifying hiring, onboarding, and core people workflows",
-        image: "/work/texlaculture.svg",
+            "Behavioral Analysis, Threat Scoring, and Account Takeover Protection on Reported Emails, Designed for SOC and Security Admins",
+        image: "/work/humanfirewall.svg",
         tags: [],
-        caseStudyLink: "/case-study/texlaculture",
+        caseStudyLink: "",
         buttonText: "Read case study",
         readingTime: "5 mins",
+        roleTag: "Nov 2024 – Jan 2025",
+    },
+    {
+        id: 4,
+        title: "Designing SmartDMARC to Turn Unreadable DNS Reports into Decisions",
+        category: "DNS and domain reporting · Made human",
+        description:
+            "Translating Raw DMARC, SPF, and DKIM Data into Reports People Can Actually Act On",
+        image: "/work/humanfirewall.svg",
+        tags: [],
+        caseStudyLink: "",
+        buttonText: "Read case study",
+        readingTime: "5 mins",
+        roleTag: "Feb 2025 – Apr 2025",
     },
 ];
 // ============================================
@@ -227,7 +241,7 @@ export function WorkSection() {
                                         <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                                             {project.category}
                                         </p>
-                                        {project.isCurrentProject && (
+                                        {project.roleTag && (
                                             <span
                                                 className="inline-block px-3 py-1 rounded-full"
                                                 style={{
@@ -238,23 +252,23 @@ export function WorkSection() {
                                                     color: "#fff",
                                                 }}
                                             >
-                                                @ Current Role
+                                                {project.roleTag}
                                             </span>
                                         )}
                                     </div>
                                 )}
                                 {project.caseStudyLink ? (
                                     <Link href={project.caseStudyLink}>
-                                        <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight hover:text-primary transition-colors">
+                                        <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight hover:text-primary transition-colors whitespace-pre-line">
                                             {project.title}
                                         </h3>
                                     </Link>
                                 ) : (
-                                    <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight">
+                                    <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight whitespace-pre-line">
                                         {project.title}
                                     </h3>
                                 )}
-                                <p className="text-[14px] md:text-[18px] text-gray-500 leading-relaxed max-w-lg mt-2">
+                                <p className="text-[14px] md:text-[18px] text-gray-500 leading-relaxed max-w-2xl mt-2 whitespace-pre-line">
                                     {project.description}
                                 </p>
 
@@ -270,13 +284,20 @@ export function WorkSection() {
                                     ))}
                                 </div>
 
-
-                                {/* View Case Study Link for projects with case study */}
-                                {project.caseStudyLink && (
+                                {/* Read case study button — disabled when no case study exists yet */}
+                                {project.caseStudyLink ? (
                                     <Button asChild size="lg" className="mt-3 rounded-2xl px-10 h-12 text-base">
                                         <Link href={project.caseStudyLink}>
                                             {project.buttonText || "Understand"}
                                         </Link>
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        disabled
+                                        size="lg"
+                                        className="mt-3 rounded-2xl px-10 h-12 text-base"
+                                    >
+                                        {project.buttonText || "Read case study"}
                                     </Button>
                                 )}
                             </div>

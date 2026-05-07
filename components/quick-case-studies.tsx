@@ -2,79 +2,74 @@
 
 import { motion } from "framer-motion";
 
-const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "0px 0px -100px 0px" },
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
-};
-
-const quickCaseStudies = [
+const sideQuests = [
     {
-        title: "Flashcard Training",
-        summary: "Micro-learning experience turning phishing compromises into immediate, interactive security training. Designed bite-sized modules that reduced repeat compromise rates by embedding learning at the moment of failure.",
-        role: "Lead Designer",
-        product: "Human Firewall",
-        outcome: "Intervention over punishment",
-    },
-    {
-        title: "Kingphisher",
-        summary: "AI-powered phishing simulation platform enabling security teams to test employee resilience at scale. Designed campaign creation flows, template libraries, and result dashboards used across enterprise clients.",
-        role: "Product Designer",
-        product: "InfoSec Ventures",
-        outcome: "Simulation at enterprise scale",
-    },
-    {
-        title: "SmartDMARC",
-        summary: "Email authentication and domain protection dashboard simplifying DMARC compliance for enterprises. Translated complex DNS and email security data into clear, actionable monitoring views for non-technical stakeholders.",
-        role: "Product Designer",
-        product: "InfoSec Ventures",
-        outcome: "Compliance made legible",
+        chip: "Built with code, no Figma",
+        title: "Flashcard Training Builder",
+        summary: "Type a topic. Get a flashcard pack. Ship it to any LMS.",
     },
 ];
 
 export function QuickCaseStudies() {
     return (
-        <section className="py-12 md:py-20">
-            <motion.p
-                {...fadeInUp}
-                className="text-[16px] md:text-[20px] font-normal text-muted-foreground text-center mb-8 md:mb-12"
-            >
-                More work
-            </motion.p>
+        <div className="px-6 md:px-10 lg:px-12">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 mb-12 md:mb-20">
+                <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-normal tracking-tight leading-tight text-white flex-shrink-0">
+                    Side Quests
+                </h2>
+                <p className="md:max-w-md lg:max-w-lg text-[15px] md:text-[16px] text-zinc-400 leading-relaxed">
+                    Small, self-initiated builds I shipped without a Figma file — design and code in one loop.
+                </p>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {quickCaseStudies.map((study, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {sideQuests.map((study, index) => (
                     <motion.div
                         key={study.title}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "0px 0px -100px 0px" }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="group relative rounded-2xl border border-gray-200 bg-white p-6 md:p-8 flex flex-col justify-between min-h-[240px] hover:border-gray-300 transition-colors"
+                        className="group relative"
                     >
-                        {/* Top: Role badge */}
-                        <div>
-                            <span className="inline-block text-xs font-medium text-gray-500 bg-gray-100 rounded-full px-3 py-1 mb-4">
-                                {study.role} · {study.product}
+                        {/* Stacked card — fans out left on hover */}
+                        <div
+                            aria-hidden
+                            className="absolute inset-0 rounded-[28px] bg-white border border-gray-200 shadow-sm transition-transform duration-500 ease-out group-hover:-rotate-[6deg] group-hover:-translate-x-4 group-hover:translate-y-3"
+                        />
+
+                        {/* Stacked card — fans out right on hover */}
+                        <div
+                            aria-hidden
+                            className="absolute inset-0 rounded-[28px] bg-white border border-gray-200 shadow-sm transition-transform duration-500 ease-out group-hover:rotate-[6deg] group-hover:translate-x-4 group-hover:translate-y-3"
+                        />
+
+                        {/* Main card */}
+                        <div className="relative rounded-[28px] border border-gray-200 bg-white p-8 md:p-10 flex flex-col min-h-[280px] shadow-sm transition-shadow duration-500 group-hover:shadow-md">
+                            <span
+                                className="inline-block self-start px-3 py-1 rounded-full mb-6"
+                                style={{
+                                    fontFamily: "var(--font-caveat), cursive",
+                                    fontSize: "15px",
+                                    transform: "rotate(-3deg)",
+                                    backgroundColor: "#FF9800",
+                                    color: "#fff",
+                                }}
+                            >
+                                {study.chip}
                             </span>
 
-                            <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
+                            <h3 className="text-2xl md:text-3xl lg:text-[34px] font-semibold tracking-tight text-gray-900 leading-[1.15] mb-4">
                                 {study.title}
                             </h3>
 
-                            <p className="text-sm text-gray-500 leading-relaxed">
+                            <p className="text-base md:text-lg text-gray-500 leading-relaxed">
                                 {study.summary}
                             </p>
                         </div>
-
-                        {/* Bottom: Outcome */}
-                        <p className="text-xs font-semibold text-gray-900 mt-6 tracking-wide uppercase">
-                            {study.outcome}
-                        </p>
                     </motion.div>
                 ))}
             </div>
-        </section>
+        </div>
     );
 }
