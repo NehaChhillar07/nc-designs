@@ -87,10 +87,10 @@ export function SplitCTASection() {
                             From problems to <Highlighter action="underline" color="#87CEFA" isView>decisions and outcomes</Highlighter>
                         </p>
                         <button
-                            onClick={() => handleNavigate("#how-i-think")}
+                            onClick={() => handleNavigate("#how-i-get-unstuck")}
                             className="group inline-flex items-center justify-center px-6 py-3 border border-foreground/20 bg-transparent text-foreground rounded-full font-medium text-[14px] transition-all duration-200 ease-out hover:scale-[1.02] hover:shadow-md hover:border-foreground/40"
                         >
-                            How I Think
+                            How I Get Unstuck
                         </button>
                     </div>
                 </div>

@@ -17,7 +17,7 @@ export function AboutSection() {
             <div className="max-w-3xl mx-auto text-center">
                 {/* Big Heading */}
                 <motion.h2
-                    className="text-[48px] md:text-[64px] lg:text-[80px] font-light text-gray-300 tracking-tight mb-8 md:mb-12"
+                    className="text-[48px] md:text-[64px] lg:text-[80px] font-light text-gray-300 tracking-tight mb-6 md:mb-8"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -25,6 +25,17 @@ export function AboutSection() {
                 >
                     {aboutHeading}
                 </motion.h2>
+
+                {/* Professional intro line — same scale + weight as the body paragraphs */}
+                <motion.p
+                    className="text-[16px] md:text-[18px] text-muted-foreground leading-relaxed mb-6"
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+                >
+                    Three years of designing in <Highlighter action="underline" color="#FF9800" isView>cybersecurity</Highlighter>. Phishing simulations, security awareness, risk scoring, and admin workflows for security teams.
+                </motion.p>
 
                 {/* Paragraphs with Highlights */}
                 <div className="space-y-6">

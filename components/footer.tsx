@@ -7,7 +7,7 @@ import { Highlighter } from "@/components/ui/highlighter";
 const navLinks = [
     { label: "Home", href: "#hero" },
     { label: "Products", href: "#products" },
-    { label: "How I Think", href: "#how-i-think" },
+    { label: "How I Get Unstuck", href: "#how-i-get-unstuck" },
     { label: "Work", href: "#work" },
 ];
 

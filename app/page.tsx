@@ -10,7 +10,7 @@ const SystemsCraft = dynamic(() => import("@/components/systems-craft").then(mod
   loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100 rounded-lg" />,
 });
 
-const HowIThink = dynamic(() => import("@/components/how-i-think").then(mod => ({ default: mod.HowIThink })), {
+const HowIGetUnstuck = dynamic(() => import("@/components/how-i-get-unstuck").then(mod => ({ default: mod.HowIGetUnstuck })), {
   loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />,
 });
 
@@ -142,8 +142,8 @@ export default function Home() {
         </Suspense>
 
         <Suspense fallback={<div className="min-h-[400px]" />}>
-          <div id="how-i-think" className="py-16 md:py-24 lg:py-32">
-            <HowIThink />
+          <div id="how-i-get-unstuck" className="py-16 md:py-24 lg:py-32">
+            <HowIGetUnstuck />
           </div>
         </Suspense>
 
