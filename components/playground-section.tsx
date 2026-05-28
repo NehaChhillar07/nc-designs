@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { QuickCaseStudies } from "@/components/quick-case-studies";
 
 // Blur placeholder for smooth image loading (prevents whitespace)
 const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEEA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
@@ -23,7 +22,7 @@ const playgroundItems = [
         id: 2,
         title: "Art Therapy",
         category: "Personal",
-        description: "This is my therapy. I do it often when I really want to spend time with myself.",
+        description: "Drawing slows my thinking down, which is when most ideas land.",
         image: "/playground/2nd_flipped.mp4",
         isVideo: true,
     },
@@ -80,12 +79,6 @@ export function PlaygroundSection() {
                     marginRight: 'calc(-50vw + 50%)'
                 }}
             >
-                {/* Side Quests sub-section */}
-                <QuickCaseStudies />
-
-                {/* Divider between sub-sections */}
-                <div className="my-20 md:my-32 mx-6 md:mx-10 lg:mx-12 h-px bg-zinc-800" />
-
                 {/* Playground Header */}
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 mb-12 md:mb-20 px-6 md:px-10 lg:px-12">
                     {/* Left - Title */}

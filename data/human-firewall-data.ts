@@ -99,6 +99,27 @@ export const humanFirewallCaseStudyData = {
         heading: "A risk score without context is just",
         headingHighlight: "anxiety",
         body: "HF 2 showed risk as a number. But a number without explanation creates uncertainty. Admins couldn\u2019t see why risk increased, which factor contributed most, or where to intervene.",
+        rejectedVersions: {
+            eyebrow: "What we tried before the radar",
+            versions: [
+                {
+                    label: "V1",
+                    title: "A weighted single number with hover to explain",
+                    body: "The number got better. The trust did not. Admins still asked CS what it meant.",
+                },
+                {
+                    label: "V2",
+                    title: "A long horizontal bar split by contributing factor",
+                    body: "Technically accurate. Admins read it left to right and stopped at the first factor.",
+                },
+                {
+                    label: "V3",
+                    title: "A radial gauge with severity zones",
+                    body: "Looked decisive. But severity was the wrong frame. A user is not eighty percent risky. They are risky in a specific way.",
+                },
+            ],
+            closingPullQuote: "The shift came when we stopped trying to summarize risk and started trying to describe it.",
+        },
         pillars: [
             { label: "Behavior", desc: "Simulation response patterns" },
             { label: "Training", desc: "Compliance & completion" },
@@ -106,6 +127,12 @@ export const humanFirewallCaseStudyData = {
         ],
         hierarchy: ["Organization", "Department", "Group", "User"],
         pullQuote: "Not a score — a structure.",
+        customerQuote: {
+            before: "“Understanding our security posture used to be a closed conversation between us and the security team. With vCRO, ",
+            underlined: "every role can read it from their own view",
+            after: ". The non security stakeholders finally understand where we stand.”",
+            attribution: "CISO, mid sized enterprise customer. Paraphrased from migration feedback.",
+        },
     },
 
     // Section 06 — Reporting Without Distortion
@@ -149,15 +176,19 @@ export const humanFirewallCaseStudyData = {
     confidence: {
         heading: "The shift wasn\u2019t loud — it was",
         headingHighlight: "behavioral",
-        outcomes: [
-            "48% increase in admin engagement — driven by self-serve campaign creation and AI-assisted workflows",
-            "52% lift in onboarding completion — attributed to the redesigned flashcard training and micro-learning flow",
-            "Fewer CS escalations",
-            "Smoother campaign launches",
-            "More feature exploration",
-            "Higher training enrollment",
+        metric: {
+            primary: "48 percent increase in admin engagement after the HF3 rollout.",
+            footnote: "Measured against pre migration baseline.",
+        },
+        bodyParagraphs: [
+            "The shift showed up across signals over the first six months of HF3, not in a single dashboard.",
+            "CS tickets that used to come in before every campaign launch dropped to a trickle. Campaigns that took days to schedule started going out the same day. Admins began discovering features without asking, the role sensitivity settings, the gamification controls, the training strictness toggles.",
+            "Admins stopped needing reassurance before pressing launch. The platform stopped feeling like a tool they operated carefully. It became a system they trusted.",
         ],
-        closing: "Admins didn\u2019t need reassurance before pressing launch. They understood what they were doing. The platform stopped feeling like a tool they operated carefully. It became a system they trusted.",
+        customerQuote: {
+            text: "\u201cWe trust the system enough to launch without help. That is the win.\u201d",
+            attribution: "Security operations lead, enterprise customer. Paraphrased from migration feedback.",
+        },
     },
 
     // Section 10 — Personal Reflection

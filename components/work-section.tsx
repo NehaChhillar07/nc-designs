@@ -7,6 +7,28 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { useCursor } from "@/components/ui/cursor-context";
+import { HeroCardFan } from "@/components/case-study/flashcard/HeroCardFan";
+import { flashcardTrainingCaseStudyData } from "@/data/flashcard-training-data";
+
+const FLASHCARD_PROJECT_ID = 5;
+const FLASHCARD_FAN_CARDS = flashcardTrainingCaseStudyData.whyFlashcards.cards;
+
+// Soft blurred shadow blob placed behind the auto-cycling card deck so the
+// stack reads against the dark background.
+function FlashcardHighlightBlock() {
+    return (
+        <div
+            aria-hidden
+            className="absolute rounded-full pointer-events-none"
+            style={{
+                width: "55%",
+                height: "55%",
+                background: "rgba(255, 255, 255, 0.12)",
+                filter: "blur(70px)",
+            }}
+        />
+    );
+}
 
 // ============================================
 // PROJECT DATA - Replace with your real content
@@ -30,6 +52,19 @@ const projects = [
         roleTag: "@ Current Role",
     },
     {
+        id: 5,
+        title: "A flashcard training builder that\nships to any LMS",
+        category: "Internal tool · AI-native workflow · Enterprise training",
+        description:
+            "Built as a module inside Human Firewall to replace boring security training — type a topic, generate a card pack, ship it anywhere.",
+        image: "/work/humanfirewall.svg",
+        tags: [],
+        caseStudyLink: "/case-study/flashcard-training",
+        buttonText: "Read case study",
+        readingTime: "6 mins",
+        roleTag: "@ Current Role",
+    },
+    {
         id: 2,
         title: "eCrime Hub | Dubai Police",
         category: "WEBSITE DESIGN · CYBERSECURITY · PUBLIC PLATFORM",
@@ -42,6 +77,7 @@ const projects = [
         readingTime: "4 mins",
         roleTag: "@ Current Role",
     },
+    /* Commented out for now — restore when case studies are ready.
     {
         id: 3,
         title: "Designing Kingphisher to Score\nEvery Email Before the User Clicks",
@@ -68,6 +104,7 @@ const projects = [
         readingTime: "5 mins",
         roleTag: "Feb 2025 – Apr 2025",
     },
+    */
 ];
 // ============================================
 
@@ -221,17 +258,24 @@ export function WorkSection() {
                         >
                             {/* Mobile Image */}
                             <div className="lg:hidden mb-8 rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '4/3' }}>
-                                <Image
-                                    src={project.image}
-                                    alt={project.title}
-                                    width={800}
-                                    height={600}
-                                    className="w-full h-full object-cover"
-                                    priority={index < 2}
-                                    placeholder="blur"
-                                    blurDataURL={BLUR_PLACEHOLDER}
-                                    loading={index < 2 ? "eager" : "lazy"}
-                                />
+                                {project.id === FLASHCARD_PROJECT_ID ? (
+                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-900 to-zinc-950 flex items-center justify-center p-6">
+                                        <FlashcardHighlightBlock />
+                                        <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
+                                    </div>
+                                ) : (
+                                    <Image
+                                        src={project.image}
+                                        alt={project.title}
+                                        width={800}
+                                        height={600}
+                                        className="w-full h-full object-cover"
+                                        priority={index < 2}
+                                        placeholder="blur"
+                                        blurDataURL={BLUR_PLACEHOLDER}
+                                        loading={index < 2 ? "eager" : "lazy"}
+                                    />
+                                )}
                             </div>
 
                             {/* Project Content */}
@@ -317,17 +361,24 @@ export function WorkSection() {
                                 ref={(el) => addToImagesRef(el, index)}
                                 className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-100"
                             >
-                                <Image
-                                    src={project.image}
-                                    alt={project.title}
-                                    fill
-                                    className="object-cover"
-                                    priority={index < 2}
-                                    placeholder="blur"
-                                    blurDataURL={BLUR_PLACEHOLDER}
-                                    sizes="600px"
-                                    loading={index < 2 ? "eager" : "lazy"}
-                                />
+                                {project.id === FLASHCARD_PROJECT_ID ? (
+                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-900 to-zinc-950 flex items-center justify-center p-10">
+                                        <FlashcardHighlightBlock />
+                                        <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
+                                    </div>
+                                ) : (
+                                    <Image
+                                        src={project.image}
+                                        alt={project.title}
+                                        fill
+                                        className="object-cover"
+                                        priority={index < 2}
+                                        placeholder="blur"
+                                        blurDataURL={BLUR_PLACEHOLDER}
+                                        sizes="600px"
+                                        loading={index < 2 ? "eager" : "lazy"}
+                                    />
+                                )}
                             </div>
                         ))}
                     </div>

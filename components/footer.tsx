@@ -40,7 +40,7 @@ export function Footer() {
                             transform: "rotate(-2deg)",
                         }}
                     >
-                        This portfolio was built through vibe-led coding experiments
+                        Designed and built end to end, without handoff
                     </span>
                 </motion.div>
 

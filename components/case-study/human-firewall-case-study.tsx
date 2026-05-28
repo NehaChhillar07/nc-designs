@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Highlighter } from "@/components/ui/highlighter";
 import { humanFirewallCaseStudyData } from "@/data/human-firewall-data";
@@ -64,6 +65,85 @@ function Callout({ children }: { children: ReactNode }) {
         >
             {children}
         </motion.div>
+    );
+}
+
+// Hand-drawn cross/strike mark for rejected exploratory versions.
+// Matches the existing sketchy-svg style used elsewhere on the site.
+function HandDrawnStrike({ color = "#FF9800" }: { color?: string }) {
+    return (
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path
+                d="M 4 4 Q 9 8 14 14"
+                stroke={color}
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                fill="none"
+            />
+            <path
+                d="M 14 4 Q 9 8 4 14"
+                stroke={color}
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                fill="none"
+            />
+        </svg>
+    );
+}
+
+function RejectedVersionCard({
+    label,
+    title,
+    body,
+}: {
+    label: string;
+    title: string;
+    body: string;
+}) {
+    return (
+        <div className="border border-gray-200 rounded-lg p-5 h-full">
+            <div className="flex items-center gap-2 mb-3">
+                <span
+                    style={{
+                        fontFamily: "var(--font-caveat), cursive",
+                        fontSize: "26px",
+                        color: "#FF9800",
+                        fontWeight: 600,
+                        lineHeight: 1,
+                    }}
+                >
+                    {label}
+                </span>
+                <HandDrawnStrike />
+            </div>
+            <p className="font-medium text-sm text-gray-900 mb-1.5 leading-snug">{title}</p>
+            <p className="text-sm text-gray-500 leading-relaxed">{body}</p>
+        </div>
+    );
+}
+
+// Customer testimonial — same blockquote treatment as PullQuote, with
+// a muted attribution line below. Pass plain text or JSX (e.g. with a
+// Highlighter underline on a keeper phrase) as children.
+function CustomerQuote({
+    children,
+    attribution,
+}: {
+    children: ReactNode;
+    attribution: string;
+}) {
+    return (
+        <motion.blockquote
+            {...fadeInUp}
+            className="border-l-[3px] border-gray-900/20 pl-6 py-2 my-10 max-w-3xl"
+        >
+            <p className="text-xl md:text-2xl font-light italic leading-relaxed text-gray-900/80">
+                {children}
+            </p>
+            <cite className="block not-italic mt-4 text-sm text-gray-400 font-normal">
+                {attribution}
+            </cite>
+        </motion.blockquote>
     );
 }
 
@@ -586,6 +666,29 @@ function RiskScoreSection() {
                     {riskScore.body}
                 </motion.p>
 
+                {/* Rejected versions — what we tried before the radar */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.12 }}
+                    className="my-10"
+                >
+                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-5">
+                        {riskScore.rejectedVersions.eyebrow}
+                    </p>
+                    <div className="grid md:grid-cols-3 gap-4">
+                        {riskScore.rejectedVersions.versions.map((v) => (
+                            <RejectedVersionCard
+                                key={v.label}
+                                label={v.label}
+                                title={v.title}
+                                body={v.body}
+                            />
+                        ))}
+                    </div>
+                </motion.div>
+
+                <PullQuote>{riskScore.rejectedVersions.closingPullQuote}</PullQuote>
+
                 {/* Three Pillars */}
                 <motion.div
                     {...fadeInUp}
@@ -650,6 +753,14 @@ function RiskScoreSection() {
                         />
                     </div>
                 </motion.div>
+
+                <CustomerQuote attribution={riskScore.customerQuote.attribution}>
+                    {riskScore.customerQuote.before}
+                    <Highlighter action="underline" color="#FF9800" isView>
+                        {riskScore.customerQuote.underlined}
+                    </Highlighter>
+                    {riskScore.customerQuote.after}
+                </CustomerQuote>
             </div>
         </section>
     );
@@ -797,7 +908,78 @@ function MicroLearningSection() {
                     ))}
                 </motion.div>
 
-                {/* Flashcard Training now lives in the Quick Case Studies homepage section */}
+                {/* Flashcard Training visual — two stacked placeholders, image on the right */}
+                <motion.div
+                    {...fadeIn}
+                    transition={{ ...fadeIn.transition, delay: 0.2 }}
+                    className="grid md:grid-cols-2 gap-4 mt-4 items-stretch"
+                >
+                    {/* Left column — two placeholders stacked */}
+                    <div className="grid grid-rows-2 gap-4">
+                        <div
+                            className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 flex items-center justify-center min-h-[160px]"
+                            aria-hidden
+                        >
+                            <span className="text-xs text-gray-400 tracking-[0.18em] uppercase">
+                                Placeholder
+                            </span>
+                        </div>
+                        <div
+                            className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 flex items-center justify-center min-h-[160px]"
+                            aria-hidden
+                        >
+                            <span className="text-xs text-gray-400 tracking-[0.18em] uppercase">
+                                Placeholder
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Right column — hf-cards image in mac browser frame */}
+                    <div
+                        className="rounded-2xl overflow-hidden"
+                        style={{
+                            background: "#ffffff",
+                            border: "1px solid #e4e4e7",
+                            boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                        }}
+                    >
+                        <div
+                            className="flex items-center gap-2 px-4 py-3"
+                            style={{ background: "#e4e4e7" }}
+                        >
+                            <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
+                                <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
+                            </div>
+                            <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
+                                HF 3 — Flashcard Training
+                            </span>
+                        </div>
+                        <Image
+                            src="/work/1st-case study/hf-cards.png"
+                            alt="HF 3 — Flashcard Training cover card preview"
+                            width={2458}
+                            height={1720}
+                            className="w-full h-auto block"
+                        />
+                    </div>
+                </motion.div>
+
+                {/* Cross-link to the Flashcard Training Builder case study */}
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.3 }}
+                    className="mt-6 text-sm"
+                >
+                    <Link
+                        href="/case-study/flashcard-training"
+                        className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-900 transition-colors"
+                    >
+                        See how the training builder was designed
+                        <ArrowRight className="w-3.5 h-3.5" aria-hidden />
+                    </Link>
+                </motion.p>
             </div>
         </section>
     );
@@ -972,26 +1154,32 @@ function ConfidenceSection() {
                     </Highlighter>
                 </motion.h2>
 
-                {/* Outcome Grid */}
+                {/* Single metric card — the number speaks */}
                 <motion.div
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.1 }}
-                    className="grid sm:grid-cols-2 gap-4 mb-10"
+                    className="mb-10 max-w-xl"
                 >
-                    {confidence.outcomes.map((item) => (
-                        <div key={item} className="border border-gray-200 rounded-lg px-5 py-4">
-                            <p className="text-sm font-medium text-gray-900">{item}</p>
-                        </div>
+                    <div className="border border-gray-200 rounded-lg px-5 py-4">
+                        <p className="text-sm font-medium text-gray-900">{confidence.metric.primary}</p>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2 ml-1">{confidence.metric.footnote}</p>
+                </motion.div>
+
+                {/* Three prose paragraphs */}
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.14 }}
+                    className="max-w-4xl space-y-4 text-base leading-relaxed text-gray-600 mb-10"
+                >
+                    {confidence.bodyParagraphs.map((p) => (
+                        <p key={p}>{p}</p>
                     ))}
                 </motion.div>
 
-                <motion.p
-                    {...fadeInUp}
-                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
-                    className="text-base text-gray-600 max-w-4xl"
-                >
-                    {confidence.closing}
-                </motion.p>
+                <CustomerQuote attribution={confidence.customerQuote.attribution}>
+                    {confidence.customerQuote.text}
+                </CustomerQuote>
             </div>
         </section>
     );
