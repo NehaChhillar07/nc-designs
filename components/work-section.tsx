@@ -253,8 +253,9 @@ export function WorkSection() {
                     {projects.map((project, index) => (
                         <div
                             key={project.id}
+                            id={index === 0 ? "first-case-study" : undefined}
                             ref={(el) => addToTextBlocksRef(el, index)}
-                            className="min-h-screen flex flex-col justify-center py-16 md:py-24"
+                            className="min-h-screen flex flex-col justify-center py-16 md:py-24 scroll-mt-20"
                         >
                             {/* Mobile Image */}
                             <div className="lg:hidden mb-8 rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '4/3' }}>

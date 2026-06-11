@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, ArrowDown } from "lucide-react";
 
 type StateBlock = {
     label: string;
     items: readonly string[];
 };
 
+// Side-by-side transformation grid. Each row pairs a "before" item with its
+// "wanted" counterpart, connected by an arrow so the reader sees the contrast
+// — and the resolution — without clicking anything.
 export function BeforeWantedToggle({
     before,
     wanted,
@@ -16,160 +19,129 @@ export function BeforeWantedToggle({
     wanted: StateBlock;
 }) {
     const reduce = useReducedMotion();
-    const [active, setActive] = useState<"before" | "wanted">("before");
-
-    // Reduced-motion / no-JS fallback: both side-by-side, static
-    if (reduce) {
-        return (
-            <div className="grid md:grid-cols-2 gap-4 my-10">
-                <StaticPanel block={before} dimmed />
-                <StaticPanel block={wanted} />
-            </div>
-        );
-    }
-
-    const currentBlock = active === "before" ? before : wanted;
+    const rowCount = Math.min(before.items.length, wanted.items.length);
+    const pairs = Array.from({ length: rowCount }, (_, i) => ({
+        before: before.items[i],
+        wanted: wanted.items[i],
+    }));
 
     return (
         <div className="my-10">
-            {/* Segmented control */}
-            <div
-                role="tablist"
-                aria-label="Compare how training got made with what clients wanted"
-                className="inline-flex items-center gap-1 p-1 bg-gray-100 rounded-lg mb-5"
-            >
-                <button
-                    role="tab"
-                    aria-selected={active === "before"}
-                    onClick={() => setActive("before")}
-                    className={`relative px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                        active === "before"
-                            ? "text-gray-900"
-                            : "text-gray-500 hover:text-gray-700"
-                    }`}
-                >
-                    {active === "before" && (
-                        <motion.span
-                            layoutId="beforewanted-pill"
-                            className="absolute inset-0 bg-white rounded-md shadow-sm"
-                            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                        />
-                    )}
-                    <span className="relative">How training got made</span>
-                </button>
-                <button
-                    role="tab"
-                    aria-selected={active === "wanted"}
-                    onClick={() => setActive("wanted")}
-                    className={`relative px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                        active === "wanted"
-                            ? "text-gray-900"
-                            : "text-gray-500 hover:text-gray-700"
-                    }`}
-                >
-                    {active === "wanted" && (
-                        <motion.span
-                            layoutId="beforewanted-pill"
-                            className="absolute inset-0 bg-white rounded-md shadow-sm"
-                            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                        />
-                    )}
-                    <span className="relative">What clients wanted</span>
-                </button>
+            {/* Column headers — left muted, right emphasized */}
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-3 md:gap-6 mb-6 items-end">
+                <div className="flex items-baseline gap-3">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-400">
+                        Before
+                    </span>
+                    <p className="text-base md:text-lg font-medium text-gray-500">
+                        {before.label}
+                    </p>
+                </div>
+                <div className="hidden md:block w-12" aria-hidden />
+                <div className="flex items-baseline gap-3">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-600">
+                        Wanted
+                    </span>
+                    <p className="text-base md:text-lg font-medium text-gray-900">
+                        {wanted.label}
+                    </p>
+                </div>
             </div>
 
-            {/* Animated card region */}
-            <div
-                className={`border rounded-xl p-6 ${
-                    active === "before"
-                        ? "border-gray-200 bg-gray-50/50"
-                        : "border-gray-900 border-2 bg-gray-900/[0.02]"
-                }`}
-                style={{ minHeight: 240 }}
-            >
-                <AnimatePresence mode="wait">
+            {/* Paired rows */}
+            <div className="space-y-3 md:space-y-4">
+                {pairs.map((pair, i) => (
                     <motion.div
-                        key={active}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+                        key={i}
+                        initial={reduce ? false : { opacity: 0, y: 12 }}
+                        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+                        transition={{
+                            duration: 0.5,
+                            delay: i * 0.08,
+                            ease: [0.25, 0.1, 0.25, 1],
+                        }}
+                        className="group grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-2 md:gap-6 items-center"
                     >
-                        <p
-                            className={`text-xs font-semibold uppercase tracking-wider mb-4 ${
-                                active === "before" ? "text-gray-400" : "text-gray-900"
-                            }`}
-                        >
-                            {currentBlock.label}
-                        </p>
-                        <ul className="space-y-3">
-                            {currentBlock.items.map((item) => (
-                                <li
-                                    key={item}
-                                    className={`flex items-start gap-3 ${
-                                        active === "before"
-                                            ? "text-sm text-gray-500"
-                                            : "text-sm font-medium text-gray-900"
-                                    }`}
-                                >
-                                    <span
-                                        className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                            active === "before"
-                                                ? "bg-gray-200"
-                                                : "bg-gray-900"
-                                        }`}
-                                    >
-                                        <span
-                                            className={`text-xs ${
-                                                active === "before"
-                                                    ? "text-gray-400"
-                                                    : "text-white"
-                                            }`}
-                                        >
-                                            {active === "before" ? "✕" : "✓"}
-                                        </span>
-                                    </span>
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </motion.div>
-                </AnimatePresence>
-            </div>
-        </div>
-    );
-}
+                        {/* Before pill */}
+                        <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/60 transition-colors duration-300 group-hover:bg-gray-100/80">
+                            <span
+                                aria-hidden
+                                className="flex-shrink-0 w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center"
+                            >
+                                <span className="w-2.5 h-px bg-gray-400" />
+                            </span>
+                            <span className="text-sm md:text-[15px] text-gray-500 leading-snug">
+                                {pair.before}
+                            </span>
+                        </div>
 
-function StaticPanel({ block, dimmed }: { block: StateBlock; dimmed?: boolean }) {
-    return (
-        <div
-            className={`rounded-xl p-6 ${
-                dimmed
-                    ? "border border-gray-200 bg-gray-50/50"
-                    : "border-2 border-gray-900 bg-gray-900/[0.02]"
-            }`}
-        >
-            <p
-                className={`text-xs font-semibold uppercase tracking-wider mb-4 ${
-                    dimmed ? "text-gray-400" : "text-gray-900"
-                }`}
-            >
-                {block.label}
-            </p>
-            <ul className="space-y-3">
-                {block.items.map((item) => (
-                    <li
-                        key={item}
-                        className={
-                            dimmed
-                                ? "text-sm text-gray-500"
-                                : "text-sm font-medium text-gray-900"
-                        }
-                    >
-                        {item}
-                    </li>
+                        {/* Connector — horizontal on desktop, downward on mobile */}
+                        <div className="flex items-center justify-center md:w-12 my-1 md:my-0">
+                            <motion.div
+                                initial={
+                                    reduce ? false : { opacity: 0, x: -8 }
+                                }
+                                whileInView={
+                                    reduce ? undefined : { opacity: 1, x: 0 }
+                                }
+                                viewport={{ once: true }}
+                                transition={{
+                                    duration: 0.4,
+                                    delay: i * 0.08 + 0.2,
+                                }}
+                                className="text-emerald-500"
+                                aria-hidden
+                            >
+                                <ArrowRight
+                                    className="hidden md:block w-5 h-5"
+                                    strokeWidth={2.25}
+                                />
+                                <ArrowDown
+                                    className="md:hidden w-4 h-4"
+                                    strokeWidth={2.25}
+                                />
+                            </motion.div>
+                        </div>
+
+                        {/* Wanted pill */}
+                        <div
+                            className="relative flex items-center gap-3 px-4 py-3 rounded-xl bg-white transition-shadow duration-300 group-hover:shadow-[0_10px_30px_-12px_rgba(16,185,129,0.25)]"
+                            style={{
+                                border: "1.5px solid rgba(16, 185, 129, 0.35)",
+                                boxShadow:
+                                    "inset 3px 0 0 0 rgba(16, 185, 129, 0.7)",
+                            }}
+                        >
+                            <span
+                                aria-hidden
+                                className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center"
+                            >
+                                <svg
+                                    width="12"
+                                    height="12"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="white"
+                                    strokeWidth="3.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                            </span>
+                            <span className="text-sm md:text-[15px] font-medium text-gray-900 leading-snug">
+                                {pair.wanted}
+                            </span>
+                        </div>
+                    </motion.div>
                 ))}
-            </ul>
+            </div>
+
+            {/* Subtle caption underneath */}
+            <p className="mt-5 text-[11px] uppercase tracking-[0.18em] text-gray-400 text-center md:text-left">
+                Every row · A handoff replaced with a self-serve action
+            </p>
         </div>
     );
 }

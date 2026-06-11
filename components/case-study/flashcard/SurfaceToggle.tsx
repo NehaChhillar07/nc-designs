@@ -1,8 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Monitor, Smartphone } from "lucide-react";
+
+// Same media as the live demo cards in section 05 — images are part of card content
+const CARD_IMAGES = [
+    "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=300&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1633409361618-c73427e4e206?w=300&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=300&q=80&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=300&q=80&auto=format&fit=crop",
+];
 
 type Surface = {
     label: string;
@@ -175,8 +184,25 @@ function CreatorSurface({ desc }: { desc: string }) {
                         {[0, 1, 2, 3, 4, 5].map((n) => (
                             <div
                                 key={n}
-                                className="rounded-md border border-gray-200 bg-gray-50/40 h-20 p-2"
+                                className="rounded-md border border-gray-200 bg-gray-50/40 h-24 p-2"
                             >
+                                {CARD_IMAGES[n] ? (
+                                    <div className="relative h-9 rounded overflow-hidden mb-1.5">
+                                        <Image
+                                            src={CARD_IMAGES[n]}
+                                            alt=""
+                                            fill
+                                            sizes="120px"
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="h-9 rounded bg-gray-200/70 mb-1.5 flex items-center justify-center">
+                                        <span className="text-[8px] text-gray-400 tracking-wide">
+                                            + media
+                                        </span>
+                                    </div>
+                                )}
                                 <div className="h-1.5 rounded bg-gray-300 w-3/4 mb-1.5" />
                                 <div className="h-1 rounded bg-gray-200 w-1/2 mb-1" />
                                 <div className="h-1 rounded bg-gray-200 w-2/3" />
@@ -229,7 +255,7 @@ function LearnerSurface({ desc }: { desc: string }) {
                     </div>
                     {/* The card */}
                     <div
-                        className="flex-1 rounded-2xl p-5 text-white relative"
+                        className="flex-1 rounded-2xl p-5 pb-10 text-white relative flex flex-col"
                         style={{
                             background:
                                 "linear-gradient(135deg, #1f2937 0%, #111827 100%)",
@@ -244,6 +270,16 @@ function LearnerSurface({ desc }: { desc: string }) {
                             <span className="text-[10px] text-white/60 tabular-nums">
                                 1 / 4
                             </span>
+                        </div>
+                        <div className="relative w-full flex-1 min-h-0 rounded-xl overflow-hidden mb-4">
+                            <Image
+                                src={CARD_IMAGES[0]}
+                                alt=""
+                                fill
+                                sizes="280px"
+                                className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent" />
                         </div>
                         <p className="text-base font-medium leading-snug pr-1">
                             Data Privacy isn&apos;t paperwork.

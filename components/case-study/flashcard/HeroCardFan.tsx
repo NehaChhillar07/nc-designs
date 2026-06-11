@@ -22,8 +22,8 @@ type CardSeed =
       };
 
 const MAX_TILT_DEG = 6;
-const FRONT_HOLD_MS = 2800;
-const BACK_HOLD_MS = 2800;
+const FRONT_HOLD_MS = 4500;
+const BACK_HOLD_MS = 4500;
 const EXIT_DURATION_MS = 1200;
 const EXIT_DURATION_S = EXIT_DURATION_MS / 1000;
 const FLIP_DURATION_S = 0.7;

@@ -717,20 +717,6 @@ function WhereItIsSection() {
                     ))}
                 </motion.div>
 
-                {/* Outcomes — qualitative, no fabricated metrics */}
-                <motion.ul
-                    {...fadeInUp}
-                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
-                    className="space-y-2 text-base text-gray-600 max-w-4xl mb-10 mt-6"
-                >
-                    {whereItIs.outcomes.map((o) => (
-                        <li key={o} className="flex items-start gap-3">
-                            <span className="mt-2 w-1.5 h-1.5 rounded-full bg-gray-900 flex-shrink-0" />
-                            <span>{o}</span>
-                        </li>
-                    ))}
-                </motion.ul>
-
                 <StandaloneToEmbedded
                     crossLinkText={whereItIs.crossLinkText}
                     crossLinkHref={whereItIs.crossLinkHref}

@@ -144,7 +144,7 @@ export const flashcardTrainingCaseStudyData = {
                 ],
                 explanation: "Need-to-know plus the right channel. Slack isn't the record system; the CRM is.",
                 packLabel: "Data Privacy Essentials",
-                image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=600&q=80&auto=format&fit=crop",
+                image: "https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=600&q=80&auto=format&fit=crop",
             },
             {
                 type: "learning",
@@ -280,15 +280,8 @@ export const flashcardTrainingCaseStudyData = {
         headingHighlight: "inside Human Firewall 3",
         headingSuffix: ".",
         body: [
-            "It's live on 10 enterprise clients as a module inside Human Firewall 3.",
             "All of them use it regularly, enrolling their users with content personalised by role, designation, and level.",
             "It started as its own product, designed and built end to end, and the engineering team brought the code directly into HF3.",
-        ],
-        // Qualitative outcomes — copy doc verbatim, no fabricated metrics
-        outcomes: [
-            "Live on 10 enterprise clients as a module in HF3",
-            "All using it regularly",
-            "Enrolling users with content personalised by role, designation, and level",
         ],
         crossLinkText: "This format now closes the loop inside Human Firewall",
         crossLinkHref: "/case-study/human-firewall",

@@ -62,7 +62,7 @@ export function SplitCTASection() {
                             From ideas to real, <Highlighter action="underline" color="#FF9800" isView>shipped interfaces</Highlighter>
                         </p>
                         <button
-                            onClick={() => handleNavigate("#work")}
+                            onClick={() => handleNavigate("#first-case-study")}
                             className="group inline-flex items-center justify-center px-6 py-3 bg-foreground text-background rounded-full font-medium text-[14px] transition-all duration-200 ease-out hover:scale-[1.02] hover:shadow-lg"
                         >
                             View Work

@@ -1,19 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
     motion,
     AnimatePresence,
     useReducedMotion,
     type PanInfo,
 } from "framer-motion";
-import { ChevronLeft, ChevronRight, Check, X, RotateCcw } from "lucide-react";
+import { ChevronLeft, ChevronRight, Check, X, RotateCcw, Pointer } from "lucide-react";
 
 type LearningCard = {
     type: "learning";
     front: string;
     back: string;
     packLabel?: string;
+    image?: string;
 };
 
 type QuizCard = {
@@ -22,12 +24,17 @@ type QuizCard = {
     options: ReadonlyArray<{ text: string; correct: boolean }>;
     explanation: string;
     packLabel?: string;
+    image?: string;
 };
 
 export type DemoCard = LearningCard | QuizCard;
 
 const SWIPE_THRESHOLD = 90;
 const VELOCITY_THRESHOLD = 600;
+const CARD_HEIGHT = 520;
+const STACK_OFFSET = 16; // px each card behind peeks out
+const STACK_SCALE = 0.05; // scale step per card behind
+const STACK_DEPTH = 2; // how many cards visible behind the top one
 
 export function LiveFlashcardDemo({
     cards,
@@ -95,13 +102,58 @@ export function LiveFlashcardDemo({
         else if (off > SWIPE_THRESHOLD || vel > VELOCITY_THRESHOLD) prev();
     }
 
+    // Cards waiting behind the top one, nearest first
+    const behind = [];
+    for (let depth = 1; depth <= STACK_DEPTH; depth++) {
+        if (index + depth < total) behind.push(index + depth);
+    }
+
     return (
         <div ref={rootRef} className="my-10" tabIndex={-1}>
-            {/* Card frame */}
+            {/* Card stack frame — extra height so cards behind peek out below */}
             <div
                 className="relative mx-auto"
-                style={{ width: "min(100%, 420px)", height: 460 }}
+                style={{
+                    width: "min(100%, 420px)",
+                    height: CARD_HEIGHT + STACK_OFFSET * STACK_DEPTH,
+                }}
             >
+                {/* Stack: upcoming cards peeking out behind, farthest rendered first */}
+                {[...behind].reverse().map((i) => {
+                    const depth = i - index;
+                    return (
+                        <motion.div
+                            key={i}
+                            initial={false}
+                            animate={{
+                                y: depth * STACK_OFFSET,
+                                scale: 1 - depth * STACK_SCALE,
+                                opacity: 1 - depth * 0.25,
+                            }}
+                            transition={{
+                                duration: reduce ? 0 : 0.4,
+                                ease: [0.25, 0.1, 0.25, 1],
+                            }}
+                            className="absolute inset-x-0 top-0 pointer-events-none"
+                            style={{ height: CARD_HEIGHT, transformOrigin: "bottom center" }}
+                            aria-hidden
+                        >
+                            <CardFace
+                                card={cards[i]}
+                                index={i}
+                                total={total}
+                                flipped={false}
+                                onFlip={() => {}}
+                                picked={null}
+                                onPick={() => {}}
+                                reduce={reduce ?? false}
+                                preview
+                            />
+                        </motion.div>
+                    );
+                })}
+
+                {/* Top card — draggable */}
                 <AnimatePresence initial={false} custom={direction} mode="popLayout">
                     <motion.div
                         key={index}
@@ -110,30 +162,41 @@ export function LiveFlashcardDemo({
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0.6}
                         onDragEnd={onDragEnd}
+                        whileDrag={{ rotate: 3, cursor: "grabbing" }}
                         initial={
                             reduce
                                 ? { opacity: 0 }
-                                : { x: direction * 280, opacity: 0, rotate: direction * 6 }
+                                : direction === 1
+                                    ? {
+                                        // promoted from the stack behind
+                                        y: STACK_OFFSET,
+                                        scale: 1 - STACK_SCALE,
+                                        opacity: 0.75,
+                                        x: 0,
+                                        rotate: 0,
+                                    }
+                                    : { x: -440, opacity: 0, rotate: -10, y: 0, scale: 1 }
                         }
                         animate={
                             reduce
                                 ? { opacity: 1 }
-                                : { x: 0, opacity: 1, rotate: 0 }
+                                : { x: 0, y: 0, scale: 1, opacity: 1, rotate: 0 }
                         }
                         exit={
                             reduce
                                 ? { opacity: 0 }
-                                : {
-                                    x: direction * -280,
-                                    opacity: 0,
-                                    rotate: direction * -6,
-                                }
+                                : direction === 1
+                                    ? // thrown off to the side
+                                    { x: -440, opacity: 0, rotate: -12 }
+                                    : // tucked back into the stack
+                                    { y: STACK_OFFSET, scale: 1 - STACK_SCALE, opacity: 0 }
                         }
                         transition={{
                             duration: reduce ? 0 : 0.4,
                             ease: [0.25, 0.1, 0.25, 1],
                         }}
-                        className="absolute inset-0 cursor-grab active:cursor-grabbing"
+                        className="absolute inset-x-0 top-0 cursor-grab active:cursor-grabbing"
+                        style={{ height: CARD_HEIGHT, transformOrigin: "bottom center" }}
                         role="group"
                         aria-roledescription="flashcard"
                         aria-label={`Card ${index + 1} of ${total}`}
@@ -214,6 +277,7 @@ function CardFace({
     picked,
     onPick,
     reduce,
+    preview = false,
 }: {
     card: DemoCard;
     index: number;
@@ -223,10 +287,11 @@ function CardFace({
     picked: number | null;
     onPick: (i: number) => void;
     reduce: boolean;
+    preview?: boolean;
 }) {
     return (
         <div
-            className="w-full h-full rounded-2xl p-6 text-white relative overflow-hidden select-none"
+            className="w-full h-full rounded-2xl p-6 pb-12 text-white relative overflow-hidden select-none flex flex-col"
             style={{
                 background: "linear-gradient(135deg, #1f2937 0%, #111827 100%)",
                 boxShadow:
@@ -242,11 +307,35 @@ function CardFace({
                 </span>
             </div>
 
+            {card.image && (
+                <div
+                    className={`relative w-full rounded-xl overflow-hidden mb-4 ${
+                        card.type === "learning"
+                            ? "flex-1 min-h-0" // learning cards: image fills the spare height
+                            : "h-32 flex-shrink-0"
+                    }`}
+                >
+                    <Image
+                        src={card.image}
+                        alt=""
+                        fill
+                        sizes="420px"
+                        className="object-cover pointer-events-none"
+                        draggable={false}
+                        priority={!preview && index === 0}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent" />
+                </div>
+            )}
+
             {card.type === "learning" ? (
                 <button
                     type="button"
                     onClick={onFlip}
-                    className="w-full text-left h-[calc(100%-72px)] flex flex-col items-stretch focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-lg"
+                    disabled={preview}
+                    className={`w-full text-left flex flex-col items-start focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-lg ${
+                        card.image ? "" : "flex-1 min-h-0"
+                    }`}
                     aria-label={flipped ? "Show front of card" : "Show back of card"}
                 >
                     <AnimatePresence mode="wait">
@@ -256,7 +345,7 @@ function CardFace({
                             animate={reduce ? undefined : { opacity: 1, y: 0 }}
                             exit={reduce ? undefined : { opacity: 0, y: -6 }}
                             transition={{ duration: 0.25 }}
-                            className="flex-1 flex flex-col"
+                            className={card.image ? "" : "flex-1"}
                         >
                             {flipped ? (
                                 <p className="text-sm text-white/80 leading-relaxed">
@@ -269,12 +358,25 @@ function CardFace({
                             )}
                         </motion.div>
                     </AnimatePresence>
-                    <span className="mt-3 text-[11px] text-white/40 tracking-wide">
+                    <motion.span
+                        animate={
+                            reduce || preview
+                                ? undefined
+                                : { opacity: [0.65, 1, 0.65], scale: [1, 1.03, 1] }
+                        }
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                        className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/25 text-[11px] font-medium text-white tracking-wide"
+                    >
+                        <Pointer className="w-3 h-3" aria-hidden />
                         {flipped ? "Tap to flip back" : "Tap to reveal"}
-                    </span>
+                    </motion.span>
                 </button>
             ) : (
-                <div className="h-[calc(100%-72px)] flex flex-col">
+                <div className="flex-1 min-h-0 flex flex-col">
                     <p className="text-base font-medium leading-snug mb-4">
                         {card.question}
                     </p>
@@ -296,7 +398,7 @@ function CardFace({
                                 <button
                                     key={i}
                                     onClick={() => picked === null && onPick(i)}
-                                    disabled={picked !== null}
+                                    disabled={preview || picked !== null}
                                     className={`w-full text-left px-3 py-2.5 rounded-lg border text-sm leading-snug transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 ${stateClass}`}
                                 >
                                     <span className="flex items-start gap-2">
