@@ -2,6 +2,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Offset anchor scrolling by the fixed header height (h-16) */
+  scroll-padding-top: 4rem;
 }
 
 @custom-variant dark (&:is(.dark *));

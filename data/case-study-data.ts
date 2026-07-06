@@ -5,7 +5,7 @@ export const otherProjects = [
         title: "Designing a Human Firewall Platform to Reduce Enterprise Human Risk",
         category: "Enterprise cybersecurity SaaS · Admin-heavy workflows",
         description: "End-to-End UX Architecture for Phishing Simulations, Training & AI-Assisted Risk Insights",
-        image: "/work/humanfirewall.svg",
+        image: "/work/1st-case study/humanfirewall cover cropped.png",
         link: "/case-study/human-firewall",
         readingTime: "8 mins",
     },

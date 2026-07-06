@@ -908,60 +908,57 @@ function MicroLearningSection() {
                     ))}
                 </motion.div>
 
-                {/* Flashcard Training visual — two stacked placeholders, image on the right */}
+                {/* Flashcard Training visual — phishing email + reveal page stacked, image on the right */}
                 <motion.div
                     {...fadeIn}
                     transition={{ ...fadeIn.transition, delay: 0.2 }}
                     className="grid md:grid-cols-2 gap-4 mt-4 items-stretch"
                 >
-                    {/* Left column — two placeholders stacked */}
+                    {/* Left column — simulated phishing email + post-click reveal stacked */}
                     <div className="grid grid-rows-2 gap-4">
                         <div
-                            className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 flex items-center justify-center min-h-[160px]"
-                            aria-hidden
+                            className="relative rounded-2xl overflow-hidden min-h-[200px]"
+                            style={{
+                                border: "1px solid #e4e4e7",
+                                boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                            }}
                         >
-                            <span className="text-xs text-gray-400 tracking-[0.18em] uppercase">
-                                Placeholder
-                            </span>
+                            <Image
+                                src="/work/1st-case study/phishing-email-gmail.png"
+                                alt="Simulated phishing email in Gmail — Apple Vision Pro Enterprise Beta lure"
+                                fill
+                                className="object-cover object-top"
+                            />
                         </div>
                         <div
-                            className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/50 flex items-center justify-center min-h-[160px]"
-                            aria-hidden
+                            className="relative rounded-2xl overflow-hidden min-h-[200px]"
+                            style={{
+                                border: "1px solid #e4e4e7",
+                                boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
+                            }}
                         >
-                            <span className="text-xs text-gray-400 tracking-[0.18em] uppercase">
-                                Placeholder
-                            </span>
+                            <Image
+                                src="/work/1st-case study/simulation-reveal.jpg"
+                                alt="HumanFirewall reveal page shown after clicking — “Oops! Apple wasn't real” with the warning signs breakdown"
+                                fill
+                                className="object-cover object-top"
+                            />
                         </div>
                     </div>
 
-                    {/* Right column — hf-cards image in mac browser frame */}
+                    {/* Right column — hf-cards image fills the frame */}
                     <div
-                        className="rounded-2xl overflow-hidden"
+                        className="relative rounded-2xl overflow-hidden min-h-[300px] md:min-h-0"
                         style={{
-                            background: "#ffffff",
                             border: "1px solid #e4e4e7",
                             boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
                         }}
                     >
-                        <div
-                            className="flex items-center gap-2 px-4 py-3"
-                            style={{ background: "#e4e4e7" }}
-                        >
-                            <div className="flex items-center gap-2">
-                                <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
-                                <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
-                                <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
-                            </div>
-                            <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                                HF 3 — Flashcard Training
-                            </span>
-                        </div>
                         <Image
                             src="/work/1st-case study/hf-cards.png"
                             alt="HF 3 — Flashcard Training cover card preview"
-                            width={2458}
-                            height={1720}
-                            className="w-full h-auto block"
+                            fill
+                            className="object-cover"
                         />
                     </div>
                 </motion.div>
@@ -1115,10 +1112,10 @@ function MigrationSection() {
                                     </span>
                                 </div>
                                 <Image
-                                    src="/work/1st-case study/WhatsApp Image 2026-03-22 at 12.59.11.jpeg"
-                                    alt="HF 3 — Redesigned campaign creation with AI-assisted workflow"
-                                    width={3352}
-                                    height={1914}
+                                    src="/work/1st-case study/campaign-wizard-4-questions.png"
+                                    alt="HF 3 — Redesigned campaign creation: answer 4 questions (What, Who, Then, When) wizard"
+                                    width={1999}
+                                    height={1078}
                                     className="w-full h-auto block"
                                 />
                             </div>
@@ -1231,14 +1228,14 @@ function ReflectionSection() {
                 <motion.div
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                    className="border-t border-gray-200 pt-10 max-w-4xl"
+                    className="border-t border-gray-200 pt-10 max-w-4xl mx-auto text-center"
                 >
                     {reflection.statement.map((line, i) => {
                         const opacities = [1, 0.6, 0.3];
                         return (
                             <p
                                 key={line}
-                                className="text-xl md:text-2xl font-semibold leading-relaxed tracking-tight"
+                                className="text-3xl md:text-5xl font-semibold leading-snug tracking-tight"
                                 style={{ color: `rgba(17, 24, 39, ${opacities[i]})` }}
                             >
                                 {line}

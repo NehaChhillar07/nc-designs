@@ -12,6 +12,8 @@ import { flashcardTrainingCaseStudyData } from "@/data/flashcard-training-data";
 
 const FLASHCARD_PROJECT_ID = 5;
 const FLASHCARD_FAN_CARDS = flashcardTrainingCaseStudyData.whyFlashcards.cards;
+// Human Firewall cover renders reduced + centered on a dark card instead of a full-bleed crop.
+const HF_PROJECT_ID = 1;
 
 // Soft blurred shadow blob placed behind the auto-cycling card deck so the
 // stack reads against the dark background.
@@ -44,7 +46,7 @@ const projects = [
         category: "Enterprise cybersecurity SaaS · Admin-heavy workflows",
         description:
             "End-to-End UX Architecture for Phishing Simulations, Training & AI-Assisted Risk Insights",
-        image: "/work/humanfirewall.svg",
+        image: "/work/1st-case study/humanfirewall cover cropped.png",
         tags: [],
         caseStudyLink: "/case-study/human-firewall",
         buttonText: "Read case study",
@@ -57,7 +59,7 @@ const projects = [
         category: "Internal tool · AI-native workflow · Enterprise training",
         description:
             "Built as a module inside Human Firewall to replace boring security training — type a topic, generate a card pack, ship it anywhere.",
-        image: "/work/humanfirewall.svg",
+        image: "/work/1st-case study/humanfirewall cover cropped.png",
         tags: [],
         caseStudyLink: "/case-study/flashcard-training",
         buttonText: "Read case study",
@@ -84,7 +86,7 @@ const projects = [
         category: "AI email security · Inbox side defense",
         description:
             "Behavioral Analysis, Threat Scoring, and Account Takeover Protection on Reported Emails, Designed for SOC and Security Admins",
-        image: "/work/humanfirewall.svg",
+        image: "/work/1st-case study/humanfirewall cover cropped.png",
         tags: [],
         caseStudyLink: "",
         buttonText: "Read case study",
@@ -97,7 +99,7 @@ const projects = [
         category: "DNS and domain reporting · Made human",
         description:
             "Translating Raw DMARC, SPF, and DKIM Data into Reports People Can Actually Act On",
-        image: "/work/humanfirewall.svg",
+        image: "/work/1st-case study/humanfirewall cover cropped.png",
         tags: [],
         caseStudyLink: "",
         buttonText: "Read case study",
@@ -255,14 +257,50 @@ export function WorkSection() {
                             key={project.id}
                             id={index === 0 ? "first-case-study" : undefined}
                             ref={(el) => addToTextBlocksRef(el, index)}
-                            className="min-h-screen flex flex-col justify-center py-16 md:py-24 scroll-mt-20"
+                            className="min-h-screen flex flex-col justify-center py-16 md:py-24 scroll-mt-4"
                         >
                             {/* Mobile Image */}
                             <div className="lg:hidden mb-8 rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '4/3' }}>
                                 {project.id === FLASHCARD_PROJECT_ID ? (
-                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-900 to-zinc-950 flex items-center justify-center p-6">
+                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-950 flex items-center justify-center p-6">
+                                        <div
+                                            aria-hidden
+                                            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                        >
+                                            <div
+                                                className="w-[380px] h-[380px] rounded-full blur-3xl"
+                                                style={{
+                                                    background:
+                                                        "radial-gradient(circle, rgba(110,231,183,0.22) 0%, rgba(96,165,250,0.12) 42%, transparent 70%)",
+                                                }}
+                                            />
+                                        </div>
                                         <FlashcardHighlightBlock />
                                         <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
+                                    </div>
+                                ) : project.id === HF_PROJECT_ID ? (
+                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black flex items-center justify-center p-6 overflow-hidden">
+                                        <div
+                                            aria-hidden
+                                            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                        >
+                                            <div
+                                                className="w-[480px] h-[480px] rounded-full blur-3xl"
+                                                style={{
+                                                    background:
+                                                        "radial-gradient(circle, rgba(139,92,246,0.55) 0%, rgba(96,165,250,0.3) 45%, transparent 72%)",
+                                                }}
+                                            />
+                                        </div>
+                                        <Image
+                                            src={project.image}
+                                            alt={project.title}
+                                            width={2693}
+                                            height={1644}
+                                            className="relative w-full h-auto rounded-lg border border-white/15 shadow-2xl"
+                                            priority={index < 2}
+                                            loading={index < 2 ? "eager" : "lazy"}
+                                        />
                                     </div>
                                 ) : (
                                     <Image
@@ -363,9 +401,46 @@ export function WorkSection() {
                                 className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-100"
                             >
                                 {project.id === FLASHCARD_PROJECT_ID ? (
-                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-900 to-zinc-950 flex items-center justify-center p-10">
+                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-950 flex items-center justify-center p-10">
+                                        <div
+                                            aria-hidden
+                                            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                        >
+                                            <div
+                                                className="w-[520px] h-[520px] rounded-full blur-3xl"
+                                                style={{
+                                                    background:
+                                                        "radial-gradient(circle, rgba(110,231,183,0.22) 0%, rgba(96,165,250,0.12) 42%, transparent 70%)",
+                                                }}
+                                            />
+                                        </div>
                                         <FlashcardHighlightBlock />
                                         <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
+                                    </div>
+                                ) : project.id === HF_PROJECT_ID ? (
+                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black flex items-center justify-center p-8 overflow-hidden">
+                                        <div
+                                            aria-hidden
+                                            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                        >
+                                            <div
+                                                className="w-[640px] h-[640px] rounded-full blur-3xl"
+                                                style={{
+                                                    background:
+                                                        "radial-gradient(circle, rgba(139,92,246,0.55) 0%, rgba(96,165,250,0.3) 45%, transparent 72%)",
+                                                }}
+                                            />
+                                        </div>
+                                        <Image
+                                            src={project.image}
+                                            alt={project.title}
+                                            width={2693}
+                                            height={1644}
+                                            className="relative w-full h-auto rounded-xl border border-white/15 shadow-2xl"
+                                            priority={index < 2}
+                                            sizes="600px"
+                                            loading={index < 2 ? "eager" : "lazy"}
+                                        />
                                     </div>
                                 ) : (
                                     <Image

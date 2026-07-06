@@ -22,11 +22,12 @@ type CardSeed =
       };
 
 const MAX_TILT_DEG = 6;
-const FRONT_HOLD_MS = 4500;
-const BACK_HOLD_MS = 4500;
-const EXIT_DURATION_MS = 1200;
+const FRONT_HOLD_MS = 900;
+const BACK_HOLD_MS = 900;
+const EXIT_DURATION_MS = 500;
 const EXIT_DURATION_S = EXIT_DURATION_MS / 1000;
-const FLIP_DURATION_S = 0.7;
+const FLIP_DURATION_S = 0.35;
+const SETTLE_DURATION_S = 0.38;
 
 type Phase = "front" | "back" | "exiting";
 
@@ -181,7 +182,7 @@ export function HeroCardFan({ cards }: { cards: readonly CardSeed[] }) {
                                     times: [0, 0.45, 1],
                                 }
                                 : {
-                                    duration: 0.7,
+                                    duration: SETTLE_DURATION_S,
                                     ease: [0.25, 0.1, 0.25, 1],
                                 }
                         }

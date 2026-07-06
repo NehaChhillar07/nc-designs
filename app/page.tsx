@@ -2,7 +2,6 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Highlighter } from "@/components/ui/highlighter";
 import Image from "next/image";
-import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
@@ -61,7 +60,7 @@ export default function Home() {
             <span className="block mt-3 md:mt-4 text-[20px] sm:text-[26px] md:text-[30px] lg:text-[34px] font-normal text-muted-foreground leading-snug">Currently rebuilding a 10-year-old security platform into an <Highlighter action="underline" color="#FF9800" isView>AI-driven risk intelligence system</Highlighter> used by enterprise security teams.</span>
           </h1>
           <div className="flex flex-col items-center gap-8 mt-8 md:mt-12">
-            <a href="#products" aria-label="Scroll to products section" className="cursor-pointer">
+            <a href="#explore" aria-label="Scroll to explore my work" className="cursor-pointer">
               <svg
                 className="w-6 h-6 text-muted-foreground animate-bounce"
                 fill="none"
@@ -77,71 +76,8 @@ export default function Home() {
           </div>
         </div>
 
-        <section id="products" className="py-8 md:py-16 relative px-4">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16 max-w-5xl mx-auto">
-            <a
-              href="https://kingphisher.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative group transition-transform hover:scale-105"
-            >
-              <Image
-                src="/Kingphisher Logo.svg"
-                alt="Kingphisher"
-                width={300}
-                height={120}
-                className="h-8 md:h-10 w-auto"
-                loading="eager"
-              />
-              <span
-                role="tooltip"
-                className="pointer-events-none absolute left-1/2 -top-9 -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-900 px-3 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md"
-              >
-                Reading coming soon
-              </span>
-            </a>
-
-            <Link
-              href="/case-study/human-firewall"
-              className="transition-transform hover:scale-105"
-              aria-label="Read the Human Firewall case study"
-            >
-              <Image
-                src="/HF_Logo_Final.png"
-                alt="Human Firewall"
-                width={300}
-                height={120}
-                className="h-12 md:h-16 w-auto"
-                loading="eager"
-              />
-            </Link>
-
-            <a
-              href="https://smartdmarc.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative group transition-transform hover:scale-105"
-            >
-              <Image
-                src="/SmartDMARC_Logo.svg"
-                alt="SmartDMARC"
-                width={300}
-                height={120}
-                className="h-12 md:h-16 w-auto"
-                loading="eager"
-              />
-              <span
-                role="tooltip"
-                className="pointer-events-none absolute left-1/2 -top-9 -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-900 px-3 py-1.5 text-xs font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md"
-              >
-                Reading coming soon
-              </span>
-            </a>
-          </div>
-        </section>
-
         <Suspense fallback={<div className="min-h-[300px]" />}>
-          <div className="py-16 md:py-24 lg:py-32">
+          <div id="explore" className="py-16 md:py-24 lg:py-32">
             <SplitCTASection />
           </div>
         </Suspense>

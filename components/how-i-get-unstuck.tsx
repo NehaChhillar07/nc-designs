@@ -88,14 +88,14 @@ export function HowIGetUnstuck() {
                     </motion.h2>
                 </div>
 
-                {/* Right — what helps me get there + bubbles */}
+                {/* Right — apps that helped me get there + bubbles */}
                 <div>
                     <motion.p
                         {...fadeInUp}
                         transition={{ ...fadeInUp.transition, delay: 0.1 }}
                         className="text-[16px] font-normal text-muted-foreground mb-6 md:mb-8"
                     >
-                        What helps me get there
+                        Apps that helped me get there
                     </motion.p>
 
                     {/* Tools — bubbles flow naturally right under the label */}
