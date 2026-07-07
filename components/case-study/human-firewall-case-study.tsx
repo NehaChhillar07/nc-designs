@@ -1018,7 +1018,12 @@ function MigrationSection() {
                     className="space-y-4 my-10 max-w-3xl"
                 >
                     {migration.quotes.map((q) => (
-                        <PullQuote key={q}>{q}</PullQuote>
+                        <div key={q}>
+                            <PullQuote>{q}</PullQuote>
+                            <p className="mt-2 pl-6 text-sm text-gray-400 font-normal">
+                                {migration.quotesAttribution}
+                            </p>
+                        </div>
                     ))}
                 </motion.div>
 
@@ -1067,7 +1072,7 @@ function MigrationSection() {
                                     </span>
                                 </div>
                                 <Image
-                                    src="/work/1st-case study/WhatsApp Image 2026-03-22 at 12.58.37.jpeg"
+                                    src="/work/1st-case study/hf2-legacy-campaign-scenarios.jpeg"
                                     alt="HF 2 — Legacy campaign creation with 7-tab manual workflow"
                                     width={3354}
                                     height={1928}

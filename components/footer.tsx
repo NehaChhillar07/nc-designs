@@ -6,9 +6,9 @@ import { Highlighter } from "@/components/ui/highlighter";
 
 const navLinks = [
     { label: "Home", href: "#hero" },
-    { label: "Products", href: "#products" },
-    { label: "How I Get Unstuck", href: "#how-i-get-unstuck" },
     { label: "Work", href: "#work" },
+    { label: "Playground", href: "#playground" },
+    { label: "About", href: "#about" },
 ];
 
 export function Footer() {
@@ -44,7 +44,7 @@ export function Footer() {
                     </span>
                 </motion.div>
 
-                {/* Having an idea, let's catch up - Large CTA */}
+                {/* Have an idea? Let's talk. - Large CTA */}
                 <motion.div
                     className="mb-12 md:mb-16"
                     initial={{ opacity: 0, y: 20 }}
@@ -53,7 +53,7 @@ export function Footer() {
                     transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
                 >
                     <motion.a
-                        href="mailto:nehachhillar07@gmail.com?subject=Let's%20catch%20up!"
+                        href="mailto:nehachhillar07@gmail.com?subject=Let's%20talk!"
                         className="inline-block text-[32px] md:text-[56px] lg:text-[80px] xl:text-[112px] font-light tracking-tight transition-all duration-300 leading-none"
                         style={{ color: "#C4CDD5" }}
                         whileHover={{
@@ -61,7 +61,7 @@ export function Footer() {
                             transition: { duration: 0.3 }
                         }}
                     >
-                        Having an idea, <Highlighter action="highlight" color="#FF9800" isView>let&apos;s catch up</Highlighter>.
+                        Have an idea? <Highlighter action="highlight" color="#FF9800" isView>Let&apos;s talk</Highlighter>.
                     </motion.a>
                 </motion.div>
 

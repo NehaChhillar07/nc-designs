@@ -169,6 +169,7 @@ export const humanFirewallCaseStudyData = {
             "\u201cI don\u2019t need to call CS for everything.\u201d",
             "\u201cI trust the system more.\u201d",
         ],
+        quotesAttribution: "From customer calls during the HF3 beta.",
         closing: "HF 3 reduced dependency. It increased clarity. That difference — more than AI — drove adoption.",
     },
 
@@ -178,11 +179,12 @@ export const humanFirewallCaseStudyData = {
         headingHighlight: "behavioral",
         metric: {
             primary: "48 percent increase in admin engagement after the HF3 rollout.",
-            footnote: "Measured against pre migration baseline.",
+            footnote: "Measured before and after across all 10 migrated clients.",
         },
         bodyParagraphs: [
             "The shift showed up across signals over the first six months of HF3, not in a single dashboard.",
             "CS tickets that used to come in before every campaign launch dropped to a trickle. Campaigns that took days to schedule started going out the same day. Admins began discovering features without asking, the role sensitivity settings, the gamification controls, the training strictness toggles.",
+            "The numbers backed this up. Admin engagement went up 48 percent, measured before and after across all 10 migrated clients. Customer side report adoption rose 32 percent, measured via portal downloads across the same clients. And new feature and bug report escalations dropped roughly 20 percent on onboarded customers.",
             "Admins stopped needing reassurance before pressing launch. The platform stopped feeling like a tool they operated carefully. It became a system they trusted.",
         ],
         customerQuote: {

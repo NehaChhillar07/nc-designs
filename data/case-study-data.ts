@@ -23,7 +23,7 @@ export const otherProjects = [
         title: "Flashcard Training Builder | InfoSec Ventures",
         category: "Micro-training · AI-Native Workflows · Authoring Tools",
         description: "Moving security training out of a service queue and into the customer's hands.",
-        image: "/work/4th-case study/flashcard-thumb.svg",
+        image: "/work/1st-case study/hf-cards.png",
         link: "/case-study/flashcard-training",
         readingTime: "6 mins",
     },

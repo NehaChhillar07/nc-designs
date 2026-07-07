@@ -16,7 +16,7 @@ export interface AboutMedia {
 export const allAboutMedia: AboutMedia[] = [
     {
         id: 1,
-        src: "/about/IMG_0873.jpeg",
+        src: "/about/about-puppy-mountains.jpeg",
         alt: "With a puppy in the mountains",
         type: "image",
         aspectRatio: "3:4",
@@ -25,7 +25,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 2,
-        src: "/about/IMG_9198.jpeg",
+        src: "/about/about-yamuna-ghat.jpeg",
         alt: "At Yamuna Ghat",
         type: "image",
         aspectRatio: "9:16",
@@ -34,7 +34,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 3,
-        src: "/about/IMG_9318.jpeg",
+        src: "/about/about-with-june.jpeg",
         alt: "With June",
         type: "image",
         aspectRatio: "9:16",
@@ -43,7 +43,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 4,
-        src: "/about/IMG_7742.jpeg",
+        src: "/about/about-night-selfie.jpeg",
         alt: "Night selfie",
         type: "image",
         aspectRatio: "9:16",
@@ -52,7 +52,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 5,
-        src: "/about/IMG_7595.png",
+        src: "/about/about-standing-pose.png",
         alt: "Standing pose",
         type: "image",
         aspectRatio: "9:16",
@@ -61,7 +61,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 6,
-        src: "/about/WhatsApp%20Image%202026-01-10%20at%2000.40.34.jpeg",
+        src: "/about/about-auto-ride-selfie.jpeg",
         alt: "Auto ride",
         type: "image",
         aspectRatio: "3:4",
@@ -70,7 +70,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 7,
-        src: "/about/WhatsApp%20Image%202026-01-10%20at%2000.42.31.jpeg",
+        src: "/about/about-mirror-selfie.jpeg",
         alt: "June close-up",
         type: "image",
         aspectRatio: "3:4",
@@ -79,7 +79,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 8,
-        src: "/about/WhatsApp%20Image%202026-01-10%20at%2000.44.34.jpeg",
+        src: "/about/about-golden-hour-selfie.jpeg",
         alt: "Taj Mahal artwork",
         type: "image",
         aspectRatio: "9:16",
@@ -88,7 +88,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 9,
-        src: "/about/WhatsApp%20Image%202026-01-10%20at%2000.46.18.jpeg",
+        src: "/about/about-night-balcony-portrait.jpeg",
         alt: "Random selfie",
         type: "image",
         aspectRatio: "3:4",
@@ -97,7 +97,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 10,
-        src: "/about/IMG_0765.mp4",
+        src: "/about/about-video-moment-1.mp4",
         alt: "Video moment",
         type: "video",
         aspectRatio: "9:16",
@@ -106,7 +106,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 11,
-        src: "/about/IMG_7672.mp4",
+        src: "/about/about-video-moment-2.mp4",
         alt: "Video moment",
         type: "video",
         aspectRatio: "9:16",
@@ -115,7 +115,7 @@ export const allAboutMedia: AboutMedia[] = [
     },
     {
         id: 12,
-        src: "/about/IMG_8363.mp4",
+        src: "/about/about-video-moment-3.mp4",
         alt: "Video moment",
         type: "video",
         aspectRatio: "9:16",
