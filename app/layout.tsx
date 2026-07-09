@@ -73,7 +73,11 @@ export default function RootLayout({
                   var isTouch = window.matchMedia('(pointer: coarse)').matches ||
                                 'ontouchstart' in window ||
                                 navigator.maxTouchPoints > 0;
-                  if (!isTouch) {
+                  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                  // Only pre-hide the native cursor for users who will actually
+                  // get the custom one. Must match CustomCursor's enable check,
+                  // otherwise reduced-motion users are left with no cursor.
+                  if (!isTouch && !reducedMotion) {
                     document.documentElement.setAttribute('data-cursor', 'none');
                     document.documentElement.style.setProperty('cursor', 'none', 'important');
                     var style = document.createElement('style');

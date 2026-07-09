@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ConnectOverlay } from "@/components/connect-overlay";
 import { scrollToSection, useHashScrollOnLoad } from "@/lib/scroll-to-section";
 
@@ -14,10 +14,34 @@ const NAV_LINKS = [
   { id: "about", label: "About" },
 ] as const;
 
-export function Header() {
+export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [connectOpen, setConnectOpen] = useState(false);
   const pathname = usePathname();
+
+  // Pages with a dark hero (e.g. unsaid) can't wear the default light frosted
+  // bar — a translucent bar over the hero gradient always leaves a visible seam.
+  // Instead the dark header is fully transparent over the hero and only fades in
+  // its bar once you scroll down onto the light content below.
+  const isDark = theme === "dark";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!isDark) return; // light pages keep their always-on frosted bar
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isDark]);
+
+  // Header shell background:
+  //  - light theme: unchanged, always-on white frosted bar.
+  //  - dark theme, at top of hero: transparent, no border → no band at all.
+  //  - dark theme, scrolled onto content: dark frosted bar for legibility.
+  const headerBgClass = !isDark
+    ? "bg-white/25 backdrop-blur-md border-b border-white/10"
+    : scrolled
+      ? "bg-[#1A1512]/85 backdrop-blur-md border-b border-white/10"
+      : "bg-transparent border-b border-transparent";
 
   // If we land on the homepage with a "#section" hash (e.g. from another page),
   // scroll to it once the sections have mounted.
@@ -41,7 +65,7 @@ export function Header() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 bg-white/25 backdrop-blur-md border-b border-white/10"
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${headerBgClass}`}
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center">
@@ -63,7 +87,11 @@ export function Header() {
                 key={link.id}
                 href={`/#${link.id}`}
                 onClick={(e) => handleNavClick(e, link.id)}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap"
+                className={`text-sm font-medium transition-colors whitespace-nowrap ${
+                  isDark
+                    ? "text-white/70 hover:text-white"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 {link.label}
               </Link>
@@ -96,7 +124,7 @@ export function Header() {
                   viewBox="0 0 18 18"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-foreground"
+                  className={isDark ? "text-white" : "text-foreground"}
                 >
                   <path
                     d="M13.5 4.5L4.5 13.5M4.5 4.5L13.5 13.5"
@@ -113,7 +141,7 @@ export function Header() {
                   viewBox="0 0 18 18"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-foreground"
+                  className={isDark ? "text-white" : "text-foreground"}
                 >
                   <path
                     d="M2.25 4.5H15.75M2.25 9H15.75M2.25 13.5H15.75"

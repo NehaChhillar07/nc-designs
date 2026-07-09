@@ -41,3 +41,9 @@ export function useCursor() {
     }
     return context;
 }
+
+// Non-throwing reader for consumers (e.g. the cursor itself) that may render
+// outside a CursorProvider. Returns null instead of throwing.
+export function useCursorOptional() {
+    return useContext(CursorContext);
+}
