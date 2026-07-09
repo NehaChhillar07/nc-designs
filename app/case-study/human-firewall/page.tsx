@@ -9,14 +9,14 @@ export const metadata: Metadata = {
     title: "Human Firewall Case Study | Neha Chhillar",
     description: "Evolving a legacy security platform into an AI-native risk intelligence system. End-to-end UX architecture for phishing simulations, training, and AI-assisted risk insights.",
     openGraph: {
-        title: "Human Firewall — AI-Native Risk Intelligence System",
+        title: "Human Firewall: AI-Native Risk Intelligence System",
         description: "Evolving a legacy security platform into an AI-native risk intelligence system for enterprise cybersecurity.",
         type: "article",
         url: "https://nehachhillar.com/case-study/human-firewall",
     },
     twitter: {
         card: "summary_large_image",
-        title: "Human Firewall — Case Study",
+        title: "Human Firewall: Case Study",
         description: "Evolving a legacy security platform into an AI-native risk intelligence system.",
     },
 };

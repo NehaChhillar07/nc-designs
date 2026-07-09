@@ -87,8 +87,8 @@ export function ApproveToPublish({
                         />
                         <p className="text-sm font-medium text-gray-900">
                             {phase === "done"
-                                ? "Published — saved to your library"
-                                : "Draft training — ready, not shipped"}
+                                ? "Published: saved to your library"
+                                : "Draft training: ready, not shipped"}
                         </p>
                     </div>
                     {phase === "done" && !reduce && (

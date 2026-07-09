@@ -1,23 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Highlighter } from "@/components/ui/highlighter";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 const navLinks = [
     { label: "Home", href: "#hero" },
     { label: "Work", href: "#work" },
-    { label: "Playground", href: "#playground" },
+    { label: "Fun with Claude", href: "#fun-with-claude" },
     { label: "About", href: "#about" },
 ];
 
 export function Footer() {
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
-        const element = document.querySelector(href);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-        }
+        scrollToSection(href.replace("#", ""));
+        window.history.replaceState(null, "", `/${href}`);
     };
 
     return (

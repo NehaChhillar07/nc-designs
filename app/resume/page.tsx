@@ -198,7 +198,7 @@ export default function ResumePage() {
                         >
                             <iframe
                                 src="/api/download-resume?inline=1#toolbar=0&navpanes=0&view=FitH"
-                                title="Neha Chhillar — Resume"
+                                title="Neha Chhillar Resume"
                                 className="w-full h-full block border-0"
                             />
                             <noscript>

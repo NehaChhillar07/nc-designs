@@ -186,7 +186,7 @@ export function MiniCardEditor({
                             transition={{ duration: 0.25 }}
                             className="text-xs text-red-600 leading-relaxed"
                         >
-                            Over the limit by {body.length - limit} chars — remove media
+                            Over the limit by {body.length - limit} chars. Remove media
                             or trim text.
                         </motion.p>
                     )}

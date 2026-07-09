@@ -116,7 +116,7 @@ export function BackwardsToForwards({
                                     </p>
                                     <div className="mt-5 inline-flex items-center gap-1.5 text-[11px] text-white/50">
                                         <Lock className="w-3 h-3" aria-hidden />
-                                        Sealed object — not editable, not reusable
+                                        Sealed object: not editable, not reusable
                                     </div>
                                 </div>
                             </motion.div>

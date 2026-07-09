@@ -48,7 +48,7 @@ export function StandaloneToEmbedded({
                         />
                     </div>
                     <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                        Human Firewall 3 — Training Module
+                        Human Firewall 3 · Training Module
                     </span>
                 </div>
 

@@ -39,7 +39,7 @@ function SectionLabel({ number, title }: { number: string; title: string }) {
             {...fadeInUp}
             className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4"
         >
-            {number} — {title}
+            {number}: {title}
         </motion.p>
     );
 }
@@ -231,12 +231,12 @@ function HeroSection() {
                             <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
                         </div>
                         <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                            HF 3 — Dashboard Overview
+                            HF 3: Dashboard Overview
                         </span>
                     </div>
                     <Image
                         src="/work/1st-case study/hf-dashboard-overview.jpeg"
-                        alt="Human Firewall 3 — Dashboard Overview showing campaign stats, action hotspots, and department performance"
+                        alt="Human Firewall 3: Dashboard Overview showing campaign stats, action hotspots, and department performance"
                         width={3360}
                         height={1922}
                         className="w-full h-auto"
@@ -423,13 +423,13 @@ function AIShiftSection() {
                                 <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
                             </div>
                             <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                                HF 3 — AI-Assisted Campaign Creation
+                                HF 3: AI-Assisted Campaign Creation
                             </span>
                         </div>
                         <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
                             <Image
                                 src="/work/1st-case study/ai-assisted-campaigncreation.png"
-                                alt="HF 3 — AI-Assisted Campaign Creation flow"
+                                alt="HF 3: AI-Assisted Campaign Creation flow"
                                 width={3360}
                                 height={3970}
                                 className="w-full h-auto block"
@@ -508,7 +508,7 @@ function CompromiseInsightSection() {
                     <ul className="space-y-1 text-sm text-gray-600">
                         {compromiseInsight.improvements.items.map((item) => (
                             <li key={item.label}>
-                                • <strong>{item.label}</strong> — {item.desc}
+                                • <strong>{item.label}</strong>: {item.desc}
                             </li>
                         ))}
                     </ul>
@@ -615,13 +615,13 @@ function AILaunchSection() {
                                 <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
                             </div>
                             <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                                Campaign Review & Preview — HF 3
+                                Campaign Review & Preview: HF 3
                             </span>
                         </div>
                         <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
                             <Image
                                 src="/work/1st-case study/review.jpeg"
-                                alt="Campaign Review & Preview — HF 3"
+                                alt="Campaign Review & Preview: HF 3"
                                 width={3360}
                                 height={1922}
                                 className="w-full h-auto block"
@@ -741,12 +741,12 @@ function RiskScoreSection() {
                                 <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
                             </div>
                             <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                                vCRO — Radar Chart & Factor Breakdown
+                                vCRO: Radar Chart & Factor Breakdown
                             </span>
                         </div>
                         <Image
                             src="/work/1st-case study/vcro.jpeg"
-                            alt="vCRO — Radar Chart & Factor Breakdown"
+                            alt="vCRO: Radar Chart & Factor Breakdown"
                             width={2852}
                             height={1918}
                             className="w-full h-auto block"
@@ -838,12 +838,12 @@ function ReportingSection() {
                                 <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
                             </div>
                             <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                                Gamification Dashboard — Points & Badges
+                                Gamification Dashboard: Points & Badges
                             </span>
                         </div>
                         <Image
                             src="/work/1st-case study/gamification.jpeg"
-                            alt="Gamification Dashboard — Points & Badges"
+                            alt="Gamification Dashboard: Points & Badges"
                             width={2846}
                             height={1766}
                             className="w-full h-auto block"
@@ -876,7 +876,7 @@ function MicroLearningSection() {
                     {microLearning.heading}{" "}
                     <Highlighter action="highlight" color="#6EE7B7" isView>
                         {microLearning.headingHighlight}
-                    </Highlighter>{" "}
+                    </Highlighter>
                     {microLearning.headingSuffix}
                 </motion.h2>
 
@@ -925,7 +925,7 @@ function MicroLearningSection() {
                         >
                             <Image
                                 src="/work/1st-case study/phishing-email-gmail.png"
-                                alt="Simulated phishing email in Gmail — Apple Vision Pro Enterprise Beta lure"
+                                alt="Simulated phishing email in Gmail: Apple Vision Pro Enterprise Beta lure"
                                 fill
                                 className="object-cover object-top"
                             />
@@ -939,7 +939,7 @@ function MicroLearningSection() {
                         >
                             <Image
                                 src="/work/1st-case study/simulation-reveal.jpg"
-                                alt="HumanFirewall reveal page shown after clicking — “Oops! Apple wasn't real” with the warning signs breakdown"
+                                alt="HumanFirewall reveal page shown after clicking, “Oops! Apple wasn't real” with the warning signs breakdown"
                                 fill
                                 className="object-cover object-top"
                             />
@@ -956,7 +956,7 @@ function MicroLearningSection() {
                     >
                         <Image
                             src="/work/1st-case study/hf-cards.png"
-                            alt="HF 3 — Flashcard Training cover card preview"
+                            alt="HF 3: Flashcard Training cover card preview"
                             fill
                             className="object-cover"
                         />
@@ -1068,12 +1068,12 @@ function MigrationSection() {
                                         <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#28c840" }} />
                                     </div>
                                     <span className="ml-2 text-xs text-gray-400 font-medium tracking-wide">
-                                        HF 2 — Legacy
+                                        HF 2: Legacy
                                     </span>
                                 </div>
                                 <Image
                                     src="/work/1st-case study/hf2-legacy-campaign-scenarios.jpeg"
-                                    alt="HF 2 — Legacy campaign creation with 7-tab manual workflow"
+                                    alt="HF 2: Legacy campaign creation with 7-tab manual workflow"
                                     width={3354}
                                     height={1928}
                                     className="w-full h-auto block"
@@ -1113,12 +1113,12 @@ function MigrationSection() {
                                         <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#28c840" }} />
                                     </div>
                                     <span className="ml-2 text-xs text-gray-500 font-medium tracking-wide">
-                                        HF 3 — Redesigned
+                                        HF 3: Redesigned
                                     </span>
                                 </div>
                                 <Image
                                     src="/work/1st-case study/campaign-wizard-4-questions.png"
-                                    alt="HF 3 — Redesigned campaign creation: answer 4 questions (What, Who, Then, When) wizard"
+                                    alt="HF 3 Redesigned campaign creation: answer 4 questions (What, Who, Then, When) wizard"
                                     width={1999}
                                     height={1078}
                                     className="w-full h-auto block"

@@ -58,7 +58,7 @@ const projects = [
         title: "A flashcard training builder that\nships to any LMS",
         category: "Internal tool · AI-native workflow · Enterprise training",
         description:
-            "Built as a module inside Human Firewall to replace boring security training — type a topic, generate a card pack, ship it anywhere.",
+            "Built as a module inside Human Firewall to replace boring security training. Type a topic, generate a card pack, ship it anywhere.",
         image: "/work/1st-case study/humanfirewall cover cropped.png",
         tags: [],
         caseStudyLink: "/case-study/flashcard-training",
@@ -91,7 +91,7 @@ const projects = [
         caseStudyLink: "",
         buttonText: "Read case study",
         readingTime: "5 mins",
-        roleTag: "Nov 2024 – Jan 2025",
+        roleTag: "Nov 2024 to Jan 2025",
     },
     {
         id: 4,
@@ -104,7 +104,7 @@ const projects = [
         caseStudyLink: "",
         buttonText: "Read case study",
         readingTime: "5 mins",
-        roleTag: "Feb 2025 – Apr 2025",
+        roleTag: "Feb 2025 to Apr 2025",
     },
     */
 ];

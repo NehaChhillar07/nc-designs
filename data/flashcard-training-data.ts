@@ -7,13 +7,13 @@
 export const flashcardTrainingCaseStudyData = {
     // Hero Section
     hero: {
-        meta: "Micro-Training — InfoSec Ventures",
+        meta: "Micro-Training · InfoSec Ventures",
         title: "Moving security training out of a service queue and into the customer's hands",
         tags: "Enterprise SaaS · Cybersecurity · AI-Native Workflows",
         timeline: "2025",
         team: "Product, Eng, CS, Graphics",
         role: "Product Designer & Builder",
-        caption: "Micro-Training Library — the self-serve home for AI-built flashcard training",
+        caption: "Micro-Training Library: the self-serve home for AI-built flashcard training",
     },
 
     // Section 01 — The Starting Point
@@ -117,20 +117,20 @@ export const flashcardTrainingCaseStudyData = {
             "When we tested card-based learning, the response was different. People were comfortable right away.",
             "Every employee being enrolled had used Duolingo or something like it. They already knew how cards work, so the format didn't get in the way. Swipe forward, swipe back, learning cards and quiz cards mixed, a few minutes instead of a long module.",
         ],
-        demoCaption: "Try it — this is the format an employee actually sees.",
+        demoCaption: "Try it. This is the format an employee actually sees.",
         // Real card content for the live demo
         cards: [
             {
                 type: "learning",
                 front: "Data Privacy isn't paperwork.",
-                back: "It's the difference between trust and a public incident. Most breaches start with a small choice — a shared file, a forwarded email, a screenshot in a chat.",
+                back: "It's the difference between trust and a public incident. Most breaches start with a small choice: a shared file, a forwarded email, a screenshot in a chat.",
                 packLabel: "Data Privacy Essentials",
                 image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80&auto=format&fit=crop",
             },
             {
                 type: "learning",
                 front: "What counts as personal data?",
-                back: "Anything that can identify a person directly or in combination — name, email, employee ID, IP address, photo, even a desk location paired with a role.",
+                back: "Anything that can identify a person directly or in combination: name, email, employee ID, IP address, photo, even a desk location paired with a role.",
                 packLabel: "Data Privacy Essentials",
                 image: "https://images.unsplash.com/photo-1633409361618-c73427e4e206?w=600&q=80&auto=format&fit=crop",
             },
@@ -138,7 +138,7 @@ export const flashcardTrainingCaseStudyData = {
                 type: "quiz",
                 question: "A colleague asks you to share a customer's email over Slack. What's the safest move?",
                 options: [
-                    { text: "Share it — they're on the team", correct: false },
+                    { text: "Share it, they're on the team", correct: false },
                     { text: "Ask why they need it, then share via the approved CRM", correct: true },
                     { text: "Forward the original email instead", correct: false },
                 ],
@@ -177,7 +177,7 @@ export const flashcardTrainingCaseStudyData = {
             baseFirst: {
                 label: "Base first",
                 status: "Editable. Reusable. Composable.",
-                desc: "Three components — title, body, media — wired so the preview is just a rendering of the parts.",
+                desc: "Three components: title, body, and media. The preview is just a rendering of the parts.",
             },
         },
         flipCaption: "Building it component-first is why the code could later live inside Human Firewall 3.",
@@ -199,7 +199,7 @@ export const flashcardTrainingCaseStudyData = {
             {
                 label: "With Doc",
                 tagline: "upload source material and generate cards from it",
-                detail: "Drop in a policy doc or training script. The AI extracts the structure and proposes a card pack — the admin edits from there.",
+                detail: "Drop in a policy doc or training script. The AI extracts the structure and proposes a card pack. The admin edits from there.",
             },
             {
                 label: "From Scratch",
@@ -207,7 +207,7 @@ export const flashcardTrainingCaseStudyData = {
                 detail: "Full manual control. Quick AI generation for any single card on demand. Use it when you already know exactly what you want.",
             },
         ],
-        toolbarNote: "The AI generates structure (front, back, impact, do-this, key terms, compliance), and a toolbar refines without restarting — add modules, include real-world scenarios, focus on specific regulations, create media, push to training cards.",
+        toolbarNote: "The AI generates structure (front, back, impact, do-this, key terms, compliance), and a toolbar refines without restarting: add modules, include real-world scenarios, focus on specific regulations, create media, push to training cards.",
         pullQuote: "The AI isn't the product. The workflow is. AI is one participant in it.",
     },
 
@@ -249,7 +249,7 @@ export const flashcardTrainingCaseStudyData = {
         limitWithMedia: 200,
         limitWithoutMedia: 500,
         components: ["title", "body", "media"] as const,
-        pullQuote: "Most tools either lock you in or let you overflow. I did neither — I explained the cost and let the admin choose.",
+        pullQuote: "Most tools either lock you in or let you overflow. I did neither. I explained the cost and let the admin choose.",
     },
 
     // Section 10 — Two different surfaces
@@ -258,7 +258,7 @@ export const flashcardTrainingCaseStudyData = {
         headingHighlight: "are not in the same headspace",
         headingSuffix: ".",
         body: [
-            "The admin building a course and the employee taking it aren't in the same headspace, so the two surfaces look different on purpose. The creator side is light and dense, built like a tool. The learner side is dark and calm, one card at a time. On mobile it's pure swipe — left, right, forward, back, however the user wants to move.",
+            "The admin building a course and the employee taking it aren't in the same headspace, so the two surfaces look different on purpose. The creator side is light and dense, built like a tool. The learner side is dark and calm, one card at a time. On mobile it's pure swipe: left, right, forward, back, however the user wants to move.",
         ],
         // SurfaceToggle — Creator (light, dense) vs Learner (dark, calm)
         surfaces: {
@@ -290,7 +290,7 @@ export const flashcardTrainingCaseStudyData = {
 
     // Section 12 — What I take from it (NO interaction — stillness)
     takeFromIt: {
-        heading: "This was empathising, solving, testing, and deciding —",
+        heading: "This was empathising, solving, testing, and deciding,",
         headingSuffix: "all in real time.",
         body: [
             "For me, this wasn't just thinking and decision-making.",

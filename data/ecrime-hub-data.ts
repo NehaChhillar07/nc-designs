@@ -95,7 +95,7 @@ export interface eCrimeHubData {
 
 export const eCrimeHubCaseStudyData: eCrimeHubData = {
     hero: {
-        meta: "eCrime Hub — Dubai Police",
+        meta: "eCrime Hub · Dubai Police",
         title: "A public cybersecurity website designed to help citizens report cybercrime and understand digital risks at a national scale.",
         subtitle: "",
         tags: "Public Platform · Cybersecurity · Government · AI-assisted Design",
@@ -104,7 +104,7 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
     context: {
         heading: "Why this existed",
         body: "Cybercrime incidents were rapidly increasing, accelerated by AI-driven attacks. Dubai Police needed a single, trusted public platform that could both enable cybercrime reporting and educate citizens on digital and human risks, without compromising clarity, authority, or trust.",
-        collaboration: "Dubai Police initially referenced Australia's national cybersecurity website as the benchmark. We pushed back — the audiences, cultural context, and threat landscape were different. Rather than replicating an existing model, we proposed concepts rooted in Dubai Police's own visual identity and government design language, while introducing a modern, approachable tone that treated cybersecurity as something new and relevant to the general public. The team responded well once they saw their identity reflected in a format that felt distinctly theirs.",
+        collaboration: "Dubai Police initially referenced Australia's national cybersecurity website as the benchmark. We pushed back. The audiences, cultural context, and threat landscape were different. Rather than replicating an existing model, we proposed concepts rooted in Dubai Police's own visual identity and government design language, while introducing a modern, approachable tone that treated cybersecurity as something new and relevant to the general public. The team responded well once they saw their identity reflected in a format that felt distinctly theirs.",
     },
 
     objective: {
@@ -135,7 +135,7 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
             "Highly sensitive and data-heavy content",
             "Multi-language public audience",
             "Accelerated delivery timeline",
-            "Arabic/English parity was non-negotiable — every page, every flow had to work identically in both languages, forcing layouts that accommodated 30% text expansion without breaking visual hierarchy",
+            "Arabic/English parity was non-negotiable: every page, every flow had to work identically in both languages, forcing layouts that accommodated 30% text expansion without breaking visual hierarchy",
         ],
     },
 
@@ -144,7 +144,7 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
         sections: [
             {
                 title: "Reporting-first experience",
-                body: "Clicking 'Report' redirects the user to Dubai Police's official reporting portal — a deliberate choice to keep formal reports within the government's own system rather than duplicating infrastructure. Users who describe an issue to the AI chatbot trigger an automatic escalation to the Dubai Police team, ensuring critical threats surface fast even without a formal report.",
+                body: "Clicking 'Report' redirects the user to Dubai Police's official reporting portal: a deliberate choice to keep formal reports within the government's own system rather than duplicating infrastructure. Users who describe an issue to the AI chatbot trigger an automatic escalation to the Dubai Police team, ensuring critical threats surface fast even without a formal report.",
                 image: "/work/2nd-case study/passwords-page.png",
                 imageAlt: "Education content page",
             },
@@ -155,7 +155,7 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
             },
             {
                 title: "AI-powered cyber assistant",
-                body: "A chatbot with a Dubai Police officer mascot answers public questions about cybersecurity risks conversationally. Content topics and guardrails were defined through structured prompting rules — the bot stays within approved education topics. When a citizen reports a suspicious email or phone number, the AI system validates it in the backend and, if confirmed, blocks the threat city-wide — one person's report protects millions.",
+                body: "A chatbot with a Dubai Police officer mascot answers public questions about cybersecurity risks conversationally. Content topics and guardrails were defined through structured prompting rules. The bot stays within approved education topics. When a citizen reports a suspicious email or phone number, the AI system validates it in the backend and, if confirmed, blocks the threat city-wide. One person's report protects millions.",
                 video: "/work/2nd-case study/bot.mp4",
             },
         ],

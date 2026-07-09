@@ -9,14 +9,14 @@ export const metadata: Metadata = {
     title: "Flashcard Training Builder Case Study | Neha Chhillar",
     description: "Moving security training out of a service queue and into the customer's hands. Designing and building an AI-assisted flashcard training builder for InfoSec Ventures.",
     openGraph: {
-        title: "Flashcard Training Builder — Micro-Training for InfoSec Ventures",
+        title: "Flashcard Training Builder: Micro-Training for InfoSec Ventures",
         description: "Designing and building an AI-assisted flashcard training builder that moved course authoring from Customer Success to the customer.",
         type: "article",
         url: "https://nehachhillar.com/case-study/flashcard-training",
     },
     twitter: {
         card: "summary_large_image",
-        title: "Flashcard Training Builder — Case Study",
+        title: "Flashcard Training Builder Case Study",
         description: "Moving security training out of a service queue and into the customer's hands.",
     },
 };

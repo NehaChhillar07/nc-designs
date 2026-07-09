@@ -73,7 +73,7 @@ function HeroSection() {
                 >
                     <div>
                         <p className="text-sm md:text-base text-gray-400 mb-1">Timeline</p>
-                        <p className="text-lg md:text-xl font-medium text-gray-900">Sep 2025 – Nov 2025</p>
+                        <p className="text-lg md:text-xl font-medium text-gray-900">Sep 2025 to Nov 2025</p>
                     </div>
                     <div>
                         <p className="text-sm md:text-base text-gray-400 mb-1">Team</p>

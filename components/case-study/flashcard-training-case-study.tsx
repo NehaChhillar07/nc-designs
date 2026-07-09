@@ -124,7 +124,7 @@ function SectionLabel({ number, title }: { number: string; title: string }) {
             {...fadeInUp}
             className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4"
         >
-            {number} — {title}
+            {number} · {title}
         </motion.p>
     );
 }

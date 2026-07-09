@@ -1,5 +1,6 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { ScrollLink } from "@/components/scroll-link";
 import { Highlighter } from "@/components/ui/highlighter";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -10,7 +11,7 @@ const WorkSection = dynamic(() => import("@/components/work-section").then(mod =
   loading: () => <div className="min-h-[600px] animate-pulse bg-gray-100 rounded-lg" />,
 });
 
-const PlaygroundSection = dynamic(() => import("@/components/playground-section").then(mod => ({ default: mod.PlaygroundSection })), {
+const FunWithClaudeSection = dynamic(() => import("@/components/fun-with-claude-section").then(mod => ({ default: mod.FunWithClaudeSection })), {
   loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />,
 });
 
@@ -48,7 +49,7 @@ export default function Home() {
             <span className="block mt-3 md:mt-4 text-[20px] sm:text-[26px] md:text-[30px] lg:text-[34px] font-normal text-muted-foreground leading-snug">Currently rebuilding a 10-year-old security platform into an <Highlighter action="underline" color="#FF9800" isView>AI-driven risk intelligence system</Highlighter> used by enterprise security teams.</span>
           </h1>
           <div className="flex flex-col items-center gap-8 mt-8 md:mt-12">
-            <a href="#work" aria-label="Scroll to my work" className="cursor-pointer">
+            <ScrollLink targetId="work" ariaLabel="Scroll to my work" className="cursor-pointer">
               <svg
                 className="w-6 h-6 text-muted-foreground animate-bounce"
                 fill="none"
@@ -60,7 +61,7 @@ export default function Home() {
               >
                 <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
               </svg>
-            </a>
+            </ScrollLink>
           </div>
         </div>
 
@@ -71,8 +72,8 @@ export default function Home() {
         </Suspense>
 
         <Suspense fallback={<div className="min-h-[400px]" />}>
-          <div id="playground" className="py-16 md:py-24 lg:py-32">
-            <PlaygroundSection />
+          <div id="fun-with-claude" className="py-16 md:py-24 lg:py-32">
+            <FunWithClaudeSection />
           </div>
         </Suspense>
 

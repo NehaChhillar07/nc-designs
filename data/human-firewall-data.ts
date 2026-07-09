@@ -6,10 +6,10 @@
 export const humanFirewallCaseStudyData = {
     // Hero Section
     hero: {
-        meta: "Human Firewall — InfoSec Ventures",
+        meta: "Human Firewall · InfoSec Ventures",
         title: "Evolving a legacy security platform into an AI-native risk intelligence system",
         tags: "Enterprise SaaS · Cybersecurity · AI-Assisted Design",
-        timeline: "2024 – Q1 2026",
+        timeline: "2024 to Q1 2026",
         team: "Product, Eng, CS",
         role: "Product Designer",
     },
@@ -19,12 +19,12 @@ export const humanFirewallCaseStudyData = {
         heading: "A 10-year-old platform.",
         headingSuffix: "Functional, not empowering.",
         body: [
-            "Human Firewall 2.0 had been running for nearly a decade. It allowed security teams to run simulations, assign training, and view risk scores. It worked — but it reflected the era it was built in.",
+            "Human Firewall 2.0 had been running for nearly a decade. It allowed security teams to run simulations, assign training, and view risk scores. It worked, but it reflected the era it was built in.",
             "Campaigns were historically executed. Analytics were static. Risk was displayed as a number. Workflows required frequent support involvement.",
             "The system was functional. It wasn\u2019t empowering. Modernizing without breaking trust became the real challenge.",
         ],
         legacy: {
-            label: "HF 2 — Legacy",
+            label: "HF 2: Legacy",
             items: [
                 "Manual campaign creation",
                 "Static reporting",
@@ -33,7 +33,7 @@ export const humanFirewallCaseStudyData = {
             ],
         },
         needed: {
-            label: "HF 3 — What Was Needed",
+            label: "HF 3: What Was Needed",
             items: [
                 "AI-assisted creation",
                 "Behavioral intelligence",
@@ -59,22 +59,22 @@ export const humanFirewallCaseStudyData = {
             title: "Build entirely new",
             desc: "Design around AI, not on top of it.",
         },
-        closing: "I used Gen AI tools (Cursor, Claude, ChatGPT) to rapidly explore flows and prototype campaign structures. AI accelerated exploration — direction and constraints were always human-defined.",
-        collaboration: "Engineering pushed to defer AI-assisted content creation to a later MVP — the LLM fine-tuning needed for realistic phishing templates and landing pages required time we didn't have. We treated base-level AI assistance as non-negotiable for launch: users had to feel that HF3 was doing the heavy lifting from day one. The compromise — ship a curated pre-made library for MVP1 while building the AI creation flow in parallel. Building that library manually taught us exactly how our backend prompts needed to behave, so when AI creation shipped in MVP2, it was grounded in real content patterns, not guesswork.",
+        closing: "I used Gen AI tools (Cursor, Claude, ChatGPT) to rapidly explore flows and prototype campaign structures. AI accelerated exploration. Direction and constraints were always human-defined.",
+        collaboration: "Engineering pushed to defer AI-assisted content creation to a later MVP: the LLM fine-tuning needed for realistic phishing templates and landing pages required time we didn't have. We treated base-level AI assistance as essential for launch: users had to feel that HF3 was doing the work from day one. The compromise: ship a pre-made library for MVP1 while building the AI creation flow in parallel. Building that library manually taught us exactly how our backend prompts needed to behave, so when AI creation shipped in MVP2, it was grounded in real content patterns, not guesswork.",
     },
 
     // Section 03 — Low Compromise ≠ Low Risk
     compromiseInsight: {
         heading: "Low compromise didn\u2019t always mean",
         headingHighlight: "low risk",
-        body: "In several campaigns, compromise appeared low — but open rates were low too. We weren\u2019t measuring vulnerability — we were measuring non-engagement.",
+        body: "In several campaigns, compromise appeared low, but open rates were low too. We weren\u2019t measuring vulnerability. We were measuring non-engagement.",
         improvements: {
             title: "To improve measurement accuracy, we introduced:",
             items: [
                 { label: "Action-based delivery", desc: "emails triggered when users were active" },
                 { label: "Needle phishing", desc: "AI-personalized content for realism" },
             ],
-            footnote: "Open rates increased. Compromise increased. Not because risk worsened — but because it became visible.",
+            footnote: "Open rates increased. Compromise increased. Not because risk worsened, but because it became visible.",
         },
     },
 
@@ -126,7 +126,7 @@ export const humanFirewallCaseStudyData = {
             { label: "Amplifier", desc: "Role sensitivity weight" },
         ],
         hierarchy: ["Organization", "Department", "Group", "User"],
-        pullQuote: "Not a score — a structure.",
+        pullQuote: "Not a score: a structure.",
         customerQuote: {
             before: "“Understanding our security posture used to be a closed conversation between us and the security team. With vCRO, ",
             underlined: "every role can read it from their own view",
@@ -137,7 +137,7 @@ export const humanFirewallCaseStudyData = {
 
     // Section 06 — Reporting Without Distortion
     reporting: {
-        heading: "We chose not to soften truth — and not to",
+        heading: "We chose not to soften truth, and not to",
         headingHighlight: "dramatize",
         headingSuffix: "it either.",
         body: [
@@ -151,11 +151,11 @@ export const humanFirewallCaseStudyData = {
     microLearning: {
         heading: "Compromise became",
         headingHighlight: "intervention",
-        headingSuffix: "— not punishment",
+        headingSuffix: ", not punishment",
         steps: ["Compromise", "Landing Page", "Flashcard Training"],
         body: [
-            "A transparent landing page explained the simulation and highlighted missed cues — followed by a single action: Start Training.",
-            "Flashcards became the core format. Each pack combined learning cards with quiz cards — short, interactive, immediate. No long LMS modules. No passive video fatigue.",
+            "A transparent landing page explained the simulation and highlighted missed cues, followed by a single action: Start Training.",
+            "Flashcards became the core format. Each pack combined learning cards with quiz cards: short, interactive, immediate. No long LMS modules. No passive video fatigue.",
             "Training strictness was configurable. Compliance modules remained non-skippable by default. Awareness modules allowed flexibility.",
         ],
     },
@@ -164,18 +164,18 @@ export const humanFirewallCaseStudyData = {
     migration: {
         heading: "Two systems. One customer base.",
         headingSuffix: "Zero room for confusion.",
-        body: "HF 3 was not a replacement launched overnight. Migration had to feel justified — not forced.",
+        body: "HF 3 was not a replacement launched overnight. Migration had to feel justified, not forced.",
         quotes: [
             "\u201cI don\u2019t need to call CS for everything.\u201d",
             "\u201cI trust the system more.\u201d",
         ],
         quotesAttribution: "From customer calls during the HF3 beta.",
-        closing: "HF 3 reduced dependency. It increased clarity. That difference — more than AI — drove adoption.",
+        closing: "HF 3 reduced dependency. It increased clarity. That difference, more than AI, drove adoption.",
     },
 
     // Section 09 — Confidence Replaced Dependency
     confidence: {
-        heading: "The shift wasn\u2019t loud — it was",
+        heading: "The shift wasn\u2019t loud. It was",
         headingHighlight: "behavioral",
         metric: {
             primary: "48 percent increase in admin engagement after the HF3 rollout.",

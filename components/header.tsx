@@ -2,13 +2,41 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ConnectOverlay } from "@/components/connect-overlay";
+import { scrollToSection, useHashScrollOnLoad } from "@/lib/scroll-to-section";
+
+const NAV_LINKS = [
+  { id: "work", label: "Work" },
+  { id: "fun-with-claude", label: "Fun with Claude" },
+  { id: "about", label: "About" },
+] as const;
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [connectOpen, setConnectOpen] = useState(false);
+  const pathname = usePathname();
+
+  // If we land on the homepage with a "#section" hash (e.g. from another page),
+  // scroll to it once the sections have mounted.
+  useHashScrollOnLoad();
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: string
+  ) => {
+    setMobileMenuOpen(false);
+    // On the homepage, take over the scroll so it stays accurate while the
+    // lazy-loaded sections settle. On other pages, let the link navigate to
+    // "/#id" and the homepage's hash handler will do the scroll on arrival.
+    if (pathname === "/") {
+      e.preventDefault();
+      scrollToSection(id);
+      window.history.replaceState(null, "", `/#${id}`);
+    }
+  };
 
   return (
     <>
@@ -30,24 +58,16 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link
-              href="/#work"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Work
-            </Link>
-            <Link
-              href="/#playground"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Playground
-            </Link>
-            <Link
-              href="/#about"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              About
-            </Link>
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.id}
+                href={`/#${link.id}`}
+                onClick={(e) => handleNavClick(e, link.id)}
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap"
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
           {/* Buttons - Always visible */}
@@ -114,27 +134,16 @@ export function Header() {
             className="md:hidden bg-white/95 backdrop-blur-sm border-t"
           >
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              <Link
-                href="/#work"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Work
-              </Link>
-              <Link
-                href="/#playground"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Playground
-              </Link>
-              <Link
-                href="/#about"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </Link>
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.id}
+                  href={`/#${link.id}`}
+                  onClick={(e) => handleNavClick(e, link.id)}
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </nav>
           </div>
         )}
