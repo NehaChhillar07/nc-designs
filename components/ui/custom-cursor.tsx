@@ -200,6 +200,10 @@ export function CustomCursor() {
         .custom-cursor-arrow {
           display: block;
           transform: translate(-2px, -2px);
+          /* White halo keeps the black arrow visible on dark sections
+             (e.g. the unsaid hero) while staying invisible on light ones. */
+          filter: drop-shadow(0 0 1.2px rgba(255, 255, 255, 0.95))
+            drop-shadow(0 0 1px rgba(255, 255, 255, 0.6));
         }
 
         .custom-cursor-tag {
