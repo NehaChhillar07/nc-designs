@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { AboutMedia, allAboutMedia } from "@/data/about-data";
 import { PixelImage } from "@/components/ui/pixel-image";
 

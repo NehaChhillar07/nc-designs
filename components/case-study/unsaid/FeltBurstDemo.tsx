@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 
 // Interactive demo #3 — the "felt this" heart burst.
 // On tap, hearts spray from the button across the screen. The only public

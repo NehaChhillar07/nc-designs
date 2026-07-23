@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion, Reorder } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, Reorder } from "motion/react";
 import { GripVertical, ImagePlus, ImageOff, ChevronUp, ChevronDown } from "lucide-react";
 
 type Component = { id: "title" | "body" | "media"; label: string };

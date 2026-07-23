@@ -7,7 +7,7 @@ import {
     AnimatePresence,
     useReducedMotion,
     type PanInfo,
-} from "framer-motion";
+} from "motion/react";
 import { ChevronLeft, ChevronRight, Check, X, RotateCcw, Pointer } from "lucide-react";
 
 type LearningCard = {

@@ -3,7 +3,7 @@
 import { AboutGallery } from "@/components/about-gallery";
 import { aboutHeading } from "@/data/about-data";
 import { Highlighter } from "@/components/ui/highlighter";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export function AboutSection() {
     return (

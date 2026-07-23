@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 
 // Interactive demo #1 — the personal / professional "world" toggle.
 // Switching morphs the accent colour and the band background between the

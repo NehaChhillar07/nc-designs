@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { Check, Loader2, Sparkles } from "lucide-react";
 
 type Phase = "ready" | "running" | "done";

@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import type React from "react"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView } from "motion/react"
 
 type AnnotationAction = "highlight" | "underline"
 

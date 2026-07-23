@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 import { Highlighter } from "@/components/ui/highlighter";

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Monitor, Smartphone } from "lucide-react";
 
 // Same media as the live demo cards in section 05 — images are part of card content

@@ -7,7 +7,7 @@ import {
     useTransform,
     animate,
     useReducedMotion,
-} from "framer-motion";
+} from "motion/react";
 
 // Interactive demo #2 — the draggable / throwable confession card.
 // Tracks the pointer, tilts from x-offset, commits past 92px or a fast flick,

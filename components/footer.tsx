@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Highlighter } from "@/components/ui/highlighter";
 import { scrollToSection } from "@/lib/scroll-to-section";
 
