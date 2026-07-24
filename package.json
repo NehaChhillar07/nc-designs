@@ -23,6 +23,7 @@
     "puppeteer": "^24.32.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-pdf": "^10.4.1",
     "tailwind-merge": "^3.4.0",
     "three": "^0.182.0"
   },

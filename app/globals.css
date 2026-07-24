@@ -6,6 +6,9 @@ html {
      nav uses the manual rAF tween in lib/scroll-to-section.ts instead. */
   /* Offset anchor scrolling by the fixed header height (h-16) for any native anchor. */
   scroll-padding-top: 4rem;
+  /* `clip` (not `hidden`: no scroll container, sticky keeps working) guards against
+     the w-screen full-bleed sections overflowing by a scrollbar-width on Windows. */
+  overflow-x: clip;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -51,6 +54,14 @@ html {
 
 :root {
   --radius: 0.625rem;
+
+  /* Warm brand accents — the portfolio's editorial accent system.
+     Prefer these over hardcoding orange hex in components. */
+  --accent-warm: #FF9800;        /* primary highlight accent */
+  --accent-warm-soft: #FFD79A;   /* soft highlight */
+  --accent-warm-strong: #C96114; /* interactive hover / strong accent */
+  --accent-warm-brown: #B06A48;  /* case-study warm tone */
+  --highlight-dark: #9FE8C6;     /* mint highlight on dark hero bands */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -428,6 +439,33 @@ html[data-cursor="none"] nav.fixed,
 html[data-cursor="none"] header.sticky,
 html[data-cursor="none"] nav.sticky {
   cursor: none !important;
+}
+
+/* ============================================
+   Reduced Motion — respect the user's OS setting
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   Editorial headings — case studies
+   ============================================ */
+/* Display headings (text-2xl and up) inside a case study use Space Grotesk.
+   Smaller sub-headings, labels, and body copy stay on the base font (Inter). */
+.cs-editorial .text-2xl,
+.cs-editorial .text-3xl,
+.cs-editorial .text-4xl,
+.cs-editorial .text-5xl,
+.cs-editorial .text-6xl {
+  font-family: var(--font-space-grotesk), sans-serif;
 }
 
 /* ============================================

@@ -12,6 +12,16 @@ export const humanFirewallCaseStudyData = {
         timeline: "2024 to Q1 2026",
         team: "Product, Eng, CS",
         role: "Product Designer",
+        // Scroll-expansion opener — the dashboard grows from a small card to
+        // near-fullscreen before the case study text begins
+        scrollHero: {
+            title: "Human Firewall",
+            date: "2024 to Q1 2026",
+            hint: "Scroll to expand",
+            media: "/work/1st-case study/hf-dashboard-overview.jpeg",
+            mediaAlt: "Human Firewall 3: Dashboard Overview showing campaign stats, action hotspots, and department performance",
+            background: "/hero-gradient.avif",
+        },
     },
 
     // Section 01 — The Starting Point

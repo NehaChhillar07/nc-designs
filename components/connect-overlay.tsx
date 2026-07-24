@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Highlighter } from "@/components/ui/highlighter";
 
 interface ConnectOverlayProps {
@@ -11,18 +11,54 @@ interface ConnectOverlayProps {
 }
 
 export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
-    // Close on escape key
+    const modalRef = useRef<HTMLDivElement>(null);
+    const previouslyFocused = useRef<HTMLElement | null>(null);
+
+    // Accessible dialog behaviour: lock scroll, move focus into the dialog,
+    // trap Tab within it, close on Escape, and restore focus on close.
     useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === "Escape") onClose();
+        if (!isOpen) return;
+
+        previouslyFocused.current = document.activeElement as HTMLElement | null;
+        document.body.style.overflow = "hidden";
+
+        const getFocusable = () =>
+            modalRef.current
+                ? Array.from(
+                      modalRef.current.querySelectorAll<HTMLElement>(
+                          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                      )
+                  )
+                : [];
+
+        const focusFrame = requestAnimationFrame(() => getFocusable()[0]?.focus());
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+                return;
+            }
+            if (e.key === "Tab") {
+                const items = getFocusable();
+                if (items.length === 0) return;
+                const first = items[0];
+                const last = items[items.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
         };
-        if (isOpen) {
-            document.addEventListener("keydown", handleEscape);
-            document.body.style.overflow = "hidden";
-        }
+
+        document.addEventListener("keydown", handleKeyDown);
         return () => {
-            document.removeEventListener("keydown", handleEscape);
+            document.removeEventListener("keydown", handleKeyDown);
             document.body.style.overflow = "";
+            cancelAnimationFrame(focusFrame);
+            previouslyFocused.current?.focus?.();
         };
     }, [isOpen, onClose]);
 
@@ -50,6 +86,10 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
 
                     {/* Modal */}
                     <motion.div
+                        ref={modalRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="connect-title"
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -61,11 +101,12 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
                             <div className="relative px-6 pt-6 pb-4">
                                 <button
                                     onClick={onClose}
+                                    aria-label="Close"
                                     className="absolute right-4 top-4 p-1.5 rounded-full hover:bg-gray-100 transition-colors"
                                 >
                                     <X className="w-4 h-4 text-gray-400" />
                                 </button>
-                                <h2 className="text-xl font-medium text-gray-900">
+                                <h2 id="connect-title" className="text-xl font-medium text-gray-900">
                                     Let's connect
                                 </h2>
                             </div>
@@ -92,7 +133,7 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
                                         <div className="flex-1">
                                             <span className="text-xs text-gray-400 uppercase tracking-wide">WhatsApp</span>
                                             <p className="text-lg font-medium text-gray-900 mt-0.5">
-                                                <Highlighter action="highlight" color="#34D399">
+                                                <Highlighter action="highlight" color="#FF9800">
                                                     +91 82872 33848
                                                 </Highlighter>
                                             </p>
@@ -126,7 +167,7 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
                                 >
                                     <span className="text-xs text-gray-400 uppercase tracking-wide">Email</span>
                                     <p className="text-lg font-medium text-gray-900 mt-0.5">
-                                        <Highlighter action="highlight" color="#60A5FA">
+                                        <Highlighter action="highlight" color="#FF9800">
                                             nehachhillar07@gmail.com
                                         </Highlighter>
                                     </p>

@@ -8,6 +8,7 @@ import {
     animate,
     useReducedMotion,
 } from "motion/react";
+import { Heart } from "lucide-react";
 
 // Interactive demo #2 — the draggable / throwable confession card.
 // Tracks the pointer, tilts from x-offset, commits past 92px or a fast flick,
@@ -57,10 +58,10 @@ function CardFace({ card }: { card: Card }) {
                     not for me
                 </span>
                 <span
-                    className="flex-1 rounded-[14px] py-3 text-center text-sm font-semibold"
+                    className="flex-1 rounded-[14px] py-3 flex items-center justify-center gap-1.5 text-sm font-semibold"
                     style={{ background: "rgba(176,106,72,0.35)" }}
                 >
-                    🤍 felt this
+                    <Heart className="h-4 w-4" strokeWidth={2} /> felt this
                 </span>
             </div>
         </div>

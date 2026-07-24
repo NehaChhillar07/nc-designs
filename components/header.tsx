@@ -113,9 +113,10 @@ export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
 
             {/* Mobile Hamburger Menu Button */}
             <button
-              className="md:hidden ml-2"
+              className="md:hidden ml-2 inline-flex items-center justify-center min-h-11 min-w-11"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? (
                 <svg

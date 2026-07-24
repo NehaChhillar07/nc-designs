@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 import { Highlighter } from "@/components/ui/highlighter";
+import { spaceGrotesk } from "@/components/case-study/fonts";
 import { flashcardTrainingCaseStudyData } from "@/data/flashcard-training-data";
 
 // Lazy-mount heavy interactive components — they ship in their own chunks
@@ -29,10 +30,10 @@ const SurfaceToggle = dynamic(
         ),
     { ssr: true },
 );
-const HeroCardFan = dynamic(
+const CircularCardDeck = dynamic(
     () =>
-        import("@/components/case-study/flashcard/HeroCardFan").then(
-            (m) => m.HeroCardFan,
+        import("@/components/ui/circular-card-deck").then(
+            (m) => m.CircularCardDeck,
         ),
     { ssr: true },
 );
@@ -122,7 +123,7 @@ function SectionLabel({ number, title }: { number: string; title: string }) {
     return (
         <motion.p
             {...fadeInUp}
-            className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4"
+            className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4"
         >
             {number} · {title}
         </motion.p>
@@ -147,7 +148,7 @@ function PullQuote({ children }: { children: ReactNode }) {
 // ============================================
 
 function HeroSection() {
-    const { hero, whyFlashcards } = data;
+    const { hero } = data;
 
     return (
         <section className="pt-24 md:pt-32 pb-20 md:pb-28">
@@ -167,7 +168,7 @@ function HeroSection() {
                     className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-8 max-w-4xl"
                 >
                     Moving security training out of a service queue and{" "}
-                    <Highlighter action="highlight" color="#6EE7B7" isView>
+                    <Highlighter action="highlight" color="#FFD79A" isView>
                         into the customer&apos;s hands
                     </Highlighter>
                 </motion.h1>
@@ -176,7 +177,7 @@ function HeroSection() {
                 <motion.p
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                    className="text-sm text-gray-400 tracking-wide"
+                    className="text-sm text-gray-500 tracking-wide"
                 >
                     {hero.tags}
                 </motion.p>
@@ -193,7 +194,7 @@ function HeroSection() {
                         ["Role", hero.role],
                     ].map(([label, value]) => (
                         <div key={label} className="min-w-[140px]">
-                            <p className="text-sm md:text-base text-gray-400 mb-1">
+                            <p className="text-sm md:text-base text-gray-500 mb-1">
                                 {label}
                             </p>
                             <p className="text-lg md:text-xl font-medium text-gray-900">
@@ -204,14 +205,19 @@ function HeroSection() {
                 </motion.div>
             </div>
 
-            {/* Hero Card Fan */}
+            {/* Hero card deck — three phishing training cards auto-shuffling
+                like the CircularTestimonials carousel, no manual controls */}
             <motion.div
                 {...fadeIn}
                 transition={{ ...fadeIn.transition, delay: 0.3 }}
                 className="max-w-5xl mx-auto px-6 mt-16"
             >
-                <HeroCardFan cards={whyFlashcards.cards} />
-                <p className="text-xs text-gray-400 text-center mt-6 tracking-wide">
+                <CircularCardDeck
+                    cards={hero.deckCards}
+                    className="mx-auto w-full max-w-[460px]"
+                    ariaLabel="Auto-cycling phishing training flashcards"
+                />
+                <p className="text-xs text-gray-500 text-center mt-6 tracking-wide">
                     {hero.caption}
                 </p>
             </motion.div>
@@ -227,7 +233,7 @@ function StartingPointSection() {
     const { startingPoint } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="01" title="The Starting Point" />
 
@@ -237,7 +243,7 @@ function StartingPointSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {startingPoint.heading}{" "}
-                    <span className="text-gray-400">
+                    <span className="text-gray-500">
                         {startingPoint.headingSuffix}
                     </span>
                 </motion.h2>
@@ -266,7 +272,7 @@ function WhatWeSawSection() {
     const { whatWeSaw } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="02" title="What we were seeing" />
 
@@ -276,7 +282,7 @@ function WhatWeSawSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {whatWeSaw.heading}{" "}
-                    <span className="text-gray-400">
+                    <span className="text-gray-500">
                         {whatWeSaw.headingSuffix}
                     </span>
                 </motion.h2>
@@ -310,7 +316,7 @@ function TheShiftSection() {
     const { theShift } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="03" title="The shift" />
 
@@ -320,7 +326,7 @@ function TheShiftSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {theShift.heading}{" "}
-                    <Highlighter action="highlight" color="#93C5FD" isView>
+                    <Highlighter action="highlight" color="#FF9800" isView>
                         {theShift.headingHighlight}
                     </Highlighter>
                     {theShift.headingSuffix}
@@ -356,7 +362,7 @@ function FormatQuestionSection() {
     const { formatQuestion } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="04" title="The format question" />
 
@@ -366,7 +372,7 @@ function FormatQuestionSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {formatQuestion.heading}{" "}
-                    <span className="text-gray-400">
+                    <span className="text-gray-500">
                         {formatQuestion.headingSuffix}
                     </span>
                 </motion.h2>
@@ -399,7 +405,7 @@ function WhyFlashcardsSection() {
     const { whyFlashcards } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="05" title="The Format Decision" />
 
@@ -409,7 +415,7 @@ function WhyFlashcardsSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {whyFlashcards.heading}{" "}
-                    <Highlighter action="highlight" color="#6EE7B7" isView>
+                    <Highlighter action="highlight" color="#FFD79A" isView>
                         {whyFlashcards.headingHighlight}
                     </Highlighter>
                     {whyFlashcards.headingSuffix}
@@ -444,7 +450,7 @@ function BackwardsFirstSection() {
     const { backwardsFirst, whyFlashcards, freedomInside } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="06" title="I built it backwards first" />
 
@@ -454,7 +460,7 @@ function BackwardsFirstSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {backwardsFirst.heading}{" "}
-                    <span className="text-gray-400">
+                    <span className="text-gray-500">
                         {backwardsFirst.headingSuffix}
                     </span>
                 </motion.h2>
@@ -500,7 +506,7 @@ function HowItWorksSection() {
     const { howItWorks } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="07" title="How it works" />
 
@@ -510,7 +516,7 @@ function HowItWorksSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {howItWorks.heading}{" "}
-                    <span className="text-gray-400">
+                    <span className="text-gray-500">
                         {howItWorks.headingSuffix}
                     </span>
                 </motion.h2>
@@ -530,7 +536,7 @@ function HowItWorksSection() {
                     transition={{ ...fadeInUp.transition, delay: 0.15 }}
                     className="bg-gray-50 border border-gray-200 rounded-lg px-6 py-5 my-8 max-w-4xl"
                 >
-                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">
+                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">
                         Iteration toolbar
                     </p>
                     <p className="text-sm leading-relaxed text-gray-600">
@@ -552,7 +558,7 @@ function AIPreparesSection() {
     const { aiPrepares } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="08" title="AI prepares, the admin decides" />
 
@@ -562,7 +568,7 @@ function AIPreparesSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {aiPrepares.heading}{" "}
-                    <Highlighter action="highlight" color="#6EE7B7" isView>
+                    <Highlighter action="highlight" color="#FFD79A" isView>
                         {aiPrepares.headingHighlight}
                     </Highlighter>
                     {aiPrepares.headingSuffix}
@@ -601,7 +607,7 @@ function FreedomInsideSection() {
     const { freedomInside } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="09" title="Freedom inside the card" />
 
@@ -611,7 +617,7 @@ function FreedomInsideSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {freedomInside.heading}{" "}
-                    <span className="text-gray-400">
+                    <span className="text-gray-500">
                         {freedomInside.headingSuffix}
                     </span>
                 </motion.h2>
@@ -646,7 +652,7 @@ function TwoSurfacesSection() {
     const { twoSurfaces } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="10" title="Two different surfaces" />
 
@@ -691,7 +697,7 @@ function WhereItIsSection() {
     const { whereItIs } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="11" title="Where it is now" />
 
@@ -701,7 +707,7 @@ function WhereItIsSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {whereItIs.heading}{" "}
-                    <Highlighter action="highlight" color="#6EE7B7" isView>
+                    <Highlighter action="highlight" color="#FFD79A" isView>
                         {whereItIs.headingHighlight}
                     </Highlighter>
                     {whereItIs.headingSuffix}
@@ -736,7 +742,7 @@ function TakeFromItSection() {
     const { takeFromIt } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="12" title="What I take from it" />
 
@@ -748,7 +754,7 @@ function TakeFromItSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-8 max-w-4xl"
                 >
                     {takeFromIt.heading}{" "}
-                    <span className="text-gray-400">
+                    <span className="text-gray-500">
                         {takeFromIt.headingSuffix}
                     </span>
                 </motion.h2>
@@ -779,7 +785,7 @@ function TakeFromItSection() {
 
 export function FlashcardTrainingCaseStudy() {
     return (
-        <article className="bg-white">
+        <article className={`${spaceGrotesk.variable} cs-editorial bg-white`}>
             <HeroSection />
             <StartingPointSection />
             <WhatWeSawSection />

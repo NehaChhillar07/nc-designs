@@ -1,10 +1,22 @@
 "use client";
 
 import React from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { eCrimeHubCaseStudyData } from "@/data/ecrime-hub-data";
 import { Highlighter } from "@/components/ui/highlighter";
+import { spaceGrotesk } from "@/components/case-study/fonts";
+
+// Lazy-mount the scroll-expansion opener — it owns wheel/touch handling
+// and only makes sense client-side.
+const ScrollExpandMedia = dynamic(
+    () =>
+        import("@/components/ui/scroll-expansion-hero").then(
+            (m) => m.ScrollExpandMedia,
+        ),
+    { ssr: true },
+);
 
 // Blur placeholder for smooth image loading
 const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEQA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
@@ -53,14 +65,14 @@ function HeroSection() {
                     transition={{ ...fadeInUp.transition, delay: 0.1 }}
                     className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-8"
                 >
-                    A public <Highlighter action="highlight" color="#60A5FA" isView>cybersecurity</Highlighter> website designed to help citizens <Highlighter action="highlight" color="#34D399" isView>report cybercrime</Highlighter> and understand <Highlighter action="highlight" color="#FBBF24" isView>digital risks</Highlighter> at a national scale.
+                    A public <Highlighter action="highlight" color="#FF9800" isView>cybersecurity</Highlighter> website designed to help citizens <Highlighter action="highlight" color="#FFD79A" isView>report cybercrime</Highlighter> and understand <Highlighter action="highlight" color="#FBBF24" isView>digital risks</Highlighter> at a national scale.
                 </motion.h1>
 
                 {/* Tags - Small, quiet */}
                 <motion.p
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                    className="text-sm text-gray-400 tracking-wide"
+                    className="text-sm text-gray-500 tracking-wide"
                 >
                     {hero.tags}
                 </motion.p>
@@ -72,73 +84,20 @@ function HeroSection() {
                     className="mt-12 flex flex-wrap items-start justify-between w-full"
                 >
                     <div>
-                        <p className="text-sm md:text-base text-gray-400 mb-1">Timeline</p>
+                        <p className="text-sm md:text-base text-gray-500 mb-1">Timeline</p>
                         <p className="text-lg md:text-xl font-medium text-gray-900">Sep 2025 to Nov 2025</p>
                     </div>
                     <div>
-                        <p className="text-sm md:text-base text-gray-400 mb-1">Team</p>
+                        <p className="text-sm md:text-base text-gray-500 mb-1">Team</p>
                         <p className="text-lg md:text-xl font-medium text-gray-900">Dubai Police Executives, 2 Engineers, PM</p>
                     </div>
                     <div>
-                        <p className="text-sm md:text-base text-gray-400 mb-1">Role</p>
+                        <p className="text-sm md:text-base text-gray-500 mb-1">Role</p>
                         <p className="text-lg md:text-xl font-medium text-gray-900">Product Designer</p>
                     </div>
                 </motion.div>
             </div>
 
-            {/* Hero Video with macOS-style Frame */}
-            <motion.div
-                {...fadeIn}
-                transition={{ ...fadeIn.transition, delay: 0.3 }}
-                className="container mx-auto px-4 mt-16"
-            >
-                <div
-                    className="rounded-2xl overflow-hidden shadow-2xl"
-                    style={{
-                        background: "#1a1a1a",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                    }}
-                >
-                    {/* macOS Window Header */}
-                    <div
-                        className="flex items-center gap-2 px-4 py-3"
-                        style={{ background: "#2a2a2a" }}
-                    >
-                        {/* Traffic Lights */}
-                        <div className="flex items-center gap-2">
-                            <div
-                                className="w-3 h-3 rounded-full"
-                                style={{ background: "#ff5f57" }}
-                            />
-                            <div
-                                className="w-3 h-3 rounded-full"
-                                style={{ background: "#febc2e" }}
-                            />
-                            <div
-                                className="w-3 h-3 rounded-full"
-                                style={{ background: "#28c840" }}
-                            />
-                        </div>
-                    </div>
-                    {/* Video Content */}
-                    <div className="relative aspect-video">
-                        <video
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="metadata"
-                            className="w-full h-full object-cover"
-                        >
-                            <source
-                                src="/work/2nd-case%20study/hero.mp4"
-                                type="video/mp4"
-                            />
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                </div>
-            </motion.div>
         </section>
     );
 }
@@ -153,7 +112,7 @@ function ContextSection() {
     const { context } = eCrimeHubCaseStudyData;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.h2
                     {...fadeInUp}
@@ -169,7 +128,7 @@ function ContextSection() {
                         transition={{ ...fadeInUp.transition, delay: 0.15 }}
                         className="bg-gray-50 border border-gray-200 rounded-lg px-6 py-5 mt-12 max-w-4xl"
                     >
-                        <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">
+                        <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">
                             Working with Dubai Police
                         </p>
                         <p className="text-sm leading-relaxed text-gray-600">
@@ -192,14 +151,14 @@ function ObjectiveSection() {
 
     return (
         <section
-            className="py-16 md:py-20"
+            className="py-16 md:py-24"
             style={{ background: "#E8F5E9" }}
         >
             <div className="max-w-5xl mx-auto px-6">
                 {/* Small Label */}
                 <motion.p
                     {...fadeInUp}
-                    className="text-sm text-gray-400 tracking-wide mb-8"
+                    className="text-sm text-gray-500 tracking-wide mb-8"
                 >
                     Objective
                 </motion.p>
@@ -213,7 +172,7 @@ function ObjectiveSection() {
                             transition={{ ...fadeInUp.transition, delay: 0.1 * (index + 1) }}
                             className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/80"
                         >
-                            <span className="text-xs font-medium text-gray-400 mb-3 block">0{index + 1}</span>
+                            <span className="text-xs font-medium text-gray-500 mb-3 block">0{index + 1}</span>
                             <p className="text-xl md:text-2xl font-medium text-gray-900 leading-snug">
                                 {item}
                             </p>
@@ -235,7 +194,7 @@ function RoleSection() {
 
     // Helper function to highlight keywords in the body text
     const renderBodyWithHighlights = () => {
-        let text = role.body;
+        const text = role.body;
         const parts: React.ReactNode[] = [];
         let lastIndex = 0;
 
@@ -262,12 +221,12 @@ function RoleSection() {
     };
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 {/* Small Label */}
                 <motion.p
                     {...fadeInUp}
-                    className="text-sm text-gray-400 tracking-wide mb-6"
+                    className="text-sm text-gray-500 tracking-wide mb-6"
                 >
                     {role.heading}
                 </motion.p>
@@ -332,7 +291,7 @@ function ConstraintsSection() {
     const { constraints } = eCrimeHubCaseStudyData;
 
     return (
-        <section className="py-20 md:py-28 bg-gray-50">
+        <section className="py-16 md:py-24 bg-gray-50">
             <div className="max-w-2xl mx-auto px-6">
                 <motion.h2
                     {...fadeInUp}
@@ -387,6 +346,7 @@ const sketchyNotes = [
 ];
 
 function DesignApproachSection() {
+    const shouldReduceMotion = useReducedMotion();
     const { designApproach } = eCrimeHubCaseStudyData;
 
     // Function to render body text with highlights on key phrases
@@ -394,22 +354,22 @@ function DesignApproachSection() {
         // Define key phrases to highlight based on section index
         const highlightPhrases: Record<number, { phrase: string; color: string }[]> = {
             0: [
-                { phrase: "Dubai Police's official reporting portal", color: "#60A5FA" },
+                { phrase: "Dubai Police's official reporting portal", color: "#FF9800" },
                 { phrase: "automatic escalation", color: "#FBBF24" },
             ],
             1: [
-                { phrase: "clear, scannable topics", color: "#34D399" },
-                { phrase: "non-technical users", color: "#60A5FA" },
+                { phrase: "clear, scannable topics", color: "#FFD79A" },
+                { phrase: "non-technical users", color: "#FF9800" },
             ],
             2: [
-                { phrase: "structured prompting rules", color: "#F472B6" },
-                { phrase: "blocks the threat city-wide", color: "#34D399" },
+                { phrase: "structured prompting rules", color: "#FF9800" },
+                { phrase: "blocks the threat city-wide", color: "#FFD79A" },
             ],
         };
 
         const phrases = highlightPhrases[index] || [];
-        let result: React.ReactNode[] = [];
-        let remainingText = body;
+        const result: React.ReactNode[] = [];
+        const remainingText = body;
         let lastIndex = 0;
 
         // Sort phrases by their position in the text
@@ -444,7 +404,7 @@ function DesignApproachSection() {
     };
 
     return (
-        <section className="py-20 md:py-28 overflow-x-clip">
+        <section className="py-16 md:py-24 overflow-x-clip">
             {/* Match hero content width: max-w-5xl */}
             <div className="max-w-5xl mx-auto px-6">
                 <div className="space-y-24">
@@ -453,7 +413,7 @@ function DesignApproachSection() {
                             {/* Title becomes less prominent - small label style */}
                             <motion.p
                                 {...fadeInUp}
-                                className="text-sm font-medium text-gray-400 tracking-wide uppercase"
+                                className="text-sm font-medium text-gray-500 tracking-wide uppercase"
                             >
                                 {section.title}
                             </motion.p>
@@ -474,11 +434,11 @@ function DesignApproachSection() {
                                     transition={{ ...fadeInUp.transition, delay: 0.15 }}
                                     className="bg-gray-50 border border-gray-200 rounded-lg px-6 py-5 max-w-4xl"
                                 >
-                                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">
+                                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">
                                         Design Decision
                                     </p>
                                     <p className="text-sm leading-relaxed text-gray-600">
-                                        We pushed to route formal crime reports to Dubai Police's existing portal rather than rebuilding reporting infrastructure inside eCrime Hub. Stakeholders initially wanted everything in one place, but duplicating the government's reporting system would have created data inconsistencies and legal ambiguity. By redirecting to the official portal, we preserved chain-of-custody requirements while keeping the user journey under 3 clicks from homepage to report submission.
+                                        We pushed to route formal crime reports to Dubai Police&apos;s existing portal rather than rebuilding reporting infrastructure inside eCrime Hub. Stakeholders initially wanted everything in one place, but duplicating the government&apos;s reporting system would have created data inconsistencies and legal ambiguity. By redirecting to the official portal, we preserved chain-of-custody requirements while keeping the user journey under 3 clicks from homepage to report submission.
                                     </p>
                                 </motion.div>
                             )}
@@ -599,11 +559,17 @@ function DesignApproachSection() {
                                         <div className="relative rounded-2xl overflow-hidden">
                                             <video
                                                 src={section.video}
+                                                // Unconditional so server and client markup match;
+                                                // reduced-motion users get paused playback via the ref.
                                                 autoPlay
                                                 loop
                                                 muted
                                                 playsInline
+                                                aria-label="Design approach demo"
                                                 className="w-full h-auto rounded-2xl"
+                                                ref={(el) => {
+                                                    if (el && shouldReduceMotion) el.pause();
+                                                }}
                                             />
                                         </div>
 
@@ -701,12 +667,12 @@ function VisualSystemSection() {
     const { visualSystem } = eCrimeHubCaseStudyData;
 
     return (
-        <section className="py-20 md:py-28 overflow-x-clip">
+        <section className="py-16 md:py-24 overflow-x-clip">
             <div className="max-w-5xl mx-auto px-6">
                 {/* Small label - subtle */}
                 <motion.p
                     {...fadeInUp}
-                    className="text-sm font-medium text-gray-400 tracking-wide uppercase mb-6"
+                    className="text-sm font-medium text-gray-500 tracking-wide uppercase mb-6"
                 >
                     {visualSystem.heading}
                 </motion.p>
@@ -733,7 +699,7 @@ function VisualSystemSection() {
                 <motion.p
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                    className="text-base text-gray-400 leading-relaxed mb-16"
+                    className="text-base text-gray-500 leading-relaxed mb-16"
                 >
                     {visualSystem.philosophy}
                 </motion.p>
@@ -862,14 +828,14 @@ function PublicImpactSection() {
     const { publicImpact } = eCrimeHubCaseStudyData;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-6xl mx-auto px-6">
                 {/* Main Statement with Highlights - replaces header */}
                 <motion.h2
                     {...fadeInUp}
                     className="text-2xl md:text-3xl lg:text-4xl font-medium text-gray-900 leading-snug mb-16"
                 >
-                    The platform was officially introduced through a <Highlighter action="underline" color="#475569" strokeWidth={2} isView>public launch</Highlighter> aligned with Dubai Police's cybersecurity initiatives. The focus was to establish <Highlighter action="underline" color="#475569" strokeWidth={2} isView>trust</Highlighter>, <Highlighter action="underline" color="#475569" strokeWidth={2} isView>visibility</Highlighter>, and a clear path for citizens to report and understand cybercrime.
+                    The platform was officially introduced through a <Highlighter action="underline" color="#475569" strokeWidth={2} isView>public launch</Highlighter> aligned with Dubai Police&apos;s cybersecurity initiatives. The focus was to establish <Highlighter action="underline" color="#475569" strokeWidth={2} isView>trust</Highlighter>, <Highlighter action="underline" color="#475569" strokeWidth={2} isView>visibility</Highlighter>, and a clear path for citizens to report and understand cybercrime.
                 </motion.h2>
 
                 {/* Block 1: Official Public Launch - Full Width Media */}
@@ -900,8 +866,8 @@ function PublicImpactSection() {
                     <p className="text-lg text-gray-900 leading-relaxed mb-4">
                         Following launch, the platform became part of ongoing cybersecurity awareness efforts. Monthly quizzes, public education initiatives, and school programs were introduced to keep citizens informed as cyber threats continued to evolve.
                     </p>
-                    <p className="text-base text-gray-400 leading-relaxed italic mb-10">
-                        The platform's value is reflected in sustained public participation, growing awareness, and continued institutional trust.
+                    <p className="text-base text-gray-500 leading-relaxed italic mb-10">
+                        The platform&apos;s value is reflected in sustained public participation, growing awareness, and continued institutional trust.
                     </p>
 
                     {/* 3 Awareness Campaign Images */}
@@ -932,7 +898,7 @@ function PublicImpactSection() {
                             <div key={index} className="border border-gray-200 rounded-xl p-6">
                                 <p className="text-3xl font-semibold text-gray-900 mb-1">{metric.value}</p>
                                 <p className="text-sm font-medium text-gray-900 mb-2">{metric.label}</p>
-                                <p className="text-xs text-gray-400">{metric.context}</p>
+                                <p className="text-xs text-gray-500">{metric.context}</p>
                             </div>
                         ))}
                     </motion.div>
@@ -952,7 +918,7 @@ function OutcomeSection() {
     const { outcome } = eCrimeHubCaseStudyData;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-2xl mx-auto px-6">
                 <motion.h2
                     {...fadeInUp}
@@ -981,7 +947,7 @@ function LearningsSection() {
     const { learnings } = eCrimeHubCaseStudyData;
 
     return (
-        <section className="py-20 md:py-28 bg-gray-50">
+        <section className="py-16 md:py-24 bg-gray-50">
             <div className="max-w-2xl mx-auto px-6">
                 <motion.h2
                     {...fadeInUp}
@@ -1016,7 +982,7 @@ function EvolvingSection() {
     const { evolving } = eCrimeHubCaseStudyData;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 {/* Main Statement as Heading */}
                 <motion.h2
@@ -1043,8 +1009,26 @@ function EvolvingSection() {
 // ============================================
 
 export function ECrimeHubCaseStudy() {
+    const { hero } = eCrimeHubCaseStudyData;
+    const { scrollHero } = hero;
+
     return (
-        <article className="bg-white">
+        <article className={`${spaceGrotesk.variable} cs-editorial bg-white`}>
+            {/* Scroll-expansion opener — pins the page while the product demo
+                grows from a small card to near-fullscreen */}
+            <ScrollExpandMedia
+                mediaType="video"
+                mediaSrc={scrollHero.media}
+                mediaAspect={16 / 9}
+                browserChrome
+                bgImageSrc={scrollHero.background}
+                title={scrollHero.title}
+                eyebrow={hero.meta}
+                subtitle={hero.title}
+                tags={hero.tags}
+                date={scrollHero.date}
+                scrollToExpand={scrollHero.hint}
+            />
             <HeroSection />
             <ContextSection />
             <ObjectiveSection />

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Caveat } from "next/font/google";
 import "./globals.css";
+import { MotionConfig } from "motion/react";
 import { CursorProvider } from "@/components/ui/cursor-context";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 
@@ -110,10 +111,12 @@ export default function RootLayout({
         className={`${inter.variable} ${caveat.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
-        <CursorProvider>
-          <CustomCursor />
-          {children}
-        </CursorProvider>
+        <MotionConfig reducedMotion="user">
+          <CursorProvider>
+            <CustomCursor />
+            {children}
+          </CursorProvider>
+        </MotionConfig>
       </body>
     </html>
   );

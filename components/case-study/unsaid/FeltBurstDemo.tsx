@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { Heart } from "lucide-react";
 
 // Interactive demo #3 — the "felt this" heart burst.
 // On tap, hearts spray from the button across the screen. The only public
@@ -60,7 +61,7 @@ export function FeltBurstDemo() {
                     boxShadow: "0 10px 26px rgba(176,106,72,.4)",
                 }}
             >
-                {filled ? "❤️" : "🤍"} felt this
+                <Heart className="h-[1.15em] w-[1.15em]" fill={filled ? "currentColor" : "none"} strokeWidth={2} /> felt this
             </button>
 
             {hearts.map((h) => (
@@ -77,7 +78,7 @@ export function FeltBurstDemo() {
                     }}
                     transition={{ duration: h.dur, ease: [0.2, 0.7, 0.3, 1], times: [0, 0.18, 1] }}
                 >
-                    ❤️
+                    <Heart fill="#B06A48" stroke="#B06A48" style={{ width: h.size, height: h.size }} />
                 </motion.span>
             ))}
         </div>

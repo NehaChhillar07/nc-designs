@@ -1,12 +1,24 @@
 "use client";
 
 import { motion } from "motion/react";
+import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, X, Check } from "lucide-react";
 import { Highlighter } from "@/components/ui/highlighter";
+import { spaceGrotesk } from "@/components/case-study/fonts";
 import { humanFirewallCaseStudyData } from "@/data/human-firewall-data";
+
+// Lazy-mount the scroll-expansion opener — it owns wheel/touch handling
+// and only makes sense client-side.
+const ScrollExpandMedia = dynamic(
+    () =>
+        import("@/components/ui/scroll-expansion-hero").then(
+            (m) => m.ScrollExpandMedia,
+        ),
+    { ssr: true },
+);
 
 // ============================================
 // ANIMATION — Slow, natural, predictable
@@ -37,7 +49,7 @@ function SectionLabel({ number, title }: { number: string; title: string }) {
     return (
         <motion.p
             {...fadeInUp}
-            className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4"
+            className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4"
         >
             {number}: {title}
         </motion.p>
@@ -140,7 +152,7 @@ function CustomerQuote({
             <p className="text-xl md:text-2xl font-light italic leading-relaxed text-gray-900/80">
                 {children}
             </p>
-            <cite className="block not-italic mt-4 text-sm text-gray-400 font-normal">
+            <cite className="block not-italic mt-4 text-sm text-gray-500 font-normal">
                 {attribution}
             </cite>
         </motion.blockquote>
@@ -173,8 +185,8 @@ function HeroSection() {
                     className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-8 max-w-4xl"
                 >
                     Evolving a legacy security platform into an{" "}
-                    <Highlighter action="highlight" color="#93C5FD" isView>AI-native</Highlighter>{" "}
-                    <Highlighter action="highlight" color="#6EE7B7" isView>risk intelligence</Highlighter>{" "}
+                    <Highlighter action="highlight" color="#FF9800" isView>AI-native</Highlighter>{" "}
+                    <Highlighter action="highlight" color="#FFD79A" isView>risk intelligence</Highlighter>{" "}
                     system
                 </motion.h1>
 
@@ -182,7 +194,7 @@ function HeroSection() {
                 <motion.p
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                    className="text-sm text-gray-400 tracking-wide"
+                    className="text-sm text-gray-500 tracking-wide"
                 >
                     {hero.tags}
                 </motion.p>
@@ -199,51 +211,13 @@ function HeroSection() {
                         ["Role", hero.role],
                     ].map(([label, value]) => (
                         <div key={label}>
-                            <p className="text-sm md:text-base text-gray-400 mb-1">{label}</p>
+                            <p className="text-sm md:text-base text-gray-500 mb-1">{label}</p>
                             <p className="text-lg md:text-xl font-medium text-gray-900">{value}</p>
                         </div>
                     ))}
                 </motion.div>
             </div>
 
-            {/* Hero Image Frame */}
-            <motion.div
-                {...fadeIn}
-                transition={{ ...fadeIn.transition, delay: 0.3 }}
-                className="max-w-5xl mx-auto px-6 mt-16"
-            >
-                <div
-                    className="rounded-2xl overflow-hidden"
-                    style={{
-                        background: "#f4f4f5",
-                        border: "1px solid #e4e4e7",
-                        boxShadow: "0 20px 60px -10px rgba(0, 0, 0, 0.1), 0 40px 100px -20px rgba(0, 0, 0, 0.06)",
-                    }}
-                >
-                    {/* Browser Dots */}
-                    <div
-                        className="flex items-center gap-2 px-4 py-3"
-                        style={{ background: "#e4e4e7" }}
-                    >
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
-                            <div className="w-3 h-3 rounded-full" style={{ background: "#febc2e" }} />
-                            <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
-                        </div>
-                        <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                            HF 3: Dashboard Overview
-                        </span>
-                    </div>
-                    <Image
-                        src="/work/1st-case study/hf-dashboard-overview.jpeg"
-                        alt="Human Firewall 3: Dashboard Overview showing campaign stats, action hotspots, and department performance"
-                        width={3360}
-                        height={1922}
-                        className="w-full h-auto"
-                        priority
-                    />
-                </div>
-            </motion.div>
         </section>
     );
 }
@@ -257,7 +231,7 @@ function StartingPointSection() {
     const { startingPoint } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="01" title="The Starting Point" />
 
@@ -267,7 +241,7 @@ function StartingPointSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {startingPoint.heading}{" "}
-                    <span className="text-gray-400">{startingPoint.headingSuffix}</span>
+                    <span className="text-gray-500">{startingPoint.headingSuffix}</span>
                 </motion.h2>
 
                 <motion.div
@@ -287,16 +261,16 @@ function StartingPointSection() {
                 >
                     {/* HF2 — Legacy (faded, de-emphasized) */}
                     <div className="border border-gray-200 rounded-xl p-6 bg-gray-50/50">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">
                             {startingPoint.legacy.label}
                         </p>
                         <ul className="space-y-3">
                             {startingPoint.legacy.items.map((item) => (
                                 <li key={item} className="flex items-start gap-3">
                                     <span className="mt-0.5 w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                                        <span className="text-gray-400 text-xs">✕</span>
+                                        <X className="h-3 w-3 text-gray-500" strokeWidth={2.5} />
                                     </span>
-                                    <span className="text-sm text-gray-400 line-through decoration-gray-300">{item}</span>
+                                    <span className="text-sm text-gray-500 line-through decoration-gray-300">{item}</span>
                                 </li>
                             ))}
                         </ul>
@@ -311,7 +285,7 @@ function StartingPointSection() {
                             {startingPoint.needed.items.map((item) => (
                                 <li key={item} className="flex items-start gap-3">
                                     <span className="mt-0.5 w-5 h-5 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0">
-                                        <span className="text-white text-xs">✓</span>
+                                        <Check className="h-3 w-3 text-white" strokeWidth={3} />
                                     </span>
                                     <span className="text-sm font-medium text-gray-900">{item}</span>
                                 </li>
@@ -333,7 +307,7 @@ function AIShiftSection() {
     const { aiShift } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="02" title="The AI Shift" />
 
@@ -344,7 +318,7 @@ function AIShiftSection() {
                 >
                     <Highlighter action="highlight" color="#FBBF24" isView>Retrofit</Highlighter>{" "}
                     vs.{" "}
-                    <Highlighter action="highlight" color="#6EE7B7" isView>Rebuild</Highlighter>
+                    <Highlighter action="highlight" color="#FFD79A" isView>Rebuild</Highlighter>
                 </motion.h2>
 
                 <motion.div
@@ -363,7 +337,7 @@ function AIShiftSection() {
                     className="grid md:grid-cols-2 gap-4 mb-10"
                 >
                     <div className="border border-gray-200 rounded-lg p-6">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
                             {aiShift.optionA.label}
                         </p>
                         <p className="font-semibold text-gray-900 mb-1">{aiShift.optionA.title}</p>
@@ -392,7 +366,7 @@ function AIShiftSection() {
                     transition={{ ...fadeInUp.transition, delay: 0.25 }}
                     className="bg-gray-50 border border-gray-200 rounded-lg px-6 py-5 my-8 max-w-4xl"
                 >
-                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">
+                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">
                         Working with Engineering
                     </p>
                     <p className="text-sm leading-relaxed text-gray-600">
@@ -451,7 +425,7 @@ function CompromiseInsightSection() {
     const { compromiseInsight, behavioralFunnel } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="03" title="Low Compromise ≠ Low Risk" />
 
@@ -478,7 +452,7 @@ function CompromiseInsightSection() {
                 <div className="space-y-3 my-10">
                     {behavioralFunnel.map((s, i) => (
                         <div key={s.label} className="flex items-center gap-4">
-                            <span className="w-28 text-right text-sm font-medium text-gray-400">
+                            <span className="w-28 text-right text-sm font-medium text-gray-500">
                                 {s.label}
                             </span>
                             <div className="flex-1 h-9 bg-gray-100 rounded overflow-hidden">
@@ -512,7 +486,7 @@ function CompromiseInsightSection() {
                             </li>
                         ))}
                     </ul>
-                    <p className="text-sm text-gray-400 mt-3 italic">
+                    <p className="text-sm text-gray-500 mt-3 italic">
                         {compromiseInsight.improvements.footnote}
                     </p>
                 </Callout>
@@ -564,7 +538,7 @@ function AILaunchSection() {
     const { aiLaunch } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="04" title="AI Could Launch. We Said No." />
 
@@ -574,7 +548,7 @@ function AILaunchSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {aiLaunch.heading}{" "}
-                    <span className="text-gray-400">{aiLaunch.headingSuffix}</span>
+                    <span className="text-gray-500">{aiLaunch.headingSuffix}</span>
                 </motion.h2>
 
                 <motion.div
@@ -584,11 +558,11 @@ function AILaunchSection() {
                 >
                     <div className="grid grid-cols-2 text-center">
                         <div className="border border-gray-200 rounded-l-lg p-6">
-                            <p className="text-xs uppercase tracking-wider text-gray-400 mb-2">Automation</p>
+                            <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">Automation</p>
                             <p className="text-lg font-semibold text-gray-900">AI prepares</p>
                         </div>
                         <div className="border border-gray-200 border-l-0 rounded-r-lg p-6 bg-gray-900/[0.02]">
-                            <p className="text-xs uppercase tracking-wider text-gray-400 mb-2">Authority</p>
+                            <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">Authority</p>
                             <p className="text-lg font-semibold text-gray-900">Admins approve</p>
                         </div>
                     </div>
@@ -643,7 +617,7 @@ function RiskScoreSection() {
     const { riskScore } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="05" title="Risk Score Redesign" />
 
@@ -672,7 +646,7 @@ function RiskScoreSection() {
                     transition={{ ...fadeInUp.transition, delay: 0.12 }}
                     className="my-10"
                 >
-                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-400 mb-5">
+                    <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-5">
                         {riskScore.rejectedVersions.eyebrow}
                     </p>
                     <div className="grid md:grid-cols-3 gap-4">
@@ -698,7 +672,7 @@ function RiskScoreSection() {
                     {riskScore.pillars.map((p) => (
                         <div key={p.label} className="border border-gray-200 rounded-lg p-5 text-center">
                             <p className="font-semibold text-sm text-gray-900 mb-1">{p.label}</p>
-                            <p className="text-xs text-gray-400">{p.desc}</p>
+                            <p className="text-xs text-gray-500">{p.desc}</p>
                         </div>
                     ))}
                 </motion.div>
@@ -713,7 +687,7 @@ function RiskScoreSection() {
                                     {level}
                                 </span>
                                 {i < riskScore.hierarchy.length - 1 && (
-                                    <ArrowRight className="w-3.5 h-3.5 text-gray-400" />
+                                    <ArrowRight className="w-3.5 h-3.5 text-gray-500" />
                                 )}
                             </span>
                         ))}
@@ -775,7 +749,7 @@ function ReportingSection() {
     const { reporting } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="06" title="Reporting Without Distortion" />
 
@@ -864,7 +838,7 @@ function MicroLearningSection() {
     const { microLearning } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="07" title="Compromise → Micro-Learning" />
 
@@ -874,7 +848,7 @@ function MicroLearningSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {microLearning.heading}{" "}
-                    <Highlighter action="highlight" color="#6EE7B7" isView>
+                    <Highlighter action="highlight" color="#FFD79A" isView>
                         {microLearning.headingHighlight}
                     </Highlighter>
                     {microLearning.headingSuffix}
@@ -892,7 +866,7 @@ function MicroLearningSection() {
                                 {step}
                             </span>
                             {i < microLearning.steps.length - 1 && (
-                                <ArrowRight className="w-4 h-4 text-gray-400" />
+                                <ArrowRight className="w-4 h-4 text-gray-500" />
                             )}
                         </span>
                     ))}
@@ -991,7 +965,7 @@ function MigrationSection() {
     const { migration } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="08" title="Building HF3 While HF2 Lived" />
 
@@ -1001,7 +975,7 @@ function MigrationSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {migration.heading}{" "}
-                    <span className="text-gray-400">{migration.headingSuffix}</span>
+                    <span className="text-gray-500">{migration.headingSuffix}</span>
                 </motion.h2>
 
                 <motion.p
@@ -1020,7 +994,7 @@ function MigrationSection() {
                     {migration.quotes.map((q) => (
                         <div key={q}>
                             <PullQuote>{q}</PullQuote>
-                            <p className="mt-2 pl-6 text-sm text-gray-400 font-normal">
+                            <p className="mt-2 pl-6 text-sm text-gray-500 font-normal">
                                 {migration.quotesAttribution}
                             </p>
                         </div>
@@ -1067,7 +1041,7 @@ function MigrationSection() {
                                         <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#febc2e" }} />
                                         <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#28c840" }} />
                                     </div>
-                                    <span className="ml-2 text-xs text-gray-400 font-medium tracking-wide">
+                                    <span className="ml-2 text-xs text-gray-500 font-medium tracking-wide">
                                         HF 2: Legacy
                                     </span>
                                 </div>
@@ -1141,7 +1115,7 @@ function ConfidenceSection() {
     const { confidence } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="09" title="Confidence Replaced Dependency" />
 
@@ -1151,7 +1125,7 @@ function ConfidenceSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-8 max-w-4xl"
                 >
                     {confidence.heading}{" "}
-                    <Highlighter action="highlight" color="#93C5FD" isView>
+                    <Highlighter action="highlight" color="#FF9800" isView>
                         {confidence.headingHighlight}
                     </Highlighter>
                 </motion.h2>
@@ -1165,7 +1139,7 @@ function ConfidenceSection() {
                     <div className="border border-gray-200 rounded-lg px-5 py-4">
                         <p className="text-sm font-medium text-gray-900">{confidence.metric.primary}</p>
                     </div>
-                    <p className="text-xs text-gray-400 mt-2 ml-1">{confidence.metric.footnote}</p>
+                    <p className="text-xs text-gray-500 mt-2 ml-1">{confidence.metric.footnote}</p>
                 </motion.div>
 
                 {/* Three prose paragraphs */}
@@ -1196,7 +1170,7 @@ function ReflectionSection() {
     const { reflection } = data;
 
     return (
-        <section className="py-20 md:py-28">
+        <section className="py-16 md:py-24">
             <div className="max-w-5xl mx-auto px-6">
                 <SectionLabel number="10" title="What This Project Changed in Me" />
 
@@ -1206,7 +1180,7 @@ function ReflectionSection() {
                     className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-gray-900 leading-snug mb-6 max-w-4xl"
                 >
                     {reflection.heading}{" "}
-                    <Highlighter action="highlight" color="#6EE7B7" isView>
+                    <Highlighter action="highlight" color="#FFD79A" isView>
                         {reflection.headingHighlight}
                     </Highlighter>
                 </motion.h2>
@@ -1258,8 +1232,26 @@ function ReflectionSection() {
 // ============================================
 
 export function HumanFirewallCaseStudy() {
+    const { scrollHero } = data.hero;
+
     return (
-        <article className="bg-white">
+        <article className={`${spaceGrotesk.variable} cs-editorial bg-white`}>
+            {/* Scroll-expansion opener — pins the page while the dashboard
+                grows from a small card to near-fullscreen */}
+            <ScrollExpandMedia
+                mediaType="image"
+                mediaSrc={scrollHero.media}
+                mediaAlt={scrollHero.mediaAlt}
+                mediaAspect={3360 / 1922}
+                browserChrome
+                bgImageSrc={scrollHero.background}
+                title={scrollHero.title}
+                eyebrow={data.hero.meta}
+                subtitle={data.hero.title}
+                tags={data.hero.tags}
+                date={scrollHero.date}
+                scrollToExpand={scrollHero.hint}
+            />
             <HeroSection />
             <StartingPointSection />
             <AIShiftSection />

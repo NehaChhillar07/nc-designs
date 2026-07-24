@@ -14,6 +14,30 @@ export const flashcardTrainingCaseStudyData = {
         team: "Product, Eng, CS, Graphics",
         role: "Product Designer & Builder",
         caption: "Micro-Training Library: the self-serve home for AI-built flashcard training",
+        // Hero deck — three phishing training cards, shown as a self-shuffling stack
+        deckCards: [
+            {
+                tag: "Learning",
+                title: "What is phishing?",
+                body: "A fake message that pretends to be from someone you trust. It is built to make you click a link, open a file, or hand over a password.",
+                image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80&auto=format&fit=crop",
+                alt: "Credit card hanging from a fishing hook",
+            },
+            {
+                tag: "Learning",
+                title: "The tells are small.",
+                body: "Check the sender's address, not just the display name. Hover over links before you click. If a message pushes you to act right now, slow down.",
+                image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80&auto=format&fit=crop",
+                alt: "Padlock resting on a laptop keyboard",
+            },
+            {
+                tag: "Quiz",
+                title: "An email from IT asks for your password to fix your inbox. What now?",
+                body: "Report it. Your real IT team will never ask for your password, in email or anywhere else.",
+                image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80&auto=format&fit=crop",
+                alt: "Green code on a dark screen",
+            },
+        ],
     },
 
     // Section 01 — The Starting Point

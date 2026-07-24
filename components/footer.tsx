@@ -53,7 +53,7 @@ export function Footer() {
                     <motion.a
                         href="mailto:nehachhillar07@gmail.com?subject=Let's%20talk!"
                         className="inline-block text-[32px] md:text-[56px] lg:text-[80px] xl:text-[112px] font-light tracking-tight transition-all duration-300 leading-none"
-                        style={{ color: "#C4CDD5" }}
+                        style={{ color: "#6B7280" }}
                         whileHover={{
                             color: "#212B36",
                             transition: { duration: 0.3 }

@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Download, Share2, ArrowLeft, Mail, Link2 } from "lucide-react";
 import { useState } from "react";
+
+// pdf.js touches browser APIs — client-only.
+const ResumeViewer = dynamic(
+    () => import("@/components/resume-viewer").then(mod => ({ default: mod.ResumeViewer })),
+    { ssr: false, loading: () => <div className="p-8 text-sm text-gray-400">Loading resume…</div> }
+);
 
 
 export default function ResumePage() {
@@ -82,7 +89,7 @@ export default function ResumePage() {
     };
 
     return (
-        <div className="h-[100dvh] flex flex-col bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="h-[100dvh] flex flex-col bg-gradient-to-br from-[#FAF6F0] to-[#F1E9DF]">
             {/* Header */}
             <header className="border-b bg-white/80 backdrop-blur-sm flex-shrink-0 z-10">
                 <div className="container mx-auto flex h-16 items-center justify-between px-8">
@@ -107,6 +114,8 @@ export default function ResumePage() {
                             <Button
                                 size="sm"
                                 onClick={() => setShowShareMenu(!showShareMenu)}
+                                aria-haspopup="menu"
+                                aria-expanded={showShareMenu}
                                 className="flex items-center gap-2"
                             >
                                 <Share2 className="w-4 h-4" />
@@ -114,24 +123,24 @@ export default function ResumePage() {
                             </Button>
 
                             {showShareMenu && (
-                                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border py-2 z-20">
+                                <div role="menu" className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border py-2 z-20">
                                     <button
                                         onClick={handleEmailShare}
-                                        className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-3"
+                                        role="menuitem" className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none flex items-center gap-3"
                                     >
                                         <Mail className="w-4 h-4" />
                                         Email
                                     </button>
                                     <button
                                         onClick={handleNativeShare}
-                                        className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-3"
+                                        role="menuitem" className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none flex items-center gap-3"
                                     >
                                         <Share2 className="w-4 h-4" />
                                         Share via...
                                     </button>
                                     <button
                                         onClick={handleCopyLink}
-                                        className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-3"
+                                        role="menuitem" className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 focus-visible:bg-gray-100 focus-visible:outline-none flex items-center gap-3"
                                     >
                                         <Link2 className="w-4 h-4" />
                                         Copy Link
@@ -196,11 +205,7 @@ export default function ResumePage() {
                                 `,
                             }}
                         >
-                            <iframe
-                                src="/api/download-resume?inline=1#toolbar=0&navpanes=0&view=FitH"
-                                title="Neha Chhillar Resume"
-                                className="w-full h-full block border-0"
-                            />
+                            <ResumeViewer file="/api/download-resume?inline=1" />
                             <noscript>
                                 <p className="p-6 text-sm text-gray-600">
                                     Your browser cannot display the embedded PDF.{" "}

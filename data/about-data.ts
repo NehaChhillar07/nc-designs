@@ -168,6 +168,52 @@ export function getRandomAboutMedia(): AboutMedia[] {
     return selection;
 }
 
+// ============================================
+// SCROLL CHOREOGRAPHY CASTING
+// Four square quadrant photos. bottomLeft ends up front-most in the
+// stack and expands to fill the page — cast an image there whose
+// subject survives a full-screen crop.
+// `position` biases the square/full-page crop so faces stay in view.
+// Everything not cast here appears in the strip below the text.
+// ============================================
+
+const byId = (id: number): AboutMedia => allAboutMedia.find(m => m.id === id)!;
+
+export const aboutChoreography = {
+    topLeft: { ...byId(4), position: "center 35%" }, // night selfie with June — face in upper half
+    topRight: { ...byId(1), position: "center 30%" }, // with the puppy, warm daylight
+    bottomLeft: { ...byId(6), position: "center 60%" }, // car-ride selfie — front image, expands full page; face low-center
+    bottomRight: { ...byId(9), position: "center 60%" }, // night balcony portrait — face sits low
+};
+
+const choreographyIds = [
+    aboutChoreography.topLeft.id,
+    aboutChoreography.topRight.id,
+    aboutChoreography.bottomLeft.id,
+    aboutChoreography.bottomRight.id,
+];
+
+// Spread videos evenly between the images so they don't cluster at the end.
+// Deterministic on purpose — a random shuffle would render differently on
+// server and client and break hydration.
+function mixMedia(media: AboutMedia[]): AboutMedia[] {
+    const images = media.filter(m => m.type === "image");
+    const videos = media.filter(m => m.type === "video");
+
+    const mixed: AboutMedia[] = [];
+    let taken = 0;
+    videos.forEach((video, i) => {
+        const groupSize = Math.ceil((images.length - taken) / (videos.length + 1 - i));
+        mixed.push(...images.slice(taken, taken + groupSize), video);
+        taken += groupSize;
+    });
+    mixed.push(...images.slice(taken));
+    return mixed;
+}
+
+// Remaining media — shown as the moments strip below the about text
+export const aboutStripMedia = mixMedia(allAboutMedia.filter(m => !choreographyIds.includes(m.id)));
+
 // Legacy exports
 export type AboutImage = AboutMedia;
 export const aboutImages = allAboutMedia.filter(m => m.type === "image");

@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { useCursor } from "@/components/ui/cursor-context";
+import { scrollToSection } from "@/lib/scroll-to-section";
 import { HeroCardFan } from "@/components/case-study/flashcard/HeroCardFan";
 import { flashcardTrainingCaseStudyData } from "@/data/flashcard-training-data";
 
@@ -110,11 +111,15 @@ const projects = [
 ];
 // ============================================
 
+const blockId = (index: number) => (index === 0 ? "first-case-study" : `case-study-${index}`);
+
 export function WorkSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const imageContainerRef = useRef<HTMLDivElement>(null);
     const textBlocksRef = useRef<HTMLDivElement[]>([]);
     const imagesRef = useRef<HTMLDivElement[]>([]);
+    const railFillsRef = useRef<HTMLSpanElement[]>([]);
+    const railRef = useRef<HTMLDivElement>(null);
     const { setCursor, resetCursor } = useCursor();
 
     useEffect(() => {
@@ -132,13 +137,10 @@ export function WorkSection() {
 
             const mm = gsap.matchMedia();
 
-            mm.add("(min-width: 1024px)", () => {
+            mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
                 // Set initial state - first image visible, others hidden
                 images.forEach((img, i) => {
-                    gsap.set(img, {
-                        opacity: i === 0 ? 1 : 0,
-                        visibility: i === 0 ? "visible" : "hidden",
-                    });
+                    gsap.set(img, { opacity: i === 0 ? 1 : 0 });
                 });
 
                 // Pin the image container throughout the section scroll
@@ -148,6 +150,25 @@ export function WorkSection() {
                     end: "bottom bottom",
                     pin: imageContainer,
                     pinSpacing: false,
+                });
+
+                // Progress rail is position:fixed (an ancestor's overflow-x-clip
+                // would clip an absolutely-positioned rail hanging outside the
+                // container; fixed elements escape that). Show it only while the
+                // section is on screen.
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top 60%",
+                    end: "bottom 40%",
+                    onToggle: (self) => {
+                        if (railRef.current) {
+                            gsap.to(railRef.current, {
+                                autoAlpha: self.isActive ? 1 : 0,
+                                duration: 0.3,
+                                overwrite: "auto",
+                            });
+                        }
+                    },
                 });
 
                 // Separate trigger for cursor control (more reliable than combining with pin)
@@ -161,76 +182,61 @@ export function WorkSection() {
                     onLeaveBack: () => resetCursor(),
                 });
 
-                // Create triggers for each text block to control image visibility and cursor
+                // Scrubbed crossfades: each transition tracks scroll position through
+                // the incoming block's top band, so fast or reversed scrolling stays
+                // perfectly smooth (no fixed-duration fades firing at thresholds).
+                textBlocks.forEach((textBlock, index) => {
+                    if (index === 0) return;
+                    gsap.timeline({
+                        scrollTrigger: {
+                            trigger: textBlock,
+                            start: "top 80%",
+                            end: "top 30%",
+                            scrub: true,
+                        },
+                    })
+                        .fromTo(
+                            images[index],
+                            { opacity: 0, yPercent: 5 },
+                            { opacity: 1, yPercent: 0, ease: "none" },
+                            0
+                        )
+                        .fromTo(
+                            images[index - 1],
+                            { opacity: 1, yPercent: 0 },
+                            { opacity: 0, yPercent: -3, ease: "none" },
+                            0
+                        );
+                });
+
+                // Per-block triggers: cursor reading-time tag + progress-rail fill
                 textBlocks.forEach((textBlock, index) => {
                     const project = projects[index];
                     const isFirstProject = index === 0;
                     const isLastProject = index === projects.length - 1;
+                    const applyFill = (progress: number) => {
+                        const fill = railFillsRef.current[index];
+                        if (fill) fill.style.transform = `scaleY(${progress})`;
+                    };
 
                     ScrollTrigger.create({
                         trigger: textBlock,
                         start: "top center",
                         end: "bottom center",
-                        onEnter: () => {
-                            // Update cursor to show reading time tag
-                            setCursor("tag", project.readingTime);
-
-                            // Fade in current image
-                            gsap.to(images[index], {
-                                opacity: 1,
-                                visibility: "visible",
-                                duration: 0.5,
-                                ease: "power2.out",
-                            });
-                            // Fade out other images
-                            images.forEach((img, i) => {
-                                if (i !== index) {
-                                    gsap.to(img, {
-                                        opacity: 0,
-                                        duration: 0.5,
-                                        ease: "power2.out",
-                                        onComplete: () => {
-                                            gsap.set(img, { visibility: "hidden" });
-                                        },
-                                    });
-                                }
-                            });
-                        },
+                        onUpdate: (self) => applyFill(self.progress),
+                        onRefresh: (self) => applyFill(self.progress),
+                        onEnter: () => setCursor("tag", project.readingTime),
                         onLeave: isLastProject ? () => resetCursor() : undefined,
-                        onEnterBack: () => {
-                            // Update cursor to show reading time tag
-                            setCursor("tag", project.readingTime);
-
-                            // Fade in current image
-                            gsap.to(images[index], {
-                                opacity: 1,
-                                visibility: "visible",
-                                duration: 0.5,
-                                ease: "power2.out",
-                            });
-                            // Fade out other images
-                            images.forEach((img, i) => {
-                                if (i !== index) {
-                                    gsap.to(img, {
-                                        opacity: 0,
-                                        duration: 0.5,
-                                        ease: "power2.out",
-                                        onComplete: () => {
-                                            gsap.set(img, { visibility: "hidden" });
-                                        },
-                                    });
-                                }
-                            });
-                        },
+                        onEnterBack: () => setCursor("tag", project.readingTime),
                         onLeaveBack: isFirstProject ? () => resetCursor() : undefined,
                     });
                 });
             });
 
             // Mobile: No pinning, show all content normally
-            mm.add("(max-width: 1023px)", () => {
+            mm.add("(max-width: 1023px), (prefers-reduced-motion: reduce)", () => {
                 images.forEach((img) => {
-                    gsap.set(img, { opacity: 1, visibility: "visible" });
+                    gsap.set(img, { opacity: 1 });
                 });
             });
         }, sectionRef);
@@ -248,6 +254,33 @@ export function WorkSection() {
 
     return (
         <section ref={sectionRef} className="relative">
+            {/* Progress rail — fixed at the viewport's left edge, faded in only
+                while the Work section is on screen. One segment per case study;
+                the active segment fills with scroll progress. Desktop only. */}
+            <div
+                ref={railRef}
+                className="hidden lg:motion-safe:flex fixed inset-y-0 left-5 z-40 w-6 flex-col items-center justify-center gap-3"
+                style={{ opacity: 0, visibility: "hidden" }}
+            >
+                {projects.map((project, index) => (
+                    <button
+                        key={project.id}
+                        type="button"
+                        aria-label={`Go to case study: ${project.title}`}
+                        onClick={() => scrollToSection(blockId(index))}
+                        className="relative h-16 w-1.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors overflow-hidden cursor-pointer"
+                    >
+                        <span
+                            ref={(el) => {
+                                if (el) railFillsRef.current[index] = el;
+                            }}
+                            className="absolute inset-0 rounded-full origin-top"
+                            style={{ transform: "scaleY(0)", backgroundColor: "var(--accent-warm)" }}
+                        />
+                    </button>
+                ))}
+            </div>
+
             {/* Two-column layout for desktop */}
             <div className="lg:grid lg:grid-cols-2 lg:gap-16">
                 {/* LEFT COLUMN - Scrolling text content */}
@@ -255,7 +288,7 @@ export function WorkSection() {
                     {projects.map((project, index) => (
                         <div
                             key={project.id}
-                            id={index === 0 ? "first-case-study" : undefined}
+                            id={blockId(index)}
                             ref={(el) => addToTextBlocksRef(el, index)}
                             className="min-h-screen flex flex-col justify-center py-16 md:py-24 scroll-mt-4"
                         >
@@ -271,7 +304,7 @@ export function WorkSection() {
                                                 className="w-[380px] h-[380px] rounded-full blur-3xl"
                                                 style={{
                                                     background:
-                                                        "radial-gradient(circle, rgba(110,231,183,0.22) 0%, rgba(96,165,250,0.12) 42%, transparent 70%)",
+                                                        "radial-gradient(circle, rgba(255,215,154,0.22) 0%, rgba(255,152,0,0.12) 42%, transparent 70%)",
                                                 }}
                                             />
                                         </div>
@@ -288,7 +321,7 @@ export function WorkSection() {
                                                 className="w-[480px] h-[480px] rounded-full blur-3xl"
                                                 style={{
                                                     background:
-                                                        "radial-gradient(circle, rgba(139,92,246,0.55) 0%, rgba(96,165,250,0.3) 45%, transparent 72%)",
+                                                        "radial-gradient(circle, rgba(255,152,0,0.55) 0%, rgba(255,215,154,0.3) 45%, transparent 72%)",
                                                 }}
                                             />
                                         </div>
@@ -410,7 +443,7 @@ export function WorkSection() {
                                                 className="w-[520px] h-[520px] rounded-full blur-3xl"
                                                 style={{
                                                     background:
-                                                        "radial-gradient(circle, rgba(110,231,183,0.22) 0%, rgba(96,165,250,0.12) 42%, transparent 70%)",
+                                                        "radial-gradient(circle, rgba(255,215,154,0.22) 0%, rgba(255,152,0,0.12) 42%, transparent 70%)",
                                                 }}
                                             />
                                         </div>
@@ -427,7 +460,7 @@ export function WorkSection() {
                                                 className="w-[640px] h-[640px] rounded-full blur-3xl"
                                                 style={{
                                                     background:
-                                                        "radial-gradient(circle, rgba(139,92,246,0.55) 0%, rgba(96,165,250,0.3) 45%, transparent 72%)",
+                                                        "radial-gradient(circle, rgba(255,152,0,0.55) 0%, rgba(255,215,154,0.3) 45%, transparent 72%)",
                                                 }}
                                             />
                                         </div>

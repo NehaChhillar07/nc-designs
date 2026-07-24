@@ -53,7 +53,7 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
         <div
             className="relative rounded-2xl overflow-hidden p-8 md:p-10 h-full"
             style={{
-                background: "linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%)",
+                background: "linear-gradient(135deg, #FAF6F0 0%, #F1E9DF 100%)",
                 minHeight: "280px"
             }}
         >
@@ -103,7 +103,7 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
                     {filteredProjects.map((project, index) => (
                         <motion.div
                             key={project.id}
-                            className="w-full"
+                            className="w-full h-full"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -112,11 +112,11 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
                             onMouseLeave={handleMouseLeave}
                         >
                             {project.link ? (
-                                <Link href={project.link} className="block group">
+                                <Link href={project.link} className="block group h-full">
                                     <ProjectCardContent project={project} />
                                 </Link>
                             ) : (
-                                <div className="block group">
+                                <div className="block group h-full">
                                     <ProjectCardContent project={project} />
                                 </div>
                             )}

@@ -9,6 +9,13 @@ export interface eCrimeHubData {
         title: string;
         subtitle: string;
         tags: string;
+        scrollHero: {
+            title: string;
+            date: string;
+            hint: string;
+            media: string;
+            background: string;
+        };
     };
     context: {
         heading: string;
@@ -99,6 +106,15 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
         title: "A public cybersecurity website designed to help citizens report cybercrime and understand digital risks at a national scale.",
         subtitle: "",
         tags: "Public Platform · Cybersecurity · Government · AI-assisted Design",
+        // Scroll-expansion opener — the product demo grows from a small card
+        // to near-fullscreen before the case study text begins
+        scrollHero: {
+            title: "eCrime Hub",
+            date: "Sep 2025 to Nov 2025",
+            hint: "Scroll to expand",
+            media: "/work/2nd-case%20study/hero.mp4",
+            background: "/hero-gradient.avif",
+        },
     },
 
     context: {

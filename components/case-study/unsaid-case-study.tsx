@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { Heart, X, Check } from "lucide-react";
 import { Highlighter } from "@/components/ui/highlighter";
 import { unsaidData } from "@/data/unsaid-data";
 import { lora, spaceGrotesk } from "@/components/case-study/unsaid/fonts";
@@ -260,7 +261,7 @@ export function UnsaidCaseStudy() {
                     <Body items={d.origin.body} />
                     <div className="mt-10 grid gap-4 sm:grid-cols-2">
                         <motion.div {...fadeInUp} className="rounded-2xl border border-gray-200 p-6 text-gray-400">
-                            <span className="mb-2 block text-lg" style={{ color: WARM }}>✕</span>
+                            <X className="mb-2 block h-5 w-5" style={{ color: WARM }} strokeWidth={2.5} />
                             <span className="line-through">{d.origin.compare.faded}</span>
                         </motion.div>
                         <motion.div
@@ -270,7 +271,7 @@ export function UnsaidCaseStudy() {
                             transition={{ ...fadeInUp.transition, delay: 0.12 }}
                             className="rounded-2xl border-2 border-gray-900 p-6"
                         >
-                            <span className="mb-2 block text-lg" style={{ color: WARM }}>✓</span>
+                            <Check className="mb-2 block h-5 w-5" style={{ color: WARM }} strokeWidth={2.5} />
                             <span className="text-gray-900">{d.origin.compare.bold}</span>
                         </motion.div>
                     </div>
@@ -294,7 +295,7 @@ export function UnsaidCaseStudy() {
                                 transition={{ ...fadeInUp.transition, delay: i * 0.08 }}
                                 className="flex items-baseline gap-3 border-b border-dashed border-gray-200 py-3"
                             >
-                                <span className="font-bold" style={{ color: WARM }}>✕</span>
+                                <X className="h-4 w-4 self-center" style={{ color: WARM }} strokeWidth={2.5} />
                                 <span className="font-semibold text-gray-900">{row.item}</span>
                                 <span className="ml-auto text-right text-[1.05rem] text-gray-400" style={caveat}>
                                     {row.note}
@@ -406,7 +407,7 @@ export function UnsaidCaseStudy() {
                                     {c.body}
                                 </p>
                                 <span className="inline-flex items-center gap-1.5 text-sm" style={{ color: CREAM_SOFT }}>
-                                    🤍 {c.felt}
+                                    <Heart className="h-4 w-4" strokeWidth={2} /> {c.felt}
                                 </span>
                             </motion.div>
                         ))}
