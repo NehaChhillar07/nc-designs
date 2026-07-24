@@ -47,6 +47,7 @@ function MediaItem({ media }: { media: AboutMedia }) {
             src={media.src}
             alt={media.alt}
             customGrid={{ rows: 4, cols: 6 }}
+            sizes="160px"
             grayscaleAnimation
             pixelFadeInDuration={800}
             maxAnimationDelay={1000}

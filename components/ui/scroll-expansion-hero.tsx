@@ -243,7 +243,7 @@ const ScrollExpandMedia = ({
                                                 muted
                                                 loop
                                                 playsInline
-                                                preload="auto"
+                                                preload="metadata"
                                                 className="absolute inset-0 w-full h-full object-cover"
                                                 controls={false}
                                                 disablePictureInPicture

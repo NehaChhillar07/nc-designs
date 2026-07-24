@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 
@@ -35,6 +36,9 @@ interface PixelImageProps {
   pixelFadeInDuration?: number // in ms
   maxAnimationDelay?: number // in ms
   colorRevealDelay?: number // in ms
+  /** Rendered display width hint for next/image, e.g. "160px" — keeps the
+      grid cells loading a small optimized file instead of the raw original */
+  sizes?: string
 }
 
 export const PixelImage = ({
@@ -47,16 +51,11 @@ export const PixelImage = ({
   maxAnimationDelay = 1200,
   colorRevealDelay = 1300,
   customGrid,
+  sizes = "100vw",
 }: PixelImageProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const [showColor, setShowColor] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-
-  // Prevent hydration mismatch by only rendering pieces after mount
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
 
   const MIN_GRID = 1
   const MAX_GRID = 16
@@ -109,19 +108,21 @@ export const PixelImage = ({
 
   const pieces = useMemo(() => {
     const total = rows * cols
+    // Rounded values serialize identically on server and client — long floats
+    // (16.666666666666668%) get normalized by the browser and break hydration.
+    const pct = (v: number) => parseFloat(v.toFixed(4))
     return Array.from({ length: total }, (_, index) => {
       const row = Math.floor(index / cols)
       const col = index % cols
 
-      const clipPath = `polygon(
-        ${col * (100 / cols)}% ${row * (100 / rows)}%,
-        ${(col + 1) * (100 / cols)}% ${row * (100 / rows)}%,
-        ${(col + 1) * (100 / cols)}% ${(row + 1) * (100 / rows)}%,
-        ${col * (100 / cols)}% ${(row + 1) * (100 / rows)}%
-      )`
+      const x0 = pct(col * (100 / cols))
+      const x1 = pct((col + 1) * (100 / cols))
+      const y0 = pct(row * (100 / rows))
+      const y1 = pct((row + 1) * (100 / rows))
+      const clipPath = `polygon(${x0}% ${y0}%, ${x1}% ${y0}%, ${x1}% ${y1}%, ${x0}% ${y1}%)`
 
-      // Use deterministic delay based on index instead of Math.random()
-      const delay = seededRandom(index + 1) * maxAnimationDelay
+      // Deterministic delay based on index instead of Math.random()
+      const delay = Math.round(seededRandom(index + 1) * maxAnimationDelay * 100) / 100
       return {
         clipPath,
         delay,
@@ -131,8 +132,8 @@ export const PixelImage = ({
 
   return (
     <div ref={containerRef} className={cn("relative w-full h-full select-none", className)}>
-      {/* Only render pieces after mount to prevent hydration mismatch */}
-      {isMounted && pieces.map((piece, index) => (
+      {/* Pieces are deterministic (seeded delays), so they can server-render */}
+      {pieces.map((piece, index) => (
         <div
           key={index}
           className={cn(
@@ -145,9 +146,11 @@ export const PixelImage = ({
             transitionDuration: `${pixelFadeInDuration}ms`,
           }}
         >
-          <img
+          <Image
             src={src}
             alt={alt}
+            fill
+            sizes={sizes}
             className={cn(
               "z-1 rounded-[2.5rem] object-cover",
               grayscaleAnimation && (showColor ? "grayscale-0" : "grayscale")
