@@ -86,7 +86,7 @@ export default function Home() {
               <Highlighter action="highlight" color="#FF9800" isView>security</Highlighter> and{" "}
               <Highlighter action="underline" color="#FF9800" isView>AI-native B2B SaaS</Highlighter>.
             </span>
-            <span className="block mt-2 md:mt-3 text-[15px] sm:text-[17px] md:text-[19px] font-normal text-muted-foreground leading-relaxed">Currently rebuilding a 10-year-old security platform into an <Highlighter action="underline" color="#FF9800" isView>AI-driven risk intelligence system</Highlighter> used by enterprise security teams.</span>
+            <span className="block mt-2 md:mt-3 text-[15px] sm:text-[17px] md:text-[19px] font-normal text-muted-foreground leading-relaxed">Three years designing <Highlighter action="underline" color="#FF9800" isView>AI-native products</Highlighter> in cybersecurity. Currently rebuilding a 10-year-old security platform into an <Highlighter action="underline" color="#FF9800" isView>AI-driven risk intelligence system</Highlighter>.</span>
           </h1>
           <div className="flex flex-col items-center gap-8 mt-8 md:mt-12">
             <ScrollLink targetId="work" ariaLabel="Scroll to my work" className="cursor-pointer inline-flex items-center justify-center p-3">
