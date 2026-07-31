@@ -10,6 +10,7 @@ import { scrollToSection, useHashScrollOnLoad } from "@/lib/scroll-to-section";
 
 const NAV_LINKS = [
   { id: "work", label: "Work" },
+  { id: "writings", label: "Writings" },
   { id: "fun-with-claude", label: "Fun with Claude" },
   { id: "about", label: "About" },
 ] as const;

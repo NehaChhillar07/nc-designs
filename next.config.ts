@@ -36,6 +36,9 @@ const nextConfig: NextConfig = {
     return [
       { source: "/about", destination: "/#about", permanent: true },
       { source: "/work", destination: "/#work", permanent: true },
+      // Not permanent: writings may become its own page later
+      { source: "/writings", destination: "/#writings", permanent: false },
+      { source: "/writing", destination: "/#writings", permanent: false },
     ];
   },
 

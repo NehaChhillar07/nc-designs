@@ -127,6 +127,17 @@ export function WorkSection() {
 
         gsap.registerPlugin(ScrollTrigger);
 
+        // The sticky-stack panel wrapping this section carries a 3D entry
+        // transform whenever the page loads or resizes mid-entry (the panel
+        // sits tilted below the fold at scroll 0). Zero it while ScrollTrigger
+        // measures so pin and trigger positions come from clean layout; motion
+        // re-applies it on the next scroll frame.
+        const panelEl = sectionRef.current?.closest("[data-scroll-panel]") as HTMLElement | null;
+        const onRefreshInit = () => {
+            if (panelEl) panelEl.style.transform = "none";
+        };
+        ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
+
         const ctx = gsap.context(() => {
             const section = sectionRef.current;
             const imageContainer = imageContainerRef.current;
@@ -155,11 +166,13 @@ export function WorkSection() {
                 // Progress rail is position:fixed (an ancestor's overflow-x-clip
                 // would clip an absolutely-positioned rail hanging outside the
                 // container; fixed elements escape that). Show it only while the
-                // section is on screen.
+                // section is on screen; hide it the moment the section's end
+                // scrolls past the viewport bottom, so it never lingers over
+                // the next section.
                 ScrollTrigger.create({
                     trigger: section,
                     start: "top 60%",
-                    end: "bottom 40%",
+                    end: "bottom bottom",
                     onToggle: (self) => {
                         if (railRef.current) {
                             gsap.to(railRef.current, {
@@ -241,7 +254,10 @@ export function WorkSection() {
             });
         }, sectionRef);
 
-        return () => ctx.revert();
+        return () => {
+            ScrollTrigger.removeEventListener("refreshInit", onRefreshInit);
+            ctx.revert();
+        };
     }, [setCursor, resetCursor]);
 
     const addToTextBlocksRef = (el: HTMLDivElement | null, index: number) => {
@@ -431,7 +447,14 @@ export function WorkSection() {
                             <div
                                 key={project.id}
                                 ref={(el) => addToImagesRef(el, index)}
-                                className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-100"
+                                // Only the first card is visible before GSAP runs. Without this
+                                // the whole stack paints at full opacity on reload and the last
+                                // case study flashes for a beat until gsap.set() hides it. The
+                                // breakpoint + motion-safe pair mirrors the matchMedia query that
+                                // owns these opacities, so mobile/reduced-motion still shows all.
+                                className={`absolute inset-0 rounded-2xl overflow-hidden bg-gray-100${
+                                    index === 0 ? "" : " lg:motion-safe:opacity-0"
+                                }`}
                             >
                                 {project.id === FLASHCARD_PROJECT_ID ? (
                                     <div className="relative w-full h-full bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-950 flex items-center justify-center p-10">

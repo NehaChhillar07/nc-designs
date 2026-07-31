@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useMemo, ReactNode } from "react";
 
 type CursorVariant = "default" | "hover" | "tag";
 
@@ -17,18 +17,27 @@ export function CursorProvider({ children }: { children: ReactNode }) {
     const [variant, setVariant] = useState<CursorVariant>("default");
     const [tagText, setTagText] = useState<string | null>(null);
 
-    const setCursor = (newVariant: CursorVariant, newTagText: string | null = null) => {
+    // Stable identities: consumers keep these in effect deps (e.g. an
+    // unmount-only cleanup that calls resetCursor). If they were recreated on
+    // every render, each setCursor would re-run those cleanups and instantly
+    // reset the cursor back to default.
+    const setCursor = useCallback((newVariant: CursorVariant, newTagText: string | null = null) => {
         setVariant(newVariant);
         setTagText(newTagText);
-    };
+    }, []);
 
-    const resetCursor = () => {
+    const resetCursor = useCallback(() => {
         setVariant("default");
         setTagText(null);
-    };
+    }, []);
+
+    const value = useMemo(
+        () => ({ variant, tagText, setCursor, resetCursor }),
+        [variant, tagText, setCursor, resetCursor]
+    );
 
     return (
-        <CursorContext.Provider value={{ variant, tagText, setCursor, resetCursor }}>
+        <CursorContext.Provider value={value}>
             {children}
         </CursorContext.Provider>
     );

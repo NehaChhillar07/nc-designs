@@ -71,6 +71,14 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
+                  // Reloads must start at the top. Restoring a mid-page offset
+                  // lands on lazy sections that are still short placeholders, so
+                  // the page reflows under the viewport for a second or two.
+                  if ('scrollRestoration' in history) {
+                    history.scrollRestoration = 'manual';
+                  }
+                } catch(e) {}
+                try {
                   var isTouch = window.matchMedia('(pointer: coarse)').matches ||
                                 'ontouchstart' in window ||
                                 navigator.maxTouchPoints > 0;

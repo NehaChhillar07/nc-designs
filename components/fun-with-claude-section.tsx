@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Highlighter } from "@/components/ui/highlighter";
+import { DoodleLayer } from "@/components/fun-with-claude-doodle";
 import { funWithClaudeData, type FunItem } from "@/data/fun-with-claude-data";
 
 // ============================================
@@ -23,14 +24,16 @@ const fadeUp = {
 };
 
 export function FunWithClaudeSection() {
-    const { eyebrow, heading, highlight, subtitle, items } = funWithClaudeData;
+    const { eyebrow, heading, highlight, items } = funWithClaudeData;
     const [before, after] = heading.split(highlight);
 
     return (
         <div
-            className="rounded-[28px] border border-black/[0.06] px-6 md:px-10 lg:px-16 py-12 md:py-16 lg:py-20"
+            className="relative isolate rounded-[28px] border border-black/[0.06] px-6 md:px-10 lg:px-16 py-12 md:py-16 lg:py-20"
             style={{ background: PANEL_BG }}
         >
+            {/* Hidden marker-doodle layer — draws behind the content */}
+            <DoodleLayer />
             {/* Header */}
             <motion.p {...fadeUp} className="text-sm font-medium uppercase tracking-[0.18em] text-gray-500 mb-5">
                 {eyebrow}
@@ -38,7 +41,7 @@ export function FunWithClaudeSection() {
             <motion.h2
                 {...fadeUp}
                 transition={{ ...fadeUp.transition, delay: 0.05 }}
-                className="text-[30px] sm:text-[36px] md:text-[44px] lg:text-[52px] font-medium tracking-tight text-gray-900 leading-[1.1] max-w-4xl"
+                className="text-[30px] sm:text-[36px] md:text-[44px] lg:text-[52px] font-medium tracking-tight text-gray-900 leading-[1.1]"
             >
                 {before}
                 <Highlighter action="underline" color="#FF9800" isView>
@@ -46,14 +49,6 @@ export function FunWithClaudeSection() {
                 </Highlighter>
                 {after}
             </motion.h2>
-            <motion.p
-                {...fadeUp}
-                transition={{ ...fadeUp.transition, delay: 0.1 }}
-                className="mt-5 text-base md:text-lg text-gray-600 leading-relaxed max-w-2xl"
-            >
-                {subtitle}
-            </motion.p>
-
             {/* Grid — scales as more products are added */}
             <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                 {items.map((item, i) => (

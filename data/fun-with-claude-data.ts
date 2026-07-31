@@ -18,12 +18,17 @@ export type FunItem = {
     accent: string; // per-item accent hex
 };
 
+export type DoodleCopy = {
+    sticker: string; // Caveat handwritten opener on the popover
+    line: string;
+    cta: string; // opens the Connect overlay
+    dismissAria: string;
+};
+
 export const funWithClaudeData = {
     eyebrow: "Fun with Claude",
     heading: "I design and ship real products with AI.",
     highlight: "ship real products", // underlined by the Highlighter
-    subtitle:
-        "Small things I design in Claude Design and ship in Claude Code. Live, playful, and mine.",
     items: [
         {
             id: "unsaid",
@@ -40,6 +45,14 @@ export const funWithClaudeData = {
             accent: "#B06A48",
         },
     ] as FunItem[],
+    // Hidden marker-doodle layer on the panel background: doodle enough and
+    // this popover slides in.
+    doodle: {
+        sticker: "nice doodle",
+        line: "You know what's more interesting? Working together.",
+        cta: "let's talk",
+        dismissAria: "Dismiss",
+    } as DoodleCopy,
 };
 
 export type FunWithClaudeData = typeof funWithClaudeData;

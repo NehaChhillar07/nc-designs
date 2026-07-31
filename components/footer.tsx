@@ -7,6 +7,7 @@ import { scrollToSection } from "@/lib/scroll-to-section";
 const navLinks = [
     { label: "Home", href: "#hero" },
     { label: "Work", href: "#work" },
+    { label: "Writings", href: "#writings" },
     { label: "Fun with Claude", href: "#fun-with-claude" },
     { label: "About", href: "#about" },
 ];

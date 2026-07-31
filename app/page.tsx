@@ -13,6 +13,10 @@ const WorkSection = dynamic(() => import("@/components/work-section").then(mod =
   loading: () => <div className="min-h-[600px] animate-pulse bg-gray-100 rounded-lg" />,
 });
 
+const WritingsSection = dynamic(() => import("@/components/writings-section").then(mod => ({ default: mod.WritingsSection })), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />,
+});
+
 const FunWithClaudeSection = dynamic(() => import("@/components/fun-with-claude-section").then(mod => ({ default: mod.FunWithClaudeSection })), {
   loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />,
 });
@@ -26,6 +30,9 @@ export default function Home() {
     <div className="min-h-screen relative">
       <Header />
       <main className="container mx-auto px-2 sm:px-4 pt-20 sm:pt-24 py-4 sm:py-8 relative">
+        {/* Full-bleed via margins (no transform — a transformed ancestor would
+            break the GSAP pinning inside the Work section) */}
+        <div className="w-screen ml-[calc(50%-50vw)]">
         <StickyScrollStack
           first={
         <div id="hero" className="flex flex-col items-center justify-center h-full text-center relative px-4">
@@ -107,12 +114,19 @@ export default function Home() {
           }
           second={
         <Suspense fallback={<div className="min-h-[600px]" />}>
-          <div id="work" className="py-16 md:py-24 lg:py-32 px-4 sm:px-8 lg:px-12">
+          <div id="work" className="container mx-auto py-16 md:py-24 lg:py-32 px-4 sm:px-8 lg:px-12">
             <WorkSection />
           </div>
         </Suspense>
           }
         />
+        </div>
+
+        <Suspense fallback={<div className="min-h-[400px]" />}>
+          <div id="writings" className="py-16 md:py-24 lg:py-32 px-4 sm:px-8 lg:px-12">
+            <WritingsSection />
+          </div>
+        </Suspense>
 
         <Suspense fallback={<div className="min-h-[400px]" />}>
           <div id="fun-with-claude" className="py-16 md:py-24 lg:py-32">
