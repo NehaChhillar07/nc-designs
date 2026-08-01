@@ -85,9 +85,10 @@ export function ScrollChoreography({ className, images }: ScrollChoreographyProp
     const trY = useTransform(smoothProgress, [0, 0.3, 0.35, 0.65, 1], [yTop, yTop, yTop, center, center]);
 
     // The front image expands from its square to a large portrait card that
-    // clears the fixed header (82vh, centered) and shows the whole photo
-    // (see object-contain below) instead of a full-bleed crop.
-    const heroWidth = useTransform(smoothProgress, [0.7, 0.9], ["calc(42vh + 0vw)", "calc(60vh + 0vw)"]);
+    // clears the fixed header (82vh, centered). The end size is locked to the
+    // photo's own 3:4 ratio (61.5vh x 82vh) so object-cover lands on a zero-crop
+    // full bleed — no letterbox bars, the whole photo, frame always filled.
+    const heroWidth = useTransform(smoothProgress, [0.7, 0.9], ["calc(42vh + 0vw)", "calc(61.5vh + 0vw)"]);
     const heroHeight = useTransform(smoothProgress, [0.7, 0.9], ["42vh", "82vh"]);
 
     // The other three fade out underneath as the front image expands
@@ -160,7 +161,7 @@ export function ScrollChoreography({ className, images }: ScrollChoreographyProp
                             alt={images.bottomLeft.alt}
                             fill
                             sizes="100vw"
-                            className="object-contain"
+                            className="object-cover"
                             style={{ objectPosition: images.bottomLeft.position ?? "center" }}
                         />
                     </motion.div>

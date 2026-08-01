@@ -49,7 +49,7 @@ export const funWithClaudeData = {
     // this popover slides in.
     doodle: {
         sticker: "nice doodle",
-        line: "You know what's more interesting? Working together.",
+        line: "You scribbled on my portfolio. Imagine what we'd make on purpose.",
         cta: "let's talk",
         dismissAria: "Dismiss",
     } as DoodleCopy,
