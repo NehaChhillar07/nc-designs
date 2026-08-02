@@ -106,9 +106,11 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Preload critical assets */}
-        <link rel="preload" href="/hero-gradient.avif" as="image" />
-        <link rel="preload" href="/logo.jpeg" as="image" />
+        {/* No manual image preloads here. Both hero assets render through
+            next/image, which serves /_next/image?url=... — preloading the raw
+            originals fetched 158KB of files the page never used, at high
+            priority, competing with CSS and fonts for first paint. The Image
+            `priority` prop already emits the preload for the URL actually used. */}
 
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
