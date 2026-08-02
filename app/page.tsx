@@ -57,18 +57,20 @@ export default function Home() {
             <div className="relative">
               <BlurText
                 text="NEHA"
-                delay={100}
+                delay={45}
                 animateBy="letters"
                 direction="top"
+                trigger="mount"
                 className="justify-center whitespace-nowrap"
               />
             </div>
             <div className="relative z-20 -mt-[0.24em]">
               <BlurText
                 text="CHHILLAR"
-                delay={100}
+                delay={45}
                 animateBy="letters"
                 direction="top"
+                trigger="mount"
                 className="justify-center whitespace-nowrap"
               />
             </div>

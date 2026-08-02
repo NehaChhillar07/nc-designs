@@ -5,8 +5,13 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import { cn } from "@/lib/utils";
 
 // Per-segment blur-in reveal (from 21st.dev's portfolio-hero): each word or
-// letter starts blurred, transparent, and offset, then settles in sequence
-// once the element scrolls into view.
+// letter starts blurred, transparent, and offset, then settles in sequence.
+//
+// Two triggers, because above-fold and below-fold text want opposite things:
+//   "mount" — pure CSS, runs off the server-rendered markup at first paint.
+//             Nothing waits for React. Use for anything visible on landing.
+//   "view"  — IntersectionObserver, fires when scrolled into view. The extra
+//             latency is invisible here because the reader has to scroll first.
 
 interface BlurTextProps {
     text: string;
@@ -14,6 +19,8 @@ interface BlurTextProps {
     delay?: number;
     animateBy?: "words" | "letters";
     direction?: "top" | "bottom";
+    /** When the reveal starts. See the note above. */
+    trigger?: "mount" | "view";
     className?: string;
     style?: CSSProperties;
 }
@@ -23,9 +30,65 @@ export function BlurText({
     delay = 50,
     animateBy = "words",
     direction = "top",
+    trigger = "view",
     className,
     style,
 }: BlurTextProps) {
+    const segments = useMemo(
+        () => (animateBy === "words" ? text.split(" ") : text.split("")),
+        [text, animateBy],
+    );
+
+    const suffix = (i: number) =>
+        animateBy === "words" && i < segments.length - 1 ? " " : "";
+
+    if (trigger === "mount") {
+        const animationName =
+            direction === "top" ? "blur-in-from-top" : "blur-in-from-bottom";
+
+        return (
+            <p className={cn("inline-flex flex-wrap", className)} style={style}>
+                {segments.map((segment, i) => (
+                    <span
+                        key={i}
+                        className="blur-text-segment"
+                        style={{ animationName, animationDelay: `${i * delay}ms` }}
+                    >
+                        {segment}
+                        {suffix(i)}
+                    </span>
+                ))}
+            </p>
+        );
+    }
+
+    return (
+        <BlurTextOnView
+            segments={segments}
+            suffix={suffix}
+            delay={delay}
+            direction={direction}
+            className={className}
+            style={style}
+        />
+    );
+}
+
+function BlurTextOnView({
+    segments,
+    suffix,
+    delay,
+    direction,
+    className,
+    style,
+}: {
+    segments: string[];
+    suffix: (i: number) => string;
+    delay: number;
+    direction: "top" | "bottom";
+    className?: string;
+    style?: CSSProperties;
+}) {
     const [inView, setInView] = useState(false);
     const ref = useRef<HTMLParagraphElement>(null);
 
@@ -41,11 +104,6 @@ export function BlurText({
         observer.observe(el);
         return () => observer.unobserve(el);
     }, []);
-
-    const segments = useMemo(
-        () => (animateBy === "words" ? text.split(" ") : text.split("")),
-        [text, animateBy],
-    );
 
     return (
         <p ref={ref} className={cn("inline-flex flex-wrap", className)} style={style}>
@@ -63,7 +121,7 @@ export function BlurText({
                     }}
                 >
                     {segment}
-                    {animateBy === "words" && i < segments.length - 1 ? " " : ""}
+                    {suffix(i)}
                 </span>
             ))}
         </p>

@@ -456,6 +456,48 @@ html[data-cursor="none"] nav.sticky {
 }
 
 /* ============================================
+   Blur-in reveal — above-the-fold text
+   ============================================ */
+/* Driven by CSS rather than React state so the reveal starts on the server-
+   rendered markup at first paint. The JS version had to wait for hydration
+   before it could even begin, which left the hero name blank for ~2s on a
+   throttled CPU. fill-mode: both holds the from-state during the stagger
+   delay; the base rule stays visible if animations never run. */
+@keyframes blur-in-from-top {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes blur-in-from-bottom {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.blur-text-segment {
+  display: inline-block;
+  opacity: 1;
+  animation-duration: 0.42s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+/* ============================================
    Editorial headings — case studies
    ============================================ */
 /* Display headings (text-2xl and up) inside a case study use Space Grotesk.
