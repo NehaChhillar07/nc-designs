@@ -2,20 +2,27 @@
 
 import {
     type ReactNode,
-    type TouchEvent,
-    useEffect,
     useRef,
     useState,
     useSyncExternalStore,
-    type WheelEvent,
 } from "react";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, useMotionValueEvent, useScroll } from "motion/react";
 
 // Scroll-expansion hero (from 21st.dev / Aby Arunachalam), adapted to this
 // site: motion/react, next/image, and the portfolio's light palette. The
 // media starts as a small card with the title split around it; scrolling is
 // pinned while the card grows to near-fullscreen, then the page releases.
+//
+// The pin is a tall runway with a sticky child, the same pattern as
+// sticky-scroll-stack and scroll-choreography. It deliberately does NOT
+// intercept wheel/touch events. The original version listened on wheel and
+// touchmove with preventDefault and reset window.scrollTo(0, 0) on every
+// scroll event until the media had expanded, which meant expansion could only
+// be driven by a mouse wheel or a swipe: PageDown, End, arrow keys, scrollbar
+// drags, find-in-page and deep links were all snapped back to 0, so keyboard
+// users could not reach the case study at all. Reading progress off native
+// scroll keeps the identical visual and costs nothing to operate by keyboard.
 
 // Mobile detection via useSyncExternalStore — no setState-in-effect.
 function subscribeWindowResize(callback: () => void): () => void {
@@ -73,99 +80,24 @@ const ScrollExpandMedia = ({
     children,
 }: ScrollExpandMediaProps) => {
     const [scrollProgress, setScrollProgress] = useState<number>(0);
-    const [showContent, setShowContent] = useState<boolean>(false);
-    const [mediaFullyExpanded, setMediaFullyExpanded] = useState<boolean>(false);
-    const [touchStartY, setTouchStartY] = useState<number>(0);
     const isMobileState = useSyncExternalStore(
         subscribeWindowResize,
         getIsMobileSnapshot,
         getIsMobileServerSnapshot,
     );
 
-    const sectionRef = useRef<HTMLDivElement | null>(null);
+    const runwayRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        const handleWheel = (e: WheelEvent) => {
-            if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
-                setMediaFullyExpanded(false);
-                e.preventDefault();
-            } else if (!mediaFullyExpanded) {
-                e.preventDefault();
-                const scrollDelta = e.deltaY * 0.0009;
-                const newProgress = Math.min(Math.max(scrollProgress + scrollDelta, 0), 1);
-                setScrollProgress(newProgress);
+    // The runway is 250vh and its child sticks at top-0, so the card stays put
+    // for 150vh of ordinary page scroll — that distance is the expansion.
+    const { scrollYProgress } = useScroll({
+        target: runwayRef,
+        offset: ["start start", "end end"],
+    });
 
-                if (newProgress >= 1) {
-                    setMediaFullyExpanded(true);
-                    setShowContent(true);
-                } else if (newProgress < 0.75) {
-                    setShowContent(false);
-                }
-            }
-        };
-
-        const handleTouchStart = (e: TouchEvent) => {
-            setTouchStartY(e.touches[0].clientY);
-        };
-
-        const handleTouchMove = (e: TouchEvent) => {
-            if (!touchStartY) return;
-
-            const touchY = e.touches[0].clientY;
-            const deltaY = touchStartY - touchY;
-
-            if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
-                setMediaFullyExpanded(false);
-                e.preventDefault();
-            } else if (!mediaFullyExpanded) {
-                e.preventDefault();
-                // Higher sensitivity on mobile, especially when scrolling back
-                const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
-                const scrollDelta = deltaY * scrollFactor;
-                const newProgress = Math.min(Math.max(scrollProgress + scrollDelta, 0), 1);
-                setScrollProgress(newProgress);
-
-                if (newProgress >= 1) {
-                    setMediaFullyExpanded(true);
-                    setShowContent(true);
-                } else if (newProgress < 0.75) {
-                    setShowContent(false);
-                }
-
-                setTouchStartY(touchY);
-            }
-        };
-
-        const handleTouchEnd = (): void => {
-            setTouchStartY(0);
-        };
-
-        const handleScroll = (): void => {
-            if (!mediaFullyExpanded) {
-                window.scrollTo(0, 0);
-            }
-        };
-
-        window.addEventListener("wheel", handleWheel as unknown as EventListener, {
-            passive: false,
-        });
-        window.addEventListener("scroll", handleScroll as EventListener);
-        window.addEventListener("touchstart", handleTouchStart as unknown as EventListener, {
-            passive: false,
-        });
-        window.addEventListener("touchmove", handleTouchMove as unknown as EventListener, {
-            passive: false,
-        });
-        window.addEventListener("touchend", handleTouchEnd as EventListener);
-
-        return () => {
-            window.removeEventListener("wheel", handleWheel as unknown as EventListener);
-            window.removeEventListener("scroll", handleScroll as EventListener);
-            window.removeEventListener("touchstart", handleTouchStart as unknown as EventListener);
-            window.removeEventListener("touchmove", handleTouchMove as unknown as EventListener);
-            window.removeEventListener("touchend", handleTouchEnd as EventListener);
-        };
-    }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+    useMotionValueEvent(scrollYProgress, "change", (value) => {
+        setScrollProgress(value);
+    });
 
     // Only the width animates; height follows the media's aspect ratio so
     // the full frame is always visible, never cropped. The width caps keep
@@ -187,12 +119,9 @@ const ScrollExpandMedia = ({
     const restOfTitle = title ? title.split(" ").slice(1).join(" ") : "";
 
     return (
-        <div
-            ref={sectionRef}
-            className="transition-colors duration-700 ease-in-out overflow-x-hidden"
-        >
-            <section className="relative flex flex-col items-center justify-start min-h-[100dvh]">
-                <div className="relative w-full flex flex-col items-center min-h-[100dvh]">
+        <div className="transition-colors duration-700 ease-in-out overflow-x-clip">
+            <div ref={runwayRef} className="relative h-[250vh]">
+                <section className="sticky top-0 h-[100dvh] w-full overflow-hidden">
                     <motion.div
                         className="absolute inset-0 z-0 h-full"
                         initial={{ opacity: 0 }}
@@ -210,8 +139,8 @@ const ScrollExpandMedia = ({
                         />
                     </motion.div>
 
-                    <div className="container mx-auto flex flex-col items-center justify-start relative z-10">
-                        <div className="flex flex-col items-center justify-center w-full h-[100dvh] relative">
+                    <div className="container mx-auto relative z-10 h-full">
+                        <div className="flex flex-col items-center justify-center w-full h-full relative">
                             <div
                                 className="absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none"
                                 style={{ width: cardWidth }}
@@ -351,18 +280,16 @@ const ScrollExpandMedia = ({
                                 )}
                             </div>
                         </div>
-
-                        <motion.section
-                            className="flex flex-col w-full"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: showContent ? 1 : 0 }}
-                            transition={{ duration: 0.7 }}
-                        >
-                            {children}
-                        </motion.section>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
+
+            {/* Case-study body, in ordinary flow below the runway. It is no
+                longer opacity-gated on expansion progress: hidden-but-present
+                text is its own accessibility problem (find-in-page matches it,
+                screen readers read it), and below the fold it reveals on scroll
+                anyway. */}
+            <section className="flex flex-col w-full">{children}</section>
         </div>
     );
 };
