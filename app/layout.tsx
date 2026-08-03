@@ -4,6 +4,7 @@ import "./globals.css";
 import { MotionConfig } from "motion/react";
 import { CursorProvider } from "@/components/ui/cursor-context";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,7 +21,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nehachhillar.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Neha Chhillar - Product Designer",
     template: "%s | Neha Chhillar",
@@ -29,11 +30,16 @@ export const metadata: Metadata = {
   keywords: ["Product Designer", "UX Designer", "Cybersecurity", "AI", "SaaS", "InfoSec Ventures", "Dubai"],
   authors: [{ name: "Neha Chhillar" }],
   creator: "Neha Chhillar",
+  // Every other route sets its own canonical; without this the homepage emitted
+  // none at all, while the sitemap still listed it.
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Neha Chhillar - Product Designer",
     description: "Product Designer at InfoSec Ventures, designing AI-driven systems and end-to-end experiences for global cybersecurity solutions.",
     type: "website",
-    url: "https://nehachhillar.com",
+    url: SITE_URL,
     siteName: "Neha Chhillar Portfolio",
     images: [
       {

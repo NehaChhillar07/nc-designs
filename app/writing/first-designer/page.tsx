@@ -7,7 +7,11 @@ import { firstDesignerEssay } from "@/data/writing-first-designer-data";
 const { meta, dateISO } = firstDesignerEssay;
 
 export const metadata: Metadata = {
-    title: meta.title,
+    // Shorter than the on-page headline on purpose. The root template appends
+    // " | Neha Chhillar" (16 chars), and the full headline pushes the rendered
+    // <title> to 62, past the ~60 where search results truncate. The headline
+    // itself is unchanged; only the tab/search title is abbreviated.
+    title: "What the first designer role costs",
     description: meta.description,
     alternates: {
         canonical: meta.url,

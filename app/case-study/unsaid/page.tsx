@@ -9,16 +9,21 @@ import { unsaidData } from "@/data/unsaid-data";
 export const metadata: Metadata = {
     title: unsaidData.meta.title,
     description: unsaidData.meta.description,
+    alternates: {
+        canonical: unsaidData.meta.url,
+    },
     openGraph: {
         title: unsaidData.meta.ogTitle,
         description: unsaidData.meta.description,
         type: "article",
         url: unsaidData.meta.url,
+        images: [{ url: unsaidData.meta.ogImage, width: 1200, height: 630, alt: "unsaid - Neha Chhillar" }],
     },
     twitter: {
         card: "summary_large_image",
         title: unsaidData.meta.ogTitle,
         description: unsaidData.meta.description,
+        images: [unsaidData.meta.ogImage],
     },
 };
 

@@ -5,13 +5,14 @@
 // Text is verbatim from the author — do not edit phrasing here for "polish".
 
 import type { Essay } from "@/components/writing/essay-article";
+import { SITE_URL } from "@/lib/site";
 
 export const firstDesignerEssay: Essay = {
     meta: {
         title: "What being the first designer really costs you",
         description:
             "Being the first designer is two jobs wearing one title. You get judged on one of them.",
-        url: "https://nehachhillar.com/writing/first-designer",
+        url: `${SITE_URL}/writing/first-designer`,
         ogImage: "/writing/first-designer-cover.png",
     },
     title: "What being the first designer really costs you",

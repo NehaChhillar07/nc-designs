@@ -1,22 +1,31 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "motion/react";
+import { usePathname } from "next/navigation";
 import { Highlighter } from "@/components/ui/highlighter";
 import { scrollToSection } from "@/lib/scroll-to-section";
 
 const navLinks = [
-    { label: "Home", href: "#hero" },
-    { label: "Work", href: "#work" },
-    { label: "Writings", href: "#writings" },
-    { label: "Fun with Claude", href: "#fun-with-claude" },
-    { label: "About", href: "#about" },
+    { label: "Home", id: "hero" },
+    { label: "Work", id: "work" },
+    { label: "Writings", id: "writings" },
+    { label: "Fun with Claude", id: "fun-with-claude" },
+    { label: "About", id: "about" },
 ];
 
 export function Footer() {
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-        e.preventDefault();
-        scrollToSection(href.replace("#", ""));
-        window.history.replaceState(null, "", `/${href}`);
+    const pathname = usePathname();
+
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        // On the homepage, take over the scroll so it stays accurate while the
+        // lazy-loaded sections settle. On other pages, let the link navigate to
+        // "/#id" and the homepage's hash handler will do the scroll on arrival.
+        if (pathname === "/") {
+            e.preventDefault();
+            scrollToSection(id);
+            window.history.replaceState(null, "", `/#${id}`);
+        }
     };
 
     return (
@@ -68,14 +77,14 @@ export function Footer() {
                     {/* Navigation Links */}
                     <nav className="flex flex-wrap items-center gap-6 md:gap-8">
                         {navLinks.map((link) => (
-                            <a
-                                key={link.href}
-                                href={link.href}
-                                onClick={(e) => handleClick(e, link.href)}
+                            <Link
+                                key={link.id}
+                                href={`/#${link.id}`}
+                                onClick={(e) => handleClick(e, link.id)}
                                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                             >
                                 {link.label}
-                            </a>
+                            </Link>
                         ))}
                     </nav>
 

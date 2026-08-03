@@ -4,20 +4,26 @@ import { FlashcardTrainingCaseStudy } from "@/components/case-study/flashcard-tr
 import { ExploreMore } from "@/components/explore-more";
 import { Footer } from "@/components/footer";
 import { otherProjects } from "@/data/case-study-data";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-    title: "Flashcard Training Builder Case Study | Neha Chhillar",
+    title: "Flashcard Training Builder Case Study",
     description: "Moving security training out of a service queue and into the customer's hands. Designing and building an AI-assisted flashcard training builder for InfoSec Ventures.",
+    alternates: {
+        canonical: `${SITE_URL}/case-study/flashcard-training`,
+    },
     openGraph: {
         title: "Flashcard Training Builder: Micro-Training for InfoSec Ventures",
         description: "Designing and building an AI-assisted flashcard training builder that moved course authoring from Customer Success to the customer.",
         type: "article",
-        url: "https://nehachhillar.com/case-study/flashcard-training",
+        url: `${SITE_URL}/case-study/flashcard-training`,
+        images: [{ url: "/og/flashcard-training.png", width: 1200, height: 630, alt: "Flashcard Training Builder - Neha Chhillar" }],
     },
     twitter: {
         card: "summary_large_image",
         title: "Flashcard Training Builder Case Study",
         description: "Moving security training out of a service queue and into the customer's hands.",
+        images: ["/og/flashcard-training.png"],
     },
 };
 

@@ -2,6 +2,8 @@
 // Repo rule: no hardcoded copy inside components — everything reads from this file.
 // Emphasis inside body strings uses *asterisks*; the renderer converts them to <em>.
 
+import { SITE_URL } from "@/lib/site";
+
 const LIVE_HREF = "https://unsaidnow.vercel.app";
 const LIVE_LABEL = "see it live →";
 const ASSET = "/work/unsaid-case study";
@@ -20,13 +22,15 @@ type FeelBlock = {
 
 export const unsaidData = {
     meta: {
-        title: "unsaid · say the thing you've never said · Neha Chhillar",
+        // No "| Neha Chhillar" suffix here: the root layout title template appends it.
+        title: "unsaid · say the thing you've never said",
         description:
             "a fun project: an anonymous confessions app with two worlds: personal & professional. designed in claude design, built in claude code. next.js + supabase, live and real.",
         ogTitle: "unsaid · the app i built so people could finally say it",
         readingTime: "6 min read",
         roleTag: "Design + Build · Solo",
-        url: "https://nehachhillar.com/case-study/unsaid",
+        url: `${SITE_URL}/case-study/unsaid`,
+        ogImage: "/og/unsaid.png",
     },
 
     hero: {

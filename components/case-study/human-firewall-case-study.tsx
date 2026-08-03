@@ -448,32 +448,72 @@ function CompromiseInsightSection() {
                     {compromiseInsight.body}
                 </motion.p>
 
-                {/* Behavioral Funnel */}
-                <div className="space-y-3 my-10">
-                    {behavioralFunnel.map((s, i) => (
-                        <div key={s.label} className="flex items-center gap-4">
-                            <span className="w-28 text-right text-sm font-medium text-gray-500">
-                                {s.label}
-                            </span>
-                            <div className="flex-1 h-9 bg-gray-100 rounded overflow-hidden">
-                                <motion.div
-                                    className="h-full rounded"
-                                    style={{ backgroundColor: s.color }}
-                                    initial={{ width: 0 }}
-                                    whileInView={{ width: `${s.pct}%` }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 1, ease: "easeOut", delay: i * 0.12 }}
-                                />
-                            </div>
-                            <span
-                                className="w-12 text-sm font-semibold tabular-nums"
-                                style={{ color: s.color }}
+                {/* Behavioral Funnel
+                    Four descending stages, each a subset of the one above.
+                    Reported is measured against all recipients, so it is shown
+                    below the rule as a counter-metric, not as a funnel stage. */}
+                <figure className="my-10">
+                    <div className="space-y-3">
+                        {behavioralFunnel.stages.map((s, i) => (
+                            <div
+                                key={s.label}
+                                className="flex items-center gap-4"
                             >
-                                {s.pct}%
+                                <span className="w-28 text-right text-sm font-medium text-gray-500">
+                                    {s.label}
+                                </span>
+                                <div className="flex-1 h-9 bg-gray-100 rounded overflow-hidden">
+                                    {/* The marker sits on the animated bar, not the row.
+                                        On the row every entry is the same flex width, so a
+                                        width check would pass even if the bar never animated. */}
+                                    <motion.div
+                                        data-funnel-role="stage"
+                                        className="h-full rounded"
+                                        style={{ backgroundColor: s.color }}
+                                        initial={{ width: 0 }}
+                                        whileInView={{ width: `${s.pct}%` }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 1, ease: "easeOut", delay: i * 0.12 }}
+                                    />
+                                </div>
+                                <span
+                                    className="w-12 text-sm font-semibold tabular-nums"
+                                    style={{ color: s.color }}
+                                >
+                                    {s.pct}%
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Counter-metric — good news, measured against everyone who
+                        received the email, so it never sits inside the funnel. */}
+                    <div
+                        data-funnel-role="counter-metric"
+                        className="mt-6 pt-6 border-t border-gray-200"
+                    >
+                        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3">
+                            <span
+                                className="w-2.5 h-2.5 rounded-full self-center flex-shrink-0"
+                                style={{ backgroundColor: behavioralFunnel.counterMetric.color }}
+                                aria-hidden
+                            />
+                            <span className="text-sm font-medium text-gray-900">
+                                {behavioralFunnel.counterMetric.label}
+                            </span>
+                            <span className="text-lg font-semibold tabular-nums text-gray-900">
+                                {behavioralFunnel.counterMetric.pct}%
+                            </span>
+                            <span className="text-sm text-gray-500">
+                                {behavioralFunnel.counterMetric.note}
                             </span>
                         </div>
-                    ))}
-                </div>
+                    </div>
+
+                    <figcaption className="mt-4 text-xs text-gray-500">
+                        {behavioralFunnel.caption}
+                    </figcaption>
+                </figure>
 
                 <Callout>
                     <p className="text-sm font-semibold text-gray-900 mb-2">
