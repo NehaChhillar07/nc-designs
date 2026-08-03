@@ -380,7 +380,8 @@ export function WorkSection() {
                                                     fontFamily: "var(--font-caveat), cursive",
                                                     fontSize: "15px",
                                                     transform: "rotate(-3deg)",
-                                                    backgroundColor: "#FF9800",
+                                                    // deeper than the #FF9800 accent so white text clears 4.5:1
+                                                    backgroundColor: "#B45309",
                                                     color: "#fff",
                                                 }}
                                             >

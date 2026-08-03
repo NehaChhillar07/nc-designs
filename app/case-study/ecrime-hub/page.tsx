@@ -31,7 +31,7 @@ export default function ECrimeHubPage() {
     return (
         <div className="min-h-screen relative bg-white">
             <Header />
-            <main className="pt-20 md:pt-24">
+            <main id="main-content" tabIndex={-1} className="pt-20 md:pt-24">
                 {/* Case Study Content */}
                 <ECrimeHubCaseStudy />
 

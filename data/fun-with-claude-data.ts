@@ -42,7 +42,8 @@ export const funWithClaudeData = {
             liveLabel: "see it live →",
             caseHref: "/case-study/unsaid",
             caseLabel: "case study →",
-            accent: "#B06A48",
+            // deep enough for white sticker text to clear 4.5:1
+            accent: "#9C5A3C",
         },
     ] as FunItem[],
     // Hidden marker-doodle layer on the panel background: doodle enough and

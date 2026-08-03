@@ -17,6 +17,9 @@ const routes: Route[] = [
   { path: "/case-study/ecrime-hub", changeFrequency: "monthly", priority: 0.8 },
   { path: "/case-study/flashcard-training", changeFrequency: "monthly", priority: 0.8 },
   { path: "/case-study/unsaid", changeFrequency: "monthly", priority: 0.8 },
+  // NOTE: /writing/where-is-the-deliverability exists in the working tree but is
+  // not committed, so it 404s in production. Add it here in the same commit that
+  // ships the post, not before, or the sitemap advertises a dead URL.
   { path: "/writing/first-designer", changeFrequency: "yearly", priority: 0.6 },
 ];
 

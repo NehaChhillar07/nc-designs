@@ -10,10 +10,17 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url
 ).toString();
 
+// A container narrower than this renders the resume's body copy below 9px,
+// which is too small to read. Narrow viewports get a fixed legible width and
+// pan sideways inside the viewer instead of shrinking the type.
+const NARROW_CONTAINER = 640;
+const MIN_LEGIBLE_WIDTH = 700;
+
 // Renders the resume PDF with pdf.js instead of the browser's native PDF
 // viewer. The native viewer (iframe embed) carries its own pinch/ctrl-scroll
 // zoom and dark backdrop, which let the page shrink into a black void. Here
-// each page is drawn at exactly the container's width, so it always fits.
+// each page is drawn at the container's width, or at a minimum legible width
+// when the container is too narrow for the text to be readable.
 export function ResumeViewer({ file }: { file: string }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [width, setWidth] = useState<number>();
@@ -33,9 +40,19 @@ export function ResumeViewer({ file }: { file: string }) {
         setNumPages(n);
     }, []);
 
+    // Panning stays inside this scroller, so the page itself never overflows.
+    const renderWidth =
+        width === undefined ? undefined : width < NARROW_CONTAINER ? MIN_LEGIBLE_WIDTH : width;
+
     return (
-        <div ref={containerRef} className="w-full h-full overflow-y-auto overflow-x-hidden bg-white">
-            {width !== undefined && width > 0 && (
+        <div
+            ref={containerRef}
+            role="region"
+            aria-label="Resume document"
+            tabIndex={0}
+            className="w-full h-full overflow-auto bg-white focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-gray-900"
+        >
+            {renderWidth !== undefined && renderWidth > 0 && (
                 <Document
                     file={file}
                     onLoadSuccess={onLoadSuccess}
@@ -54,7 +71,7 @@ export function ResumeViewer({ file }: { file: string }) {
                         <Page
                             key={i}
                             pageNumber={i + 1}
-                            width={width}
+                            width={renderWidth}
                             renderTextLayer
                             renderAnnotationLayer
                             loading={null}

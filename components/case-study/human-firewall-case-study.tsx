@@ -103,6 +103,10 @@ function HandDrawnStrike({ color = "#FF9800" }: { color?: string }) {
     );
 }
 
+// Deeper than the #FF9800 accent: these labels sit on white, where #FF9800
+// only reaches 2.16:1.
+const REJECTED_LABEL_COLOR = "#B45309";
+
 function RejectedVersionCard({
     label,
     title,
@@ -119,14 +123,14 @@ function RejectedVersionCard({
                     style={{
                         fontFamily: "var(--font-caveat), cursive",
                         fontSize: "26px",
-                        color: "#FF9800",
+                        color: REJECTED_LABEL_COLOR,
                         fontWeight: 600,
                         lineHeight: 1,
                     }}
                 >
                     {label}
                 </span>
-                <HandDrawnStrike />
+                <HandDrawnStrike color={REJECTED_LABEL_COLOR} />
             </div>
             <p className="font-medium text-sm text-gray-900 mb-1.5 leading-snug">{title}</p>
             <p className="text-sm text-gray-500 leading-relaxed">{body}</p>

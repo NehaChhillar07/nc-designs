@@ -127,6 +127,11 @@ export default function RootLayout({
         className={`${inter.variable} ${caveat.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
+        {/* First focusable element in the body: lets keyboard users jump the
+            header nav straight to the page content. Hidden until focused. */}
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         <MotionConfig reducedMotion="user">
           <CursorProvider>
             <CustomCursor />

@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Highlighter } from "@/components/ui/highlighter";
 
 interface ConnectOverlayProps {
@@ -14,24 +14,118 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
     const modalRef = useRef<HTMLDivElement>(null);
     const previouslyFocused = useRef<HTMLElement | null>(null);
 
-    // Accessible dialog behaviour: lock scroll, move focus into the dialog,
-    // trap Tab within it, close on Escape, and restore focus on close.
-    useEffect(() => {
-        if (!isOpen) return;
-
-        previouslyFocused.current = document.activeElement as HTMLElement | null;
-        document.body.style.overflow = "hidden";
-
-        const getFocusable = () =>
+    const getFocusable = useCallback(
+        () =>
             modalRef.current
                 ? Array.from(
                       modalRef.current.querySelectorAll<HTMLElement>(
                           'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
                       )
                   )
-                : [];
+                : [],
+        []
+    );
+
+    // Accessible dialog behaviour, part 1: lock scroll, move focus into the
+    // dialog, and restore both the focus and the exact scroll position on close.
+    useEffect(() => {
+        if (!isOpen) return;
+
+        previouslyFocused.current = document.activeElement as HTMLElement | null;
+
+        // Scroll lock, in four parts. Nothing here touches a style, on purpose:
+        // the lock refuses the scroll rather than removing the scroller.
+        //
+        // Three tempting versions are all wrong here.
+        //
+        // `document.body.style.overflow = "hidden"` does nothing at all. globals.css
+        // sets `html { overflow-x: clip }`, and once the root element's overflow is
+        // not `visible` the body's overflow stops propagating to the viewport, so
+        // the page kept scrolling behind the dialog.
+        //
+        // `documentElement.style.overflowY = "hidden"` does lock the page, but it
+        // also removes the scrollbar, and where that scrollbar takes layout space
+        // the layout viewport gets a scrollbar wider. Measured on a 1440 viewport
+        // with a 16px scrollbar: the header, which is `fixed left-0 right-0` and so
+        // is sized by the layout viewport, grew 1424 to 1440 and threw the Connect
+        // button at its right edge 16px sideways as the dialog opened. Padding the
+        // body cannot reach a fixed element, and `scrollbar-gutter: stable` is
+        // ignored while overflow is hidden because a hidden scroller has no
+        // scrollbar to leave a gutter for. Neither compensates. Leaving the
+        // scrollbar in place is the only version with no layout shift at all.
+        //
+        // Pinning body with position:fixed + top:-scrollY was the third candidate.
+        // It locks, but it collapses the scroll range, so scrollY drops to 0 and
+        // every scroll-driven effect behind the dialog recalculates: the sticky
+        // stack panels unstick and the Work section's 3D tilt snaps back to its
+        // entry state, visibly, through the backdrop.
+        const scrollX = window.scrollX;
+        const scrollY = window.scrollY;
+
+        // 1. Refuse the wheel. The dialog card is `overflow-hidden` and holds no
+        //    scrollable region, so nothing inside it needs the wheel either.
+        const blockWheel = (e: WheelEvent) => e.preventDefault();
+        window.addEventListener("wheel", blockWheel, { passive: false });
+
+        // 2. Refuse the keys that scroll. Space is deliberately absent: it is how a
+        //    keyboard reader activates the focused close button, and a button
+        //    swallows it anyway. If it does reach the page, part 3 catches it.
+        const scrollKeys = new Set([
+            "PageUp",
+            "PageDown",
+            "Home",
+            "End",
+            "ArrowUp",
+            "ArrowDown",
+            "ArrowLeft",
+            "ArrowRight",
+        ]);
+        const blockScrollKeys = (e: KeyboardEvent) => {
+            if (scrollKeys.has(e.key)) e.preventDefault();
+        };
+        window.addEventListener("keydown", blockScrollKeys, { passive: false });
+
+        // 3. The backstop for everything input handlers cannot refuse: a
+        //    programmatic scroll (window.scrollTo, scrollBy, a scroll-into-view),
+        //    a drag on the scrollbar itself, find-in-page. Pin the offset back the
+        //    moment anything moves it. Capture phase on window runs before any
+        //    bubble-phase listener, and scroll events are dispatched before the
+        //    frame paints, so the page never paints at the moved position. Only a
+        //    same-tick read of scrollY ever sees it.
+        const pinScroll = () => {
+            if (Math.abs(window.scrollY - scrollY) > 0.5 || Math.abs(window.scrollX - scrollX) > 0.5) {
+                window.scrollTo(scrollX, scrollY);
+            }
+        };
+        window.addEventListener("scroll", pinScroll, { capture: true });
+
+        // 4. iOS Safari pans the page with touch, which fires neither wheel nor
+        //    keydown. Block touch drags that start outside the dialog.
+        const blockTouchMove = (e: TouchEvent) => {
+            if (!modalRef.current?.contains(e.target as Node)) e.preventDefault();
+        };
+        document.addEventListener("touchmove", blockTouchMove, { passive: false });
 
         const focusFrame = requestAnimationFrame(() => getFocusable()[0]?.focus());
+
+        return () => {
+            cancelAnimationFrame(focusFrame);
+            window.removeEventListener("wheel", blockWheel);
+            window.removeEventListener("keydown", blockScrollKeys);
+            window.removeEventListener("scroll", pinScroll, { capture: true });
+            document.removeEventListener("touchmove", blockTouchMove);
+            previouslyFocused.current?.focus?.();
+            // Last, so the reader lands exactly where they opened the dialog even
+            // if focusing the trigger scrolled it into view.
+            window.scrollTo(scrollX, scrollY);
+        };
+    }, [isOpen, getFocusable]);
+
+    // Part 2: trap Tab inside the dialog and close on Escape. Kept separate from
+    // the lock above because `onClose` is a fresh closure on every parent render,
+    // and re-running the lock would re-capture the scroll position each time.
+    useEffect(() => {
+        if (!isOpen) return;
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
@@ -54,13 +148,8 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
         };
 
         document.addEventListener("keydown", handleKeyDown);
-        return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-            document.body.style.overflow = "";
-            cancelAnimationFrame(focusFrame);
-            previouslyFocused.current?.focus?.();
-        };
-    }, [isOpen, onClose]);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen, onClose, getFocusable]);
 
     const whatsappNumber = "918287233848";
     const whatsappMessage = encodeURIComponent("Hi Neha! I'd love to connect.");

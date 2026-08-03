@@ -181,7 +181,8 @@ export function DoodleLayer() {
                         style={{
                             fontFamily: "var(--font-caveat), cursive",
                             fontSize: "17px",
-                            background: "#FF9800",
+                            // deeper than MARKER_COLOR so the white sticker text clears 4.5:1
+                            background: "#B45309",
                             borderRadius: "6px",
                             transform: "rotate(-3deg)",
                         }}

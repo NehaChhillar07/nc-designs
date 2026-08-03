@@ -79,7 +79,10 @@ html {
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* Focus indicator colour. The old mid-grey measured 1.54:1 against white,
+     well under the 3:1 WCAG 1.4.11 needs. The warm strong accent clears 3:1
+     against white and against the light grey surfaces used across the site. */
+  --ring: var(--accent-warm-strong);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -131,12 +134,62 @@ html {
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring;
   }
 
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Keyboard focus needs a real, visible indicator, not just an outline colour
+     with no width. :focus-visible (not :focus) so mouse and touch users never
+     see a ring left behind after a click. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* ============================================
+   Skip link — first focusable element in the body
+   ============================================ */
+/* Unlayered on purpose: it has to beat any Tailwind utility that might land on
+   the anchor, so the link is reliably invisible until it takes focus. */
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link:focus {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0.625rem 1rem;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #171717;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 /* ============================================

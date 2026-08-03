@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       <Header />
-      <main className="container mx-auto px-2 sm:px-4 pt-20 sm:pt-24 py-4 sm:py-8 relative">
+      <main id="main-content" tabIndex={-1} className="container mx-auto px-2 sm:px-4 pt-20 sm:pt-24 py-4 sm:py-8 relative">
         {/* Full-bleed via margins (no transform — a transformed ancestor would
             break the GSAP pinning inside the Work section) */}
         <div className="w-screen ml-[calc(50%-50vw)]">
@@ -137,7 +137,9 @@ export default function Home() {
         </Suspense>
 
         <Suspense fallback={<div className="min-h-[400px]" />}>
-          <div id="about" className="py-16 md:py-24 lg:py-32">
+          {/* No py-* here: AboutSection already carries py-16 md:py-24 lg:py-32,
+              and stacking both gave About double the padding of its peers. */}
+          <div id="about">
             <AboutSection />
           </div>
         </Suspense>

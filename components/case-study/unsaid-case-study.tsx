@@ -37,7 +37,8 @@ const CREAM = "#F1E9DF";
 const CREAM_SOFT = "rgba(241,233,223,0.72)";
 const CREAM_FAINT = "rgba(241,233,223,0.5)";
 const THRESHOLD = "#1A1512";
-const ORANGE = "#FF9800";
+const ORANGE = "#FF9800"; // only on the dark bands, where it reads at 7.9:1+
+const ORANGE_DEEP = "#B45309"; // same accent, deep enough for white/gray-50 sections
 const HERO_BG =
     "radial-gradient(125% 120% at 50% 32%,#241D18 0%,#1A1512 54%,#110D0B 100%)";
 const HL_GREEN = "#9FE8C6";
@@ -81,7 +82,7 @@ function MaskIcon({ size = 26, color = WARM }: { size?: number; color?: string }
 function SectionLabel({ number, title, dark = false }: { number: string; title: string; dark?: boolean }) {
     return (
         <motion.div {...fadeInUp} className="mb-6 flex items-center gap-3">
-            <span style={{ ...caveat, color: dark ? WARM : ORANGE }} className="text-2xl font-bold leading-none">
+            <span style={{ ...caveat, color: dark ? WARM : ORANGE_DEEP }} className="text-2xl font-bold leading-none">
                 {number}
             </span>
             <span
@@ -333,12 +334,12 @@ export function UnsaidCaseStudy() {
                             className={`mt-14 grid items-center gap-8 md:grid-cols-2 md:gap-14 ${b.reversed ? "md:[&>*:first-child]:order-2" : ""}`}
                         >
                             <motion.div {...fadeInUp}>
-                                <div className="mb-2 text-[0.8rem] font-semibold uppercase tracking-[0.1em]" style={{ ...grotesk, color: WARM }}>
+                                <div className="mb-2 text-[0.8rem] font-semibold uppercase tracking-[0.1em]" style={{ ...grotesk, color: WARM_DEEP }}>
                                     {b.label}
                                 </div>
                                 <h3 className="mb-2 text-xl font-medium text-gray-900">{b.h3}</h3>
                                 <p className="max-w-md text-[1rem] leading-relaxed text-gray-600">{b.body}</p>
-                                <span className="mt-4 inline-block text-lg font-semibold" style={{ ...caveat, color: ORANGE }}>
+                                <span className="mt-4 inline-block text-lg font-semibold" style={{ ...caveat, color: ORANGE_DEEP }}>
                                     {b.annotation}
                                 </span>
                             </motion.div>
@@ -431,7 +432,7 @@ export function UnsaidCaseStudy() {
                             </span>
                         ))}
                     </motion.div>
-                    <motion.p {...fadeInUp} className="mt-6 text-lg font-semibold" style={{ ...caveat, color: ORANGE }}>
+                    <motion.p {...fadeInUp} className="mt-6 text-lg font-semibold" style={{ ...caveat, color: ORANGE_DEEP }}>
                         {d.made.annotation}
                     </motion.p>
                 </div>
@@ -441,7 +442,7 @@ export function UnsaidCaseStudy() {
             <section className={`${sectionPad} bg-gray-50`}>
                 <div className={`${wrap} text-center`}>
                     <motion.div {...fadeInUp} className="mb-6 flex items-center justify-center gap-3">
-                        <span style={{ ...caveat, color: ORANGE }} className="text-2xl font-bold leading-none">
+                        <span style={{ ...caveat, color: ORANGE_DEEP }} className="text-2xl font-bold leading-none">
                             {d.closer.number}
                         </span>
                         <span className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-400">{d.closer.title}</span>

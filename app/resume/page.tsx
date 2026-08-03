@@ -161,7 +161,12 @@ export default function ResumePage() {
             )}
 
             {/* Resume Container — embeds the PDF directly so updates flow from /public */}
-            <main className="flex-1 min-h-0 container mx-auto px-6 md:px-10 py-6 md:py-8">
+            <main
+                id="main-content"
+                tabIndex={-1}
+                className="flex-1 min-h-0 container mx-auto px-6 md:px-10 py-6 md:py-8"
+            >
+                <h1 className="sr-only">Resume - Neha Chhillar</h1>
                 <div className="flex justify-center h-full">
                     {/* 3D extruded box: white front face + two skewed dark panels for right/bottom */}
                     <div className="relative w-full max-w-[816px] h-full">

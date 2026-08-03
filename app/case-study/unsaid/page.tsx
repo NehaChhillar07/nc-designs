@@ -31,7 +31,7 @@ export default function UnsaidPage() {
     return (
         <div className="min-h-screen relative bg-white">
             <Header theme="dark" />
-            <main>
+            <main id="main-content" tabIndex={-1}>
                 {/* Case study content — the dark hero handles its own top offset for the fixed header */}
                 <UnsaidCaseStudy />
 
