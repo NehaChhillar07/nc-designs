@@ -1033,9 +1033,11 @@ export function ECrimeHubCaseStudy() {
             <ContextSection />
             <ObjectiveSection />
             <RoleSection />
+            <ConstraintsSection />
             <DesignApproachSection />
             <VisualSystemSection />
             <PublicImpactSection />
+            <LearningsSection />
             <EvolvingSection />
         </article>
     );

@@ -167,7 +167,7 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
             {
                 title: "Education at scale",
                 body: "Cybersecurity content was structured into clear, scannable topics to make complex risks understandable for non-technical users.",
-                video: "/work/2nd-case study/content &.mp4",
+                video: "/work/2nd-case study/content-demo.mp4",
             },
             {
                 title: "AI-powered cyber assistant",
