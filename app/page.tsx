@@ -82,6 +82,11 @@ export default function Home() {
                   alt="Neha Chhillar"
                   width={252}
                   height={426}
+                  // Mirrors the wrapper's responsive widths above. Without this the
+                  // browser assumes 100vw and pulls a candidate far larger than the
+                  // 36-76px this ever renders at, on the highest-priority image of
+                  // the first paint.
+                  sizes="(min-width: 1024px) 76px, (min-width: 768px) 66px, (min-width: 640px) 52px, 36px"
                   className="w-full h-full object-cover"
                   priority
                 />

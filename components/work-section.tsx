@@ -73,7 +73,7 @@ const projects = [
         category: "WEBSITE DESIGN · CYBERSECURITY · PUBLIC PLATFORM",
         description:
             "Public-facing cybersecurity platform designed to help citizens report cybercrime and learn about digital risks.",
-        image: "/work/dp.svg",
+        image: "/work/dp.png",
         tags: [],
         caseStudyLink: "/case-study/ecrime-hub",
         buttonText: "Read case study",
@@ -380,7 +380,10 @@ export function WorkSection() {
                             <div className="space-y-4">
                                 {project.category && (
                                     <div className="flex flex-wrap items-center gap-3">
-                                        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                                        {/* Same grey as the description below. --muted-foreground
+                                            is rgb(46,46,46) / 13.58:1, which made this small
+                                            uppercase label louder than the sentence it introduces. */}
+                                        <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
                                             {project.category}
                                         </p>
                                         {project.roleTag && (

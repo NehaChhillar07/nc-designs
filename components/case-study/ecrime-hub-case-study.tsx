@@ -7,6 +7,7 @@ import Image from "next/image";
 import { eCrimeHubCaseStudyData } from "@/data/ecrime-hub-data";
 import { Highlighter } from "@/components/ui/highlighter";
 import { spaceGrotesk } from "@/components/case-study/fonts";
+import { fadeIn, fadeInUp } from "@/components/case-study/motion";
 
 // Lazy-mount the scroll-expansion opener — it owns wheel/touch handling
 // and only makes sense client-side.
@@ -25,20 +26,6 @@ const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 // ANIMATION - Slow, natural, predictable
 // No bounce. No elastic. Motion as orientation.
 // ============================================
-
-const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "0px 0px -100px 0px" },
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
-};
-
-const fadeIn = {
-    initial: { opacity: 0 },
-    whileInView: { opacity: 1 },
-    viewport: { once: true, margin: "0px 0px -100px 0px" },
-    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const },
-};
 
 // ============================================
 // SECTION 1: HERO

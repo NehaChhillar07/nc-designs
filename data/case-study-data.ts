@@ -14,7 +14,7 @@ export const otherProjects = [
         title: "eCrime Hub | Dubai Police",
         category: "WEBSITE DESIGN · CYBERSECURITY · PUBLIC PLATFORM",
         description: "Public-facing cybersecurity platform designed to help citizens report cybercrime and learn about digital risks.",
-        image: "/work/dp.svg",
+        image: "/work/dp.png",
         link: "/case-study/ecrime-hub",
         readingTime: "4 mins",
     },

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion, Reorder } from "motion/react";
+import { useState } from "react";
+import { motion, AnimatePresence, Reorder } from "motion/react";
+import { useReducedMotionSafe } from "@/lib/use-reduced-motion-safe";
 import { GripVertical, ImagePlus, ImageOff, ChevronUp, ChevronDown } from "lucide-react";
 
 type Component = { id: "title" | "body" | "media"; label: string };
@@ -19,15 +20,11 @@ export function MiniCardEditor({
     limitWithMedia: number;
     limitWithoutMedia: number;
 }) {
-    const reduce = useReducedMotion();
     // Reduced-motion users get explicit up/down buttons instead of drag-reorder.
-    // That swap changes WHICH elements exist, so it cannot key off useReducedMotion()
-    // during render: the server always sees false and the client sees true, which
-    // is a hydration mismatch. Both sides render the drag list first, then this
-    // flips after mount, on the client only.
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => setMounted(true), []);
-    const useButtonReorder = mounted && reduce;
+    // That swap changes WHICH elements exist, so it must come from the
+    // hydration-safe hook rather than motion's useReducedMotion() — see
+    // lib/use-reduced-motion-safe.ts.
+    const useButtonReorder = useReducedMotionSafe();
     const [items, setItems] = useState<Component[]>([
         { id: "title", label: "Title" },
         { id: "body", label: "Body" },

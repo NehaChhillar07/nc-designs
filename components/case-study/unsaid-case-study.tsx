@@ -11,22 +11,11 @@ import { lora, spaceGrotesk } from "@/components/case-study/unsaid/fonts";
 import { WorldToggleDemo } from "@/components/case-study/unsaid/WorldToggleDemo";
 import { SwipeCardDemo } from "@/components/case-study/unsaid/SwipeCardDemo";
 import { FeltBurstDemo } from "@/components/case-study/unsaid/FeltBurstDemo";
+import { fadeIn, fadeInUp } from "@/components/case-study/motion";
 
 // ============================================
 // ANIMATION — slow, natural, no bounce (matches the rest of the site)
 // ============================================
-const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "0px 0px -100px 0px" },
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
-};
-const fadeIn = {
-    initial: { opacity: 0 },
-    whileInView: { opacity: 1 },
-    viewport: { once: true, margin: "0px 0px -100px 0px" },
-    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const },
-};
 
 const d = unsaidData;
 
@@ -140,9 +129,12 @@ const wrap = "mx-auto max-w-3xl px-6";
 const wrapWide = "mx-auto max-w-5xl px-6";
 const sectionPad = "py-16 md:py-24";
 
+// cs-editorial puts display headings on Space Grotesk, matching the other three
+// case studies. The Caveat scribbles and the Lora pull quote set fontFamily
+// inline, which outranks the class, so they are unaffected.
 export function UnsaidCaseStudy() {
     return (
-        <article className={`${lora.variable} ${spaceGrotesk.variable} bg-white`}>
+        <article className={`${lora.variable} ${spaceGrotesk.variable} cs-editorial bg-white`}>
             {/* ============ HERO — dark threshold band ============ */}
             <header className="overflow-hidden pt-28 pb-20 text-center md:pt-36 md:pb-24" style={{ background: HERO_BG, color: CREAM }}>
                 <div className={wrapWide}>

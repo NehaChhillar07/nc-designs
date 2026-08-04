@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { Highlighter } from "@/components/ui/highlighter";
 import { spaceGrotesk } from "@/components/case-study/fonts";
 import { flashcardTrainingCaseStudyData } from "@/data/flashcard-training-data";
+import { fadeIn, fadeInUp } from "@/components/case-study/motion";
 
 // Lazy-mount heavy interactive components — they ship in their own chunks
 // and SSR-rendered fallback keeps the static path intact.
@@ -98,20 +99,6 @@ const StandaloneToEmbedded = dynamic(
 // ANIMATION — Slow, natural, predictable.
 // Matches the Human Firewall case study so the two pages visually rhyme.
 // ============================================
-
-const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "0px 0px -100px 0px" },
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
-};
-
-const fadeIn = {
-    initial: { opacity: 0 },
-    whileInView: { opacity: 1 },
-    viewport: { once: true, margin: "0px 0px -100px 0px" },
-    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const },
-};
 
 const data = flashcardTrainingCaseStudyData;
 
