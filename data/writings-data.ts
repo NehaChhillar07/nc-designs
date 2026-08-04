@@ -41,9 +41,9 @@ export const writingsData = {
                 "AI made starting easy. Delivering still comes down to three things nobody can skip.",
             image: "/writing/where-is-the-deliverability-cover.png",
             imageAlt:
-                "A title card on a white background: \"Where is the deliverability?\" set large in the site's heading typeface.",
+                "A dark navy card headed \"What you cannot skip\", listing 01 Topic, 02 Solution and 03 Testing, with an arrow pointing to the word \"Delivered.\" in orange.",
             imageWidth: 2400,
-            imageHeight: 1120,
+            imageHeight: 1280,
             readingTime: "4 min read",
             link: "/writing/where-is-the-deliverability",
             reversed: true, // thumbnail right, so first-designer below keeps thumbnail left

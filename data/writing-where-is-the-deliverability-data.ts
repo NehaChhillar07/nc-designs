@@ -24,8 +24,10 @@ export const whereIsTheDeliverabilityEssay: Essay = {
     dateDisplay: "August 2, 2026",
     readTime: "4 min read",
     cover: "/writing/where-is-the-deliverability-cover.png",
+    coverWidth: 2400,
+    coverHeight: 1280,
     coverAlt:
-        "A title card on a white background: \"Where is the deliverability?\" set large in the site's heading typeface, nothing else on the card.",
+        "A dark navy card headed \"What you cannot skip\", listing three numbered items: 01 Topic, know what you are building; 02 Solution, decide what AI cannot; 03 Testing, prove it ships, not demos. An arrow points to the word \"Delivered.\" in orange, under a closing line: the tool was never the answer, these three are.",
     blocks: [
         {
             type: "p",
