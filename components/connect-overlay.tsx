@@ -196,7 +196,7 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
                                     <X className="w-4 h-4 text-gray-400" />
                                 </button>
                                 <h2 id="connect-title" className="text-xl font-medium text-gray-900">
-                                    Let's connect
+                                    Let&apos;s connect
                                 </h2>
                             </div>
 

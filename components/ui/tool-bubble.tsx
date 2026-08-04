@@ -1,7 +1,8 @@
 "use client";
 
-import { ReactNode, useState, useRef, useEffect } from "react";
+import { ReactNode, useState, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useIsHydrated } from "@/lib/use-is-hydrated";
 import styles from "./tool-bubble.module.css";
 
 interface ToolBubbleProps {
@@ -30,11 +31,8 @@ export function ToolBubble({
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const bubbleRef = useRef<HTMLDivElement>(null);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // Gates the createPortal below: document does not exist during SSR.
+  const isMounted = useIsHydrated();
 
   const handleMouseEnter = () => {
     if (bubbleRef.current) {
