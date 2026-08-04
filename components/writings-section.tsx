@@ -60,13 +60,15 @@ export function WritingsSection() {
                 </Highlighter>
                 {after}
             </motion.h2>
-            {/* Rows — image alternates left/right by index */}
+            {/* Rows — image alternates left/right by index, unless a post sets
+                `reversed` explicitly. The override exists so reordering posts
+                (newest first) does not silently flip an existing row. */}
             <div className="mt-14 md:mt-20 space-y-20 md:space-y-28">
                 {posts.map((post, index) => (
                     <WritingRow
                         key={post.id}
                         post={post}
-                        reversed={index % 2 === 1}
+                        reversed={post.reversed ?? index % 2 === 1}
                         onMouseEnter={() => handleMouseEnter(post)}
                         onMouseLeave={resetCursor}
                     />
@@ -111,16 +113,21 @@ function WritingRow({
                     />
                 </div>
 
-                {/* Title + dek + arrow. Title pulls into the image column on
-                    desktop for the overlap; below lg everything stacks. */}
+                {/* Title + dek + arrow. The title used to be pulled 128px over the
+                    thumbnail (lg:-ml-32 / lg:-mr-32). It is near-black text, so that
+                    only read when the cover happened to be light where the title
+                    landed — and the reserved area grows as the viewport narrows
+                    (~19% of the source image at 1440, ~26% at 1024), which is not a
+                    constraint any cover can be designed around. The title now keeps
+                    to its own column; below lg everything stacks. */}
                 <div
                     className={`relative z-10 mt-6 lg:mt-0 lg:col-span-5 ${
-                        reversed ? "lg:order-1 lg:col-start-1 lg:row-start-1" : ""
+                        reversed ? "lg:order-1 lg:col-start-1 lg:row-start-1 lg:pr-10" : "lg:pl-10"
                     }`}
                 >
                     <h3
                         className={`text-[28px] sm:text-[36px] md:text-[44px] font-medium tracking-tight leading-[1.08] text-gray-900 group-hover:text-gray-600 transition-colors ${
-                            reversed ? "lg:-mr-32 lg:text-right" : "lg:-ml-32"
+                            reversed ? "lg:text-right" : ""
                         }`}
                     >
                         {post.title}
@@ -128,7 +135,7 @@ function WritingRow({
                     <div
                         className={`mt-6 md:mt-8 flex items-start gap-5 ${
                             reversed ? "lg:flex-row-reverse lg:text-right" : ""
-                        } ${reversed ? "" : "lg:pl-8"}`}
+                        }`}
                     >
                         <span className="shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-900 group-hover:border-gray-900">
                             <ArrowRight className="w-5 h-5 text-gray-600 transition-colors duration-300 group-hover:text-white" />

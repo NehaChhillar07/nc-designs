@@ -29,8 +29,16 @@ export type Essay = {
     readTime: string;
     cover: string;
     coverAlt: string;
+    // Real pixel size of the cover file. Omit only if it is 2400x1120 like the
+    // first essay's — a wrong ratio renders stretched with no build or runtime
+    // error, so pass the actual numbers whenever a cover is not that size.
+    coverWidth?: number;
+    coverHeight?: number;
     blocks: EssayBlock[];
 };
+
+const DEFAULT_COVER_WIDTH = 2400;
+const DEFAULT_COVER_HEIGHT = 1120;
 
 const fadeUp = {
     initial: { opacity: 0, y: 20 },
@@ -97,8 +105,8 @@ export function EssayArticle({ essay }: { essay: Essay }) {
                     <Image
                         src={essay.cover}
                         alt={essay.coverAlt}
-                        width={2400}
-                        height={1120}
+                        width={essay.coverWidth ?? DEFAULT_COVER_WIDTH}
+                        height={essay.coverHeight ?? DEFAULT_COVER_HEIGHT}
                         sizes="(max-width: 920px) 100vw, 880px"
                         className="w-full h-auto"
                         priority
