@@ -26,8 +26,8 @@ export function ThreeWayEntry({ entries }: { entries: readonly Entry[] }) {
                         key={entry.label}
                         onClick={() => setExpanded(isOpen ? null : i)}
                         onMouseEnter={() => !reduce && setExpanded(i)}
-                        initial={reduce ? false : { opacity: 0, y: 8 }}
-                        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 8 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "0px 0px -100px 0px" }}
                         transition={{
                             duration: 0.5,
@@ -71,23 +71,15 @@ export function ThreeWayEntry({ entries }: { entries: readonly Entry[] }) {
                             {isOpen && (
                                 <motion.div
                                     key="detail"
-                                    initial={
-                                        reduce
-                                            ? { opacity: 1, height: "auto" }
-                                            : { opacity: 0, height: 0 }
-                                    }
-                                    animate={
-                                        reduce
-                                            ? { opacity: 1, height: "auto" }
-                                            : { opacity: 1, height: "auto" }
-                                    }
-                                    exit={
-                                        reduce
-                                            ? { opacity: 0, height: 0 }
-                                            : { opacity: 0, height: 0 }
-                                    }
+                                    // animate/exit were identical on both branches;
+                                    // only `initial` differed, and branching it on
+                                    // useReducedMotion() mismatches SSR. One tree
+                                    // now, with the duration collapsed instead.
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    exit={{ opacity: 0, height: 0 }}
                                     transition={{
-                                        duration: 0.3,
+                                        duration: reduce ? 0 : 0.3,
                                         ease: [0.25, 0.1, 0.25, 1],
                                     }}
                                     className="overflow-hidden"

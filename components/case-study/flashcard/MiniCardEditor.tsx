@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion, Reorder } from "motion/react";
 import { GripVertical, ImagePlus, ImageOff, ChevronUp, ChevronDown } from "lucide-react";
 
@@ -20,6 +20,14 @@ export function MiniCardEditor({
     limitWithoutMedia: number;
 }) {
     const reduce = useReducedMotion();
+    // Reduced-motion users get explicit up/down buttons instead of drag-reorder.
+    // That swap changes WHICH elements exist, so it cannot key off useReducedMotion()
+    // during render: the server always sees false and the client sees true, which
+    // is a hydration mismatch. Both sides render the drag list first, then this
+    // flips after mount, on the client only.
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    const useButtonReorder = mounted && reduce;
     const [items, setItems] = useState<Component[]>([
         { id: "title", label: "Title" },
         { id: "body", label: "Body" },
@@ -81,7 +89,7 @@ export function MiniCardEditor({
                     </button>
                 </div>
 
-                {reduce ? (
+                {useButtonReorder ? (
                     <ul className="space-y-2">
                         {visibleItems.map((item, i) => (
                             <li
@@ -151,8 +159,8 @@ export function MiniCardEditor({
                     </p>
                     <motion.span
                         key={`${limit}-${body.length}`}
-                        initial={reduce ? false : { scale: 1.08 }}
-                        animate={reduce ? undefined : { scale: 1 }}
+                        initial={{ scale: 1.08 }}
+                        animate={{ scale: 1 }}
                         transition={{ duration: 0.2 }}
                         className={`text-[11px] tabular-nums font-medium ${
                             overLimit
@@ -173,16 +181,19 @@ export function MiniCardEditor({
                     Try it
                 </p>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                    {reduce
+                    {/* Must track useButtonReorder, not `reduce` directly, so the
+                        copy describes the controls actually on screen and matches
+                        what the server rendered. */}
+                    {useButtonReorder
                         ? "Use the up/down buttons to reorder. Toggle media to see the character limit drop from 500 to 200."
                         : "Drag a component to reorder. Toggle media to see the limit drop from 500 to 200."}
                 </p>
                 <AnimatePresence>
                     {overLimit && (
                         <motion.p
-                            initial={reduce ? false : { opacity: 0, y: 4 }}
-                            animate={reduce ? undefined : { opacity: 1, y: 0 }}
-                            exit={reduce ? undefined : { opacity: 0 }}
+                            initial={{ opacity: 0, y: 4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
                             transition={{ duration: 0.25 }}
                             className="text-xs text-red-600 leading-relaxed"
                         >

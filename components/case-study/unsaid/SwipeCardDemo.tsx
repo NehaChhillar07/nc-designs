@@ -12,7 +12,8 @@ import { Heart } from "lucide-react";
 
 // Interactive demo #2 — the draggable / throwable confession card.
 // Tracks the pointer, tilts from x-offset, commits past 92px or a fast flick,
-// else springs back. Reduced motion → static card + a "next" button.
+// else springs back. Reduced motion → same deck, same "next" button, the
+// travel just happens instantly.
 
 interface Card {
     role: string;
@@ -78,59 +79,64 @@ export function SwipeCardDemo({ cards }: { cards: readonly Card[] }) {
     const card = cards[index % cards.length];
     const next = () => setIndex((i) => (i + 1) % cards.length);
 
-    if (reduce) {
-        return (
-            <div className="flex flex-col items-center gap-4">
-                <CardFace card={card} />
-                <button
-                    type="button"
-                    onClick={next}
-                    className="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700"
-                >
-                    next →
-                </button>
-            </div>
-        );
-    }
-
+    // useReducedMotion() is false during server render and true on the client
+    // for a user with the OS setting on, so it must never decide WHICH
+    // elements exist — that is a hydration mismatch. The deck and the "next"
+    // button always render; reduced motion only collapses the settle/throw
+    // transitions to zero duration.
     return (
-        <div className="relative flex h-[340px] items-center justify-center" style={{ touchAction: "none" }}>
-            {/* faux deck behind the top card */}
-            <div
-                aria-hidden
-                className="absolute w-[min(300px,80vw)] rounded-[24px]"
-                style={{ height: 220, background: "#1d1a17", transform: "translateY(14px) scale(0.95)", boxShadow: "0 20px 40px rgba(0,0,0,.3)" }}
-            />
-            <div
-                aria-hidden
-                className="absolute w-[min(300px,80vw)] rounded-[24px]"
-                style={{ height: 220, background: "#221e1b", transform: "translateY(7px) scale(0.975)" }}
-            />
-            <motion.div
-                className="absolute cursor-grab active:cursor-grabbing"
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.9}
-                style={{ x, rotate, opacity }}
-                onDragEnd={(_, info) => {
-                    const thrown = Math.abs(info.offset.x) > 92 || Math.abs(info.velocity.x) > 450;
-                    if (thrown) {
-                        const dir = info.offset.x > 0 ? 1 : -1;
-                        animate(x, dir * 1000, {
-                            duration: 0.42,
-                            ease: [0.22, 0.61, 0.36, 1],
-                            onComplete: () => {
-                                next();
-                                x.set(0);
-                            },
-                        });
-                    } else {
-                        animate(x, 0, { type: "spring", stiffness: 300, damping: 22 });
-                    }
-                }}
+        <div className="flex flex-col items-center gap-4">
+            <div className="relative flex h-[340px] w-full items-center justify-center" style={{ touchAction: "none" }}>
+                {/* faux deck behind the top card */}
+                <div
+                    aria-hidden
+                    className="absolute w-[min(300px,80vw)] rounded-[24px]"
+                    style={{ height: 220, background: "#1d1a17", transform: "translateY(14px) scale(0.95)", boxShadow: "0 20px 40px rgba(0,0,0,.3)" }}
+                />
+                <div
+                    aria-hidden
+                    className="absolute w-[min(300px,80vw)] rounded-[24px]"
+                    style={{ height: 220, background: "#221e1b", transform: "translateY(7px) scale(0.975)" }}
+                />
+                <motion.div
+                    className="absolute cursor-grab active:cursor-grabbing"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.9}
+                    style={{ x, rotate, opacity }}
+                    onDragEnd={(_, info) => {
+                        const thrown = Math.abs(info.offset.x) > 92 || Math.abs(info.velocity.x) > 450;
+                        if (thrown) {
+                            const dir = info.offset.x > 0 ? 1 : -1;
+                            animate(x, dir * 1000, {
+                                duration: reduce ? 0 : 0.42,
+                                ease: [0.22, 0.61, 0.36, 1],
+                                onComplete: () => {
+                                    next();
+                                    x.set(0);
+                                },
+                            });
+                        } else {
+                            animate(
+                                x,
+                                0,
+                                reduce
+                                    ? { duration: 0 }
+                                    : { type: "spring", stiffness: 300, damping: 22 }
+                            );
+                        }
+                    }}
+                >
+                    <CardFace card={card} />
+                </motion.div>
+            </div>
+            <button
+                type="button"
+                onClick={next}
+                className="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700"
             >
-                <CardFace card={card} />
-            </motion.div>
+                next →
+            </button>
         </div>
     );
 }

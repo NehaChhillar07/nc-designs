@@ -21,8 +21,8 @@ export function DeferredBet({
         <div className="my-10 grid md:grid-cols-2 gap-4">
             {/* NOW path — lit, confident */}
             <motion.div
-                initial={reduce ? false : { opacity: 0, y: 8 }}
-                whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "0px 0px -100px 0px" }}
                 transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                 className="relative rounded-xl border-2 border-gray-900 bg-gray-900/[0.02] p-6"
@@ -41,8 +41,8 @@ export function DeferredBet({
 
             {/* LATER path — calm, on the roadmap (NOT shelved, NOT dimmed-dead) */}
             <motion.div
-                initial={reduce ? false : { opacity: 0, y: 8 }}
-                whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "0px 0px -100px 0px" }}
                 transition={{
                     duration: 0.6,

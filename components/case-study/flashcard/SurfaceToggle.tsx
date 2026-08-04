@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Monitor, Smartphone } from "lucide-react";
 
 // Same media as the live demo cards in section 05 — images are part of card content
@@ -25,7 +25,6 @@ export function SurfaceToggle({
     creator: Surface;
     learner: Surface;
 }) {
-    const reduce = useReducedMotion();
     const [active, setActive] = useState<"creator" | "learner">("creator");
 
     return (
@@ -93,9 +92,9 @@ export function SurfaceToggle({
                 {active === "creator" ? (
                     <motion.div
                         key="creator"
-                        initial={reduce ? false : { opacity: 0, y: 8 }}
-                        animate={reduce ? undefined : { opacity: 1, y: 0 }}
-                        exit={reduce ? undefined : { opacity: 0, y: -8 }}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
                         transition={{
                             duration: 0.4,
                             ease: [0.25, 0.1, 0.25, 1],
@@ -106,9 +105,9 @@ export function SurfaceToggle({
                 ) : (
                     <motion.div
                         key="learner"
-                        initial={reduce ? false : { opacity: 0, y: 8 }}
-                        animate={reduce ? undefined : { opacity: 1, y: 0 }}
-                        exit={reduce ? undefined : { opacity: 0, y: -8 }}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
                         transition={{
                             duration: 0.4,
                             ease: [0.25, 0.1, 0.25, 1],

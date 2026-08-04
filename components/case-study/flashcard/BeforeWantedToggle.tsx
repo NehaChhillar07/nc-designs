@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { ArrowRight, ArrowDown } from "lucide-react";
 
 type StateBlock = {
@@ -18,7 +18,6 @@ export function BeforeWantedToggle({
     before: StateBlock;
     wanted: StateBlock;
 }) {
-    const reduce = useReducedMotion();
     const rowCount = Math.min(before.items.length, wanted.items.length);
     const pairs = Array.from({ length: rowCount }, (_, i) => ({
         before: before.items[i],
@@ -53,8 +52,8 @@ export function BeforeWantedToggle({
                 {pairs.map((pair, i) => (
                     <motion.div
                         key={i}
-                        initial={reduce ? false : { opacity: 0, y: 12 }}
-                        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "0px 0px -60px 0px" }}
                         transition={{
                             duration: 0.5,
@@ -79,12 +78,8 @@ export function BeforeWantedToggle({
                         {/* Connector — horizontal on desktop, downward on mobile */}
                         <div className="flex items-center justify-center md:w-12 my-1 md:my-0">
                             <motion.div
-                                initial={
-                                    reduce ? false : { opacity: 0, x: -8 }
-                                }
-                                whileInView={
-                                    reduce ? undefined : { opacity: 1, x: 0 }
-                                }
+                                initial={{ opacity: 0, x: -8 }}
+                                whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                                 transition={{
                                     duration: 0.4,

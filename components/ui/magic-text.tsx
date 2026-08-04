@@ -28,7 +28,12 @@ const Word: React.FC<WordProps> = ({ children, progress, range, className }) => 
     const opacity = useTransform(progress, range, [0, 1]);
 
     return (
-        <span className={cn("relative mt-[12px] mr-1 text-3xl font-semibold", className)}>
+        // Decorative: the words are split for the reveal animation and carry no
+        // real spaces, so assistive tech reads the sr-only paragraph copy instead.
+        <span
+            aria-hidden="true"
+            className={cn("relative mt-[12px] mr-1 text-3xl font-semibold", className)}
+        >
             <span className="absolute opacity-20">{children}</span>
             <motion.span style={{ opacity }}>{children}</motion.span>
         </span>
@@ -50,7 +55,8 @@ export const MagicText: React.FC<MagicTextProps> = ({
         offset: ["start 0.9", "end 0.6"],
     });
 
-    const paragraphs = (Array.isArray(text) ? text : [text]).map((p) => p.split(" "));
+    const sentences = Array.isArray(text) ? text : [text];
+    const paragraphs = sentences.map((p) => p.split(" "));
     const totalWords = paragraphs.reduce((count, words) => count + words.length, 0);
     // How many words precede each paragraph, so ranges run continuously across all of them
     const paragraphStarts = paragraphs.map((_, i) =>
@@ -61,6 +67,9 @@ export const MagicText: React.FC<MagicTextProps> = ({
         <div ref={container} className={className}>
             {paragraphs.map((words, pIndex) => (
                 <p key={pIndex} className={cn("flex flex-wrap leading-[0.5] p-4", paragraphClassName)}>
+                    {/* The one copy assistive tech reads: real prose, real spaces.
+                        Absolutely positioned, so it never affects the visual layout. */}
+                    <span className="sr-only">{sentences[pIndex]}</span>
                     {words.map((word, wIndex) => {
                         const start = (paragraphStarts[pIndex] + wIndex) / totalWords;
                         const end = start + 1 / totalWords;

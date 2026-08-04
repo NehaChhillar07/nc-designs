@@ -84,9 +84,9 @@ export function BackwardsToForwards({
                         {mode === "end" ? (
                             <motion.div
                                 key="end-card"
-                                initial={reduce ? false : { opacity: 0 }}
-                                animate={reduce ? undefined : { opacity: 1 }}
-                                exit={reduce ? undefined : { opacity: 0 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
                                 transition={{ duration: 0.3 }}
                                 className="relative"
                             >
@@ -123,9 +123,9 @@ export function BackwardsToForwards({
                         ) : (
                             <motion.div
                                 key="base-card"
-                                initial={reduce ? false : { opacity: 0 }}
-                                animate={reduce ? undefined : { opacity: 1 }}
-                                exit={reduce ? undefined : { opacity: 0 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
                                 transition={{ duration: 0.3 }}
                                 className="space-y-2"
                             >
@@ -140,12 +140,8 @@ export function BackwardsToForwards({
                                     return (
                                         <motion.div
                                             key={comp}
-                                            initial={
-                                                reduce ? false : { opacity: 0, y: 6 }
-                                            }
-                                            animate={
-                                                reduce ? undefined : { opacity: 1, y: 0 }
-                                            }
+                                            initial={{ opacity: 0, y: 6 }}
+                                            animate={{ opacity: 1, y: 0 }}
                                             transition={{
                                                 duration: 0.3,
                                                 delay: reduce ? 0 : i * 0.08,

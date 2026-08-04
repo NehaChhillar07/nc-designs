@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, type RefObject } from "react";
-import { motion, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "motion/react";
+import { motion, useMotionValue, useScroll, useSpring, useTransform, useReducedMotion, type MotionValue } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface ChoreographyImage {
@@ -48,12 +48,30 @@ export function ScrollChoreography({ className, images }: ScrollChoreographyProp
         offset: ["start start", "end end"],
     });
 
-    const smoothProgress = useSpring(scrollYProgress, {
+    const scrollSpring = useSpring(scrollYProgress, {
         stiffness: 400, // Higher stiffness for a slightly faster snap
         damping: 50, // Play with damping to add a little bounce/jerk
         mass: 1.2, // Adds a bit more weight to the movement
         restDelta: 0.001,
     });
+
+    // Every frame transform reads from this one progress value. It is 0 on the
+    // first render of both server and client, so the markup below is identical
+    // on both — useReducedMotion() is false during SSR and true on the client
+    // for a user with the OS setting on, so branching the rendered tree on it
+    // is a hydration mismatch. Instead an effect decides what feeds this value:
+    // the scroll spring normally, nothing at all under reduced motion, which
+    // parks all four frames at their resting 2x2 grid.
+    const smoothProgress = useMotionValue(0);
+
+    useEffect(() => {
+        if (prefersReducedMotion) {
+            smoothProgress.set(0);
+            return;
+        }
+        smoothProgress.set(scrollSpring.get());
+        return scrollSpring.on("change", (value) => smoothProgress.set(value));
+    }, [prefersReducedMotion, scrollSpring, smoothProgress]);
 
     // Square frames of 42vh with an exact 24px gutter: offsets are half the
     // square (21vh) plus half the gutter (12px). Every keyframe endpoint keeps
@@ -102,23 +120,6 @@ export function ScrollChoreography({ className, images }: ScrollChoreographyProp
 
     const baseImageClasses =
         "absolute left-1/2 top-1/2 w-[42vh] h-[42vh] overflow-hidden -translate-x-1/2 -translate-y-1/2 bg-muted shadow-2xl will-change-transform";
-
-    if (prefersReducedMotion) {
-        return (
-            <div className={cn("flex justify-center py-8", className)}>
-                <div className="relative w-[min(90vw,720px)] aspect-[3/2] overflow-hidden shadow-2xl bg-muted">
-                    <Image
-                        src={images.bottomLeft.src}
-                        alt={images.bottomLeft.alt}
-                        fill
-                        sizes="(min-width: 768px) 720px, 90vw"
-                        className="object-cover"
-                        style={{ objectPosition: images.bottomLeft.position ?? "center" }}
-                    />
-                </div>
-            </div>
-        );
-    }
 
     // Bottom row stacks in front of the top row; bottomLeft is front-most and expands.
     const underFrames = [

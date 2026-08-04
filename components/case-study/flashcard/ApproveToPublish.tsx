@@ -128,7 +128,7 @@ export function ApproveToPublish({
                                 return (
                                     <motion.li
                                         key={step}
-                                        initial={reduce ? false : { opacity: 0, x: -4 }}
+                                        initial={{ opacity: 0, x: -4 }}
                                         animate={
                                             reached
                                                 ? { opacity: 1, x: 0 }

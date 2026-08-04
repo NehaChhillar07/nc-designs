@@ -152,16 +152,20 @@ export function HeroCardFan({ cards }: { cards: readonly CardSeed[] }) {
                 return (
                     <motion.div
                         key={i}
-                        initial={
-                            reduce
-                                ? false
-                                : {
-                                    opacity: 0,
-                                    rotate: 0,
-                                    x: 0,
-                                    y: 30,
-                                }
-                        }
+                        // Unconditional initial. useReducedMotion() is false during
+                        // SSR and true on the client for a user with the OS setting
+                        // on, so branching this on `reduce` made the server emit
+                        // opacity:0/translateY(30px) and the client opacity:1/
+                        // translateX(12px) rotate(4deg) — a hydration mismatch on
+                        // the homepage. Reduced motion is honoured by collapsing the
+                        // transition to 0 below, so the fan lands on its resting
+                        // state instantly instead of animating in.
+                        initial={{
+                            opacity: 0,
+                            rotate: 0,
+                            x: 0,
+                            y: 30,
+                        }}
                         animate={
                             isExiting
                                 ? exitAnimate
@@ -177,12 +181,12 @@ export function HeroCardFan({ cards }: { cards: readonly CardSeed[] }) {
                         transition={
                             isExiting
                                 ? {
-                                    duration: EXIT_DURATION_S,
+                                    duration: reduce ? 0 : EXIT_DURATION_S,
                                     ease: [0.25, 0.1, 0.25, 1],
                                     times: [0, 0.45, 1],
                                 }
                                 : {
-                                    duration: SETTLE_DURATION_S,
+                                    duration: reduce ? 0 : SETTLE_DURATION_S,
                                     ease: [0.25, 0.1, 0.25, 1],
                                 }
                         }

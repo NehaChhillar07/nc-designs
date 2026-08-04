@@ -468,9 +468,12 @@ function DesignApproachSection() {
                                             whileInView={{ opacity: 1, x: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ duration: 0.6, delay: 0.6 }}
-                                            className={`absolute ${index === 0 ? "-right-4 lg:-right-48 xl:-right-64 top-1/4" :
-                                                index === 1 ? "-left-4 lg:-left-48 xl:-left-64 top-1/3" :
-                                                    "-right-4 lg:-right-48 xl:-right-64 top-1/2"
+                                            // Offsets step with the gutter the max-w-5xl container leaves.
+                                            // At lg/xl there is no 228px margin, so the note rides the
+                                            // image edge; only at 2xl does it clear into the true margin.
+                                            className={`absolute ${index === 0 ? "right-0 xl:-right-32 2xl:-right-64 top-1/4" :
+                                                index === 1 ? "left-0 xl:-left-32 2xl:-left-64 top-1/3" :
+                                                    "right-0 xl:-right-32 2xl:-right-64 top-1/2"
                                                 } hidden lg:flex items-center gap-2 z-10`}
                                         >
                                             {/* For left-side annotations (index 1), text comes first */}
@@ -579,9 +582,12 @@ function DesignApproachSection() {
                                             whileInView={{ opacity: 1, x: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ duration: 0.6, delay: 0.6 }}
-                                            className={`absolute ${index === 0 ? "-right-4 lg:-right-48 xl:-right-64 top-1/4" :
-                                                index === 1 ? "-left-4 lg:-left-48 xl:-left-64 top-1/3" :
-                                                    "-right-4 lg:-right-48 xl:-right-64 top-1/2"
+                                            // Offsets step with the gutter the max-w-5xl container leaves.
+                                            // At lg/xl there is no 228px margin, so the note rides the
+                                            // image edge; only at 2xl does it clear into the true margin.
+                                            className={`absolute ${index === 0 ? "right-0 xl:-right-32 2xl:-right-64 top-1/4" :
+                                                index === 1 ? "left-0 xl:-left-32 2xl:-left-64 top-1/3" :
+                                                    "right-0 xl:-right-32 2xl:-right-64 top-1/2"
                                                 } hidden lg:flex items-center gap-2 z-10`}
                                         >
                                             {/* For left-side annotations (index 1), text comes first */}
@@ -727,7 +733,9 @@ function VisualSystemSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.5 }}
-                        className="absolute -right-4 lg:-right-48 xl:-right-56 top-1/3 hidden lg:flex items-center gap-2 z-10"
+                        // Same stepped offsets as the design-approach notes; this one is
+                        // 198px wide (50px arrow + 140px text) so it clears at 2xl too.
+                        className="absolute right-0 xl:-right-32 2xl:-right-56 top-1/3 hidden lg:flex items-center gap-2 z-10"
                     >
                         <svg width="50" height="50" viewBox="0 0 80 80" fill="none" className="flex-shrink-0">
                             <motion.path

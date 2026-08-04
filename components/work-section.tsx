@@ -348,6 +348,13 @@ export function WorkSection() {
                                             height={1644}
                                             className="relative w-full h-auto rounded-lg border border-white/15 shadow-2xl"
                                             priority={index < 2}
+                                            // Every cover is in the DOM twice: this mobile block and
+                                            // the sticky desktop stack below. display:none does not
+                                            // stop the fetch, so without a breakpoint-aware sizes the
+                                            // browser resolves the hidden copy at its 100vw default
+                                            // and downloads a full-size file nobody sees. 1px above
+                                            // lg parks it on the smallest srcset candidate instead.
+                                            sizes="(min-width: 1024px) 1px, 100vw"
                                             loading={index < 2 ? "eager" : "lazy"}
                                         />
                                     </div>
@@ -361,6 +368,9 @@ export function WorkSection() {
                                         priority={index < 2}
                                         placeholder="blur"
                                         blurDataURL={BLUR_PLACEHOLDER}
+                                        // See the note above: hidden above lg, so keep the desktop
+                                        // fetch off the smallest candidate rather than 100vw.
+                                        sizes="(min-width: 1024px) 1px, 100vw"
                                         loading={index < 2 ? "eager" : "lazy"}
                                     />
                                 )}
@@ -495,7 +505,9 @@ export function WorkSection() {
                                             height={1644}
                                             className="relative w-full h-auto rounded-xl border border-white/15 shadow-2xl"
                                             priority={index < 2}
-                                            sizes="600px"
+                                            // Mirror of the mobile block: this copy is display:none
+                                            // below lg, so keep its fetch off the 600px candidate there.
+                                            sizes="(max-width: 1023px) 1px, 600px"
                                             loading={index < 2 ? "eager" : "lazy"}
                                         />
                                     </div>
@@ -508,7 +520,8 @@ export function WorkSection() {
                                         priority={index < 2}
                                         placeholder="blur"
                                         blurDataURL={BLUR_PLACEHOLDER}
-                                        sizes="600px"
+                                        // Hidden below lg; see the note above.
+                                        sizes="(max-width: 1023px) 1px, 600px"
                                         loading={index < 2 ? "eager" : "lazy"}
                                     />
                                 )}

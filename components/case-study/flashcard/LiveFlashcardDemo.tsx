@@ -158,38 +158,39 @@ export function LiveFlashcardDemo({
                     <motion.div
                         key={index}
                         custom={direction}
-                        drag={reduce ? false : "x"}
+                        // None of these props may branch on `reduce`: it is false
+                        // during SSR and true on the client for a reduced-motion
+                        // user, so the server emitted drag's touch-action/
+                        // user-select/draggable and a different initial style than
+                        // the client rendered — a hydration mismatch. Dragging is
+                        // direct manipulation, not auto-playing motion, so it stays
+                        // enabled; the animation itself is already neutralised by
+                        // MotionConfig reducedMotion="user" plus the 0s duration
+                        // below.
+                        drag="x"
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0.6}
                         onDragEnd={onDragEnd}
                         whileDrag={{ rotate: 3, cursor: "grabbing" }}
                         initial={
-                            reduce
-                                ? { opacity: 0 }
-                                : direction === 1
-                                    ? {
-                                        // promoted from the stack behind
-                                        y: STACK_OFFSET,
-                                        scale: 1 - STACK_SCALE,
-                                        opacity: 0.75,
-                                        x: 0,
-                                        rotate: 0,
-                                    }
-                                    : { x: -440, opacity: 0, rotate: -10, y: 0, scale: 1 }
+                            direction === 1
+                                ? {
+                                    // promoted from the stack behind
+                                    y: STACK_OFFSET,
+                                    scale: 1 - STACK_SCALE,
+                                    opacity: 0.75,
+                                    x: 0,
+                                    rotate: 0,
+                                }
+                                : { x: -440, opacity: 0, rotate: -10, y: 0, scale: 1 }
                         }
-                        animate={
-                            reduce
-                                ? { opacity: 1 }
-                                : { x: 0, y: 0, scale: 1, opacity: 1, rotate: 0 }
-                        }
+                        animate={{ x: 0, y: 0, scale: 1, opacity: 1, rotate: 0 }}
                         exit={
-                            reduce
-                                ? { opacity: 0 }
-                                : direction === 1
-                                    ? // thrown off to the side
-                                    { x: -440, opacity: 0, rotate: -12 }
-                                    : // tucked back into the stack
-                                    { y: STACK_OFFSET, scale: 1 - STACK_SCALE, opacity: 0 }
+                            direction === 1
+                                ? // thrown off to the side
+                                { x: -440, opacity: 0, rotate: -12 }
+                                : // tucked back into the stack
+                                { y: STACK_OFFSET, scale: 1 - STACK_SCALE, opacity: 0 }
                         }
                         transition={{
                             duration: reduce ? 0 : 0.4,
@@ -341,9 +342,9 @@ function CardFace({
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={flipped ? "back" : "front"}
-                            initial={reduce ? false : { opacity: 0, y: 6 }}
-                            animate={reduce ? undefined : { opacity: 1, y: 0 }}
-                            exit={reduce ? undefined : { opacity: 0, y: -6 }}
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -6 }}
                             transition={{ duration: 0.25 }}
                             className={card.image ? "" : "flex-1"}
                         >
@@ -359,14 +360,21 @@ function CardFace({
                         </motion.div>
                     </AnimatePresence>
                     <motion.span
+                        // `preview` is a prop, identical on server and client, so it
+                        // may decide the rendered props. `reduce` may not — it is
+                        // false during SSR and true on the client, and swapping
+                        // animate between keyframes and undefined changed the
+                        // emitted style. The keyframes stay; reduced motion kills
+                        // the infinite pulse through the transition instead, which
+                        // settles it on its resting 0.65 opacity immediately.
                         animate={
-                            reduce || preview
+                            preview
                                 ? undefined
                                 : { opacity: [0.65, 1, 0.65], scale: [1, 1.03, 1] }
                         }
                         transition={{
-                            duration: 2,
-                            repeat: Infinity,
+                            duration: reduce ? 0 : 2,
+                            repeat: reduce ? 0 : Infinity,
                             ease: "easeInOut",
                         }}
                         className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/25 text-[11px] font-medium text-white tracking-wide"
@@ -429,8 +437,8 @@ function CardFace({
                     </div>
                     {picked !== null && (
                         <motion.p
-                            initial={reduce ? false : { opacity: 0, y: 4 }}
-                            animate={reduce ? undefined : { opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, y: 4 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3 }}
                             className="mt-3 text-[11px] text-white/60 leading-relaxed"
                         >

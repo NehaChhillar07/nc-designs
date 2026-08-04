@@ -21,11 +21,16 @@ export function HandoffTrail({ nodes }: { nodes: readonly string[] }) {
                     return (
                         <span key={node} className="flex items-center gap-2">
                             <motion.span
-                                initial={reduce ? false : { opacity: 0, y: 4 }}
-                                whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                                // Unconditional initial/whileInView: useReducedMotion()
+                                // is false on the server and true on the client for a
+                                // reduced-motion user, so branching the rendered props
+                                // on it is a hydration mismatch. Reduced motion is
+                                // honoured by collapsing duration and delay to 0.
+                                initial={{ opacity: 0, y: 4 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{
-                                    duration: 0.4,
+                                    duration: reduce ? 0 : 0.4,
                                     // Deliberately slow stagger — slowness IS the point
                                     delay: reduce ? 0 : 0.4 + i * 0.4,
                                 }}
@@ -35,11 +40,11 @@ export function HandoffTrail({ nodes }: { nodes: readonly string[] }) {
                             </motion.span>
                             {!isLast && (
                                 <motion.span
-                                    initial={reduce ? false : { opacity: 0 }}
-                                    whileInView={reduce ? undefined : { opacity: 1 }}
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
                                     viewport={{ once: true }}
                                     transition={{
-                                        duration: 0.3,
+                                        duration: reduce ? 0 : 0.3,
                                         delay: reduce ? 0 : 0.4 + i * 0.4 + 0.2,
                                     }}
                                     aria-hidden

@@ -16,8 +16,8 @@ export function StandaloneToEmbedded({
         <div className="my-10">
             {/* HF3 outer shell */}
             <motion.div
-                initial={reduce ? false : { opacity: 0, y: 10 }}
-                whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "0px 0px -100px 0px" }}
                 transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
                 className="rounded-2xl overflow-hidden"
@@ -80,10 +80,8 @@ export function StandaloneToEmbedded({
                         </div>
 
                         <motion.div
-                            initial={reduce ? false : { opacity: 0, scale: 0.96 }}
-                            whileInView={
-                                reduce ? undefined : { opacity: 1, scale: 1 }
-                            }
+                            initial={{ opacity: 0, scale: 0.96 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, margin: "0px 0px -100px 0px" }}
                             transition={{
                                 duration: 0.6,
