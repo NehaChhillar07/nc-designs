@@ -13,7 +13,10 @@ export const firstDesignerEssay: Essay = {
         description:
             "Being the first designer is two jobs wearing one title. You get judged on one of them.",
         url: `${SITE_URL}/writing/first-designer`,
-        ogImage: "/writing/first-designer-cover.png",
+        // Dedicated 1200x630 share card, matching the case studies. Not the cover:
+        // that is 2:1 and would be letterboxed or cropped by every platform.
+        ogImage: "/og/writing-first-designer.png",
+        ogImageAlt: "What being the first designer really costs you - Neha Chhillar",
     },
     title: "What being the first designer really costs you",
     dek: "Being the first designer is two jobs wearing one title. You get judged on one of them.",

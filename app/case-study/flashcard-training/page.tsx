@@ -4,7 +4,7 @@ import { FlashcardTrainingCaseStudy } from "@/components/case-study/flashcard-tr
 import { ExploreMore } from "@/components/explore-more";
 import { Footer } from "@/components/footer";
 import { otherProjects } from "@/data/case-study-data";
-import { SITE_URL } from "@/lib/site";
+import { SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
     title: "Flashcard Training Builder Case Study",
@@ -13,6 +13,8 @@ export const metadata: Metadata = {
         canonical: `${SITE_URL}/case-study/flashcard-training`,
     },
     openGraph: {
+        siteName: SITE_NAME,
+        locale: SITE_LOCALE,
         title: "Flashcard Training Builder: Micro-Training for InfoSec Ventures",
         description: "Designing and building an AI-assisted flashcard training builder that moved course authoring from Customer Success to the customer.",
         type: "article",

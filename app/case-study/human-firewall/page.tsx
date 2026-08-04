@@ -4,7 +4,7 @@ import { HumanFirewallCaseStudy } from "@/components/case-study/human-firewall-c
 import { ExploreMore } from "@/components/explore-more";
 import { Footer } from "@/components/footer";
 import { otherProjects } from "@/data/case-study-data";
-import { SITE_URL } from "@/lib/site";
+import { SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
     title: "Human Firewall Case Study",
@@ -13,6 +13,8 @@ export const metadata: Metadata = {
         canonical: `${SITE_URL}/case-study/human-firewall`,
     },
     openGraph: {
+        siteName: SITE_NAME,
+        locale: SITE_LOCALE,
         title: "Human Firewall: AI-Native Risk Intelligence System",
         description: "Evolving a legacy security platform into an AI-native risk intelligence system for enterprise cybersecurity.",
         type: "article",

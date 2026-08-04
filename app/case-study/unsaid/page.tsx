@@ -5,6 +5,7 @@ import { ExploreMore } from "@/components/explore-more";
 import { Footer } from "@/components/footer";
 import { otherProjects } from "@/data/case-study-data";
 import { unsaidData } from "@/data/unsaid-data";
+import { SITE_LOCALE, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
     title: unsaidData.meta.title,
@@ -13,6 +14,8 @@ export const metadata: Metadata = {
         canonical: unsaidData.meta.url,
     },
     openGraph: {
+        siteName: SITE_NAME,
+        locale: SITE_LOCALE,
         title: unsaidData.meta.ogTitle,
         description: unsaidData.meta.description,
         type: "article",

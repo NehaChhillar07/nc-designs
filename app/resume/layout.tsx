@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/site";
+import { SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
     title: "Resume",
@@ -8,6 +8,8 @@ export const metadata: Metadata = {
         canonical: `${SITE_URL}/resume`,
     },
     openGraph: {
+        siteName: SITE_NAME,
+        locale: SITE_LOCALE,
         title: "Resume | Neha Chhillar - Product Designer",
         description: "Product Designer with 3+ years of experience, two of them in cybersecurity, designing AI-driven SaaS and enterprise platforms. Currently at InfoSec Ventures.",
         type: "profile",

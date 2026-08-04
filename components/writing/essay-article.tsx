@@ -21,6 +21,7 @@ export type Essay = {
         description: string;
         url: string;
         ogImage: string;
+        ogImageAlt: string;
     };
     title: string;
     dek: string;

@@ -563,6 +563,30 @@ html[data-cursor="none"] nav.sticky {
   font-family: var(--font-space-grotesk), sans-serif;
 }
 
+/* Responsive sizes need their own rules. A heading written `md:text-2xl` carries
+   a class literally NAMED "md:text-2xl", so `.text-2xl` above never matches it —
+   which meant a heading that only reaches display size at a breakpoint silently
+   stayed on Inter there. Each block sits inside the matching media query, so the
+   family switches exactly where the size does and small screens are untouched. */
+@media (min-width: 48rem) {
+  .cs-editorial .md\:text-2xl,
+  .cs-editorial .md\:text-3xl,
+  .cs-editorial .md\:text-4xl,
+  .cs-editorial .md\:text-5xl,
+  .cs-editorial .md\:text-6xl {
+    font-family: var(--font-space-grotesk), sans-serif;
+  }
+}
+@media (min-width: 64rem) {
+  .cs-editorial .lg\:text-2xl,
+  .cs-editorial .lg\:text-3xl,
+  .cs-editorial .lg\:text-4xl,
+  .cs-editorial .lg\:text-5xl,
+  .cs-editorial .lg\:text-6xl {
+    font-family: var(--font-space-grotesk), sans-serif;
+  }
+}
+
 /* ============================================
    Performance Optimization Utilities
    ============================================ */
