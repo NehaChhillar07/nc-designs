@@ -89,69 +89,58 @@ function WritingRow({
     onMouseEnter: () => void;
     onMouseLeave: () => void;
 }) {
+    // Only the IMAGE changes sides. Every text element stays left-aligned on every
+    // row, because mirroring the text cost more than the rhythm was worth: a
+    // right-aligned two-line dek gives each line an unpredictable starting edge, so
+    // the eye has to hunt for the start of every line, and the eyebrow ended up
+    // pinned to the far right above the image, detached from the title it labels.
     const content = (
-        <>
-            {/* Eyebrow above the thumbnail */}
-            <p
-                className={`text-[12px] md:text-[13px] font-medium text-gray-500 uppercase tracking-[0.18em] mb-4 ${
-                    reversed ? "lg:text-right" : ""
+        <div className="lg:grid lg:grid-cols-12 lg:items-center">
+            {/* Thumbnail — actual aspect ratio of the file */}
+            <div className={`lg:col-span-7 ${reversed ? "lg:order-2 lg:col-start-6" : ""}`}>
+                <Image
+                    src={post.image}
+                    alt={post.imageAlt}
+                    width={post.imageWidth}
+                    height={post.imageHeight}
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    className="w-full h-auto rounded-2xl border border-black/[0.06] shadow-[0_16px_44px_-20px_rgba(0,0,0,0.28)]"
+                />
+            </div>
+
+            {/* Eyebrow + title + dek + arrow, as one block so the category label sits
+                with the headline it belongs to. The title used to be pulled 128px over
+                the thumbnail (lg:-ml-32 / lg:-mr-32); it is near-black text, so that
+                only read when the cover happened to be light where the title landed,
+                and the area needing to stay light grew as the viewport narrowed
+                (~19% of the source image at 1440, ~26% at 1024) — not a constraint any
+                cover can be designed around. Below lg everything stacks. */}
+            <div
+                className={`relative z-10 mt-6 lg:mt-0 lg:col-span-5 ${
+                    reversed ? "lg:order-1 lg:col-start-1 lg:row-start-1 lg:pr-10" : "lg:pl-10"
                 }`}
             >
-                {post.category}
-            </p>
-
-            <div className="lg:grid lg:grid-cols-12 lg:items-center">
-                {/* Thumbnail — actual aspect ratio of the file */}
-                <div className={`lg:col-span-7 ${reversed ? "lg:order-2 lg:col-start-6" : ""}`}>
-                    <Image
-                        src={post.image}
-                        alt={post.imageAlt}
-                        width={post.imageWidth}
-                        height={post.imageHeight}
-                        sizes="(max-width: 1024px) 100vw, 60vw"
-                        className="w-full h-auto rounded-2xl border border-black/[0.06] shadow-[0_16px_44px_-20px_rgba(0,0,0,0.28)]"
-                    />
-                </div>
-
-                {/* Title + dek + arrow. The title used to be pulled 128px over the
-                    thumbnail (lg:-ml-32 / lg:-mr-32). It is near-black text, so that
-                    only read when the cover happened to be light where the title
-                    landed — and the reserved area grows as the viewport narrows
-                    (~19% of the source image at 1440, ~26% at 1024), which is not a
-                    constraint any cover can be designed around. The title now keeps
-                    to its own column; below lg everything stacks. */}
-                <div
-                    className={`relative z-10 mt-6 lg:mt-0 lg:col-span-5 ${
-                        reversed ? "lg:order-1 lg:col-start-1 lg:row-start-1 lg:pr-10" : "lg:pl-10"
-                    }`}
-                >
-                    <h3
-                        className={`text-[28px] sm:text-[36px] md:text-[44px] font-medium tracking-tight leading-[1.08] text-gray-900 group-hover:text-gray-600 transition-colors ${
-                            reversed ? "lg:text-right" : ""
-                        }`}
-                    >
-                        {post.title}
-                    </h3>
-                    <div
-                        className={`mt-6 md:mt-8 flex items-start gap-5 ${
-                            reversed ? "lg:flex-row-reverse lg:text-right" : ""
-                        }`}
-                    >
-                        <span className="shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-900 group-hover:border-gray-900">
-                            <ArrowRight className="w-5 h-5 text-gray-600 transition-colors duration-300 group-hover:text-white" />
-                        </span>
-                        <div>
-                            <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
-                                {post.description}
-                            </p>
-                            {post.readingTime && !post.comingSoon && (
-                                <p className="mt-3 text-sm font-medium text-gray-500">{post.readingTime}</p>
-                            )}
-                        </div>
+                <p className="text-[12px] md:text-[13px] font-medium text-gray-500 uppercase tracking-[0.18em] mb-4">
+                    {post.category}
+                </p>
+                <h3 className="text-[28px] sm:text-[36px] md:text-[44px] font-medium tracking-tight leading-[1.08] text-gray-900 group-hover:text-gray-600 transition-colors">
+                    {post.title}
+                </h3>
+                <div className="mt-6 md:mt-8 flex items-start gap-5">
+                    <span className="shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-900 group-hover:border-gray-900">
+                        <ArrowRight className="w-5 h-5 text-gray-600 transition-colors duration-300 group-hover:text-white" />
+                    </span>
+                    <div>
+                        <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
+                            {post.description}
+                        </p>
+                        {post.readingTime && !post.comingSoon && (
+                            <p className="mt-3 text-sm font-medium text-gray-500">{post.readingTime}</p>
+                        )}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 
     return (
