@@ -10,11 +10,22 @@ import { useCursor } from "@/components/ui/cursor-context";
 import { writingsData, type WritingPost } from "@/data/writings-data";
 
 // ============================================
-// Editorial zigzag rows for writing: category eyebrow above a large
-// thumbnail, big title overlapping the image edge, dek + circular arrow on
-// the other side. Rows alternate image left/right by index. Thumbnails keep
-// their file's actual aspect ratio. Restrained motion budget: fade-up on
-// scroll, title shade + arrow-circle fill on hover, read-time cursor tag.
+// Writing index — a grid of compact cards, three across on desktop.
+//
+// This replaced full-width alternating rows, which spent a whole screen on a
+// single post and would not have scaled past a handful. Cards keep the cover in
+// its own frame with the title and dek underneath, rather than overlaying the
+// title on the artwork: these covers are themselves typographic (numbered
+// lists, pull quotes), so a headline on top would stack type on type and dim
+// the art behind a scrim.
+//
+// Covers are letterboxed inside a fixed 2:1 frame rather than cropped to fill.
+// The two current files are 2.14:1 and 1.875:1 and any crop tight enough to
+// unify them would clip artwork that runs close to the edge — and every future
+// cover would inherit that constraint.
+//
+// Restrained motion budget: fade-up on scroll, cloudy bloom + shadow lift on
+// hover, title shade, and the read-time cursor tag.
 // ============================================
 
 const fadeUp = {
@@ -60,15 +71,13 @@ export function WritingsSection() {
                 </Highlighter>
                 {after}
             </motion.h2>
-            {/* Rows — image alternates left/right by index, unless a post sets
-                `reversed` explicitly. The override exists so reordering posts
-                (newest first) does not silently flip an existing row. */}
-            <div className="mt-14 md:mt-20 space-y-20 md:space-y-28">
+            {/* Newest first — array order is display order, there is no sort. */}
+            <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 md:mt-16 lg:grid-cols-3">
                 {posts.map((post, index) => (
-                    <WritingRow
+                    <WritingCard
                         key={post.id}
                         post={post}
-                        reversed={post.reversed ?? index % 2 === 1}
+                        index={index}
                         onMouseEnter={() => handleMouseEnter(post)}
                         onMouseLeave={resetCursor}
                     />
@@ -78,90 +87,88 @@ export function WritingsSection() {
     );
 }
 
-function WritingRow({
+function WritingCard({
     post,
-    reversed,
+    index,
     onMouseEnter,
     onMouseLeave,
 }: {
     post: WritingPost;
-    reversed: boolean;
+    index: number;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
 }) {
-    // Only the IMAGE changes sides. Every text element stays left-aligned on every
-    // row, because mirroring the text cost more than the rhythm was worth: a
-    // right-aligned two-line dek gives each line an unpredictable starting edge, so
-    // the eye has to hunt for the start of every line, and the eyebrow ended up
-    // pinned to the far right above the image, detached from the title it labels.
     const content = (
-        <div className="relative lg:grid lg:grid-cols-12 lg:items-center">
+        <div className="relative h-full">
             {/* Hover bloom — one soft cloud behind BOTH the cover and the text, so the
-                whole row lifts as a single object rather than the image alone. Sits on
-                its own layer under the content and is inert to the pointer. The long
-                ease is the interaction: it drifts in rather than snapping. Reduced
-                motion is handled globally in globals.css, which clamps every
-                transition-duration, so this becomes instant for those users. */}
+                card lifts as a single object rather than the image alone. Its own layer
+                under the content, inert to the pointer. The long ease is the
+                interaction: it drifts in rather than snapping. z-0 with the content at
+                z-10, never a negative z-index, which would drop it behind the page
+                background and render nothing. Reduced motion is handled globally in
+                globals.css, which clamps every transition-duration. */}
             <div
                 aria-hidden
-                className="pointer-events-none absolute -inset-x-6 -inset-y-10 z-0 rounded-[48px] opacity-0 blur-2xl transition-opacity duration-700 ease-out group-hover:opacity-100 md:-inset-x-12 md:-inset-y-14"
+                className="pointer-events-none absolute -inset-5 z-0 rounded-[36px] opacity-0 blur-2xl transition-opacity duration-700 ease-out group-hover:opacity-100"
                 style={{
                     background:
-                        "radial-gradient(58% 58% at 50% 50%, rgba(16,24,40,0.16) 0%, rgba(16,24,40,0.07) 45%, rgba(16,24,40,0) 78%)",
+                        "radial-gradient(60% 60% at 50% 50%, rgba(16,24,40,0.18) 0%, rgba(16,24,40,0.08) 45%, rgba(16,24,40,0) 78%)",
                 }}
             />
 
-            {/* Thumbnail — actual aspect ratio of the file */}
-            <div className={`relative z-10 lg:col-span-7 ${reversed ? "lg:order-2 lg:col-start-6" : ""}`}>
-                <Image
-                    src={post.image}
-                    alt={post.imageAlt}
-                    width={post.imageWidth}
-                    height={post.imageHeight}
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    className="w-full h-auto rounded-2xl border border-black/[0.06] shadow-[0_16px_44px_-20px_rgba(0,0,0,0.28)] transition-shadow duration-700 ease-out group-hover:shadow-[0_40px_100px_-30px_rgba(16,24,40,0.42)]"
-                />
-            </div>
+            <div className="relative z-10 flex h-full flex-col">
+                {/* Fixed 2:1 slot so every card's text starts on the same line, but the
+                    frame — corners, border, shadow — lives on the ARTWORK, not on the
+                    slot. Covers differ in ratio (2.14:1 and 1.875:1 today), so a framed
+                    slot would show empty letterbox bands inside its own border. Centring
+                    the art in a transparent slot lets those bands fall on page white and
+                    disappear, while cards still align. Contained, never cropped: the
+                    artwork runs close to its edges and any crop tight enough to unify
+                    differing ratios would clip it. */}
+                <div className="flex aspect-[2/1] items-center justify-center">
+                    <Image
+                        src={post.image}
+                        alt={post.imageAlt}
+                        width={post.imageWidth}
+                        height={post.imageHeight}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="max-h-full w-auto max-w-full rounded-2xl border border-black/[0.06] shadow-[0_10px_30px_-16px_rgba(16,24,40,0.28)] transition-shadow duration-700 ease-out group-hover:shadow-[0_30px_70px_-24px_rgba(16,24,40,0.42)]"
+                        priority={index < 3}
+                    />
+                </div>
 
-            {/* Eyebrow + title + dek + arrow, as one block so the category label sits
-                with the headline it belongs to. The title used to be pulled 128px over
-                the thumbnail (lg:-ml-32 / lg:-mr-32); it is near-black text, so that
-                only read when the cover happened to be light where the title landed,
-                and the area needing to stay light grew as the viewport narrowed
-                (~19% of the source image at 1440, ~26% at 1024) — not a constraint any
-                cover can be designed around. Below lg everything stacks. */}
-            <div
-                className={`relative z-10 mt-6 lg:mt-0 lg:col-span-5 ${
-                    reversed ? "lg:order-1 lg:col-start-1 lg:row-start-1 lg:pr-10" : "lg:pl-10"
-                }`}
-            >
-                {/* Title and dek only. The category eyebrow and the read-time line are
-                    deliberately not rendered — `category` and `readingTime` stay on the
-                    data because the hover cursor still reads readingTime for its tag. */}
-                <h3 className="text-[28px] sm:text-[36px] md:text-[44px] font-medium tracking-tight leading-[1.08] text-gray-900 group-hover:text-gray-600 transition-colors">
+                <h3 className="mt-6 text-[21px] md:text-[23px] font-medium tracking-tight leading-[1.18] text-gray-900 transition-colors group-hover:text-gray-600">
                     {post.title}
                 </h3>
-                <div className="mt-6 md:mt-8 flex items-start gap-5">
-                    <span className="shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-900 group-hover:border-gray-900">
-                        <ArrowRight className="w-5 h-5 text-gray-600 transition-colors duration-300 group-hover:text-white" />
-                    </span>
-                    <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
-                        {post.description}
-                    </p>
-                </div>
+                <p className="mt-3 text-[15px] md:text-base text-gray-600 leading-relaxed">
+                    {post.description}
+                </p>
+
+                {/* Pushed to the bottom so the arrow lines up across cards whose titles
+                    and deks run to different lengths. */}
+                <span className="mt-auto flex items-center gap-2 pt-6 text-sm font-medium text-gray-500 transition-colors group-hover:text-gray-900">
+                    {post.comingSoon ? writingsData.comingSoonLabel : writingsData.readFallbackLabel}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+                </span>
             </div>
         </div>
     );
 
     return (
-        <motion.div {...fadeUp} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <motion.div
+            {...fadeUp}
+            transition={{ ...fadeUp.transition, delay: Math.min(index, 3) * 0.06 }}
+            className="h-full"
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+        >
             {post.link ? (
-                <Link href={post.link} className="block group">
+                <Link href={post.link} className="group block h-full">
                     {content}
                 </Link>
             ) : (
-                // No `group`: coming-soon rows stay inert since nothing is clickable
-                <div>{content}</div>
+                // No `group`: coming-soon cards stay inert since nothing is clickable
+                <div className="h-full">{content}</div>
             )}
         </motion.div>
     );

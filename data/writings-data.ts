@@ -20,10 +20,6 @@ export type WritingPost = {
     readingTime?: string; // e.g. "3 min read" — only on published posts
     link?: string; // external URL or internal path; omit while comingSoon
     comingSoon?: boolean;
-    // Which side the thumbnail sits on at lg+. Omit to alternate automatically by
-    // position. Set it when adding a post above an existing one, so the older row
-    // keeps the orientation it already had instead of flipping.
-    reversed?: boolean;
 };
 
 export const writingsData = {
@@ -46,7 +42,6 @@ export const writingsData = {
             imageHeight: 1280,
             readingTime: "4 min read",
             link: "/writing/where-is-the-deliverability",
-            reversed: true, // thumbnail right, so first-designer below keeps thumbnail left
         },
         {
             id: "first-designer",
@@ -61,7 +56,6 @@ export const writingsData = {
             imageHeight: 1120,
             readingTime: "3 min read",
             link: "/writing/first-designer",
-            reversed: false, // pinned: the layout this row has always had
         },
     ] as WritingPost[],
 };
