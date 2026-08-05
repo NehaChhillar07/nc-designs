@@ -11,7 +11,7 @@ export const whereIsTheDeliverabilityEssay: Essay = {
     meta: {
         title: "Where is the deliverability?",
         description:
-            "AI made starting easy. Delivering still comes down to three things nobody can skip.",
+            "AI made starting easy. But did it make delivering easy? Still three things nobody can skip.",
         url: `${SITE_URL}/writing/where-is-the-deliverability`,
         // Dedicated 1200x630 share card, matching the case studies. Not the cover:
         // that is 2:1 and would be letterboxed or cropped by every platform.
@@ -19,7 +19,7 @@ export const whereIsTheDeliverabilityEssay: Essay = {
         ogImageAlt: "Where is the deliverability? - Neha Chhillar",
     },
     title: "Where is the deliverability?",
-    dek: "AI made starting easy. Delivering still comes down to three things nobody can skip.",
+    dek: "AI made starting easy. But did it make delivering easy? Still three things nobody can skip.",
     dateISO: "2026-08-02",
     dateDisplay: "August 2, 2026",
     readTime: "4 min read",

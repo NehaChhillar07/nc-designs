@@ -38,7 +38,7 @@ export const writingsData = {
             title: "Where is the deliverability?",
             category: "AI",
             description:
-                "AI made starting easy. Delivering still comes down to three things nobody can skip.",
+                "AI made starting easy. But did it make delivering easy? Still three things nobody can skip.",
             image: "/writing/where-is-the-deliverability-cover.png",
             imageAlt:
                 "A dark navy card headed \"What you cannot skip\", listing 01 Topic, 02 Solution and 03 Testing, with an arrow pointing to the word \"Delivered.\" in orange.",

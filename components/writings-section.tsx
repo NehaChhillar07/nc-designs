@@ -95,16 +95,31 @@ function WritingRow({
     // the eye has to hunt for the start of every line, and the eyebrow ended up
     // pinned to the far right above the image, detached from the title it labels.
     const content = (
-        <div className="lg:grid lg:grid-cols-12 lg:items-center">
+        <div className="relative lg:grid lg:grid-cols-12 lg:items-center">
+            {/* Hover bloom — one soft cloud behind BOTH the cover and the text, so the
+                whole row lifts as a single object rather than the image alone. Sits on
+                its own layer under the content and is inert to the pointer. The long
+                ease is the interaction: it drifts in rather than snapping. Reduced
+                motion is handled globally in globals.css, which clamps every
+                transition-duration, so this becomes instant for those users. */}
+            <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-x-6 -inset-y-10 z-0 rounded-[48px] opacity-0 blur-2xl transition-opacity duration-700 ease-out group-hover:opacity-100 md:-inset-x-12 md:-inset-y-14"
+                style={{
+                    background:
+                        "radial-gradient(58% 58% at 50% 50%, rgba(16,24,40,0.16) 0%, rgba(16,24,40,0.07) 45%, rgba(16,24,40,0) 78%)",
+                }}
+            />
+
             {/* Thumbnail — actual aspect ratio of the file */}
-            <div className={`lg:col-span-7 ${reversed ? "lg:order-2 lg:col-start-6" : ""}`}>
+            <div className={`relative z-10 lg:col-span-7 ${reversed ? "lg:order-2 lg:col-start-6" : ""}`}>
                 <Image
                     src={post.image}
                     alt={post.imageAlt}
                     width={post.imageWidth}
                     height={post.imageHeight}
                     sizes="(max-width: 1024px) 100vw, 60vw"
-                    className="w-full h-auto rounded-2xl border border-black/[0.06] shadow-[0_16px_44px_-20px_rgba(0,0,0,0.28)]"
+                    className="w-full h-auto rounded-2xl border border-black/[0.06] shadow-[0_16px_44px_-20px_rgba(0,0,0,0.28)] transition-shadow duration-700 ease-out group-hover:shadow-[0_40px_100px_-30px_rgba(16,24,40,0.42)]"
                 />
             </div>
 
@@ -120,9 +135,9 @@ function WritingRow({
                     reversed ? "lg:order-1 lg:col-start-1 lg:row-start-1 lg:pr-10" : "lg:pl-10"
                 }`}
             >
-                <p className="text-[12px] md:text-[13px] font-medium text-gray-500 uppercase tracking-[0.18em] mb-4">
-                    {post.category}
-                </p>
+                {/* Title and dek only. The category eyebrow and the read-time line are
+                    deliberately not rendered — `category` and `readingTime` stay on the
+                    data because the hover cursor still reads readingTime for its tag. */}
                 <h3 className="text-[28px] sm:text-[36px] md:text-[44px] font-medium tracking-tight leading-[1.08] text-gray-900 group-hover:text-gray-600 transition-colors">
                     {post.title}
                 </h3>
@@ -130,14 +145,9 @@ function WritingRow({
                     <span className="shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center transition-colors duration-300 group-hover:bg-gray-900 group-hover:border-gray-900">
                         <ArrowRight className="w-5 h-5 text-gray-600 transition-colors duration-300 group-hover:text-white" />
                     </span>
-                    <div>
-                        <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
-                            {post.description}
-                        </p>
-                        {post.readingTime && !post.comingSoon && (
-                            <p className="mt-3 text-sm font-medium text-gray-500">{post.readingTime}</p>
-                        )}
-                    </div>
+                    <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md">
+                        {post.description}
+                    </p>
                 </div>
             </div>
         </div>
