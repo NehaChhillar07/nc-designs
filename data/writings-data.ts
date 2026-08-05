@@ -35,11 +35,11 @@ export const writingsData = {
             category: "AI",
             description:
                 "AI made starting easy. But did it make delivering easy? Still three things nobody can skip.",
-            image: "/writing/where-is-the-deliverability-cover.png",
+            image: "/writing/where-is-the-deliverability-cover-square.png",
             imageAlt:
                 "A dark navy card headed \"What you cannot skip\", listing 01 Topic, 02 Solution and 03 Testing, with an arrow pointing to the word \"Delivered.\" in orange.",
             imageWidth: 2400,
-            imageHeight: 1280,
+            imageHeight: 2400,
             readingTime: "4 min read",
             link: "/writing/where-is-the-deliverability",
         },
@@ -49,11 +49,11 @@ export const writingsData = {
             category: "Career",
             description:
                 "Being the first designer is two jobs wearing one title. You get judged on one of them.",
-            image: "/writing/first-designer-cover.png",
+            image: "/writing/first-designer-cover-square.png",
             imageAlt:
                 "A solid navy card reading \"The job you're hired for.\" next to gray text fading out that reads \"The job nobody names.\"",
             imageWidth: 2400,
-            imageHeight: 1120,
+            imageHeight: 2400,
             readingTime: "3 min read",
             link: "/writing/first-designer",
         },

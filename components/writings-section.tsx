@@ -72,7 +72,7 @@ export function WritingsSection() {
                 {after}
             </motion.h2>
             {/* Newest first — array order is display order, there is no sort. */}
-            <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 md:mt-16 lg:grid-cols-3">
+            <div className="mt-14 grid gap-x-10 gap-y-16 sm:grid-cols-2 md:mt-16 md:gap-x-14 md:gap-y-20 lg:grid-cols-3 lg:gap-x-16">
                 {posts.map((post, index) => (
                     <WritingCard
                         key={post.id}
@@ -117,22 +117,15 @@ function WritingCard({
             />
 
             <div className="relative z-10 flex h-full flex-col">
-                {/* Fixed 2:1 slot so every card's text starts on the same line, but the
-                    frame — corners, border, shadow — lives on the ARTWORK, not on the
-                    slot. Covers differ in ratio (2.14:1 and 1.875:1 today), so a framed
-                    slot would show empty letterbox bands inside its own border. Centring
-                    the art in a transparent slot lets those bands fall on page white and
-                    disappear, while cards still align. Contained, never cropped: the
-                    artwork runs close to its edges and any crop tight enough to unify
-                    differing ratios would clip it. */}
-                <div className="flex aspect-[2/1] items-center justify-center">
+                {/* Square cover slot, identical on every card. The artwork fills it
+                    (object-cover), so the frame lives on the slot again. */}
+                <div className="relative aspect-square overflow-hidden rounded-2xl border border-black/[0.06] bg-gray-50 shadow-[0_10px_30px_-16px_rgba(16,24,40,0.28)] transition-shadow duration-700 ease-out group-hover:shadow-[0_30px_70px_-24px_rgba(16,24,40,0.42)]">
                     <Image
                         src={post.image}
                         alt={post.imageAlt}
-                        width={post.imageWidth}
-                        height={post.imageHeight}
+                        fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="max-h-full w-auto max-w-full rounded-2xl border border-black/[0.06] shadow-[0_10px_30px_-16px_rgba(16,24,40,0.28)] transition-shadow duration-700 ease-out group-hover:shadow-[0_30px_70px_-24px_rgba(16,24,40,0.42)]"
+                        className="object-cover"
                         priority={index < 3}
                     />
                 </div>
