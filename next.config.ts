@@ -1,8 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable static exports for faster serving
-  output: "standalone",
+  // No `output` mode on purpose. "standalone" is for containerised self-hosting
+  // (see Next's deploying guide: it exists to build a minimal Docker image) and
+  // it never did anything for this site, which deploys to Vercel and lets Vercel
+  // produce its own output. It was previously set here labelled "static exports",
+  // which it is not. From Next 16.3 it actively breaks the Vercel build:
+  //   ENOENT: .next/next-server.js.nft.json
+  // Do not re-add it unless this site starts shipping in a container.
 
   // Compress responses
   compress: true,
