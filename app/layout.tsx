@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | Neha Chhillar",
   },
   description: "Product Designer specialising in security and AI-native B2B SaaS.",
-  keywords: ["Product Designer", "UX Designer", "Cybersecurity", "AI", "SaaS", "InfoSec Ventures", "Dubai"],
+  keywords: ["Product Designer", "UX Designer", "Cybersecurity", "AI", "SaaS", "Dubai"],
   authors: [{ name: "Neha Chhillar" }],
   creator: "Neha Chhillar",
   // Every other route sets its own canonical; without this the homepage emitted
