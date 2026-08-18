@@ -78,10 +78,10 @@ export default function Home() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
               <div className="w-[36px] h-[61px] sm:w-[52px] sm:h-[88px] md:w-[66px] md:h-[112px] lg:w-[76px] lg:h-[129px] rounded-full overflow-hidden shadow-2xl transition-transform duration-300 hover:scale-110">
                 <Image
-                  src="/logo.jpeg"
+                  src="/hero-portrait.jpg"
                   alt="Neha Chhillar"
-                  width={252}
-                  height={426}
+                  width={600}
+                  height={1020}
                   // Mirrors the wrapper's responsive widths above. Without this the
                   // browser assumes 100vw and pulls a candidate far larger than the
                   // 36-76px this ever renders at, on the highest-priority image of
