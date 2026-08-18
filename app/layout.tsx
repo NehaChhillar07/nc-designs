@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     default: "Neha Chhillar - Product Designer",
     template: "%s | Neha Chhillar",
   },
-  description: "Product Designer at InfoSec Ventures, designing AI-driven systems and end-to-end experiences for global cybersecurity solutions.",
+  description: "Product Designer specialising in security and AI-native B2B SaaS.",
   keywords: ["Product Designer", "UX Designer", "Cybersecurity", "AI", "SaaS", "InfoSec Ventures", "Dubai"],
   authors: [{ name: "Neha Chhillar" }],
   creator: "Neha Chhillar",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Neha Chhillar - Product Designer",
-    description: "Product Designer at InfoSec Ventures, designing AI-driven systems and end-to-end experiences for global cybersecurity solutions.",
+    description: "Product Designer specialising in security and AI-native B2B SaaS.",
     type: "website",
     url: SITE_URL,
     siteName: "Neha Chhillar Portfolio",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "Neha Chhillar - Product Designer",
-    description: "Product Designer at InfoSec Ventures, designing AI-driven systems for cybersecurity.",
+    description: "Product Designer specialising in security and AI-native B2B SaaS.",
     images: ["/logo.jpeg"],
   },
   robots: {
