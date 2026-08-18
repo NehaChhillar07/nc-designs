@@ -40,7 +40,24 @@ function FlashcardHighlightBlock() {
 // Blur placeholder for smooth image loading (prevents whitespace)
 const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEEA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
 
-const projects = [
+// Shape is declared rather than inferred: no live project sets `roleTag` today,
+// so an inferred type would drop the field and break the conditional render
+// below. The commented-out projects still carry it, and it comes back the
+// moment any entry sets one again.
+type Project = {
+    id: number;
+    title: string;
+    category: string;
+    description: string;
+    image: string;
+    tags: string[];
+    caseStudyLink: string;
+    buttonText: string;
+    readingTime: string;
+    roleTag?: string;
+};
+
+const projects: Project[] = [
     {
         id: 1,
         title: "Designing a Human Firewall Platform to Reduce Enterprise Human Risk",
@@ -52,7 +69,6 @@ const projects = [
         caseStudyLink: "/case-study/human-firewall",
         buttonText: "Read case study",
         readingTime: "8 mins",
-        roleTag: "@ Current Role",
     },
     {
         id: 5,
@@ -65,7 +81,6 @@ const projects = [
         caseStudyLink: "/case-study/flashcard-training",
         buttonText: "Read case study",
         readingTime: "6 mins",
-        roleTag: "@ Current Role",
     },
     {
         id: 2,
@@ -78,7 +93,6 @@ const projects = [
         caseStudyLink: "/case-study/ecrime-hub",
         buttonText: "Read case study",
         readingTime: "4 mins",
-        roleTag: "@ Current Role",
     },
     /* Commented out for now — restore when case studies are ready.
     {
