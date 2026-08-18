@@ -47,7 +47,7 @@ export function AboutSection() {
                     runs continuously from the top paragraph to the last word */}
                 <MagicText
                     text={[
-                        "Two years of designing in cybersecurity. Phishing simulations, security awareness, risk scoring, and admin workflows for security teams.",
+                        "Designing in cybersecurity. Phishing simulations, security awareness, risk scoring, and admin workflows for security teams.",
                         "I prefer understanding things before reacting. I like noticing patterns, sitting with unclear ideas, and bringing structure to chaos. Messy problems don't overwhelm me. They make me curious.",
                         "I learn through experiments rather than theory. Trying things and seeing what actually works matters more to me than assumptions. Outside work, I spend a lot of time with my dog, June. Being around her quietly, without words, is where I slow down and observe. That mindset shapes how I think about people and systems.",
                     ]}
