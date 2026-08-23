@@ -104,12 +104,20 @@ export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
             <Button variant="outline" size="sm" asChild className="text-xs md:text-sm bg-white/80 backdrop-blur-sm">
               <Link href="/resume">Resume</Link>
             </Button>
-            <Button
-              size="sm"
-              className="text-xs md:text-sm"
-              onClick={() => setConnectOpen(true)}
-            >
-              Connect
+            {/* A real link, not a bare click handler: crawlers, a visitor with
+                JS off, and open-in-new-tab all land on the footer's email CTA
+                at #connect. On a plain click, the overlay takes over instead. */}
+            <Button size="sm" asChild className="text-xs md:text-sm">
+              <Link
+                href="/#connect"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  setConnectOpen(true);
+                }}
+              >
+                Connect
+              </Link>
             </Button>
 
             {/* Mobile Hamburger Menu Button */}

@@ -8,7 +8,8 @@ export const flashcardTrainingCaseStudyData = {
     // Hero Section
     hero: {
         meta: "Micro-Training · InfoSec Ventures",
-        title: "Moving security training out of a service queue and into the customer's hands",
+        title: "Built in Cursor. Engineering shipped the code.",
+        subtitle: "Moving security training out of a service queue and into the customer's hands",
         tags: "Enterprise SaaS · Cybersecurity · AI-Native Workflows",
         timeline: "2025",
         team: "Product, Eng, CS, Graphics",

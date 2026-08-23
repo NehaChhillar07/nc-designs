@@ -7,7 +7,8 @@ export const humanFirewallCaseStudyData = {
     // Hero Section
     hero: {
         meta: "Human Firewall · InfoSec Ventures",
-        title: "Evolving a legacy security platform into an AI-native risk intelligence system",
+        title: "A risk score nobody trusted.",
+        subtitle: "Rebuilding a 10-year-old security platform into an AI-native one, as the only designer.",
         tags: "Enterprise SaaS · Cybersecurity · AI-Assisted Design",
         timeline: "2024 to Q1 2026",
         team: "Product, Eng, CS",

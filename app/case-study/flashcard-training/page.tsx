@@ -8,14 +8,14 @@ import { SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
     title: "Flashcard Training Builder Case Study",
-    description: "Moving security training out of a service queue and into the customer's hands. Designing and building an AI-assisted flashcard training builder for InfoSec Ventures.",
+    description: "Moving security training out of a service queue and into the customer's hands. Designing and building an AI-assisted flashcard training builder inside an enterprise security platform.",
     alternates: {
         canonical: `${SITE_URL}/case-study/flashcard-training`,
     },
     openGraph: {
         siteName: SITE_NAME,
         locale: SITE_LOCALE,
-        title: "Flashcard Training Builder: Micro-Training for InfoSec Ventures",
+        title: "Flashcard Training Builder: Micro-Training Inside a Security Platform",
         description: "Designing and building an AI-assisted flashcard training builder that moved course authoring from Customer Success to the customer.",
         type: "article",
         url: `${SITE_URL}/case-study/flashcard-training`,

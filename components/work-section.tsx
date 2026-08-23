@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useCursor } from "@/components/ui/cursor-context";
 import { scrollToSection } from "@/lib/scroll-to-section";
 import { HeroCardFan } from "@/components/case-study/flashcard/HeroCardFan";
@@ -60,10 +61,10 @@ type Project = {
 const projects: Project[] = [
     {
         id: 1,
-        title: "Designing a Human Firewall Platform to Reduce Enterprise Human Risk",
+        title: "A risk score nobody trusted.\nThree versions later, engagement up 48%.",
         category: "Enterprise cybersecurity SaaS · Admin-heavy workflows",
         description:
-            "End-to-End UX Architecture for Phishing Simulations, Training & AI-Assisted Risk Insights",
+            "The AI-native rebuild of a 10-year-old security platform. Solo designer, 100+ enterprise clients, 10 migrated in beta.",
         image: "/work/1st-case study/humanfirewall cover cropped.png",
         tags: [],
         caseStudyLink: "/case-study/human-firewall",
@@ -72,10 +73,10 @@ const projects: Project[] = [
     },
     {
         id: 5,
-        title: "A flashcard training builder that\nships to any LMS",
+        title: "Built in Cursor.\nEngineering shipped the code.",
         category: "Internal tool · AI-native workflow · Enterprise training",
         description:
-            "Built as a module inside Human Firewall to replace boring security training. Type a topic, generate a card pack, ship it anywhere.",
+            "An AI micro-learning builder inside Human Firewall. Type a topic, get a card pack, ship it to any LMS.",
         image: "/work/1st-case study/humanfirewall cover cropped.png",
         tags: [],
         caseStudyLink: "/case-study/flashcard-training",
@@ -163,10 +164,19 @@ export function WorkSection() {
             const mm = gsap.matchMedia();
 
             mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
-                // Set initial state - first image visible, others hidden
+                // Set initial state - first image visible, others hidden.
+                // The covers are stacked absolutely, so the last one in DOM order
+                // sits on top and would swallow clicks meant for the visible cover
+                // even at opacity 0. pointer-events follows visibility instead.
+                const setClickableCover = (activeIndex: number) => {
+                    images.forEach((img, i) => {
+                        img.style.pointerEvents = i === activeIndex ? "auto" : "none";
+                    });
+                };
                 images.forEach((img, i) => {
                     gsap.set(img, { opacity: i === 0 ? 1 : 0 });
                 });
+                setClickableCover(0);
 
                 // Pin the image container throughout the section scroll
                 ScrollTrigger.create({
@@ -252,9 +262,15 @@ export function WorkSection() {
                         end: "bottom center",
                         onUpdate: (self) => applyFill(self.progress),
                         onRefresh: (self) => applyFill(self.progress),
-                        onEnter: () => setCursor("tag", project.readingTime),
+                        onEnter: () => {
+                            setCursor("tag", project.readingTime);
+                            setClickableCover(index);
+                        },
                         onLeave: isLastProject ? () => resetCursor() : undefined,
-                        onEnterBack: () => setCursor("tag", project.readingTime),
+                        onEnterBack: () => {
+                            setCursor("tag", project.readingTime);
+                            setClickableCover(index);
+                        },
                         onLeaveBack: isFirstProject ? () => resetCursor() : undefined,
                     });
                 });
@@ -264,6 +280,7 @@ export function WorkSection() {
             mm.add("(max-width: 1023px), (prefers-reduced-motion: reduce)", () => {
                 images.forEach((img) => {
                     gsap.set(img, { opacity: 1 });
+                    img.style.pointerEvents = "auto";
                 });
             });
         }, sectionRef);
@@ -315,154 +332,181 @@ export function WorkSection() {
             <div className="lg:grid lg:grid-cols-2 lg:gap-16">
                 {/* LEFT COLUMN - Scrolling text content */}
                 <div className="relative">
-                    {projects.map((project, index) => (
-                        <div
-                            key={project.id}
-                            id={blockId(index)}
-                            ref={(el) => addToTextBlocksRef(el, index)}
-                            className="min-h-screen flex flex-col justify-center py-16 md:py-24 scroll-mt-4"
-                        >
-                            {/* Mobile Image */}
-                            <div className="lg:hidden mb-8 rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '4/3' }}>
-                                {project.id === FLASHCARD_PROJECT_ID ? (
-                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-950 flex items-center justify-center p-6">
-                                        <div
-                                            aria-hidden
-                                            className="pointer-events-none absolute inset-0 flex items-center justify-center"
-                                        >
+                    {projects.map((project, index) => {
+                        // The entire block is the link target, not just the CTA —
+                        // same behaviour as the Writings cards. Everything inside
+                        // is therefore plain markup: a second anchor nested in this
+                        // one would be un-nested by the HTML parser.
+                        const block = (
+                            <>
+                                {/* Mobile Image */}
+                                <div className="lg:hidden mb-8 rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '4/3' }}>
+                                    {project.id === FLASHCARD_PROJECT_ID ? (
+                                        <div className="relative w-full h-full bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-950 flex items-center justify-center p-6">
                                             <div
-                                                className="w-[380px] h-[380px] rounded-full blur-3xl"
-                                                style={{
-                                                    background:
-                                                        "radial-gradient(circle, rgba(255,215,154,0.22) 0%, rgba(255,152,0,0.12) 42%, transparent 70%)",
-                                                }}
+                                                aria-hidden
+                                                className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                            >
+                                                <div
+                                                    className="w-[380px] h-[380px] rounded-full blur-3xl"
+                                                    style={{
+                                                        background:
+                                                            "radial-gradient(circle, rgba(255,215,154,0.22) 0%, rgba(255,152,0,0.12) 42%, transparent 70%)",
+                                                    }}
+                                                />
+                                            </div>
+                                            <FlashcardHighlightBlock />
+                                            <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
+                                        </div>
+                                    ) : project.id === HF_PROJECT_ID ? (
+                                        <div className="relative w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black flex items-center justify-center p-6 overflow-hidden">
+                                            <div
+                                                aria-hidden
+                                                className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                            >
+                                                <div
+                                                    className="w-[480px] h-[480px] rounded-full blur-3xl"
+                                                    style={{
+                                                        background:
+                                                            "radial-gradient(circle, rgba(255,152,0,0.55) 0%, rgba(255,215,154,0.3) 45%, transparent 72%)",
+                                                    }}
+                                                />
+                                            </div>
+                                            <Image
+                                                src={project.image}
+                                                alt={project.title}
+                                                width={2693}
+                                                height={1644}
+                                                className="relative w-full h-auto rounded-lg border border-white/15 shadow-2xl"
+                                                priority={index < 2}
+                                                // Every cover is in the DOM twice: this mobile block and
+                                                // the sticky desktop stack below. display:none does not
+                                                // stop the fetch, so without a breakpoint-aware sizes the
+                                                // browser resolves the hidden copy at its 100vw default
+                                                // and downloads a full-size file nobody sees. 1px above
+                                                // lg parks it on the smallest srcset candidate instead.
+                                                sizes="(min-width: 1024px) 1px, 100vw"
+                                                loading={index < 2 ? "eager" : "lazy"}
                                             />
                                         </div>
-                                        <FlashcardHighlightBlock />
-                                        <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
-                                    </div>
-                                ) : project.id === HF_PROJECT_ID ? (
-                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black flex items-center justify-center p-6 overflow-hidden">
-                                        <div
-                                            aria-hidden
-                                            className="pointer-events-none absolute inset-0 flex items-center justify-center"
-                                        >
-                                            <div
-                                                className="w-[480px] h-[480px] rounded-full blur-3xl"
-                                                style={{
-                                                    background:
-                                                        "radial-gradient(circle, rgba(255,152,0,0.55) 0%, rgba(255,215,154,0.3) 45%, transparent 72%)",
-                                                }}
-                                            />
-                                        </div>
+                                    ) : (
                                         <Image
                                             src={project.image}
                                             alt={project.title}
-                                            width={2693}
-                                            height={1644}
-                                            className="relative w-full h-auto rounded-lg border border-white/15 shadow-2xl"
+                                            width={800}
+                                            height={600}
+                                            className="w-full h-full object-cover"
                                             priority={index < 2}
-                                            // Every cover is in the DOM twice: this mobile block and
-                                            // the sticky desktop stack below. display:none does not
-                                            // stop the fetch, so without a breakpoint-aware sizes the
-                                            // browser resolves the hidden copy at its 100vw default
-                                            // and downloads a full-size file nobody sees. 1px above
-                                            // lg parks it on the smallest srcset candidate instead.
+                                            placeholder="blur"
+                                            blurDataURL={BLUR_PLACEHOLDER}
+                                            // See the note above: hidden above lg, so keep the desktop
+                                            // fetch off the smallest candidate rather than 100vw.
                                             sizes="(min-width: 1024px) 1px, 100vw"
                                             loading={index < 2 ? "eager" : "lazy"}
                                         />
-                                    </div>
-                                ) : (
-                                    <Image
-                                        src={project.image}
-                                        alt={project.title}
-                                        width={800}
-                                        height={600}
-                                        className="w-full h-full object-cover"
-                                        priority={index < 2}
-                                        placeholder="blur"
-                                        blurDataURL={BLUR_PLACEHOLDER}
-                                        // See the note above: hidden above lg, so keep the desktop
-                                        // fetch off the smallest candidate rather than 100vw.
-                                        sizes="(min-width: 1024px) 1px, 100vw"
-                                        loading={index < 2 ? "eager" : "lazy"}
-                                    />
-                                )}
-                            </div>
-
-                            {/* Project Content */}
-                            <div className="space-y-4">
-                                {project.category && (
-                                    <div className="flex flex-wrap items-center gap-3">
-                                        {/* Same grey as the description below. --muted-foreground
-                                            is rgb(46,46,46) / 13.58:1, which made this small
-                                            uppercase label louder than the sentence it introduces. */}
-                                        <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
-                                            {project.category}
-                                        </p>
-                                        {project.roleTag && (
-                                            <span
-                                                className="inline-block px-3 py-1 rounded-full"
-                                                style={{
-                                                    fontFamily: "var(--font-caveat), cursive",
-                                                    fontSize: "15px",
-                                                    transform: "rotate(-3deg)",
-                                                    // deeper than the #FF9800 accent so white text clears 4.5:1
-                                                    backgroundColor: "#B45309",
-                                                    color: "#fff",
-                                                }}
-                                            >
-                                                {project.roleTag}
-                                            </span>
-                                        )}
-                                    </div>
-                                )}
-                                {project.caseStudyLink ? (
-                                    <Link href={project.caseStudyLink}>
-                                        <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight hover:text-primary transition-colors whitespace-pre-line">
-                                            {project.title}
-                                        </h3>
-                                    </Link>
-                                ) : (
-                                    <h3 className="text-[28px] md:text-[36px] font-medium tracking-tight whitespace-pre-line">
-                                        {project.title}
-                                    </h3>
-                                )}
-                                <p className="text-[14px] md:text-[18px] text-gray-500 leading-relaxed max-w-2xl mt-2 whitespace-pre-line">
-                                    {project.description}
-                                </p>
-
-                                {/* Tags */}
-                                <div className="flex flex-wrap gap-2 pt-4">
-                                    {project.tags.map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="px-3 py-1 text-sm bg-secondary text-secondary-foreground rounded-full"
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
+                                    )}
                                 </div>
 
-                                {/* Read case study button — disabled when no case study exists yet */}
-                                {project.caseStudyLink ? (
-                                    <Button asChild size="lg" className="mt-3 rounded-2xl px-10 h-12 text-base">
-                                        <Link href={project.caseStudyLink}>
-                                            {project.buttonText || "Understand"}
-                                        </Link>
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        disabled
-                                        size="lg"
-                                        className="mt-3 rounded-2xl px-10 h-12 text-base"
+                                {/* Project Content */}
+                                <div className="space-y-4">
+                                    {project.category && (
+                                        <div className="flex flex-wrap items-center gap-3">
+                                            {/* Same grey as the description below. --muted-foreground
+                                                is rgb(46,46,46) / 13.58:1, which made this small
+                                                uppercase label louder than the sentence it introduces. */}
+                                            <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                                                {project.category}
+                                            </p>
+                                            {project.roleTag && (
+                                                <span
+                                                    className="inline-block px-3 py-1 rounded-full"
+                                                    style={{
+                                                        fontFamily: "var(--font-caveat), cursive",
+                                                        fontSize: "15px",
+                                                        transform: "rotate(-3deg)",
+                                                        // deeper than the #FF9800 accent so white text clears 4.5:1
+                                                        backgroundColor: "#B45309",
+                                                        color: "#fff",
+                                                    }}
+                                                >
+                                                    {project.roleTag}
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+                                    <h3
+                                        className={`text-[28px] md:text-[36px] font-medium tracking-tight whitespace-pre-line${
+                                            project.caseStudyLink ? " transition-colors group-hover:text-primary" : ""
+                                        }`}
                                     >
-                                        {project.buttonText || "Read case study"}
-                                    </Button>
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-[14px] md:text-[18px] text-gray-500 leading-relaxed max-w-2xl mt-2 whitespace-pre-line">
+                                        {project.description}
+                                    </p>
+
+                                    {/* Tags */}
+                                    <div className="flex flex-wrap gap-2 pt-4">
+                                        {project.tags.map((tag) => (
+                                            <span
+                                                key={tag}
+                                                className="px-3 py-1 text-sm bg-secondary text-secondary-foreground rounded-full"
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* Read case study button — disabled when no case study exists yet */}
+                                    {project.caseStudyLink ? (
+                                        // Not a Link: the block around it already is one, and an
+                                        // anchor inside an anchor is invalid markup that browsers
+                                        // silently un-nest during parsing.
+                                        <span
+                                            className={cn(
+                                                buttonVariants({ size: "lg" }),
+                                                "mt-3 rounded-2xl px-10 h-12 text-base"
+                                            )}
+                                        >
+                                            {project.buttonText || "Understand"}
+                                        </span>
+                                    ) : (
+                                        <Button
+                                            disabled
+                                            size="lg"
+                                            className="mt-3 rounded-2xl px-10 h-12 text-base"
+                                        >
+                                            {project.buttonText || "Read case study"}
+                                        </Button>
+                                    )}
+                                </div>
+                            </>
+                        );
+
+                        return (
+                            <div
+                                key={project.id}
+                                id={blockId(index)}
+                                ref={(el) => addToTextBlocksRef(el, index)}
+                                className="min-h-screen flex flex-col justify-center py-16 md:py-24 scroll-mt-4"
+                            >
+                                {project.caseStudyLink ? (
+                                    <Link
+                                        href={project.caseStudyLink}
+                                        // Titles carry a hard line break for layout; a raw
+                                        // newline in the label reads as a pause to some
+                                        // screen readers, so flatten it to a space.
+                                        aria-label={`Read case study: ${project.title.replace(/\n/g, " ")}`}
+                                        className="group block"
+                                    >
+                                        {block}
+                                    </Link>
+                                ) : (
+                                    block
                                 )}
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 {/* RIGHT COLUMN - Sticky image container (Desktop only) */}
@@ -471,79 +515,101 @@ export function WorkSection() {
                     className="hidden lg:flex items-center justify-center h-screen sticky top-0"
                 >
                     <div className="relative w-full max-w-[660px] h-[750px]">
-                        {projects.map((project, index) => (
-                            <div
-                                key={project.id}
-                                ref={(el) => addToImagesRef(el, index)}
-                                // Only the first card is visible before GSAP runs. Without this
-                                // the whole stack paints at full opacity on reload and the last
-                                // case study flashes for a beat until gsap.set() hides it. The
-                                // breakpoint + motion-safe pair mirrors the matchMedia query that
-                                // owns these opacities, so mobile/reduced-motion still shows all.
-                                className={`absolute inset-0 rounded-2xl overflow-hidden bg-gray-100${
-                                    index === 0 ? "" : " lg:motion-safe:opacity-0"
-                                }`}
-                            >
-                                {project.id === FLASHCARD_PROJECT_ID ? (
-                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-950 flex items-center justify-center p-10">
-                                        <div
-                                            aria-hidden
-                                            className="pointer-events-none absolute inset-0 flex items-center justify-center"
-                                        >
-                                            <div
-                                                className="w-[520px] h-[520px] rounded-full blur-3xl"
-                                                style={{
-                                                    background:
-                                                        "radial-gradient(circle, rgba(255,215,154,0.22) 0%, rgba(255,152,0,0.12) 42%, transparent 70%)",
-                                                }}
+                        {projects.map((project, index) => {
+                            const cover = (
+                                <>
+                                        {project.id === FLASHCARD_PROJECT_ID ? (
+                                            <div className="relative w-full h-full bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-950 flex items-center justify-center p-10">
+                                                <div
+                                                    aria-hidden
+                                                    className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                                >
+                                                    <div
+                                                        className="w-[520px] h-[520px] rounded-full blur-3xl"
+                                                        style={{
+                                                            background:
+                                                                "radial-gradient(circle, rgba(255,215,154,0.22) 0%, rgba(255,152,0,0.12) 42%, transparent 70%)",
+                                                        }}
+                                                    />
+                                                </div>
+                                                <FlashcardHighlightBlock />
+                                                <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
+                                            </div>
+                                        ) : project.id === HF_PROJECT_ID ? (
+                                            <div className="relative w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black flex items-center justify-center p-8 overflow-hidden">
+                                                <div
+                                                    aria-hidden
+                                                    className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                                >
+                                                    <div
+                                                        className="w-[640px] h-[640px] rounded-full blur-3xl"
+                                                        style={{
+                                                            background:
+                                                                "radial-gradient(circle, rgba(255,152,0,0.55) 0%, rgba(255,215,154,0.3) 45%, transparent 72%)",
+                                                        }}
+                                                    />
+                                                </div>
+                                                <Image
+                                                    src={project.image}
+                                                    alt={project.title}
+                                                    width={2693}
+                                                    height={1644}
+                                                    className="relative w-full h-auto rounded-xl border border-white/15 shadow-2xl"
+                                                    priority={index < 2}
+                                                    // Mirror of the mobile block: this copy is display:none
+                                                    // below lg, so keep its fetch off the 600px candidate there.
+                                                    sizes="(max-width: 1023px) 1px, 600px"
+                                                    loading={index < 2 ? "eager" : "lazy"}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <Image
+                                                src={project.image}
+                                                alt={project.title}
+                                                fill
+                                                className="object-cover"
+                                                priority={index < 2}
+                                                placeholder="blur"
+                                                blurDataURL={BLUR_PLACEHOLDER}
+                                                // Hidden below lg; see the note above.
+                                                sizes="(max-width: 1023px) 1px, 600px"
+                                                loading={index < 2 ? "eager" : "lazy"}
                                             />
-                                        </div>
-                                        <FlashcardHighlightBlock />
-                                        <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
-                                    </div>
-                                ) : project.id === HF_PROJECT_ID ? (
-                                    <div className="relative w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black flex items-center justify-center p-8 overflow-hidden">
-                                        <div
-                                            aria-hidden
-                                            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                                        )}
+                                </>
+                            );
+
+                            return (
+                                <div
+                                    key={project.id}
+                                    ref={(el) => addToImagesRef(el, index)}
+                                    // Only the first card is visible before GSAP runs. Without this
+                                    // the whole stack paints at full opacity on reload and the last
+                                    // case study flashes for a beat until gsap.set() hides it. The
+                                    // breakpoint + motion-safe pair mirrors the matchMedia query that
+                                    // owns these opacities, so mobile/reduced-motion still shows all.
+                                    className={`absolute inset-0 rounded-2xl overflow-hidden bg-gray-100${
+                                        index === 0 ? "" : " lg:motion-safe:opacity-0"
+                                    }`}
+                                >
+                                    {project.caseStudyLink ? (
+                                        // Duplicate of the text block's link: hidden from
+                                        // the accessibility tree and the tab order, since the
+                                        // cover is a click target, not a second announcement.
+                                        <Link
+                                            href={project.caseStudyLink}
+                                            tabIndex={-1}
+                                            aria-hidden="true"
+                                            className="block w-full h-full"
                                         >
-                                            <div
-                                                className="w-[640px] h-[640px] rounded-full blur-3xl"
-                                                style={{
-                                                    background:
-                                                        "radial-gradient(circle, rgba(255,152,0,0.55) 0%, rgba(255,215,154,0.3) 45%, transparent 72%)",
-                                                }}
-                                            />
-                                        </div>
-                                        <Image
-                                            src={project.image}
-                                            alt={project.title}
-                                            width={2693}
-                                            height={1644}
-                                            className="relative w-full h-auto rounded-xl border border-white/15 shadow-2xl"
-                                            priority={index < 2}
-                                            // Mirror of the mobile block: this copy is display:none
-                                            // below lg, so keep its fetch off the 600px candidate there.
-                                            sizes="(max-width: 1023px) 1px, 600px"
-                                            loading={index < 2 ? "eager" : "lazy"}
-                                        />
-                                    </div>
-                                ) : (
-                                    <Image
-                                        src={project.image}
-                                        alt={project.title}
-                                        fill
-                                        className="object-cover"
-                                        priority={index < 2}
-                                        placeholder="blur"
-                                        blurDataURL={BLUR_PLACEHOLDER}
-                                        // Hidden below lg; see the note above.
-                                        sizes="(max-width: 1023px) 1px, 600px"
-                                        loading={index < 2 ? "eager" : "lazy"}
-                                    />
-                                )}
-                            </div>
-                        ))}
+                                            {cover}
+                                        </Link>
+                                    ) : (
+                                        cover
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

@@ -148,17 +148,28 @@ function HeroSection() {
                     {hero.meta}
                 </motion.p>
 
-                {/* Title with Highlighter */}
+                {/* Title with Highlighter — same line the work grid card
+                    promises, so arriving here confirms the click */}
                 <motion.h1
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.1 }}
-                    className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-8 max-w-4xl"
+                    className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-5 max-w-4xl"
                 >
-                    Moving security training out of a service queue and{" "}
+                    Built in Cursor.{" "}
                     <Highlighter action="highlight" color="#FFD79A" isView>
-                        into the customer&apos;s hands
+                        Engineering shipped the code.
                     </Highlighter>
                 </motion.h1>
+
+                {/* Subtitle — the line that used to be the headline, kept as
+                    the plain description of what the tool actually is */}
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="text-lg md:text-xl text-gray-600 leading-relaxed mb-8 max-w-3xl"
+                >
+                    {hero.subtitle}
+                </motion.p>
 
                 {/* Tags */}
                 <motion.p

@@ -169,17 +169,25 @@ function HeroSection() {
                     {hero.meta}
                 </motion.p>
 
-                {/* Title with Highlighter */}
+                {/* Title with Highlighter — same line the work grid card
+                    promises, so arriving here confirms the click */}
                 <motion.h1
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.1 }}
-                    className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-8 max-w-4xl"
+                    className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-5 max-w-4xl"
                 >
-                    Evolving a legacy security platform into an{" "}
-                    <Highlighter action="highlight" color="#FF9800" isView>AI-native</Highlighter>{" "}
-                    <Highlighter action="highlight" color="#FFD79A" isView>risk intelligence</Highlighter>{" "}
-                    system
+                    A risk score{" "}
+                    <Highlighter action="highlight" color="#FF9800" isView>nobody trusted</Highlighter>.
                 </motion.h1>
+
+                {/* Subtitle — carries the plain description the headline drops */}
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
+                    className="text-lg md:text-xl text-gray-600 leading-relaxed mb-8 max-w-3xl"
+                >
+                    {hero.subtitle}
+                </motion.p>
 
                 {/* Tags */}
                 <motion.p

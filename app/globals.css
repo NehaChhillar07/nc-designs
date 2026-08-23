@@ -62,6 +62,11 @@ html {
   --accent-warm-strong: #C96114; /* interactive hover / strong accent */
   --accent-warm-brown: #B06A48;  /* case-study warm tone */
   --highlight-dark: #9FE8C6;     /* mint highlight on dark hero bands */
+  /* The one cool accent, and it earns its exception: the hero headline sits
+     directly on top of the orange gradient blob, where a warm mark has nothing
+     to separate from. Used on that headline's highlight and underline only —
+     everywhere else, including the paragraph beneath it, stays warm. */
+  --accent-cool: #79B8FF;        /* hero headline marks over the warm glow */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

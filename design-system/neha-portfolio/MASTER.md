@@ -62,7 +62,7 @@ Two layers: a **light neutral base** (the shadcn chrome — header, cards, most 
 | Text on dark | `#F1E9DF` (cream) |
 | Rule: over a dark hero, the **header is transparent at the top** (no bar/seam) and fades a dark frosted bar in on scroll. Never a light `bg-white/25` bar over a dark hero. |
 
-**Notes:** Warm, editorial, monochrome-base + warm-orange accent. Avoid cold blues/indigo as accents — off-brand.
+**Notes:** Warm, editorial, monochrome-base + warm-orange accent. Avoid cold blues/indigo as accents — off-brand. One scoped exception: `--accent-cool` (`#79B8FF`) on the hero headline's highlight and underline, which sit on top of the orange gradient blob and need something to separate from.
 
 ### Typography
 
@@ -147,7 +147,7 @@ gsap.from('.grid-item', { opacity: 0, scale: 0.92, y: 16, duration: 0.4,
 ## Anti-Patterns (Do NOT Use)
 
 - ❌ Corporate templates / generic layouts.
-- ❌ Cold blue/indigo accents (off-brand — use warm `#C96114`/`#FF9800`).
+- ❌ Cold blue/indigo accents (off-brand — use warm `#C96114`/`#FF9800`). Sole exception: `--accent-cool` `#79B8FF`, hero headline marks only.
 - ❌ Emojis as icons — use SVG (Lucide).
 - ❌ Light frosted header bar over a dark hero (creates a visible band/seam).
 - ❌ Sentence-case marketing copy with em dashes and buzzwords (breaks the voice).

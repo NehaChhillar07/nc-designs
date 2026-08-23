@@ -95,12 +95,36 @@ export default function Home() {
           </div>
 
           <h1 className="mt-8 md:mt-12 text-[18px] sm:text-[22px] md:text-[26px] font-medium tracking-tight max-w-3xl leading-snug relative break-words">
-            <span className="block">
+            {/* Composed, not left to the wrap point. Unbroken, the line landed
+                as "...security and AI-native B2B / SaaS." — orphaning "SaaS."
+                and splitting the phrase the underline is drawn under. The
+                explicit break puts the whole second phrase on its own line.
+                Both marks on this line carry the one cool accent on the site
+                (--accent-cool): the warm versions sat straight on the orange
+                gradient blob behind them and had nothing to separate from. The
+                paragraph below keeps its warm underlines — it is a quieter tier
+                and sits past the blob's edge. */}
+            <span className="block text-balance">
               Product Designer specialising in{" "}
-              <Highlighter action="highlight" color="#FF9800" isView>security</Highlighter> and{" "}
-              <Highlighter action="underline" color="#FF9800" isView>AI-native B2B SaaS</Highlighter>.
+              <Highlighter action="highlight" color="#79B8FF" isView>security</Highlighter>
+              <br />
+              and{" "}
+              <Highlighter action="underline" color="#79B8FF" isView>AI-native B2B SaaS</Highlighter>.
             </span>
-            <span className="block mt-2 md:mt-3 text-[15px] sm:text-[17px] md:text-[19px] font-normal text-muted-foreground leading-relaxed">Designing <Highlighter action="underline" color="#FF9800" isView>AI-native products</Highlighter> in cybersecurity. Currently rebuilding a 10-year-old security platform into an <Highlighter action="underline" color="#FF9800" isView>AI-driven risk intelligence system</Highlighter>.</span>
+            {/* Set as a credential strip rather than a sentence: two short
+                claims, a dot between them, uppercase and letterspaced. It reads
+                as a different voice from the line above and the paragraph
+                below, which is the point — it stopped disappearing between
+                them. */}
+            <span className="mt-5 md:mt-7 flex flex-col sm:flex-row items-center justify-center gap-y-1 sm:gap-x-3 text-[11px] sm:text-[12px] md:text-[13px] font-semibold uppercase tracking-[0.18em] text-gray-900">
+              <span>First designer twice</span>
+              {/* Only where the two claims sit on one line. Left visible on
+                  narrow screens the strip wrapped and stranded the dot alone at
+                  the end of the first line. */}
+              <span aria-hidden="true" className="hidden sm:block h-1 w-1 shrink-0 rounded-full bg-gray-400" />
+              <span>I build my own prototypes</span>
+            </span>
+            <span className="block mt-5 md:mt-7 text-[15px] sm:text-[17px] md:text-[19px] font-normal text-muted-foreground leading-relaxed">Designing <Highlighter action="underline" color="#FF9800" isView>AI-native products</Highlighter> in cybersecurity. Currently rebuilding a 10-year-old security platform into an <Highlighter action="underline" color="#FF9800" isView>AI-driven risk intelligence system</Highlighter>.</span>
           </h1>
           <div className="flex flex-col items-center gap-8 mt-8 md:mt-12">
             <ScrollLink targetId="work" ariaLabel="Scroll to my work" className="cursor-pointer inline-flex items-center justify-center p-3">

@@ -18,6 +18,14 @@ export type FunItem = {
     accent: string; // per-item accent hex
 };
 
+// A paragraph of the intro. `lead` is the opening clause that carries the
+// point; it renders in full-strength text so the thesis is scannable without
+// breaking the sentence into its own element.
+export type IntroParagraph = {
+    lead?: string;
+    text: string;
+};
+
 export type DoodleCopy = {
     sticker: string; // Caveat handwritten opener on the popover
     line: string;
@@ -27,15 +35,34 @@ export type DoodleCopy = {
 
 export const funWithClaudeData = {
     eyebrow: "Fun with Claude",
-    heading: "I design and ship real products with AI.",
-    highlight: "ship real products", // underlined by the Highlighter
+    heading: "I don't stop at the prototype link anymore.",
+    highlight: "prototype link", // underlined by the Highlighter
+    intro: [
+        {
+            lead: "My working loop is simple.",
+            text:
+                "I design in Figma. I prototype in Cursor and Claude Code when a flow needs to be felt, not clicked through. If the prototype holds up, the code goes to engineering as a starting point, not a picture of one. The flashcard builder inside Human Firewall shipped this way. So did unsaid, which I designed and built alone, end to end.",
+        },
+        {
+            lead: "AI does the effort. I keep the judgement.",
+            text:
+                "That's the same principle I design into products, and it's how I work too. I decide what gets generated, what gets hand-built, and what gets thrown away.",
+        },
+        {
+            lead: "And plenty gets thrown away.",
+            text:
+                "The first flashcard builder I built looked finished and was the wrong thing, because a polished card is not an editable one. I went back to the base and rebuilt it component first, by hand.",
+        },
+    ] as IntroParagraph[],
+    toolsLabel: "Tools, if you're counting:",
+    tools: ["Figma", "Cursor", "Claude Code", "Claude Design"],
     items: [
         {
             id: "unsaid",
-            title: "unsaid",
+            title: "Designed and built solo. Live.",
             blurb:
                 "An anonymous confessions app with two worlds: personal and professional. A live Next.js + Supabase app.",
-            tag: "designed AND built, solo",
+            tag: "unsaid",
             image: "/work/unsaid-case study/home-dark.png",
             imageAlt: "The unsaid home screen in dark mode, showing the wordmark \"say the thing you've never said\" and a confession card.",
             liveHref: "https://unsaidnow.vercel.app",
