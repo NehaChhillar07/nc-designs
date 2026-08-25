@@ -5,6 +5,7 @@ import { MotionConfig } from "motion/react";
 import { CursorProvider } from "@/components/ui/cursor-context";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SITE_URL } from "@/lib/site";
+import { OG_HOME } from "@/lib/og-home";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "Neha Chhillar Portfolio",
     images: [
       {
-        url: "/og/home.png",
+        url: OG_HOME,
         width: 1200,
         height: 630,
         alt: "Neha Chhillar - Product Designer",
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Neha Chhillar - Product Designer",
     description: "Product designer in AI-native B2B SaaS. First designer at two companies. I design end to end, and I build.",
-    images: ["/og/home.png"],
+    images: [OG_HOME],
   },
   robots: {
     index: true,
