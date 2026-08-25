@@ -130,6 +130,21 @@ function PullQuote({ children }: { children: ReactNode }) {
     );
 }
 
+function BuildNote() {
+    return (
+        <section className="pt-12 md:pt-16">
+            <div className="max-w-5xl mx-auto px-6">
+                <motion.p
+                    {...fadeInUp}
+                    className="max-w-4xl text-base leading-relaxed text-gray-600"
+                >
+                    {data.buildNote}
+                </motion.p>
+            </div>
+        </section>
+    );
+}
+
 // ============================================
 // HERO
 // ============================================
@@ -785,6 +800,7 @@ export function FlashcardTrainingCaseStudy() {
     return (
         <article className={`${spaceGrotesk.variable} cs-editorial bg-white`}>
             <HeroSection />
+            <BuildNote />
             <StartingPointSection />
             <WhatWeSawSection />
             <TheShiftSection />

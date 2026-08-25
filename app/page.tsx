@@ -122,7 +122,7 @@ export default function Home() {
                   narrow screens the strip wrapped and stranded the dot alone at
                   the end of the first line. */}
               <span aria-hidden="true" className="hidden sm:block h-1 w-1 shrink-0 rounded-full bg-gray-400" />
-              <span>I build my own prototypes</span>
+              <span>I build before I mock up.</span>
             </span>
             <span className="block mt-5 md:mt-7 text-[15px] sm:text-[17px] md:text-[19px] font-normal text-muted-foreground leading-relaxed">Designing <Highlighter action="underline" color="#FF9800" isView>AI-native products</Highlighter> in cybersecurity. Currently rebuilding a 10-year-old security platform into an <Highlighter action="underline" color="#FF9800" isView>AI-driven risk intelligence system</Highlighter>.</span>
           </h1>

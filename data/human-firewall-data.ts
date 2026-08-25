@@ -13,6 +13,8 @@ export const humanFirewallCaseStudyData = {
         timeline: "2024 to Q1 2026",
         team: "Product, Eng, CS",
         role: "Product Designer",
+        buildNote:
+            "Flows on this platform were ideated as working software in Claude Code before Figma became the single source of truth. Several modules shipped from that loop.",
         // Scroll-expansion opener — the dashboard grows from a small card to
         // near-fullscreen before the case study text begins
         scrollHero: {

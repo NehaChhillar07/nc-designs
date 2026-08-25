@@ -215,6 +215,17 @@ function HeroSection() {
                         </div>
                     ))}
                 </motion.div>
+
+                {/* Sits with the Timeline/Team/Role block and reads at the same
+                    tier as the tags line above it: meta about how the work was
+                    made, not part of the narrative that starts in section 01. */}
+                <motion.p
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.3 }}
+                    className="mt-8 max-w-3xl text-sm md:text-base text-gray-500 leading-relaxed"
+                >
+                    {hero.buildNote}
+                </motion.p>
             </div>
 
         </section>

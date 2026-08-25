@@ -41,6 +41,11 @@ export const flashcardTrainingCaseStudyData = {
         ],
     },
 
+    // Sits between the hero and section 01: how the thing was made, stated
+    // once, before the narrative starts.
+    buildNote:
+        "This was never just a mockup. The creation flow was ideated back and forth in Claude Code, finalised by being used, documented in Figma, and handed to engineering as a functional front end they used as the production base.",
+
     // Section 01 — The Starting Point
     startingPoint: {
         heading: "Training was the one thing nobody wanted to build,",

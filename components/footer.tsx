@@ -48,7 +48,7 @@ export function Footer() {
                             transform: "rotate(-2deg)",
                         }}
                     >
-                        Designed and built end to end, without handoff
+                        Ideated in Claude Code. Documented in Figma. Handed over functional.
                     </span>
                 </motion.div>
 
