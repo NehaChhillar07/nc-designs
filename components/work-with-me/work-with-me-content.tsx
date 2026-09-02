@@ -29,6 +29,34 @@ const fadeUp = {
     transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
 };
 
+// Renders the data files' marker syntax with the site's Highlighter:
+// __phrase__ -> warm underline, ==phrase== -> soft warm highlight. Keeps long
+// paragraphs scannable without hardcoding copy in the component.
+function MarkedText({ text }: { text: string }) {
+    const parts = text.split(/(==[^=]+==|__[^_]+__)/g);
+    return (
+        <>
+            {parts.map((part, i) => {
+                if (part.startsWith("==") && part.endsWith("==")) {
+                    return (
+                        <Highlighter key={i} action="highlight" color="#FFD79A" isView>
+                            {part.slice(2, -2)}
+                        </Highlighter>
+                    );
+                }
+                if (part.startsWith("__") && part.endsWith("__")) {
+                    return (
+                        <Highlighter key={i} action="underline" color="#FF9800" isView>
+                            {part.slice(2, -2)}
+                        </Highlighter>
+                    );
+                }
+                return part;
+            })}
+        </>
+    );
+}
+
 function Eyebrow({ children }: { children: React.ReactNode }) {
     return (
         <motion.p
@@ -76,7 +104,7 @@ export function WorkWithMeContent() {
                         transition={{ ...fadeUp.transition, delay: 0.1 }}
                         className="mt-6 text-[16px] md:text-[19px] text-gray-600 leading-relaxed"
                     >
-                        {data.hero.body}
+                        <MarkedText text={data.hero.body} />
                     </motion.p>
                     <motion.p
                         {...fadeUp}
@@ -101,7 +129,7 @@ export function WorkWithMeContent() {
             <section className="mt-20 md:mt-28 max-w-3xl">
                 <Eyebrow>{data.whoFor.eyebrow}</Eyebrow>
                 <motion.p {...fadeUp} className="text-[17px] md:text-[20px] text-gray-800 leading-relaxed">
-                    {data.whoFor.body}
+                    <MarkedText text={data.whoFor.body} />
                 </motion.p>
             </section>
 
