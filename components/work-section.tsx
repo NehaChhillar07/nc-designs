@@ -173,6 +173,23 @@ export function WorkSection() {
         };
         ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
 
+        // Re-measure when the PAGE grows, not just on window resize. On a
+        // client-side back-navigation the browser restores the scroll offset
+        // while the lazy sections below are still short placeholders, so every
+        // trigger start is computed against a page ~2 viewports too short and
+        // the cover crossfades fire at the wrong offsets (unsaid's cover over
+        // the Human Firewall block). GSAP only auto-refreshes on window
+        // resize; this observer refreshes when the document's height settles.
+        let lastHeight = document.documentElement.scrollHeight;
+        const heightObserver = new ResizeObserver(() => {
+            const h = document.documentElement.scrollHeight;
+            if (Math.abs(h - lastHeight) > 4) {
+                lastHeight = h;
+                ScrollTrigger.refresh();
+            }
+        });
+        heightObserver.observe(document.body);
+
         const ctx = gsap.context(() => {
             const section = sectionRef.current;
             const imageContainer = imageContainerRef.current;
@@ -239,37 +256,46 @@ export function WorkSection() {
                     onLeaveBack: () => resetCursor(),
                 });
 
-                // Scrubbed crossfades: each transition tracks scroll position through
-                // the incoming block's top band, so fast or reversed scrolling stays
-                // perfectly smooth (no fixed-duration fades firing at thresholds).
+                // Scrubbed crossfades, computed centrally. The previous version
+                // gave each transition its own timeline whose tweens asserted
+                // the NEIGHBORING cover's opacity (outgoing image starts at 1),
+                // so whenever several triggers rendered in one tick — a refresh,
+                // a restored scroll position, an instant jump — the last one to
+                // render could leave a later cover opaque on top of the stack
+                // (unsaid's cover over the Human Firewall block). Instead, every
+                // trigger only records its own progress and one function derives
+                // ALL cover states from ALL progresses: cover i is visible only
+                // while its own transition is in (p_in) and the next one hasn't
+                // taken over (1 - p_next). Order of rendering can no longer
+                // produce an inconsistent stack.
+                const transitionProgress = new Array(textBlocks.length).fill(0);
+                const applyCoverStates = () => {
+                    images.forEach((img, i) => {
+                        const pIn = i === 0 ? 1 : transitionProgress[i];
+                        const pNext = i + 1 < transitionProgress.length ? transitionProgress[i + 1] : 0;
+                        gsap.set(img, {
+                            opacity: Math.min(pIn, 1 - pNext),
+                            yPercent: 5 * (1 - pIn) - 3 * pNext,
+                        });
+                    });
+                };
                 textBlocks.forEach((textBlock, index) => {
                     if (index === 0) return;
-                    gsap.timeline({
-                        scrollTrigger: {
-                            trigger: textBlock,
-                            start: "top 80%",
-                            end: "top 30%",
-                            scrub: true,
+                    ScrollTrigger.create({
+                        trigger: textBlock,
+                        start: "top 80%",
+                        end: "top 30%",
+                        onUpdate: (self) => {
+                            transitionProgress[index] = self.progress;
+                            applyCoverStates();
                         },
-                    })
-                        .fromTo(
-                            images[index],
-                            { opacity: 0, yPercent: 5 },
-                            // Without immediateRender:false every fromTo paints its
-                            // FROM state the moment the timeline is built, so the
-                            // last block's outgoing cover (opacity 1, latest in DOM)
-                            // lands on top of the stack at load and hides the first
-                            // covers until its own scrub band is reached.
-                            { opacity: 1, yPercent: 0, ease: "none", immediateRender: false },
-                            0
-                        )
-                        .fromTo(
-                            images[index - 1],
-                            { opacity: 1, yPercent: 0 },
-                            { opacity: 0, yPercent: -3, ease: "none", immediateRender: false },
-                            0
-                        );
+                        onRefresh: (self) => {
+                            transitionProgress[index] = self.progress;
+                            applyCoverStates();
+                        },
+                    });
                 });
+                applyCoverStates();
 
                 // Per-block triggers: cursor reading-time tag + progress-rail fill
                 textBlocks.forEach((textBlock, index) => {
@@ -311,6 +337,7 @@ export function WorkSection() {
         }, sectionRef);
 
         return () => {
+            heightObserver.disconnect();
             ScrollTrigger.removeEventListener("refreshInit", onRefreshInit);
             ctx.revert();
         };
