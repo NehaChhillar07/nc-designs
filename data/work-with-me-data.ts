@@ -17,19 +17,20 @@ export const workWithMeData = {
     hero: {
         eyebrow: "Freelance",
         headline: "Design plus a working front end. One person.",
-        // The Highlighter mark wraps this exact substring of the headline.
-        highlight: "working front end",
+        // This exact substring renders in the Caveat hand in the strong warm
+        // tone — the one contrast word, like 21st.dev's "living".
+        highlight: "working",
         // Marker syntax (rendered by MarkedText): __phrase__ draws the warm
         // underline, ==phrase== the soft warm highlight.
         body:
-            "I've been the __first designer at two companies__: research, user journeys, information architecture, and design systems built from scratch, with results like onboarding completion ==up 52%== and engagement ==up 48%==. Then I go one step further than most designers: __I build the front end myself__, fully interactive and production ready, so your developers start from my code, not from screenshots.",
+            "First designer twice. Onboarding completion ==up 52%==, engagement ==up 48%==. I build the front end myself, so your developers start from __my code, not screenshots__.",
         availability: "Open to freelance projects and full-time roles.",
     },
 
     whoFor: {
         eyebrow: "Who this is for",
         body:
-            "Founders and small teams building AI products who need __real product thinking, not just screens__: someone who works out the users, the flows, and the system, then designs and builds the front of the product ==without you hiring two people==.",
+            "Founders and small teams building AI products who need __real product thinking, not just screens__, designed and built ==without hiring two people==.",
     },
 
 

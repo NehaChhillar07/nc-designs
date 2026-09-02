@@ -94,9 +94,17 @@ export function WorkWithMeContent() {
                         className="text-[34px] sm:text-[44px] md:text-[56px] font-medium tracking-tight leading-[1.08] text-gray-900"
                     >
                         {headBefore}
-                        <Highlighter action="underline" color="#FF9800" isView>
+                        {/* The one contrast word: the site's handwriting voice
+                            at display size, in the strong warm tone. */}
+                        <span
+                            className="px-1 text-[1.18em] leading-none"
+                            style={{
+                                fontFamily: "var(--font-caveat), cursive",
+                                color: "var(--accent-warm-strong)",
+                            }}
+                        >
                             {data.hero.highlight}
-                        </Highlighter>
+                        </span>
                         {headAfter}
                     </motion.h1>
                     <motion.p
