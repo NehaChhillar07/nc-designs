@@ -224,3 +224,23 @@ export const aboutParagraphs = [
     "I prefer understanding things before reacting. I like noticing patterns, sitting with unclear ideas, and bringing structure to chaos. Messy problems don't overwhelm me. They make me curious.",
     "I learn through experiments rather than theory. Trying things and seeing what actually works matters more to me than assumptions. Outside work, I spend a lot of time with my dog, June. Being around her quietly, without words, is where I slow down and observe. That mindset shapes how I think about people and systems.",
 ];
+
+// "Working with me" — three short claims appended after the personal story
+// (brief section 5, Block A). Lead renders bold, rest muted.
+export const workingWithMe = {
+    eyebrow: "Working with me",
+    items: [
+        {
+            lead: "I ramp fast.",
+            text: "First designer twice means I am used to learning a product, its users, and its market in the first week, not the first quarter.",
+        },
+        {
+            lead: "You get Figma and code.",
+            text: "A design system with tokens, and a working front end your developers continue from.",
+        },
+        {
+            lead: "I communicate in decisions, not updates.",
+            text: "Short written notes on what I chose and why, so nobody has to sit in a meeting to find out.",
+        },
+    ],
+};

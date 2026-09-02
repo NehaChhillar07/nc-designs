@@ -8,10 +8,12 @@ import { ExploreMore } from "@/components/explore-more";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCursor } from "@/components/ui/cursor-context";
-import { CAL_LINK, VIDEO_URL, isUnreplaced, resolveToken } from "@/lib/placeholders";
+import { CAL_LINK, VIDEO_URL, resolveToken } from "@/lib/placeholders";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { otherProjects } from "@/data/case-study-data";
-import { workWithMeData, type PackageCard, type Testimonial } from "@/data/work-with-me-data";
+import { workWithMeData, type PackageCard } from "@/data/work-with-me-data";
+import { testimonials } from "@/data/testimonials-data";
+import { TestimonialCard } from "@/components/testimonial-card";
 
 // ============================================
 // /work-with-me — the freelance offer page. Every treatment here is borrowed
@@ -97,47 +99,6 @@ function PriceCard({ card }: { card: PackageCard }) {
     );
 }
 
-function TestimonialCard({ item }: { item: Testimonial }) {
-    // Unreplaced token: null in production (card hidden), the token string in
-    // dev (sample rendered, clearly stickered). Replaced: "Quote | Name | Role".
-    const resolved = resolveToken(item.token);
-    if (!resolved) return null;
-
-    const sample = isUnreplaced(resolved);
-    const [quote, name, role] = sample
-        ? [item.sample.quote, item.sample.name, item.sample.role]
-        : resolved.split("|").map((s) => s.trim());
-
-    return (
-        <motion.figure
-            {...fadeUp}
-            className="relative rounded-2xl border border-gray-200 bg-gray-50 p-6 md:p-8"
-        >
-            {sample && (
-                <span
-                    className="absolute -top-3 left-6 inline-block px-3 py-1 rounded-full"
-                    style={{
-                        fontFamily: "var(--font-caveat), cursive",
-                        fontSize: "15px",
-                        transform: "rotate(-2deg)",
-                        backgroundColor: "#B45309",
-                        color: "#fff",
-                    }}
-                >
-                    sample, replace with a real quote
-                </span>
-            )}
-            <blockquote className="text-[16px] md:text-[17px] text-gray-800 leading-relaxed">
-                &ldquo;{quote}&rdquo;
-            </blockquote>
-            <figcaption className="mt-4 text-sm text-gray-500">
-                <span className="font-medium text-gray-700">{name}</span>
-                {role ? ` · ${role}` : null}
-            </figcaption>
-        </motion.figure>
-    );
-}
-
 export function WorkWithMeContent() {
     const data = workWithMeData;
     const calLink = resolveToken(CAL_LINK);
@@ -219,11 +180,11 @@ export function WorkWithMeContent() {
             </section>
 
             {/* Testimonials — token-gated; samples render only in dev */}
-            {data.testimonials.items.some((t) => resolveToken(t.token)) && (
+            {testimonials.some((t) => resolveToken(t.token)) && (
                 <section className="mt-20 md:mt-28">
                     <Eyebrow>{data.testimonials.eyebrow}</Eyebrow>
                     <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl">
-                        {data.testimonials.items.map((item) => (
+                        {testimonials.map((item) => (
                             <TestimonialCard key={item.token} item={item} />
                         ))}
                     </div>

@@ -5,7 +5,6 @@
 // pricing there would read it as a flight risk — the page exists so cold
 // outreach and LinkedIn have one link that explains offer, price, and start).
 
-import { TESTIMONIAL_ENG, TESTIMONIAL_PM } from "@/lib/placeholders";
 
 export type PackageCard = {
     name: string;
@@ -23,13 +22,6 @@ export type Step = {
     body: string;
 };
 
-export type Testimonial = {
-    // Unreplaced token → hidden in production, sample shown in dev.
-    // Replace the token in lib/placeholders.ts with "Quote | Name | Role"
-    // (pipe-separated) and the real card renders everywhere.
-    token: string;
-    sample: { quote: string; name: string; role: string };
-};
 
 export const workWithMeData = {
     meta: {
@@ -112,26 +104,7 @@ export const workWithMeData = {
 
     testimonials: {
         eyebrow: "What it's like",
-        items: [
-            {
-                token: TESTIMONIAL_PM,
-                sample: {
-                    quote:
-                        "Neha turned a vague brief into working screens inside a week. The prototype stopped every scope argument before it started.",
-                    name: "Sample name",
-                    role: "Product Manager",
-                },
-            },
-            {
-                token: TESTIMONIAL_ENG,
-                sample: {
-                    quote:
-                        "We shipped her front end almost as-is. Clean components, sane naming, none of the usual redesign-in-code phase.",
-                    name: "Sample name",
-                    role: "Engineer",
-                },
-            },
-        ] as Testimonial[],
+        // Items live in data/testimonials-data.ts, shared with the About section.
     },
 
     proof: {

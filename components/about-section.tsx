@@ -3,9 +3,12 @@
 import Image from "next/image";
 import { AboutMomentsStrip } from "@/components/about-gallery";
 import { ScrollChoreography } from "@/components/ui/scroll-choreography";
-import { aboutHeading, aboutChoreography } from "@/data/about-data";
+import { aboutHeading, aboutChoreography, workingWithMe } from "@/data/about-data";
 import { MagicText } from "@/components/ui/magic-text";
 import { motion } from "motion/react";
+import { TestimonialCard } from "@/components/testimonial-card";
+import { testimonials } from "@/data/testimonials-data";
+import { resolveToken } from "@/lib/placeholders";
 
 export function AboutSection() {
     return (
@@ -61,6 +64,46 @@ export function AboutSection() {
             <div className="mt-14 md:mt-20">
                 <AboutMomentsStrip />
             </div>
+
+            {/* Working with me — three short claims (brief section 5, Block A).
+                Placed after the personal story so the section reads warm first,
+                practical second. */}
+            <div className="max-w-5xl mx-auto mt-20 md:mt-28">
+                <motion.p
+                    className="text-sm font-medium uppercase tracking-[0.18em] text-gray-500 mb-6 text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                >
+                    {workingWithMe.eyebrow}
+                </motion.p>
+                <div className="grid sm:grid-cols-3 gap-8 md:gap-10 text-left">
+                    {workingWithMe.items.map((item, i) => (
+                        <motion.p
+                            key={item.lead}
+                            className="text-[15px] md:text-[16px] text-muted-foreground leading-relaxed"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.08 }}
+                        >
+                            <span className="font-medium text-gray-900">{item.lead}</span>{" "}
+                            {item.text}
+                        </motion.p>
+                    ))}
+                </div>
+            </div>
+
+            {/* Testimonials — token-gated (hidden in production until the real
+                quotes replace the tokens; dev shows stickered samples). */}
+            {testimonials.some((t) => resolveToken(t.token)) && (
+                <div className="max-w-4xl mx-auto mt-16 md:mt-20 grid md:grid-cols-2 gap-6 md:gap-8 text-left">
+                    {testimonials.map((item) => (
+                        <TestimonialCard key={item.token} item={item} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }
