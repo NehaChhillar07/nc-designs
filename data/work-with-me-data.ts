@@ -20,14 +20,14 @@ export const workWithMeData = {
         // The Highlighter mark wraps this exact substring of the headline.
         highlight: "working front end",
         body:
-            "I design your product in Figma and build the front end myself, fully interactive and production ready. Your developers start from my code, not from screenshots.",
+            "I've been the first designer at two companies: research, user journeys, information architecture, and design systems built from scratch, with results like onboarding completion up 52% and engagement up 48%. Then I go one step further than most designers: I build the front end myself, fully interactive and production ready, so your developers start from my code, not from screenshots.",
         availability: "Open to freelance projects and full-time roles.",
     },
 
     whoFor: {
         eyebrow: "Who this is for",
         body:
-            "Founders and small teams building AI products who have a backend or an idea, and need the front end designed and built without hiring two people.",
+            "Founders and small teams building AI products who need real product thinking, not just screens: someone who works out the users, the flows, and the system, then designs and builds the front of the product without you hiring two people.",
     },
 
 
@@ -53,6 +53,8 @@ export const workWithMeData = {
         book: "Book a call",
         email: "or email me",
         emailSubject: "Project inquiry",
+        // Handwritten aside above the booking button, with the drawn arrow.
+        note: "thirty minutes. no deck needed.",
     },
 };
 

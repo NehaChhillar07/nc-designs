@@ -119,71 +119,129 @@ export function WorkWithMeContent() {
                 />
             </section>
 
-            {/* Video — hidden in production until {{VIDEO_URL}} is replaced */}
-            {videoUrl && (
-                <section className="mt-20 md:mt-28 flex flex-col gap-5">
-                    <ConnectVideo url={videoUrl} title={data.video.title} />
-                    <motion.p {...fadeUp} className="text-[15px] text-gray-600">
-                        {data.video.line}
-                    </motion.p>
-                </section>
-            )}
+            {/* Video + terms/CTA — side by side: the video left, the closing
+                move right, horizontally aligned. The handwritten aside and its
+                hand-drawn arrow draw themselves in on scroll and point at the
+                booking button. Without a video (production until {{VIDEO_URL}}
+                is replaced) the right block stands alone. */}
+            <section
+                className={cn(
+                    "mt-20 md:mt-28 grid gap-14 items-center",
+                    videoUrl && "lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-16"
+                )}
+            >
+                {videoUrl && (
+                    <div className="flex flex-col gap-5">
+                        <ConnectVideo url={videoUrl} title={data.video.title} />
+                        <motion.p {...fadeUp} className="text-[15px] text-gray-600">
+                            {data.video.line}
+                        </motion.p>
+                    </div>
+                )}
 
-            {/* Terms + CTA */}
-            <section className="mt-20 md:mt-28 max-w-3xl">
-                <motion.p {...fadeUp} className="pt-5 border-t border-gray-200 text-sm text-gray-500">
-                    {data.terms}
-                </motion.p>
-                <motion.div {...fadeUp} className="mt-8 flex flex-wrap items-center gap-5">
-                    {calLink ? (
-                        <>
-                            {/* Unreplaced token (dev only): inert chip showing
-                                the token — a real link would 404 on /{{CAL_LINK}}.
-                                Production hides the whole branch. */}
-                            {isUnreplaced(calLink) ? (
-                                <span
-                                    className={cn(
-                                        buttonVariants({ size: "lg" }),
-                                        "rounded-2xl px-10 h-12 text-base opacity-60 cursor-not-allowed font-mono"
-                                    )}
-                                    title="Replace CAL_LINK in lib/placeholders.ts"
-                                >
-                                    {calLink}
-                                </span>
-                            ) : (
+                <div className="max-w-md">
+                    <motion.p {...fadeUp} className="pt-5 border-t border-gray-200 text-sm text-gray-500 leading-relaxed">
+                        {data.terms}
+                    </motion.p>
+
+                    {/* Handwritten aside + self-drawing arrow to the button */}
+                    <motion.div
+                        {...fadeUp}
+                        transition={{ ...fadeUp.transition, delay: 0.15 }}
+                        className="mt-8 flex justify-end pr-2"
+                    >
+                        <span
+                            className="text-[19px] text-gray-600"
+                            style={{ fontFamily: "var(--font-caveat), cursive", transform: "rotate(-3deg)" }}
+                        >
+                            {data.cta.note}
+                        </span>
+                    </motion.div>
+                    <svg
+                        viewBox="0 0 140 64"
+                        className="ml-auto mr-14 -mt-1 mb-1 block h-12 w-28"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        {/* Draws in like a pen stroke: curve first, then the head. */}
+                        <motion.path
+                            d="M128 6 C 102 40, 62 46, 20 52"
+                            stroke="#B45309"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            initial={{ pathLength: 0 }}
+                            whileInView={{ pathLength: 1 }}
+                            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+                            transition={{ duration: 0.9, ease: "easeInOut", delay: 0.45 }}
+                        />
+                        <motion.path
+                            d="M31 42 L19 52 L34 57"
+                            stroke="#B45309"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            initial={{ pathLength: 0 }}
+                            whileInView={{ pathLength: 1 }}
+                            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+                            transition={{ duration: 0.3, ease: "easeOut", delay: 1.35 }}
+                        />
+                    </svg>
+
+                    <motion.div {...fadeUp} className="flex flex-wrap items-center gap-5">
+                        {calLink ? (
+                            <>
+                                {/* Unreplaced token (dev only): inert chip showing
+                                    the token — a real link would 404 on /{{CAL_LINK}}.
+                                    Production hides the whole branch. */}
+                                {isUnreplaced(calLink) ? (
+                                    <span
+                                        className={cn(
+                                            buttonVariants({ size: "lg" }),
+                                            "rounded-2xl px-10 h-12 text-base opacity-60 cursor-not-allowed font-mono"
+                                        )}
+                                        title="Replace CAL_LINK in lib/placeholders.ts"
+                                    >
+                                        {calLink}
+                                    </span>
+                                ) : (
+                                    <motion.a
+                                        href={calLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        whileHover={{ scale: 1.04 }}
+                                        whileTap={{ scale: 0.97 }}
+                                        className={cn(buttonVariants({ size: "lg" }), "rounded-2xl px-10 h-12 text-base")}
+                                    >
+                                        {data.cta.book}
+                                    </motion.a>
+                                )}
                                 <a
-                                    href={calLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={cn(buttonVariants({ size: "lg" }), "rounded-2xl px-10 h-12 text-base")}
+                                    href={emailHref}
+                                    className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors underline underline-offset-4"
+                                    style={{ textDecorationColor: "var(--accent-warm)" }}
                                 >
-                                    {data.cta.book}
+                                    {data.cta.email}
                                 </a>
-                            )}
+                            </>
+                        ) : (
+                            // No booking link yet: email carries the CTA alone.
                             <a
                                 href={emailHref}
-                                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors underline underline-offset-4"
-                                style={{ textDecorationColor: "var(--accent-warm)" }}
+                                className={cn(buttonVariants({ size: "lg" }), "rounded-2xl px-10 h-12 text-base")}
                             >
-                                {data.cta.email}
+                                Email me
                             </a>
-                        </>
-                    ) : (
-                        // No booking link yet: email carries the CTA alone.
-                        <a
-                            href={emailHref}
-                            className={cn(buttonVariants({ size: "lg" }), "rounded-2xl px-10 h-12 text-base")}
+                        )}
+                    </motion.div>
+                    <motion.div {...fadeUp} className="mt-5">
+                        <Link
+                            href="/"
+                            className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                         >
-                            Email me
-                        </a>
-                    )}
-                    <Link
-                        href="/"
-                        className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                    >
-                        Back to the portfolio
-                    </Link>
-                </motion.div>
+                            Back to the portfolio
+                        </Link>
+                    </motion.div>
+                </div>
             </section>
         </div>
     );
