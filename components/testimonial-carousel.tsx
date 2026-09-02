@@ -111,16 +111,29 @@ export function TestimonialCarousel({ className }: { className?: string }) {
         setIndex((i) => (i + 1) % visible.length);
     }, [visible.length]);
 
+    const restartTimer = useCallback(() => {
+        if (timer.current) clearInterval(timer.current);
+        timer.current = setInterval(advance, AUTO_ADVANCE_MS);
+    }, [advance]);
+
     useEffect(() => {
         if (paused || visible.length < 2) return;
-        // `index` in the deps on purpose: every change — including a manual
-        // dot click — restarts the clock, so a selection is never overridden
-        // moments after it was made.
-        timer.current = setInterval(advance, AUTO_ADVANCE_MS);
+        restartTimer();
         return () => {
             if (timer.current) clearInterval(timer.current);
         };
-    }, [paused, advance, visible.length, index]);
+    }, [paused, visible.length, restartTimer]);
+
+    // Manual selection also restarts the clock imperatively (not via effect
+    // deps), so a click is never overridden moments later and the deps array
+    // above keeps a constant size across renders and hot reloads.
+    const select = useCallback(
+        (i: number) => {
+            setIndex(i);
+            if (!paused && visible.length > 1) restartTimer();
+        },
+        [paused, visible.length, restartTimer]
+    );
 
     if (visible.length === 0) return null;
     const current = visible[index % visible.length];
@@ -158,7 +171,7 @@ export function TestimonialCarousel({ className }: { className?: string }) {
                             type="button"
                             aria-label={`Show testimonial from ${t.name}`}
                             aria-current={i === index}
-                            onClick={() => setIndex(i)}
+                            onClick={() => select(i)}
                             className="group p-1.5 cursor-pointer"
                         >
                             <span
