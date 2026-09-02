@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
-import Link from "next/link";
 import { useCallback, useEffect, useRef } from "react";
 import { Highlighter } from "@/components/ui/highlighter";
 import { CAL_LINK, isUnreplaced, resolveToken } from "@/lib/placeholders";
@@ -283,17 +282,6 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
                                     </p>
                                 </motion.a>
 
-                                {/* Freelance page link */}
-                                <div className="pt-1">
-                                    <Link
-                                        href="/work-with-me"
-                                        onClick={onClose}
-                                        className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors underline underline-offset-4"
-                                        style={{ textDecorationColor: "var(--accent-warm)" }}
-                                    >
-                                        Freelance offer and pricing
-                                    </Link>
-                                </div>
                             </div>
                         </div>
                     </motion.div>

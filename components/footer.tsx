@@ -141,13 +141,6 @@ export function Footer() {
                                         Email me
                                     </a>
                                 </div>
-                                <Link
-                                    href="/work-with-me"
-                                    className="self-start text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors underline underline-offset-4"
-                                    style={{ textDecorationColor: "var(--accent-warm)" }}
-                                >
-                                    Freelance offer and pricing
-                                </Link>
                             </>
                         );
                     })()}
