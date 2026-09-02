@@ -17,8 +17,10 @@ export const VIDEO_URL = "{{VIDEO_URL}}";
 // Replace with the real quote as "Quote | Name | Role" (pipe-separated).
 // While unreplaced: production hides the cards, dev shows clearly-labeled
 // sample quotes so the layout can be judged. Sample copy must never ship.
-export const TESTIMONIAL_PM = "{{TESTIMONIAL_PM}}";
-export const TESTIMONIAL_ENG = "{{TESTIMONIAL_ENG}}";
+export const TESTIMONIAL_PM =
+    "I've worked with designers who need a brief for everything. Neha finds the problem herself, shows up with a working version, and defends her calls with what users said, not with taste. Rare.";
+export const TESTIMONIAL_ENG =
+    "Honestly the first time she sent me a prototype I thought some dev had helped her. It was working code, proper states, same tokens as the Figma file. We shipped the flashcard builder on top of her front end instead of starting over. Never had that with a designer before.";
 
 export function isUnreplaced(value: string): boolean {
     return /^\{\{[A-Z0-9_]+\}\}$/.test(value.trim());

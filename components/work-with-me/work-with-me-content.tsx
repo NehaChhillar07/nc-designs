@@ -4,12 +4,10 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Highlighter } from "@/components/ui/highlighter";
 import { ConnectVideo } from "@/components/connect-video";
-import { ExploreMore } from "@/components/explore-more";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CAL_LINK, VIDEO_URL, isUnreplaced, resolveToken } from "@/lib/placeholders";
 import { CONTACT_EMAIL } from "@/lib/site";
-import { otherProjects } from "@/data/case-study-data";
 import { workWithMeData } from "@/data/work-with-me-data";
 import { testimonials } from "@/data/testimonials-data";
 import { TestimonialStack } from "@/components/testimonial-stack";
@@ -77,10 +75,6 @@ export function WorkWithMeContent() {
     const emailHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(data.cta.emailSubject)}`;
 
     const [headBefore, headAfter] = data.hero.headline.split(data.hero.highlight);
-    // Ordered by proof.projectIds (unsaid first), not by the source array.
-    const proofProjects = data.proof.projectIds
-        .map((id) => otherProjects.find((p) => p.id === id))
-        .filter((p): p is (typeof otherProjects)[number] => Boolean(p));
 
     return (
         <div className="container mx-auto px-4 sm:px-8 lg:px-12 pt-28 md:pt-36 pb-8 md:pb-12">
@@ -148,20 +142,6 @@ export function WorkWithMeContent() {
                 <motion.p {...fadeUp} className="text-[17px] md:text-[20px] text-gray-800 leading-relaxed">
                     <MarkedText text={data.whoFor.body} />
                 </motion.p>
-            </section>
-
-            {/* Proof — the same cards the case studies cross-link with */}
-            <section className="mt-20 md:mt-28">
-                <Eyebrow>{data.proof.eyebrow}</Eyebrow>
-                {/* currentProjectId={-1}: matches nothing, so all three render
-                    (undefined would make ExploreMore slice to two). */}
-                <ExploreMore
-                    projects={proofProjects}
-                    currentProjectId={-1}
-                    className="mt-2"
-                    gridClassName="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6"
-                    variant="minimal"
-                />
             </section>
 
             {/* Video + terms/CTA — side by side: the video left, the closing

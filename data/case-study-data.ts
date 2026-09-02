@@ -8,7 +8,7 @@ export const otherProjects = [
         image: "/work/thumbs/human-firewall.png",
         link: "/case-study/human-firewall",
         readingTime: "8 mins",
-        hoverHint: "A decade-old platform, rebuilt around AI. See what changed.",
+        hoverHint: "A decade-old security platform, rethought around AI without losing its admins. See what changed.",
     },
     {
         id: 2,
@@ -27,7 +27,7 @@ export const otherProjects = [
         image: "/work/1st-case study/hf-cards.png",
         link: "/case-study/flashcard-training",
         readingTime: "6 mins",
-        hoverHint: "The prototype engineering shipped. See the whole loop.",
+        hoverHint: "A prototype so close to done that engineering shipped it. See the whole loop, start to finish.",
     },
     {
         id: 6,
@@ -37,6 +37,6 @@ export const otherProjects = [
         image: "/work/thumbs/unsaid.png",
         link: "/case-study/unsaid",
         readingTime: "6 mins",
-        hoverHint: "Idea to live app in three weeks. See the build.",
+        hoverHint: "From first idea to a live app in three weeks, designed and built solo. See how it came together.",
     },
 ];

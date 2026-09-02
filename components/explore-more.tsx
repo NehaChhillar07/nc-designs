@@ -61,23 +61,28 @@ export function ExploreMore({ projects, currentProjectId, className, gridClassNa
     };
 
     // Minimal variant: white surface, hairline border, strong type contrast.
-    // Hover lifts the card on a soft spread shadow (no hard stroke) and
-    // crossfades the title into the project's hover hint — the line that
+    // The card itself never moves on hover — a blurred blob fades in behind
+    // it and reads as a soft shadow. The title crossfades into the project's
+    // hover hint (plain body text, clamped to two lines) — the line that
     // makes someone click through. Both live in the same grid cell so the
     // card never changes height during the swap.
     const MinimalCardContent = ({ project }: { project: Project }) => (
-        <div className="flex h-full min-h-[220px] flex-col rounded-2xl border border-gray-200 bg-white p-7 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_2px_8px_rgba(0,0,0,0.04),0_18px_50px_-12px_rgba(0,0,0,0.16)]">
+        <div className="relative h-full">
+            <div
+                aria-hidden="true"
+                className="absolute inset-x-4 top-5 -bottom-2 rounded-[36px] bg-gray-500/20 blur-2xl opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+            />
+            <div className="relative flex h-full min-h-[220px] flex-col rounded-2xl border border-gray-200 bg-white p-7">
             <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-gray-400">
                 {project.category}
             </p>
             <div className="mt-3 grid">
-                <h3 className="col-start-1 row-start-1 text-[24px] md:text-[27px] font-semibold leading-snug tracking-tight text-gray-900 transition-opacity duration-300 group-hover:opacity-0">
+                <h3 className="col-start-1 row-start-1 text-[24px] md:text-[27px] font-semibold leading-snug tracking-tight text-gray-900 transition-opacity duration-500 ease-out group-hover:opacity-0">
                     {project.title}
                 </h3>
                 <p
                     aria-hidden="true"
-                    className="col-start-1 row-start-1 text-[24px] md:text-[27px] font-semibold leading-snug tracking-tight opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0"
-                    style={{ color: "var(--accent-warm-strong)" }}
+                    className="col-start-1 row-start-1 self-center text-[15px] font-normal leading-relaxed text-gray-600 line-clamp-2 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-hover:delay-150"
                 >
                     {project.hoverHint ?? "Read the case study."}
                 </p>
@@ -96,6 +101,7 @@ export function ExploreMore({ projects, currentProjectId, className, gridClassNa
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </span>
+            </div>
             </div>
         </div>
     );

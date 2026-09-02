@@ -39,12 +39,6 @@ export const workWithMeData = {
         // Items live in data/testimonials-data.ts, shared with the About section.
     },
 
-    proof: {
-        eyebrow: "Proof",
-        // ids from data/case-study-data.ts — unsaid, Flashcard, Human Firewall
-        projectIds: [6, 3, 1],
-    },
-
     video: {
         line: "Two minutes on what I bring and how I work.",
         title: "Two-minute intro",
