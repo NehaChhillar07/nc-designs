@@ -17,8 +17,10 @@ import { testimonials, type Testimonial } from "@/data/testimonials-data";
 // live site until real words exist.
 
 const SWAP = {
-    duration: 0.65,
-    ease: [0.22, 1, 0.36, 1] as const, // easeOutQuint-ish, the "expensive" glide
+    // Spring on the travel, quick tween on the fade — the slide reads as one
+    // continuous motion with no bounce at the end.
+    x: { type: "spring" as const, stiffness: 280, damping: 32, mass: 0.9 },
+    opacity: { duration: 0.35 },
 };
 const AUTO_ADVANCE_MS = 6000;
 
@@ -101,14 +103,25 @@ function Slide({ item }: { item: Testimonial }) {
     );
 }
 
+// Direction-aware slide variants: forward (+1) enters from the right and
+// exits left; backward (-1) mirrors it. The x distance is a bit past the
+// viewport so cards fully clear the frame while the fade finishes.
+const slideVariants = {
+    enter: (dir: number) => ({ x: dir > 0 ? "104%" : "-104%", opacity: 0.6 }),
+    center: { x: "0%", opacity: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? "-104%" : "104%", opacity: 0.6 }),
+};
+
 export function TestimonialCarousel({ className }: { className?: string }) {
     const visible = testimonials.filter((t) => resolveToken(t.token));
-    const [index, setIndex] = useState(0);
+    // index + travel direction move together so the exit animation of the
+    // outgoing card uses the same direction as the incoming one.
+    const [[index, direction], setSlide] = useState<[number, number]>([0, 1]);
     const [paused, setPaused] = useState(false);
     const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const advance = useCallback(() => {
-        setIndex((i) => (i + 1) % visible.length);
+        setSlide(([i]) => [(i + 1) % visible.length, 1]);
     }, [visible.length]);
 
     const restartTimer = useCallback(() => {
@@ -129,7 +142,7 @@ export function TestimonialCarousel({ className }: { className?: string }) {
     // above keeps a constant size across renders and hot reloads.
     const select = useCallback(
         (i: number) => {
-            setIndex(i);
+            setSlide(([cur]) => [i, i > cur ? 1 : -1]);
             if (!paused && visible.length > 1) restartTimer();
         },
         [paused, visible.length, restartTimer]
@@ -149,13 +162,18 @@ export function TestimonialCarousel({ className }: { className?: string }) {
             onFocusCapture={() => setPaused(true)}
             onBlurCapture={() => setPaused(false)}
         >
-            <div className="relative">
-                <AnimatePresence mode="popLayout" initial={false}>
+            {/* overflow-hidden is the carousel frame: cards slide fully out of
+                it. Vertical padding keeps the sample sticker (which overhangs
+                the card top) inside the clip. */}
+            <div className="relative overflow-hidden px-1 pt-4 pb-1 -mx-1">
+                <AnimatePresence mode="popLayout" custom={direction} initial={false}>
                     <motion.div
                         key={current.token}
-                        initial={{ opacity: 0, y: 24, scale: 0.985, filter: "blur(6px)" }}
-                        animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, y: -18, scale: 0.985, filter: "blur(6px)" }}
+                        custom={direction}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
                         transition={SWAP}
                     >
                         <Slide item={current} />
