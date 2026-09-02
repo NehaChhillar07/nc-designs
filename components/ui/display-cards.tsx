@@ -32,21 +32,24 @@ function DisplayCard({
                 // overflow-hidden clips long nowrap descriptions at the card
                 // edge so the right-edge gradient fades them out (the source
                 // component assumed short one-liners and let them spill).
-                "relative flex h-36 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between overflow-hidden rounded-xl border border-gray-200 bg-white/80 backdrop-blur-sm px-4 py-3 shadow-[0_10px_30px_-16px_rgba(0,0,0,0.15)] transition-all duration-700 after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[14rem] after:bg-gradient-to-l after:from-white after:via-white/80 after:to-transparent after:content-[''] hover:border-gray-300 hover:bg-white [&>*]:flex [&>*]:items-center [&>*]:gap-2",
+                // No truncation: the description wraps and the card grows to
+                // fit the whole quote (Neha: the entire comment must be
+                // readable). Gentler skew keeps long text comfortable.
+                "relative flex w-[26rem] -skew-y-[6deg] select-none flex-col gap-4 rounded-xl border border-gray-200 bg-white px-6 py-5 shadow-[0_10px_30px_-16px_rgba(0,0,0,0.15)] transition-all duration-700 hover:border-gray-300",
                 className
             )}
         >
-            <div>
+            <div className="flex items-center gap-3">
                 <span
-                    className="relative inline-flex h-7 w-7 items-center justify-center rounded-full"
+                    className="relative inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full"
                     style={{ backgroundColor: "rgba(255, 152, 0, 0.16)" }}
                 >
                     {icon}
                 </span>
-                <p className={cn("text-lg font-medium", titleClassName)}>{title}</p>
+                <p className={cn("text-xl font-semibold", titleClassName)}>{title}</p>
             </div>
-            <p className="whitespace-nowrap text-[15px] text-gray-700">{description}</p>
-            <p className="text-sm text-gray-400">{date}</p>
+            <p className="text-[15.5px] leading-relaxed text-gray-800">{description}</p>
+            <p className="text-sm text-gray-500">{date}</p>
         </div>
     );
 }

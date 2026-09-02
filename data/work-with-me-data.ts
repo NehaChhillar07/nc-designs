@@ -40,11 +40,8 @@ export const workWithMeData = {
     },
 
     video: {
-        line: "Two minutes on what I bring and how I work.",
         title: "Two-minute intro",
     },
-
-    terms: "50% to start, 50% on delivery. Payment by Wise or PayPal. I take two projects a month.",
 
     cta: {
         book: "Book a call",

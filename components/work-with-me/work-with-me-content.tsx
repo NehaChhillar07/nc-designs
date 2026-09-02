@@ -156,19 +156,10 @@ export function WorkWithMeContent() {
                 )}
             >
                 {videoUrl && (
-                    <div className="flex flex-col gap-5">
-                        <ConnectVideo url={videoUrl} title={data.video.title} />
-                        <motion.p {...fadeUp} className="text-[15px] text-gray-600">
-                            {data.video.line}
-                        </motion.p>
-                    </div>
+                    <ConnectVideo url={videoUrl} title={data.video.title} />
                 )}
 
                 <div className="max-w-md">
-                    <motion.p {...fadeUp} className="pt-5 border-t border-gray-200 text-sm text-gray-500 leading-relaxed">
-                        {data.terms}
-                    </motion.p>
-
                     {/* Handwritten aside + self-drawing arrow to the button */}
                     <motion.div
                         {...fadeUp}
