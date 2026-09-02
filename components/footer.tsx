@@ -11,13 +11,15 @@ import { cn } from "@/lib/utils";
 import { CAL_LINK, VIDEO_URL, resolveToken } from "@/lib/placeholders";
 import { CONTACT_EMAIL } from "@/lib/site";
 
+// Anchor entries carry `id` (smooth-scrolled on "/"); route entries carry `href`.
 const navLinks = [
     { label: "Home", id: "hero" },
     { label: "Work", id: "work" },
+    { label: "Freelance", href: "/work-with-me" },
     { label: "Writings", id: "writings" },
     { label: "Experiments", id: "fun-with-claude" },
     { label: "About", id: "about" },
-];
+] as const;
 
 export function Footer() {
     const pathname = usePathname();
@@ -140,9 +142,9 @@ export function Footer() {
                     <nav className="flex flex-wrap items-center gap-6 md:gap-8">
                         {navLinks.map((link) => (
                             <Link
-                                key={link.id}
-                                href={`/#${link.id}`}
-                                onClick={(e) => handleClick(e, link.id)}
+                                key={link.label}
+                                href={"href" in link ? link.href : `/#${link.id}`}
+                                onClick={"id" in link ? (e) => handleClick(e, link.id) : undefined}
                                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                             >
                                 {link.label}

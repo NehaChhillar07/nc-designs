@@ -224,6 +224,19 @@ const ScrollExpandMedia = ({
                                     textBlend ? "mix-blend-difference" : "mix-blend-normal"
                                 }`}
                             >
+                                {/* Soft scrim behind the text so it stays
+                                    readable over the busy product shot; it
+                                    clears together with the frosted glass as
+                                    the media expands. */}
+                                <div
+                                    aria-hidden
+                                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-[150%] max-w-none h-[220%] md:w-[120%] md:h-[240%]"
+                                    style={{
+                                        background:
+                                            "radial-gradient(ellipse 50% 50% at center, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 80%)",
+                                        opacity: glassStrength,
+                                    }}
+                                />
                                 {eyebrow && (
                                     <p
                                         className="text-[11px] md:text-xs font-medium uppercase tracking-[0.2em] text-gray-500 transition-none"

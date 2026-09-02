@@ -8,8 +8,11 @@ import { useEffect, useState } from "react";
 import { ConnectOverlay } from "@/components/connect-overlay";
 import { scrollToSection, useHashScrollOnLoad } from "@/lib/scroll-to-section";
 
+// Two kinds of entries: homepage anchors (id set — smooth-scrolled on "/")
+// and plain routes (href set — ordinary navigation).
 const NAV_LINKS = [
   { id: "work", label: "Work" },
+  { href: "/work-with-me", label: "Freelance" },
   { id: "writings", label: "Writings" },
   // Label renamed to Experiments; the id (and /#fun-with-claude anchors
   // already shared elsewhere) stay valid.
@@ -87,9 +90,9 @@ export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
           <nav className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
               <Link
-                key={link.id}
-                href={`/#${link.id}`}
-                onClick={(e) => handleNavClick(e, link.id)}
+                key={link.label}
+                href={"href" in link ? link.href : `/#${link.id}`}
+                onClick={"id" in link ? (e) => handleNavClick(e, link.id) : undefined}
                 className={`text-sm font-medium transition-colors whitespace-nowrap ${
                   isDark
                     ? "text-white/70 hover:text-white"
@@ -176,9 +179,13 @@ export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
               {NAV_LINKS.map((link) => (
                 <Link
-                  key={link.id}
-                  href={`/#${link.id}`}
-                  onClick={(e) => handleNavClick(e, link.id)}
+                  key={link.label}
+                  href={"href" in link ? link.href : `/#${link.id}`}
+                  onClick={
+                    "id" in link
+                      ? (e) => handleNavClick(e, link.id)
+                      : () => setMobileMenuOpen(false)
+                  }
                   className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
                 >
                   {link.label}

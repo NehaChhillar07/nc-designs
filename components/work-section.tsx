@@ -15,8 +15,6 @@ import { GITHUB_UNSAID, resolveToken } from "@/lib/placeholders";
 
 const FLASHCARD_PROJECT_ID = 5;
 const FLASHCARD_FAN_CARDS = flashcardTrainingCaseStudyData.whyFlashcards.cards;
-// Human Firewall cover renders reduced + centered on a dark card instead of a full-bleed crop.
-const HF_PROJECT_ID = 1;
 
 // Soft blurred shadow blob placed behind the auto-cycling card deck so the
 // stack reads against the dark background.
@@ -73,7 +71,7 @@ const projects: Project[] = [
         category: "Enterprise cybersecurity SaaS · Admin-heavy workflows",
         description:
             "The AI-native rebuild of a 10-year-old security platform. Solo designer, 100+ enterprise clients, 10 migrated in beta.",
-        image: "/work/1st-case study/humanfirewall cover cropped.png",
+        image: "/work/thumbs/human-firewall.png",
         tags: [],
         caseStudyLink: "/case-study/human-firewall",
         buttonText: "Read case study",
@@ -97,7 +95,7 @@ const projects: Project[] = [
         category: "Designed and built solo · Live",
         description:
             "An anonymous confessions app with two worlds: personal and professional. Designed in Figma, built in Next.js and Supabase, shipped in three weeks.",
-        image: "/work/unsaid-case study/home-dark.png",
+        image: "/work/thumbs/unsaid.png",
         tags: [],
         caseStudyLink: "/case-study/unsaid",
         buttonText: "Read case study",
@@ -111,7 +109,7 @@ const projects: Project[] = [
         category: "WEBSITE DESIGN · CYBERSECURITY · PUBLIC PLATFORM",
         description:
             "Public-facing cybersecurity platform designed to help citizens report cybercrime and learn about digital risks.",
-        image: "/work/dp.png",
+        image: "/work/thumbs/ecrime-hub.png",
         tags: [],
         caseStudyLink: "/case-study/ecrime-hub",
         buttonText: "Read case study",
@@ -257,13 +255,18 @@ export function WorkSection() {
                         .fromTo(
                             images[index],
                             { opacity: 0, yPercent: 5 },
-                            { opacity: 1, yPercent: 0, ease: "none" },
+                            // Without immediateRender:false every fromTo paints its
+                            // FROM state the moment the timeline is built, so the
+                            // last block's outgoing cover (opacity 1, latest in DOM)
+                            // lands on top of the stack at load and hides the first
+                            // covers until its own scrub band is reached.
+                            { opacity: 1, yPercent: 0, ease: "none", immediateRender: false },
                             0
                         )
                         .fromTo(
                             images[index - 1],
                             { opacity: 1, yPercent: 0 },
-                            { opacity: 0, yPercent: -3, ease: "none" },
+                            { opacity: 0, yPercent: -3, ease: "none", immediateRender: false },
                             0
                         );
                 });
@@ -386,37 +389,6 @@ export function WorkSection() {
                                             <FlashcardHighlightBlock />
                                             <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
                                         </div>
-                                    ) : project.id === HF_PROJECT_ID ? (
-                                        <div className="relative w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black flex items-center justify-center p-6 overflow-hidden">
-                                            <div
-                                                aria-hidden
-                                                className="pointer-events-none absolute inset-0 flex items-center justify-center"
-                                            >
-                                                <div
-                                                    className="w-[480px] h-[480px] rounded-full blur-3xl"
-                                                    style={{
-                                                        background:
-                                                            "radial-gradient(circle, rgba(255,152,0,0.55) 0%, rgba(255,215,154,0.3) 45%, transparent 72%)",
-                                                    }}
-                                                />
-                                            </div>
-                                            <Image
-                                                src={project.image}
-                                                alt={project.title}
-                                                width={2693}
-                                                height={1644}
-                                                className="relative w-full h-auto rounded-lg border border-white/15 shadow-2xl"
-                                                priority={index < 2}
-                                                // Every cover is in the DOM twice: this mobile block and
-                                                // the sticky desktop stack below. display:none does not
-                                                // stop the fetch, so without a breakpoint-aware sizes the
-                                                // browser resolves the hidden copy at its 100vw default
-                                                // and downloads a full-size file nobody sees. 1px above
-                                                // lg parks it on the smallest srcset candidate instead.
-                                                sizes="(min-width: 1024px) 1px, 100vw"
-                                                loading={index < 2 ? "eager" : "lazy"}
-                                            />
-                                        </div>
                                     ) : (
                                         <Image
                                             src={project.image}
@@ -427,8 +399,12 @@ export function WorkSection() {
                                             priority={index < 2}
                                             placeholder="blur"
                                             blurDataURL={BLUR_PLACEHOLDER}
-                                            // See the note above: hidden above lg, so keep the desktop
-                                            // fetch off the smallest candidate rather than 100vw.
+                                            // Every cover is in the DOM twice: this mobile block and
+                                            // the sticky desktop stack below. display:none does not
+                                            // stop the fetch, so without a breakpoint-aware sizes the
+                                            // browser resolves the hidden copy at its 100vw default
+                                            // and downloads a full-size file nobody sees. 1px above
+                                            // lg parks it on the smallest srcset candidate instead.
                                             sizes="(min-width: 1024px) 1px, 100vw"
                                             loading={index < 2 ? "eager" : "lazy"}
                                         />
@@ -617,33 +593,6 @@ export function WorkSection() {
                                                 </div>
                                                 <FlashcardHighlightBlock />
                                                 <HeroCardFan cards={FLASHCARD_FAN_CARDS} />
-                                            </div>
-                                        ) : project.id === HF_PROJECT_ID ? (
-                                            <div className="relative w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black flex items-center justify-center p-8 overflow-hidden">
-                                                <div
-                                                    aria-hidden
-                                                    className="pointer-events-none absolute inset-0 flex items-center justify-center"
-                                                >
-                                                    <div
-                                                        className="w-[640px] h-[640px] rounded-full blur-3xl"
-                                                        style={{
-                                                            background:
-                                                                "radial-gradient(circle, rgba(255,152,0,0.55) 0%, rgba(255,215,154,0.3) 45%, transparent 72%)",
-                                                        }}
-                                                    />
-                                                </div>
-                                                <Image
-                                                    src={project.image}
-                                                    alt={project.title}
-                                                    width={2693}
-                                                    height={1644}
-                                                    className="relative w-full h-auto rounded-xl border border-white/15 shadow-2xl"
-                                                    priority={index < 2}
-                                                    // Mirror of the mobile block: this copy is display:none
-                                                    // below lg, so keep its fetch off the 600px candidate there.
-                                                    sizes="(max-width: 1023px) 1px, 600px"
-                                                    loading={index < 2 ? "eager" : "lazy"}
-                                                />
                                             </div>
                                         ) : (
                                             <Image

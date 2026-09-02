@@ -15,6 +15,9 @@ export const GITHUB_PROFILE = "https://github.com/NehaChhillar07";
 export const FIGMA_UNSAID = "{{FIGMA_UNSAID}}";
 export const CAL_LINK = "{{CAL_LINK}}";
 export const VIDEO_URL = "{{VIDEO_URL}}";
+// Replace with the real quote as "Quote | Name | Role" (pipe-separated).
+// While unreplaced: production hides the cards, dev shows clearly-labeled
+// sample quotes so the layout can be judged. Sample copy must never ship.
 export const TESTIMONIAL_PM = "{{TESTIMONIAL_PM}}";
 export const TESTIMONIAL_ENG = "{{TESTIMONIAL_ENG}}";
 

@@ -13,6 +13,7 @@ type Route = {
 const routes: Route[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/resume", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/work-with-me", changeFrequency: "monthly", priority: 0.9 },
   { path: "/case-study/human-firewall", changeFrequency: "monthly", priority: 0.8 },
   { path: "/case-study/ecrime-hub", changeFrequency: "monthly", priority: 0.8 },
   { path: "/case-study/flashcard-training", changeFrequency: "monthly", priority: 0.8 },

@@ -19,11 +19,16 @@ interface Project {
 interface ExploreMoreProps {
     projects: Project[];
     currentProjectId?: number;
+    // Overrides the section's own padding when the caller places it inside an
+    // already-padded layout (e.g. the Proof section on /work-with-me).
+    className?: string;
+    // Overrides the card grid (default: 2 columns). /work-with-me shows three.
+    gridClassName?: string;
 }
 
 const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEQA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
 
-export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
+export function ExploreMore({ projects, currentProjectId, className, gridClassName }: ExploreMoreProps) {
     const { setCursor, resetCursor } = useCursor();
 
     // Reset cursor when component unmounts (e.g., when navigating to another page)
@@ -94,12 +99,12 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
 
     return (
         <section
-            className="py-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-16"
+            className={className ?? "py-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-16"}
             onMouseLeave={handleMouseLeave}
         >
             <div className="w-full">
                 {/* Project Cards - Simple 2 column grid, no carousel */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div className={gridClassName ?? "grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"}>
                     {filteredProjects.map((project, index) => (
                         <motion.div
                             key={project.id}
