@@ -7,7 +7,7 @@ import { ConnectVideo } from "@/components/connect-video";
 import { ExploreMore } from "@/components/explore-more";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CAL_LINK, VIDEO_URL, resolveToken } from "@/lib/placeholders";
+import { CAL_LINK, VIDEO_URL, isUnreplaced, resolveToken } from "@/lib/placeholders";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { otherProjects } from "@/data/case-study-data";
 import { workWithMeData } from "@/data/work-with-me-data";
@@ -133,14 +133,29 @@ export function WorkWithMeContent() {
                 <motion.div {...fadeUp} className="mt-8 flex flex-wrap items-center gap-5">
                     {calLink ? (
                         <>
-                            <a
-                                href={calLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={cn(buttonVariants({ size: "lg" }), "rounded-2xl px-10 h-12 text-base")}
-                            >
-                                {data.cta.book}
-                            </a>
+                            {/* Unreplaced token (dev only): inert chip showing
+                                the token — a real link would 404 on /{{CAL_LINK}}.
+                                Production hides the whole branch. */}
+                            {isUnreplaced(calLink) ? (
+                                <span
+                                    className={cn(
+                                        buttonVariants({ size: "lg" }),
+                                        "rounded-2xl px-10 h-12 text-base opacity-60 cursor-not-allowed font-mono"
+                                    )}
+                                    title="Replace CAL_LINK in lib/placeholders.ts"
+                                >
+                                    {calLink}
+                                </span>
+                            ) : (
+                                <a
+                                    href={calLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={cn(buttonVariants({ size: "lg" }), "rounded-2xl px-10 h-12 text-base")}
+                                >
+                                    {data.cta.book}
+                                </a>
+                            )}
                             <a
                                 href={emailHref}
                                 className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors underline underline-offset-4"

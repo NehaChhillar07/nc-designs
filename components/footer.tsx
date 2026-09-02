@@ -8,7 +8,7 @@ import { scrollToSection } from "@/lib/scroll-to-section";
 import { ConnectVideo } from "@/components/connect-video";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CAL_LINK, VIDEO_URL, resolveToken } from "@/lib/placeholders";
+import { CAL_LINK, VIDEO_URL, isUnreplaced, resolveToken } from "@/lib/placeholders";
 import { GITHUB_PROFILE } from "@/lib/placeholders";
 import { CONTACT_EMAIL, LINKEDIN_URL } from "@/lib/site";
 
@@ -107,16 +107,31 @@ export function Footer() {
                                     <ConnectVideo url={videoUrl} title="Two-minute intro" />
                                 )}
                                 <div className="flex flex-wrap items-center gap-3">
-                                    {calLink && (
-                                        <a
-                                            href={calLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={cn(buttonVariants({ size: "lg" }))}
-                                        >
-                                            Book a call
-                                        </a>
-                                    )}
+                                    {/* Unreplaced token (dev only): an inert
+                                        chip showing the token — a real-looking
+                                        button would navigate to /{{CAL_LINK}}
+                                        and 404. Production hides it entirely. */}
+                                    {calLink &&
+                                        (isUnreplaced(calLink) ? (
+                                            <span
+                                                className={cn(
+                                                    buttonVariants({ size: "lg" }),
+                                                    "opacity-60 cursor-not-allowed font-mono"
+                                                )}
+                                                title="Replace CAL_LINK in lib/placeholders.ts"
+                                            >
+                                                {calLink}
+                                            </span>
+                                        ) : (
+                                            <a
+                                                href={calLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={cn(buttonVariants({ size: "lg" }))}
+                                            >
+                                                Book a call
+                                            </a>
+                                        ))}
                                     <a
                                         href={`mailto:${CONTACT_EMAIL}?subject=Project%20inquiry`}
                                         className={cn(

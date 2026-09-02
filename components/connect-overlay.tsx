@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef } from "react";
 import { Highlighter } from "@/components/ui/highlighter";
-import { CAL_LINK, resolveToken } from "@/lib/placeholders";
+import { CAL_LINK, isUnreplaced, resolveToken } from "@/lib/placeholders";
 import { CONTACT_EMAIL, LINKEDIN_URL } from "@/lib/site";
 
 interface ConnectOverlayProps {
@@ -202,30 +202,42 @@ export function ConnectOverlay({ isOpen, onClose }: ConnectOverlayProps) {
 
                             {/* Cards */}
                             <div className="px-6 pb-6 space-y-3">
-                                {/* Book a call — hidden until {{CAL_LINK}} is replaced */}
-                                {calLink && (
-                                    <motion.a
-                                        href={calLink}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="block p-4 bg-gray-50 rounded-xl border border-gray-100"
-                                        whileHover={{
-                                            rotateX: -3,
-                                            rotateY: 4,
-                                            scale: 1.02,
-                                            boxShadow: "0 10px 30px -10px rgba(0,0,0,0.1)"
-                                        }}
-                                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                        style={{ transformStyle: "preserve-3d", perspective: 1000 }}
-                                    >
-                                        <span className="text-xs text-gray-400 uppercase tracking-wide">Book a call</span>
-                                        <p className="text-lg font-medium text-gray-900 mt-0.5">
-                                            <Highlighter action="highlight" color="#FF9800">
-                                                30 minutes, free
-                                            </Highlighter>
-                                        </p>
-                                    </motion.a>
-                                )}
+                                {/* Book a call — hidden in production until
+                                    {{CAL_LINK}} is replaced. In dev the
+                                    unreplaced card is inert and shows the
+                                    token (a real link would 404). */}
+                                {calLink &&
+                                    (isUnreplaced(calLink) ? (
+                                        <div
+                                            className="block p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300 opacity-70"
+                                            title="Replace CAL_LINK in lib/placeholders.ts"
+                                        >
+                                            <span className="text-xs text-gray-400 uppercase tracking-wide">Book a call</span>
+                                            <p className="text-lg font-mono text-gray-500 mt-0.5">{calLink}</p>
+                                        </div>
+                                    ) : (
+                                        <motion.a
+                                            href={calLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block p-4 bg-gray-50 rounded-xl border border-gray-100"
+                                            whileHover={{
+                                                rotateX: -3,
+                                                rotateY: 4,
+                                                scale: 1.02,
+                                                boxShadow: "0 10px 30px -10px rgba(0,0,0,0.1)"
+                                            }}
+                                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                            style={{ transformStyle: "preserve-3d", perspective: 1000 }}
+                                        >
+                                            <span className="text-xs text-gray-400 uppercase tracking-wide">Book a call</span>
+                                            <p className="text-lg font-medium text-gray-900 mt-0.5">
+                                                <Highlighter action="highlight" color="#FF9800">
+                                                    30 minutes, free
+                                                </Highlighter>
+                                            </p>
+                                        </motion.a>
+                                    ))}
 
                                 {/* Email Card */}
                                 <motion.a
