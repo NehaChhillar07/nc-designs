@@ -7,11 +7,10 @@ import { ConnectVideo } from "@/components/connect-video";
 import { ExploreMore } from "@/components/explore-more";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useCursor } from "@/components/ui/cursor-context";
 import { CAL_LINK, VIDEO_URL, resolveToken } from "@/lib/placeholders";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { otherProjects } from "@/data/case-study-data";
-import { workWithMeData, type PackageCard } from "@/data/work-with-me-data";
+import { workWithMeData } from "@/data/work-with-me-data";
 import { testimonials } from "@/data/testimonials-data";
 import { TestimonialCard } from "@/components/testimonial-card";
 
@@ -41,63 +40,6 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
     );
 }
 
-function PriceCard({ card }: { card: PackageCard }) {
-    const { setCursor, resetCursor } = useCursor();
-    return (
-        <motion.div
-            {...fadeUp}
-            whileHover={{ y: -4, boxShadow: "0 24px 60px -24px rgba(0,0,0,0.25)" }}
-            onMouseEnter={() => setCursor("tag", card.duration)}
-            onMouseLeave={() => resetCursor()}
-            className={cn(
-                "relative rounded-2xl border p-8 md:p-10 flex flex-col gap-6",
-                card.dark
-                    ? "bg-gradient-to-br from-zinc-800 via-zinc-900 to-black border-white/10 text-white"
-                    : "bg-white border-gray-200 text-gray-900"
-            )}
-        >
-            {card.sticker && (
-                <span
-                    className="absolute -top-3 right-6 inline-block px-3 py-1 rounded-full"
-                    style={{
-                        fontFamily: "var(--font-caveat), cursive",
-                        fontSize: "15px",
-                        transform: "rotate(2deg)",
-                        // deeper than the #FF9800 accent so white text clears 4.5:1
-                        backgroundColor: "#B45309",
-                        color: "#fff",
-                    }}
-                >
-                    {card.sticker}
-                </span>
-            )}
-            <div>
-                <h3 className="text-[24px] md:text-[28px] font-medium tracking-tight">{card.name}</h3>
-                <p className={cn("mt-2 text-[15px] md:text-[16px] leading-relaxed", card.dark ? "text-white/70" : "text-gray-600")}>
-                    {card.tagline}
-                </p>
-            </div>
-            <ul className="flex flex-col gap-2.5">
-                {card.deliverables.map((line) => (
-                    <li key={line} className={cn("flex gap-3 text-[15px] leading-relaxed", card.dark ? "text-white/85" : "text-gray-700")}>
-                        <span
-                            aria-hidden="true"
-                            className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full"
-                            style={{ backgroundColor: "var(--accent-warm)" }}
-                        />
-                        {line}
-                    </li>
-                ))}
-            </ul>
-            <div className={cn("mt-auto pt-5 border-t", card.dark ? "border-white/15" : "border-gray-200")}>
-                <p className={cn("text-xs font-medium uppercase tracking-[0.18em]", card.dark ? "text-white/50" : "text-gray-400")}>
-                    {card.duration}
-                </p>
-                <p className="mt-1 text-[26px] md:text-[30px] font-semibold tracking-tight">{card.price}</p>
-            </div>
-        </motion.div>
-    );
-}
 
 export function WorkWithMeContent() {
     const data = workWithMeData;
@@ -150,33 +92,6 @@ export function WorkWithMeContent() {
                 <motion.p {...fadeUp} className="text-[17px] md:text-[20px] text-gray-800 leading-relaxed">
                     {data.whoFor.body}
                 </motion.p>
-            </section>
-
-            {/* Two ways to start */}
-            <section className="mt-20 md:mt-28">
-                <Eyebrow>{data.packages.eyebrow}</Eyebrow>
-                <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl">
-                    {data.packages.cards.map((card) => (
-                        <PriceCard key={card.name} card={card} />
-                    ))}
-                </div>
-            </section>
-
-            {/* How it works — the case-study skeleton in miniature */}
-            <section className="mt-20 md:mt-28">
-                <Eyebrow>{data.process.eyebrow}</Eyebrow>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 max-w-5xl">
-                    {/* key precedes the spread on purpose: written after it,
-                        the compiler routes key through props and React drops
-                        it with a list-key warning. */}
-                    {data.process.steps.map((step) => (
-                        <motion.div key={step.number} {...fadeUp}>
-                            <p className="text-[26px] font-semibold text-gray-300 tracking-tight">{step.number}</p>
-                            <h3 className="mt-1 text-[17px] font-medium text-gray-900">{step.name}</h3>
-                            <p className="mt-2 text-[15px] text-gray-600 leading-relaxed">{step.body}</p>
-                        </motion.div>
-                    ))}
-                </div>
             </section>
 
             {/* Testimonials — token-gated; samples render only in dev */}
