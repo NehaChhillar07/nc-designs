@@ -12,7 +12,7 @@ import { CONTACT_EMAIL } from "@/lib/site";
 import { otherProjects } from "@/data/case-study-data";
 import { workWithMeData } from "@/data/work-with-me-data";
 import { testimonials } from "@/data/testimonials-data";
-import { TestimonialCard } from "@/components/testimonial-card";
+import { TestimonialCarousel } from "@/components/testimonial-carousel";
 
 // ============================================
 // /work-with-me — the freelance offer page. Every treatment here is borrowed
@@ -94,15 +94,11 @@ export function WorkWithMeContent() {
                 </motion.p>
             </section>
 
-            {/* Testimonials — token-gated; samples render only in dev */}
+            {/* Testimonials — one at a time, token-gated; samples render only in dev */}
             {testimonials.some((t) => resolveToken(t.token)) && (
                 <section className="mt-20 md:mt-28">
                     <Eyebrow>{data.testimonials.eyebrow}</Eyebrow>
-                    <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl">
-                        {testimonials.map((item) => (
-                            <TestimonialCard key={item.token} item={item} />
-                        ))}
-                    </div>
+                    <TestimonialCarousel className="max-w-2xl" />
                 </section>
             )}
 

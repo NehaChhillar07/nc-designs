@@ -6,9 +6,7 @@ import { ScrollChoreography } from "@/components/ui/scroll-choreography";
 import { aboutHeading, aboutChoreography, workingWithMe } from "@/data/about-data";
 import { MagicText } from "@/components/ui/magic-text";
 import { motion } from "motion/react";
-import { TestimonialCard } from "@/components/testimonial-card";
-import { testimonials } from "@/data/testimonials-data";
-import { resolveToken } from "@/lib/placeholders";
+import { TestimonialCarousel } from "@/components/testimonial-carousel";
 
 export function AboutSection() {
     return (
@@ -119,15 +117,10 @@ export function AboutSection() {
                 </div>
             </div>
 
-            {/* Testimonials — token-gated (hidden in production until the real
-                quotes replace the tokens; dev shows stickered samples). */}
-            {testimonials.some((t) => resolveToken(t.token)) && (
-                <div className="max-w-4xl mx-auto mt-16 md:mt-20 grid md:grid-cols-2 gap-6 md:gap-8 text-left">
-                    {testimonials.map((item) => (
-                        <TestimonialCard key={item.token} item={item} />
-                    ))}
-                </div>
-            )}
+            {/* Testimonials — one at a time, token-gated (the carousel renders
+                nothing in production until the real quotes replace the tokens;
+                dev shows stickered samples). */}
+            <TestimonialCarousel className="max-w-2xl mx-auto mt-16 md:mt-20 text-left" />
         </section>
     );
 }

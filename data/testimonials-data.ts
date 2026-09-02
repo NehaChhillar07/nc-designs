@@ -18,6 +18,9 @@ export type Testimonial = {
     name: string;
     role: string;
     sampleQuote: string;
+    // Path under /public (e.g. "/testimonials/kumar.jpg"). Falls back to a
+    // styled initials circle while unset.
+    avatar?: string;
 };
 
 export const testimonials: Testimonial[] = [
