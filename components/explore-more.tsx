@@ -14,6 +14,9 @@ interface Project {
     link: string | null;
     comingSoon?: boolean;
     readingTime?: string;
+    // Minimal variant: shown in place of the title on hover — the line that
+    // makes someone click through.
+    hoverHint?: string;
 }
 
 interface ExploreMoreProps {
@@ -57,19 +60,28 @@ export function ExploreMore({ projects, currentProjectId, className, gridClassNa
         resetCursor();
     };
 
-    // Minimal variant: white surface, hairline border, strong type contrast,
-    // an arrow that nudges on hover. Content-first, no decoration.
+    // Minimal variant: white surface, hairline border, strong type contrast.
+    // Hover lifts the card on a soft spread shadow (no hard stroke) and
+    // crossfades the title into the project's hover hint — the line that
+    // makes someone click through. Both live in the same grid cell so the
+    // card never changes height during the swap.
     const MinimalCardContent = ({ project }: { project: Project }) => (
-        <div className="flex h-full min-h-[240px] flex-col rounded-2xl border border-gray-200 bg-white p-7 transition-all duration-300 group-hover:border-gray-900 group-hover:shadow-[0_12px_32px_-16px_rgba(0,0,0,0.18)]">
+        <div className="flex h-full min-h-[220px] flex-col rounded-2xl border border-gray-200 bg-white p-7 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_2px_8px_rgba(0,0,0,0.04),0_18px_50px_-12px_rgba(0,0,0,0.16)]">
             <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-gray-400">
                 {project.category}
             </p>
-            <h3 className="mt-3 text-[20px] md:text-[22px] font-semibold leading-snug tracking-tight text-gray-900">
-                {project.title}
-            </h3>
-            <p className="mt-3 text-[14px] leading-relaxed text-gray-500">
-                {project.description}
-            </p>
+            <div className="mt-3 grid">
+                <h3 className="col-start-1 row-start-1 text-[24px] md:text-[27px] font-semibold leading-snug tracking-tight text-gray-900 transition-opacity duration-300 group-hover:opacity-0">
+                    {project.title}
+                </h3>
+                <p
+                    aria-hidden="true"
+                    className="col-start-1 row-start-1 text-[24px] md:text-[27px] font-semibold leading-snug tracking-tight opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0"
+                    style={{ color: "var(--accent-warm-strong)" }}
+                >
+                    {project.hoverHint ?? "Read the case study."}
+                </p>
+            </div>
             <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4 text-sm text-gray-500">
                 <span>{project.readingTime}</span>
                 <span className="flex items-center gap-1.5 font-medium text-gray-900">
