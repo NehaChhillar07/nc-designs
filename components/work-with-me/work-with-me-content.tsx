@@ -55,35 +55,46 @@ export function WorkWithMeContent() {
 
     return (
         <div className="container mx-auto px-4 sm:px-8 lg:px-12 pt-28 md:pt-36 pb-8 md:pb-12">
-            {/* Hero */}
-            <section className="max-w-3xl">
-                <Eyebrow>{data.hero.eyebrow}</Eyebrow>
-                <motion.h1
-                    {...fadeUp}
-                    transition={{ ...fadeUp.transition, delay: 0.05 }}
-                    className="text-[34px] sm:text-[44px] md:text-[56px] font-medium tracking-tight leading-[1.08] text-gray-900"
-                >
-                    {headBefore}
-                    <Highlighter action="underline" color="#FF9800" isView>
-                        {data.hero.highlight}
-                    </Highlighter>
-                    {headAfter}
-                </motion.h1>
-                <motion.p
-                    {...fadeUp}
-                    transition={{ ...fadeUp.transition, delay: 0.1 }}
-                    className="mt-6 text-[16px] md:text-[19px] text-gray-600 leading-relaxed"
-                >
-                    {data.hero.body}
-                </motion.p>
-                <motion.p
-                    {...fadeUp}
-                    transition={{ ...fadeUp.transition, delay: 0.15 }}
-                    className="mt-5 flex items-center gap-2 text-[13px] sm:text-sm text-muted-foreground"
-                >
-                    <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-green-500" />
-                    {data.hero.availability}
-                </motion.p>
+            {/* Hero — copy on the left, the square testimonial carousel fills
+                the right whitespace on large screens (stacks below on small). */}
+            <section className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-20 items-center">
+                <div className="max-w-3xl">
+                    <Eyebrow>{data.hero.eyebrow}</Eyebrow>
+                    <motion.h1
+                        {...fadeUp}
+                        transition={{ ...fadeUp.transition, delay: 0.05 }}
+                        className="text-[34px] sm:text-[44px] md:text-[56px] font-medium tracking-tight leading-[1.08] text-gray-900"
+                    >
+                        {headBefore}
+                        <Highlighter action="underline" color="#FF9800" isView>
+                            {data.hero.highlight}
+                        </Highlighter>
+                        {headAfter}
+                    </motion.h1>
+                    <motion.p
+                        {...fadeUp}
+                        transition={{ ...fadeUp.transition, delay: 0.1 }}
+                        className="mt-6 text-[16px] md:text-[19px] text-gray-600 leading-relaxed"
+                    >
+                        {data.hero.body}
+                    </motion.p>
+                    <motion.p
+                        {...fadeUp}
+                        transition={{ ...fadeUp.transition, delay: 0.15 }}
+                        className="mt-5 flex items-center gap-2 text-[13px] sm:text-sm text-muted-foreground"
+                    >
+                        <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-green-500" />
+                        {data.hero.availability}
+                    </motion.p>
+                </div>
+
+                {/* Token-gated: production renders nothing here until the real
+                    quotes exist, and the grid collapses to one column. */}
+                {testimonials.some((t) => resolveToken(t.token)) && (
+                    <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.2 }}>
+                        <TestimonialCarousel square className="w-full max-w-[400px]" />
+                    </motion.div>
+                )}
             </section>
 
             {/* Who this is for */}
@@ -94,14 +105,6 @@ export function WorkWithMeContent() {
                 </motion.p>
             </section>
 
-            {/* Testimonials — one at a time, token-gated; samples render only in dev */}
-            {testimonials.some((t) => resolveToken(t.token)) && (
-                <section className="mt-20 md:mt-28">
-                    <Eyebrow>{data.testimonials.eyebrow}</Eyebrow>
-                    <TestimonialCarousel className="max-w-2xl" />
-                </section>
-            )}
-
             {/* Proof — the same cards the case studies cross-link with */}
             <section className="mt-20 md:mt-28">
                 <Eyebrow>{data.proof.eyebrow}</Eyebrow>
@@ -111,7 +114,8 @@ export function WorkWithMeContent() {
                     projects={proofProjects}
                     currentProjectId={-1}
                     className="mt-2"
-                    gridClassName="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+                    gridClassName="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6"
+                    variant="minimal"
                 />
             </section>
 

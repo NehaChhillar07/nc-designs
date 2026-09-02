@@ -56,7 +56,7 @@ function Avatar({ item }: { item: Testimonial }) {
     );
 }
 
-function Slide({ item }: { item: Testimonial }) {
+function Slide({ item, square }: { item: Testimonial; square?: boolean }) {
     const resolved = resolveToken(item.token);
     if (!resolved) return null;
     const sample = isUnreplaced(resolved);
@@ -73,7 +73,14 @@ function Slide({ item }: { item: Testimonial }) {
     }
 
     return (
-        <figure className="relative rounded-2xl border border-gray-200 bg-gray-50 p-6 md:p-8">
+        <figure
+            className={
+                square
+                    ? // Square card: quote up top, attribution pinned to the bottom.
+                      "relative flex aspect-square flex-col rounded-2xl border border-gray-200 bg-gray-50 p-7 md:p-8"
+                    : "relative rounded-2xl border border-gray-200 bg-gray-50 p-6 md:p-8"
+            }
+        >
             {sample && (
                 <span
                     className="absolute -top-3 left-6 inline-block px-3 py-1 rounded-full"
@@ -92,7 +99,7 @@ function Slide({ item }: { item: Testimonial }) {
             <blockquote className="text-[17px] md:text-[19px] text-gray-800 leading-relaxed">
                 &ldquo;{quote}&rdquo;
             </blockquote>
-            <figcaption className="mt-6 flex items-center gap-3.5">
+            <figcaption className={square ? "mt-auto flex items-center gap-3.5 pt-4" : "mt-6 flex items-center gap-3.5"}>
                 <Avatar item={item} />
                 <span className="text-sm text-gray-500">
                     <span className="block font-medium text-gray-900">{name}</span>
@@ -112,7 +119,7 @@ const slideVariants = {
     exit: (dir: number) => ({ x: dir > 0 ? "-104%" : "104%", opacity: 0.6 }),
 };
 
-export function TestimonialCarousel({ className }: { className?: string }) {
+export function TestimonialCarousel({ className, square }: { className?: string; square?: boolean }) {
     const visible = testimonials.filter((t) => resolveToken(t.token));
     // index + travel direction move together so the exit animation of the
     // outgoing card uses the same direction as the incoming one.
@@ -176,7 +183,7 @@ export function TestimonialCarousel({ className }: { className?: string }) {
                         exit="exit"
                         transition={SWAP}
                     >
-                        <Slide item={current} />
+                        <Slide item={current} square={square} />
                     </motion.div>
                 </AnimatePresence>
             </div>
