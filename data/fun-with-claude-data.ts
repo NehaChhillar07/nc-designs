@@ -39,19 +39,9 @@ export const funWithClaudeData = {
     highlight: "prototype link", // underlined by the Highlighter
     intro: [
         {
-            lead: "My working loop is simple.",
-            text:
-                "I design in Figma. I prototype in Cursor and Claude Code when a flow needs to be felt, not clicked through. If the prototype holds up, the code goes to engineering as a starting point, not a picture of one. The flashcard builder inside Human Firewall shipped this way. So did unsaid, which I designed and built alone, end to end.",
-        },
-        {
             lead: "AI does the effort. I keep the judgement.",
             text:
-                "That's the same principle I design into products, and it's how I work too. I decide what gets generated, what gets hand-built, and what gets thrown away.",
-        },
-        {
-            lead: "And plenty gets thrown away.",
-            text:
-                "The first flashcard builder I built looked finished and was the wrong thing, because a polished card is not an editable one. I went back to the base and rebuilt it component first, by hand.",
+                "I design in Figma, then build the flow in Claude Code when it needs to be felt, not clicked through. If the prototype holds up, engineering starts from my code. Plenty gets thrown away, and that is the point.",
         },
     ] as IntroParagraph[],
     toolsLabel: "Tools, if you're counting:",
