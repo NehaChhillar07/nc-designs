@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     default: "Neha Chhillar - Product Designer",
     template: "%s | Neha Chhillar",
   },
-  description: "Product designer in AI-native B2B SaaS. First designer at two companies. I design end to end, and I build.",
-  keywords: ["Product Designer", "UX Designer", "Cybersecurity", "AI", "SaaS", "Dubai"],
+  description: "Product designer who ships working code. First designer at two companies. Design systems in Figma, front ends built in Claude Code.",
+  keywords: ["Product Designer", "UX Designer", "Design Engineer", "Claude Code", "Next.js", "Freelance Product Designer", "Cybersecurity", "AI", "SaaS"],
   authors: [{ name: "Neha Chhillar" }],
   creator: "Neha Chhillar",
   // Every other route sets its own canonical; without this the homepage emitted
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Neha Chhillar - Product Designer",
-    description: "Product designer in AI-native B2B SaaS. First designer at two companies. I design end to end, and I build.",
+    description: "Product designer who ships working code. First designer at two companies. Design systems in Figma, front ends built in Claude Code.",
     type: "website",
     url: SITE_URL,
     siteName: "Neha Chhillar Portfolio",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Neha Chhillar - Product Designer",
-    description: "Product designer in AI-native B2B SaaS. First designer at two companies. I design end to end, and I build.",
+    description: "Product designer who ships working code. First designer at two companies. Design systems in Figma, front ends built in Claude Code.",
     images: [OG_HOME],
   },
   robots: {

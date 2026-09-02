@@ -30,7 +30,7 @@ export const otherProjects = [
     {
         id: 6,
         title: "unsaid | Anonymous Confessions App",
-        category: "Fun Project · Design + Build · Next.js + Supabase",
+        category: "Designed and built solo · Live · Next.js + Supabase",
         description: "An anonymous confessions app with two worlds: personal and professional. Designed in Claude Design, built in Claude Code.",
         image: "/work/unsaid-case study/home-dark.png",
         link: "/case-study/unsaid",

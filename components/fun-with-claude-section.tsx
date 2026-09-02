@@ -24,7 +24,7 @@ const fadeUp = {
 };
 
 export function FunWithClaudeSection() {
-    const { eyebrow, heading, highlight, intro, toolsLabel, tools, items } = funWithClaudeData;
+    const { eyebrow, heading, highlight, intro, toolsLabel, tools, items, emptyLine } = funWithClaudeData;
     const [before, after] = heading.split(highlight);
 
     return (
@@ -83,12 +83,23 @@ export function FunWithClaudeSection() {
                 </div>
             </div>
 
-            {/* Grid — scales as more products are added */}
-            <div className="mt-14 md:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                {items.map((item, i) => (
-                    <FunCard key={item.id} item={item} index={i} />
-                ))}
-            </div>
+            {/* Grid — scales as more products are added. Empty today (unsaid
+                moved into the Work list), so a single quiet line holds the
+                spot instead of an empty grid. */}
+            {items.length > 0 ? (
+                <div className="mt-14 md:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                    {items.map((item, i) => (
+                        <FunCard key={item.id} item={item} index={i} />
+                    ))}
+                </div>
+            ) : (
+                <motion.p
+                    {...fadeUp}
+                    className="mt-10 md:mt-12 pt-5 border-t border-black/[0.08] text-sm text-gray-500"
+                >
+                    {emptyLine}
+                </motion.p>
+            )}
         </div>
     );
 }

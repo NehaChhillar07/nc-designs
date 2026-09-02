@@ -11,7 +11,9 @@ import { scrollToSection, useHashScrollOnLoad } from "@/lib/scroll-to-section";
 const NAV_LINKS = [
   { id: "work", label: "Work" },
   { id: "writings", label: "Writings" },
-  { id: "fun-with-claude", label: "Fun with Claude" },
+  // Label renamed to Experiments; the id (and /#fun-with-claude anchors
+  // already shared elsewhere) stay valid.
+  { id: "fun-with-claude", label: "Experiments" },
   { id: "about", label: "About" },
 ] as const;
 

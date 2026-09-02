@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 const DESTINATIONS = [
     { href: "/#work", label: "Work" },
     { href: "/#writings", label: "Writings" },
-    { href: "/#fun-with-claude", label: "Fun with Claude" },
+    { href: "/#fun-with-claude", label: "Experiments" },
     { href: "/#about", label: "About" },
     { href: "/resume", label: "Resume" },
 ] as const;

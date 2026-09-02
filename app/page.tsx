@@ -4,7 +4,10 @@ import { ScrollLink } from "@/components/scroll-link";
 import { BlurText } from "@/components/ui/blur-text";
 import { StickyScrollStack } from "@/components/ui/sticky-scroll-stack";
 import { Highlighter } from "@/components/ui/highlighter";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
@@ -53,7 +56,11 @@ export default function Home() {
               NEHA on top; CHHILLAR's block is pulled up so it slightly overlaps.
               Size + leading live on the container; the spacing pull sits on the
               block wrapper, where negative margins behave predictably. */}
-          <div className="relative text-center text-[64px] sm:text-[100px] md:text-[140px] lg:text-[170px] font-bold uppercase tracking-tighter leading-none text-gray-900">
+          {/* clamp: below ~375px a fixed 64px CHHILLAR is wider than the
+              viewport and the letters wrap to a third line. 17vw tracks the
+              old 64px at 375 exactly and shrinks below it; the cap keeps
+              every screen from 375 up pixel-identical to before. */}
+          <div className="relative text-center text-[clamp(44px,17vw,64px)] sm:text-[100px] md:text-[140px] lg:text-[170px] font-bold uppercase tracking-tighter leading-none text-gray-900">
             <div className="relative">
               <BlurText
                 text="NEHA"
@@ -94,52 +101,72 @@ export default function Home() {
             </div>
           </div>
 
-          <h1 className="mt-8 md:mt-12 text-[18px] sm:text-[22px] md:text-[26px] font-medium tracking-tight max-w-3xl leading-snug relative break-words">
-            {/* Composed, not left to the wrap point. Unbroken, the line landed
-                as "...security and AI-native B2B / SaaS." — orphaning "SaaS."
-                and splitting the phrase the underline is drawn under. The
-                explicit break puts the whole second phrase on its own line.
-                Both marks on this line carry the one cool accent on the site
-                (--accent-cool): the warm versions sat straight on the orange
-                gradient blob behind them and had nothing to separate from. The
-                paragraph below keeps its warm underlines — it is a quieter tier
-                and sits past the blob's edge. */}
+          {/* Base margins in this block run one step tighter than sm+: the
+              panel is sticky h-screen, so content past one viewport on a
+              320x568 phone is not scrollable — it just never appears. The
+              compact rhythm keeps both CTAs inside the smallest viewports. */}
+          <h1 className="mt-6 sm:mt-8 md:mt-12 text-[18px] sm:text-[22px] md:text-[26px] font-medium tracking-tight max-w-3xl leading-snug relative break-words">
+            {/* The mark carries the one cool accent on the site (--accent-cool):
+                a warm mark sat straight on the orange gradient blob behind it
+                and had nothing to separate from. */}
             <span className="block text-balance">
-              Product Designer specialising in{" "}
-              <Highlighter action="highlight" color="#79B8FF" isView>security</Highlighter>
-              <br />
-              and{" "}
-              <Highlighter action="underline" color="#79B8FF" isView>AI-native B2B SaaS</Highlighter>.
+              Product designer who ships{" "}
+              <Highlighter action="highlight" color="#79B8FF" isView>working code</Highlighter>.
             </span>
-            {/* Set as a credential strip rather than a sentence: two short
-                claims, a dot between them, uppercase and letterspaced. It reads
-                as a different voice from the line above and the paragraph
-                below, which is the point — it stopped disappearing between
-                them. */}
-            <span className="mt-5 md:mt-7 flex flex-col sm:flex-row items-center justify-center gap-y-1 sm:gap-x-3 text-[11px] sm:text-[12px] md:text-[13px] font-semibold uppercase tracking-[0.18em] text-gray-900">
-              <span>First designer twice</span>
-              {/* Only where the two claims sit on one line. Left visible on
-                  narrow screens the strip wrapped and stranded the dot alone at
-                  the end of the first line. */}
-              <span aria-hidden="true" className="hidden sm:block h-1 w-1 shrink-0 rounded-full bg-gray-400" />
-              <span>I build before I mock up.</span>
+            {/* Set as a credential strip rather than a sentence: three short
+                claims, dots between them, uppercase and letterspaced. It reads
+                as a different voice from the line above, which is the point —
+                it stopped disappearing under it. */}
+            {/* Three claims fit on one line only past lg — inside the h1's
+                max-w-3xl they'd wrap mid-claim, so below lg they stack, and at
+                lg+ the row goes w-max and re-centers itself past the h1's cap
+                (a transform on this leaf is fine; only a transformed ancestor
+                of the pinned stack breaks GSAP pinning). */}
+            <span className="mt-4 sm:mt-5 md:mt-7 flex flex-col lg:flex-row items-center justify-center gap-y-1 lg:gap-x-3 lg:w-max lg:max-w-none lg:relative lg:left-1/2 lg:-translate-x-1/2 text-[11px] sm:text-[12px] md:text-[13px] font-semibold uppercase tracking-[0.18em] text-gray-900">
+              <span className="lg:whitespace-nowrap">First designer at two companies</span>
+              {/* Dots only where the claims sit on one line. Left visible on
+                  narrow screens the strip wrapped and stranded a dot alone at
+                  the end of a line. */}
+              <span aria-hidden="true" className="hidden lg:block h-1 w-1 shrink-0 rounded-full bg-gray-400" />
+              <span className="lg:whitespace-nowrap">Design systems in Figma</span>
+              <span aria-hidden="true" className="hidden lg:block h-1 w-1 shrink-0 rounded-full bg-gray-400" />
+              <span className="lg:whitespace-nowrap">Front ends built in Claude Code</span>
             </span>
-            <span className="block mt-5 md:mt-7 text-[15px] sm:text-[17px] md:text-[19px] font-normal text-muted-foreground leading-relaxed">Designing <Highlighter action="underline" color="#FF9800" isView>AI-native products</Highlighter> in cybersecurity. Currently rebuilding a 10-year-old security platform into an <Highlighter action="underline" color="#FF9800" isView>AI-driven risk intelligence system</Highlighter>.</span>
           </h1>
-          <div className="flex flex-col items-center gap-8 mt-8 md:mt-12">
-            <ScrollLink targetId="work" ariaLabel="Scroll to my work" className="cursor-pointer inline-flex items-center justify-center p-3">
-              <svg
-                className="w-6 h-6 text-muted-foreground animate-bounce"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-              </svg>
+          {/* The footer's signature chip, promoted to the hero. Same treatment
+              in both places so it reads as one line moving up, not two lines. */}
+          <p className="mt-4 sm:mt-6 md:mt-8">
+            <span
+              className="inline-block max-w-[92vw] px-4 py-2 rounded-full border border-gray-300 bg-white/50 backdrop-blur-sm text-[16px] sm:text-[18px]"
+              style={{
+                fontFamily: "var(--font-caveat), cursive",
+                color: "#6B7280",
+                transform: "rotate(-2deg)",
+              }}
+            >
+              Started in Claude Code. Documented in Figma. Handed over functional.
+            </span>
+          </p>
+          <p className="mt-3 sm:mt-5 md:mt-6 flex items-center justify-center gap-2 text-[12px] sm:text-sm text-muted-foreground">
+            <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-green-500" />
+            Open to freelance projects and full-time roles.
+          </p>
+          <div className="mt-4 sm:mt-6 md:mt-8 flex items-center justify-center gap-3">
+            <ScrollLink
+              targetId="work"
+              ariaLabel="See the work"
+              className={cn(buttonVariants({ size: "lg" }), "cursor-pointer")}
+            >
+              See the work
             </ScrollLink>
+            {/* Route ships with the /work-with-me page — sections 1 through 4
+                deploy together so this never points at a 404 in production. */}
+            <Link
+              href="/work-with-me"
+              className={cn(buttonVariants({ variant: "outline", size: "lg" }), "bg-white/80 backdrop-blur-sm")}
+            >
+              Work with me
+            </Link>
           </div>
         </div>
           }

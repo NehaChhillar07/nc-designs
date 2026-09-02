@@ -34,7 +34,7 @@ export type DoodleCopy = {
 };
 
 export const funWithClaudeData = {
-    eyebrow: "Fun with Claude",
+    eyebrow: "Experiments",
     heading: "I don't stop at the prototype link anymore.",
     highlight: "prototype link", // underlined by the Highlighter
     intro: [
@@ -56,23 +56,10 @@ export const funWithClaudeData = {
     ] as IntroParagraph[],
     toolsLabel: "Tools, if you're counting:",
     tools: ["Figma", "Cursor", "Claude Code", "Claude Design"],
-    items: [
-        {
-            id: "unsaid",
-            title: "Designed and built solo. Live.",
-            blurb:
-                "An anonymous confessions app with two worlds: personal and professional. A live Next.js + Supabase app.",
-            tag: "unsaid",
-            image: "/work/unsaid-case study/home-dark.png",
-            imageAlt: "The unsaid home screen in dark mode, showing the wordmark \"say the thing you've never said\" and a confession card.",
-            liveHref: "https://unsaidnow.vercel.app",
-            liveLabel: "see it live →",
-            caseHref: "/case-study/unsaid",
-            caseLabel: "case study →",
-            // deep enough for white sticker text to clear 4.5:1
-            accent: "#9C5A3C",
-        },
-    ] as FunItem[],
+    // unsaid moved into the main Work list. New side projects land here;
+    // while the list is empty the section shows `emptyLine` instead of a grid.
+    items: [] as FunItem[],
+    emptyLine: "More coming.",
     // Hidden marker-doodle layer on the panel background: doodle enough and
     // this popover slides in.
     doodle: {

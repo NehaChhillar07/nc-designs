@@ -10,7 +10,7 @@ const navLinks = [
     { label: "Home", id: "hero" },
     { label: "Work", id: "work" },
     { label: "Writings", id: "writings" },
-    { label: "Fun with Claude", id: "fun-with-claude" },
+    { label: "Experiments", id: "fun-with-claude" },
     { label: "About", id: "about" },
 ];
 
@@ -48,7 +48,7 @@ export function Footer() {
                             transform: "rotate(-2deg)",
                         }}
                     >
-                        Ideated in Claude Code. Documented in Figma. Handed over functional.
+                        Started in Claude Code. Documented in Figma. Handed over functional.
                     </span>
                 </motion.div>
 

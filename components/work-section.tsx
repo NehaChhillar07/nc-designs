@@ -11,6 +11,7 @@ import { useCursor } from "@/components/ui/cursor-context";
 import { scrollToSection } from "@/lib/scroll-to-section";
 import { HeroCardFan } from "@/components/case-study/flashcard/HeroCardFan";
 import { flashcardTrainingCaseStudyData } from "@/data/flashcard-training-data";
+import { GITHUB_UNSAID, resolveToken } from "@/lib/placeholders";
 
 const FLASHCARD_PROJECT_ID = 5;
 const FLASHCARD_FAN_CARDS = flashcardTrainingCaseStudyData.whyFlashcards.cards;
@@ -56,6 +57,13 @@ type Project = {
     buttonText: string;
     readingTime: string;
     roleTag?: string;
+    // External proof links (unsaid). A project that sets either renders its
+    // block unwrapped: the whole-block <Link> pattern can't hold a second
+    // anchor, so the CTA becomes a real Link beside these.
+    liveHref?: string;
+    // May still be an unreplaced {{GITHUB_UNSAID}} token — resolve through
+    // lib/placeholders before rendering.
+    githubHref?: string;
 };
 
 const projects: Project[] = [
@@ -82,6 +90,20 @@ const projects: Project[] = [
         caseStudyLink: "/case-study/flashcard-training",
         buttonText: "Read case study",
         readingTime: "6 mins",
+    },
+    {
+        id: 6,
+        title: "unsaid",
+        category: "Designed and built solo · Live",
+        description:
+            "An anonymous confessions app with two worlds: personal and professional. Designed in Figma, built in Next.js and Supabase, shipped in three weeks.",
+        image: "/work/unsaid-case study/home-dark.png",
+        tags: [],
+        caseStudyLink: "/case-study/unsaid",
+        buttonText: "Read case study",
+        readingTime: "6 mins",
+        liveHref: "https://unsaidnow.vercel.app",
+        githubHref: GITHUB_UNSAID,
     },
     {
         id: 2,
@@ -333,6 +355,12 @@ export function WorkSection() {
                 {/* LEFT COLUMN - Scrolling text content */}
                 <div className="relative">
                     {projects.map((project, index) => {
+                        // Unreplaced {{GITHUB_UNSAID}} resolves to null in
+                        // production, which drops the GitHub link entirely.
+                        const githubHref = project.githubHref ? resolveToken(project.githubHref) : null;
+                        // A project with external links renders unwrapped: the
+                        // whole-block <Link> can't contain further anchors.
+                        const hasExtraLinks = Boolean(project.liveHref || githubHref);
                         // The entire block is the link target, not just the CTA —
                         // same behaviour as the Writings cards. Everything inside
                         // is therefore plain markup: a second anchor nested in this
@@ -445,31 +473,86 @@ export function WorkSection() {
                                         {project.description}
                                     </p>
 
-                                    {/* Tags */}
-                                    <div className="flex flex-wrap gap-2 pt-4">
-                                        {project.tags.map((tag) => (
-                                            <span
-                                                key={tag}
-                                                className="px-3 py-1 text-sm bg-secondary text-secondary-foreground rounded-full"
-                                            >
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
+                                    {/* Tags — guarded because no project sets any today. An
+                                        empty flex container still occupies its own pt-4 plus the
+                                        space-y-4 margin it earns as a sibling, so rendering it
+                                        with no children pushed the CTA 32px further from the
+                                        description than the layout intends. */}
+                                    {project.tags.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 pt-4">
+                                            {project.tags.map((tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className="px-3 py-1 text-sm bg-secondary text-secondary-foreground rounded-full"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
 
                                     {/* Read case study button — disabled when no case study exists yet */}
                                     {project.caseStudyLink ? (
-                                        // Not a Link: the block around it already is one, and an
-                                        // anchor inside an anchor is invalid markup that browsers
-                                        // silently un-nest during parsing.
-                                        <span
-                                            className={cn(
-                                                buttonVariants({ size: "lg" }),
-                                                "mt-3 rounded-2xl px-10 h-12 text-base"
-                                            )}
-                                        >
-                                            {project.buttonText || "Understand"}
-                                        </span>
+                                        hasExtraLinks ? (
+                                            // Unwrapped block (see above), so these are real
+                                            // anchors: the case-study CTA plus external proof
+                                            // links, styled like the Experiments card links.
+                                            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                                                <Link
+                                                    href={project.caseStudyLink}
+                                                    className={cn(
+                                                        buttonVariants({ size: "lg" }),
+                                                        "mt-3 rounded-2xl px-10 h-12 text-base"
+                                                    )}
+                                                >
+                                                    {project.buttonText || "Read case study"}
+                                                </Link>
+                                                {project.liveHref && (
+                                                    <a
+                                                        href={project.liveHref}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="mt-3 text-base font-medium text-gray-900 hover:opacity-70 transition-opacity"
+                                                        style={{
+                                                            textDecoration: "underline",
+                                                            textUnderlineOffset: "4px",
+                                                            textDecorationColor: "var(--accent-warm)",
+                                                        }}
+                                                    >
+                                                        Live app
+                                                    </a>
+                                                )}
+                                                {githubHref && (
+                                                    <a
+                                                        href={githubHref}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="mt-3 text-base font-medium text-gray-900 hover:opacity-70 transition-opacity"
+                                                        style={{
+                                                            textDecoration: "underline",
+                                                            textUnderlineOffset: "4px",
+                                                            textDecorationColor: "var(--accent-warm)",
+                                                        }}
+                                                    >
+                                                        {/* Unreplaced token stays visible in dev
+                                                            so it can't be forgotten. */}
+                                                        {githubHref.startsWith("{{") ? githubHref : "GitHub"}
+                                                    </a>
+                                                )}
+                                            </div>
+                                        ) : (
+                                            // Not a Link: the block around it already is one, and an
+                                            // anchor inside an anchor is invalid markup that browsers
+                                            // silently un-nest during parsing.
+                                            <span
+                                                className={cn(
+                                                    buttonVariants({ size: "lg" }),
+                                                    "mt-3 rounded-2xl px-10 h-12 text-base"
+                                                )}
+                                            >
+                                                {project.buttonText || "Understand"}
+                                            </span>
+                                        )
                                     ) : (
                                         <Button
                                             disabled
@@ -490,7 +573,7 @@ export function WorkSection() {
                                 ref={(el) => addToTextBlocksRef(el, index)}
                                 className="min-h-screen flex flex-col justify-center py-16 md:py-24 scroll-mt-4"
                             >
-                                {project.caseStudyLink ? (
+                                {project.caseStudyLink && !hasExtraLinks ? (
                                     <Link
                                         href={project.caseStudyLink}
                                         // Titles carry a hard line break for layout; a raw

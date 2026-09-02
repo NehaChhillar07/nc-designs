@@ -104,7 +104,7 @@ const html = `<!doctype html>
     <div>Neha</div>
     <div class="second">Chhillar</div>
   </div>
-  <div class="line">Product Designer specialising in security and <span class="mark">AI-native B2B SaaS</span></div>
+  <div class="line">Product designer who ships <span class="mark">working code</span></div>
 </body>
 </html>`;
 
