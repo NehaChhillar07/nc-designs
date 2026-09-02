@@ -12,7 +12,7 @@
 export const GITHUB_UNSAID = "https://github.com/NehaChhillar07/unsaid";
 // Profile root, for the footer GitHub icon (brief section 8).
 export const GITHUB_PROFILE = "https://github.com/NehaChhillar07";
-export const CAL_LINK = "{{CAL_LINK}}";
+export const CAL_LINK = "https://cal.com/nehachhillar/project-call";
 export const VIDEO_URL = "{{VIDEO_URL}}";
 // Replace with the real quote as "Quote | Name | Role" (pipe-separated).
 // While unreplaced: production hides the cards, dev shows clearly-labeled
