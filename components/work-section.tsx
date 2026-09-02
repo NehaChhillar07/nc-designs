@@ -69,7 +69,7 @@ const projects: Project[] = [
         id: 1,
         // The whole HF3 arc (dependency to trust), not one section's widget —
         // the card description below carries the "what", this carries the outcome.
-        title: "Admins stopped calling support before every launch.\nEngagement up 48% after the rebuild.",
+        title: "Admins stopped calling support before every launch. Engagement up 48% after the rebuild.",
         category: "Enterprise cybersecurity SaaS · Admin-heavy workflows",
         description:
             "The AI-native rebuild of a 10-year-old security platform. Solo designer, 100+ enterprise clients, 10 migrated in beta.",
