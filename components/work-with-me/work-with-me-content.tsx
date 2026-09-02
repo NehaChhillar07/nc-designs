@@ -12,6 +12,7 @@ import { CONTACT_EMAIL } from "@/lib/site";
 import { otherProjects } from "@/data/case-study-data";
 import { workWithMeData } from "@/data/work-with-me-data";
 import { testimonials } from "@/data/testimonials-data";
+import { TestimonialStack } from "@/components/testimonial-stack";
 import { TestimonialCarousel } from "@/components/testimonial-carousel";
 
 // ============================================
@@ -85,7 +86,7 @@ export function WorkWithMeContent() {
         <div className="container mx-auto px-4 sm:px-8 lg:px-12 pt-28 md:pt-36 pb-8 md:pb-12">
             {/* Hero — copy on the left, the square testimonial carousel fills
                 the right whitespace on large screens (stacks below on small). */}
-            <section className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-20 items-center">
+            <section className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_460px] lg:gap-16 items-center">
                 <div className="max-w-3xl">
                     <Eyebrow>{data.hero.eyebrow}</Eyebrow>
                     <motion.h1
@@ -125,10 +126,18 @@ export function WorkWithMeContent() {
                 </div>
 
                 {/* Token-gated: production renders nothing here until the real
-                    quotes exist, and the grid collapses to one column. */}
+                    quotes exist, and the grid collapses to one column. The
+                    stack needs breathing room for its skew and offsets. */}
                 {testimonials.some((t) => resolveToken(t.token)) && (
                     <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.2 }}>
-                        <TestimonialCarousel square className="w-full max-w-[400px]" />
+                        {/* The skewed stack's fixed card width and offsets need
+                            desktop room; phones get the slide carousel. */}
+                        <div className="hidden lg:block pr-4">
+                            <TestimonialStack />
+                        </div>
+                        <div className="lg:hidden">
+                            <TestimonialCarousel />
+                        </div>
                     </motion.div>
                 )}
             </section>
