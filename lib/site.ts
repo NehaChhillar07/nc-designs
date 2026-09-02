@@ -10,3 +10,8 @@ export const SITE_URL = "https://nc-designs.vercel.app";
 // these back in — hence one shared pair rather than six hardcoded copies.
 export const SITE_NAME = "Neha Chhillar Portfolio";
 export const SITE_LOCALE = "en_US";
+
+// Contact + social, shared by the Connect section, the overlay, and the footer.
+// LinkedIn URL matches the one published on the resume PDF.
+export const CONTACT_EMAIL = "nehachhillar07@gmail.com";
+export const LINKEDIN_URL = "https://linkedin.com/in/neha-chhillar";

@@ -5,6 +5,11 @@ import { motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { Highlighter } from "@/components/ui/highlighter";
 import { scrollToSection } from "@/lib/scroll-to-section";
+import { ConnectVideo } from "@/components/connect-video";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { CAL_LINK, VIDEO_URL, resolveToken } from "@/lib/placeholders";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 const navLinks = [
     { label: "Home", id: "hero" },
@@ -54,14 +59,14 @@ export function Footer() {
 
                 {/* Have an idea? Let's talk. - Large CTA */}
                 <motion.div
-                    className="mb-12 md:mb-16"
+                    className="mb-6 md:mb-8"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
                 >
                     <motion.a
-                        href="mailto:nehachhillar07@gmail.com?subject=Let's%20talk!"
+                        href={`mailto:${CONTACT_EMAIL}?subject=Project%20inquiry`}
                         className="inline-block text-[32px] md:text-[56px] lg:text-[80px] xl:text-[112px] font-light tracking-tight transition-all duration-300 leading-none"
                         style={{ color: "#6B7280" }}
                         whileHover={{
@@ -71,6 +76,63 @@ export function Footer() {
                     >
                         Have an idea? <Highlighter action="highlight" color="#FF9800" isView>Let&apos;s talk</Highlighter>.
                     </motion.a>
+                </motion.div>
+
+                {/* Connect block: intro line, lite video embed, booking +
+                    email buttons, and the freelance-page link. Both
+                    placeholder-driven elements (video, Book a call) hide in
+                    production while their tokens are unreplaced, and the
+                    intro line drops its video mention with them. */}
+                <motion.div
+                    className="mb-12 md:mb-16 flex flex-col gap-6"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+                >
+                    {(() => {
+                        const videoUrl = resolveToken(VIDEO_URL);
+                        const calLink = resolveToken(CAL_LINK);
+                        return (
+                            <>
+                                <p className="text-[16px] md:text-[18px] text-gray-600 leading-relaxed max-w-2xl">
+                                    {videoUrl
+                                        ? "Building something and need design that comes with working code? Watch the two-minute intro, then book a call or email me."
+                                        : "Building something and need design that comes with working code? Book a call or email me."}
+                                </p>
+                                {videoUrl && (
+                                    <ConnectVideo url={videoUrl} title="Two-minute intro" />
+                                )}
+                                <div className="flex flex-wrap items-center gap-3">
+                                    {calLink && (
+                                        <a
+                                            href={calLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={cn(buttonVariants({ size: "lg" }))}
+                                        >
+                                            Book a call
+                                        </a>
+                                    )}
+                                    <a
+                                        href={`mailto:${CONTACT_EMAIL}?subject=Project%20inquiry`}
+                                        className={cn(
+                                            buttonVariants({ variant: calLink ? "outline" : "default", size: "lg" })
+                                        )}
+                                    >
+                                        Email me
+                                    </a>
+                                </div>
+                                <Link
+                                    href="/work-with-me"
+                                    className="self-start text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors underline underline-offset-4"
+                                    style={{ textDecorationColor: "var(--accent-warm)" }}
+                                >
+                                    Freelance offer and pricing
+                                </Link>
+                            </>
+                        );
+                    })()}
                 </motion.div>
 
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
