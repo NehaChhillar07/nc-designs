@@ -65,12 +65,15 @@ export function AboutSection() {
                 <AboutMomentsStrip />
             </div>
 
-            {/* Working with me — three short claims (brief section 5, Block A).
-                Placed after the personal story so the section reads warm first,
-                practical second. */}
+            {/* Working with me — three handwritten notes (brief section 5,
+                Block A). Same handmade language as the photo strip and the
+                signature chip: Caveat hand, paper cards, a strip of tape,
+                a slight rotation that straightens on hover. Placed after the
+                personal story so the section reads warm first, practical
+                second. */}
             <div className="max-w-5xl mx-auto mt-20 md:mt-28">
                 <motion.p
-                    className="text-sm font-medium uppercase tracking-[0.18em] text-gray-500 mb-6 text-center"
+                    className="text-sm font-medium uppercase tracking-[0.18em] text-gray-500 mb-10 text-center"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -78,19 +81,40 @@ export function AboutSection() {
                 >
                     {workingWithMe.eyebrow}
                 </motion.p>
-                <div className="grid sm:grid-cols-3 gap-8 md:gap-10 text-left">
-                    {workingWithMe.items.map((item, i) => (
-                        <motion.p
-                            key={item.lead}
-                            className="text-[15px] md:text-[16px] text-muted-foreground leading-relaxed"
-                            initial={{ opacity: 0, y: 20 }}
+                <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+                    {workingWithMe.notes.map((note, i) => (
+                        <motion.div
+                            key={note.lead}
+                            className="relative w-[260px] md:w-[280px] rounded-xl border border-black/[0.06] bg-[#FFFDF7] px-6 pt-8 pb-6 text-left shadow-[0_16px_40px_-18px_rgba(0,0,0,0.25)]"
+                            style={{ rotate: `${note.rotate}deg` }}
+                            initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.08 }}
+                            transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.1 }}
+                            whileHover={{ rotate: 0, scale: 1.04, zIndex: 10 }}
                         >
-                            <span className="font-medium text-gray-900">{item.lead}</span>{" "}
-                            {item.text}
-                        </motion.p>
+                            {/* Tape strip */}
+                            <span
+                                aria-hidden="true"
+                                className="absolute -top-3 left-1/2 h-6 w-16 -translate-x-1/2 rounded-[2px]"
+                                style={{
+                                    background: "rgba(255, 152, 0, 0.28)",
+                                    transform: `translateX(-50%) rotate(${-note.rotate * 1.4}deg)`,
+                                    boxShadow: "0 1px 2px rgba(0,0,0,0.08)",
+                                }}
+                            />
+                            <p
+                                className="leading-snug"
+                                style={{ fontFamily: "var(--font-caveat), cursive" }}
+                            >
+                                <span className="block text-[24px] md:text-[26px] text-gray-900">
+                                    {note.lead}
+                                </span>
+                                <span className="mt-1.5 block text-[19px] md:text-[21px] text-gray-500">
+                                    {note.text}
+                                </span>
+                            </p>
+                        </motion.div>
                     ))}
                 </div>
             </div>

@@ -225,22 +225,26 @@ export const aboutParagraphs = [
     "I learn through experiments rather than theory. Trying things and seeing what actually works matters more to me than assumptions. Outside work, I spend a lot of time with my dog, June. Being around her quietly, without words, is where I slow down and observe. That mindset shapes how I think about people and systems.",
 ];
 
-// "Working with me" — three short claims appended after the personal story
-// (brief section 5, Block A). Lead renders bold, rest muted.
+// "Working with me" — three handwritten notes appended after the personal
+// story (brief section 5, Block A). Rendered as taped paper notes in the
+// Caveat hand, echoing the photo strip's rotated cards and the signature chip.
 export const workingWithMe = {
     eyebrow: "Working with me",
-    items: [
+    notes: [
         {
             lead: "I ramp fast.",
-            text: "First designer twice means I am used to learning a product, its users, and its market in the first week, not the first quarter.",
+            text: "Week one, I get your product, your users, your market.",
+            rotate: -2.5,
         },
         {
             lead: "You get Figma and code.",
-            text: "A design system with tokens, and a working front end your developers continue from.",
+            text: "A system with tokens, and a front end that runs.",
+            rotate: 1.5,
         },
         {
-            lead: "I communicate in decisions, not updates.",
-            text: "Short written notes on what I chose and why, so nobody has to sit in a meeting to find out.",
+            lead: "I write decisions, not updates.",
+            text: "What I chose and why. No meeting needed.",
+            rotate: -1.5,
         },
     ],
 };
