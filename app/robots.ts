@@ -10,6 +10,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
+        // /stats is the private analytics page, /api holds its endpoints.
+        disallow: ["/stats", "/api/"],
       },
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,

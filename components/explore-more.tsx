@@ -14,28 +14,16 @@ interface Project {
     link: string | null;
     comingSoon?: boolean;
     readingTime?: string;
-    // Minimal variant: shown in place of the title on hover — the line that
-    // makes someone click through.
-    hoverHint?: string;
 }
 
 interface ExploreMoreProps {
     projects: Project[];
     currentProjectId?: number;
-    // Overrides the section's own padding when the caller places it inside an
-    // already-padded layout (e.g. the Proof section on /work-with-me).
-    className?: string;
-    // Overrides the card grid (default: 2 columns). /work-with-me shows three.
-    gridClassName?: string;
-    // "minimal": clean white cards with a quiet border and a hover arrow —
-    // used by /work-with-me's Proof section. Default keeps the warm gradient
-    // cards the case-study pages use.
-    variant?: "default" | "minimal";
 }
 
 const BLUR_PLACEHOLDER = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAQMDBAMBAAAAAAAAAAAAAQIDBAAFEQYSITETQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgARIUH/2gAMAwEAAhEDEQA/AKNzu1wvN2dc8r7kVtxQ2NKBSnaCQDnPOcnPFKUpSlKXAWMnZ//Z";
 
-export function ExploreMore({ projects, currentProjectId, className, gridClassName, variant = "default" }: ExploreMoreProps) {
+export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
     const { setCursor, resetCursor } = useCursor();
 
     // Reset cursor when component unmounts (e.g., when navigating to another page)
@@ -60,57 +48,8 @@ export function ExploreMore({ projects, currentProjectId, className, gridClassNa
         resetCursor();
     };
 
-    // Minimal variant: white surface, hairline border, strong type contrast.
-    // The card itself never moves on hover — a blurred blob fades in behind
-    // it and reads as a soft shadow. The title crossfades into the project's
-    // hover hint (plain body text, clamped to two lines) — the line that
-    // makes someone click through. Both live in the same grid cell so the
-    // card never changes height during the swap.
-    const MinimalCardContent = ({ project }: { project: Project }) => (
-        <div className="relative h-full">
-            <div
-                aria-hidden="true"
-                className="absolute inset-x-4 top-5 -bottom-2 rounded-[36px] bg-gray-500/20 blur-2xl opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
-            />
-            <div className="relative flex h-full min-h-[220px] flex-col rounded-2xl border border-gray-200 bg-white p-7">
-            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-gray-400">
-                {project.category}
-            </p>
-            <div className="mt-3 grid">
-                <h3 className="col-start-1 row-start-1 text-[24px] md:text-[27px] font-semibold leading-snug tracking-tight text-gray-900 transition-opacity duration-500 ease-out group-hover:opacity-0">
-                    {project.title}
-                </h3>
-                <p
-                    aria-hidden="true"
-                    className="col-start-1 row-start-1 self-center text-[15px] font-normal leading-relaxed text-gray-600 line-clamp-2 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-hover:delay-150"
-                >
-                    {project.hoverHint ?? "Read the case study."}
-                </p>
-            </div>
-            <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4 text-sm text-gray-500">
-                <span>{project.readingTime}</span>
-                <span className="flex items-center gap-1.5 font-medium text-gray-900">
-                    Read
-                    <svg
-                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                </span>
-            </div>
-            </div>
-        </div>
-    );
-
     // Project card content - shared between Link and div
-    const ProjectCardContent = ({ project }: { project: Project }) =>
-        variant === "minimal" ? (
-            <MinimalCardContent project={project} />
-        ) : (
+    const ProjectCardContent = ({ project }: { project: Project }) => (
         <div
             className="relative rounded-2xl overflow-hidden p-8 md:p-10 h-full"
             style={{
@@ -155,12 +94,12 @@ export function ExploreMore({ projects, currentProjectId, className, gridClassNa
 
     return (
         <section
-            className={className ?? "py-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-16"}
+            className="py-16 md:py-24 lg:py-32 px-4 md:px-8 lg:px-16"
             onMouseLeave={handleMouseLeave}
         >
             <div className="w-full">
                 {/* Project Cards - Simple 2 column grid, no carousel */}
-                <div className={gridClassName ?? "grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     {filteredProjects.map((project, index) => (
                         <motion.div
                             key={project.id}

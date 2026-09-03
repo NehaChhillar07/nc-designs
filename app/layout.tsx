@@ -3,6 +3,7 @@ import { Inter, Caveat } from "next/font/google";
 import "./globals.css";
 import { MotionConfig } from "motion/react";
 import { Analytics } from "@vercel/analytics/next";
+import { TimeTracker } from "@/components/time-tracker";
 import { CursorProvider } from "@/components/ui/cursor-context";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SITE_URL } from "@/lib/site";
@@ -141,6 +142,7 @@ export default function RootLayout({
           </CursorProvider>
         </MotionConfig>
         <Analytics />
+        <TimeTracker />
       </body>
     </html>
   );
