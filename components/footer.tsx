@@ -85,7 +85,10 @@ export function Footer() {
                     email buttons, and the freelance-page link. Both
                     placeholder-driven elements (video, Book a call) hide in
                     production while their tokens are unreplaced, and the
-                    intro line drops its video mention with them. */}
+                    intro line drops its video mention with them. Skipped
+                    entirely on /work-with-me, which carries its own video
+                    and CTA in the page body. */}
+                {pathname !== "/work-with-me" && (
                 <motion.div
                     className="mb-12 md:mb-16 flex flex-col gap-6"
                     initial={{ opacity: 0, y: 20 }}
@@ -145,6 +148,7 @@ export function Footer() {
                         );
                     })()}
                 </motion.div>
+                )}
 
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     {/* Navigation Links + social icons */}

@@ -151,7 +151,7 @@ export function WorkWithMeContent() {
                 is replaced) the right block stands alone. */}
             <section
                 className={cn(
-                    "mt-20 md:mt-28 grid gap-14 items-center",
+                    "mt-20 md:mt-28 grid gap-14 items-end",
                     videoUrl && "lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-16"
                 )}
             >

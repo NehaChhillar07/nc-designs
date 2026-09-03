@@ -46,10 +46,13 @@ function DisplayCard({
                 >
                     {icon}
                 </span>
-                <p className={cn("text-xl font-semibold", titleClassName)}>{title}</p>
+                {/* Role sits right under the name, small and muted. */}
+                <span className="flex flex-col">
+                    <p className={cn("text-xl font-semibold leading-tight", titleClassName)}>{title}</p>
+                    <p className="text-[13px] text-gray-400">{date}</p>
+                </span>
             </div>
             <p className="text-[15.5px] leading-relaxed text-gray-800">{description}</p>
-            <p className="text-sm text-gray-500">{date}</p>
         </div>
     );
 }
