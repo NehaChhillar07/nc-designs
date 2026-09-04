@@ -30,6 +30,7 @@ export const testimonials: Testimonial[] = [
         role: "Product Manager · Human Firewall",
         sampleQuote:
             "Sample quote. Kumar's real words go here when Neha collects them.",
+        avatar: "/testimonials/kumar.png",
     },
     {
         token: TESTIMONIAL_ENG,
@@ -37,5 +38,6 @@ export const testimonials: Testimonial[] = [
         role: "Senior Full Stack Engineer · Human Firewall",
         sampleQuote:
             "Sample quote. Deepanshu's real words go here when Neha collects them.",
+        avatar: "/testimonials/deepanshu.png",
     },
 ];
