@@ -5,10 +5,11 @@ import { motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { Highlighter } from "@/components/ui/highlighter";
 import { scrollToSection } from "@/lib/scroll-to-section";
-import { ConnectVideo } from "@/components/connect-video";
+// Video paused until the recording exists — see VIDEO_URL in lib/placeholders.ts.
+// import { ConnectVideo } from "@/components/connect-video";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CAL_LINK, VIDEO_URL, isUnreplaced, resolveToken } from "@/lib/placeholders";
+import { CAL_LINK, isUnreplaced, resolveToken } from "@/lib/placeholders";
 import { GITHUB_PROFILE } from "@/lib/placeholders";
 import { CONTACT_EMAIL, LINKEDIN_URL } from "@/lib/site";
 
@@ -81,13 +82,10 @@ export function Footer() {
                     </motion.a>
                 </motion.div>
 
-                {/* Connect block: intro line, lite video embed, booking +
-                    email buttons, and the freelance-page link. Both
-                    placeholder-driven elements (video, Book a call) hide in
-                    production while their tokens are unreplaced, and the
-                    intro line drops its video mention with them. Skipped
-                    entirely on /work-with-me, which carries its own video
-                    and CTA in the page body. */}
+                {/* Connect block: intro line plus booking + email buttons.
+                    Book a call hides in production while its token is
+                    unreplaced. Skipped entirely on /work-with-me, which
+                    carries its own CTA in the page body. */}
                 {pathname !== "/work-with-me" && (
                 <motion.div
                     className="mb-12 md:mb-16 flex flex-col gap-6"
@@ -97,18 +95,23 @@ export function Footer() {
                     transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
                 >
                     {(() => {
-                        const videoUrl = resolveToken(VIDEO_URL);
                         const calLink = resolveToken(CAL_LINK);
                         return (
                             <>
                                 <p className="text-[16px] md:text-[18px] text-gray-600 leading-relaxed max-w-2xl">
-                                    {videoUrl
-                                        ? "Building something and need design that comes with working code? Watch the two-minute intro, then book a call or email me."
-                                        : "Building something and need design that comes with working code? Book a call or email me."}
+                                    Building something and need design that comes with working code? Book a call or email me.
                                 </p>
-                                {videoUrl && (
-                                    <ConnectVideo url={videoUrl} title="Two-minute intro" />
+                                {/* Intro video, commented out until the
+                                    recording exists. To restore: uncomment the
+                                    ConnectVideo import and this block, and set
+                                    VIDEO_URL in lib/placeholders.ts. The intro
+                                    line above then reads: "...working code?
+                                    Watch the two-minute intro, then book a
+                                    call or email me."
+                                {resolveToken(VIDEO_URL) && (
+                                    <ConnectVideo url={resolveToken(VIDEO_URL)!} title="Two-minute intro" />
                                 )}
+                                */}
                                 <div className="flex flex-wrap items-center gap-3">
                                     {/* Unreplaced token (dev only): an inert
                                         chip showing the token — a real-looking

@@ -3,10 +3,11 @@
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Highlighter } from "@/components/ui/highlighter";
-import { ConnectVideo } from "@/components/connect-video";
+// Video paused until the recording exists — see VIDEO_URL in lib/placeholders.ts.
+// import { ConnectVideo } from "@/components/connect-video";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CAL_LINK, VIDEO_URL, isUnreplaced, resolveToken } from "@/lib/placeholders";
+import { CAL_LINK, isUnreplaced, resolveToken } from "@/lib/placeholders";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { workWithMeData } from "@/data/work-with-me-data";
 import { testimonials } from "@/data/testimonials-data";
@@ -71,7 +72,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 export function WorkWithMeContent() {
     const data = workWithMeData;
     const calLink = resolveToken(CAL_LINK);
-    const videoUrl = resolveToken(VIDEO_URL);
+    // const videoUrl = resolveToken(VIDEO_URL);
     const emailHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(data.cta.emailSubject)}`;
 
     const [headBefore, headAfter] = data.hero.headline.split(data.hero.highlight);
@@ -144,11 +145,11 @@ export function WorkWithMeContent() {
                 </motion.p>
             </section>
 
-            {/* Video + terms/CTA — side by side: the video left, the closing
-                move right, horizontally aligned. The handwritten aside and its
-                hand-drawn arrow draw themselves in on scroll and point at the
-                booking button. Without a video (production until {{VIDEO_URL}}
-                is replaced) the right block stands alone. */}
+            {/* Closing CTA. The intro video that sat beside it is commented
+                out until the recording exists. To restore: uncomment the
+                ConnectVideo/VIDEO_URL imports and the videoUrl lookup above,
+                the block below, the video copy in data/work-with-me-data.ts,
+                and put the real URL into VIDEO_URL in lib/placeholders.ts.
             <section
                 className={cn(
                     "mt-20 md:mt-28 grid gap-14 items-end",
@@ -158,7 +159,8 @@ export function WorkWithMeContent() {
                 {videoUrl && (
                     <ConnectVideo url={videoUrl} title={data.video.title} />
                 )}
-
+            */}
+            <section className="mt-20 md:mt-28 grid gap-14 items-end">
                 <div className="max-w-md">
                     {/* Handwritten aside + self-drawing arrow to the button */}
                     <motion.div

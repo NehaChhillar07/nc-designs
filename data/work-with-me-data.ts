@@ -39,9 +39,12 @@ export const workWithMeData = {
         // Items live in data/testimonials-data.ts, shared with the About section.
     },
 
-    video: {
-        title: "Two-minute intro",
-    },
+    // Commented out until the intro video exists (see VIDEO_URL in
+    // lib/placeholders.ts). Uncomment together with the video blocks in
+    // components/work-with-me/work-with-me-content.tsx and components/footer.tsx.
+    // video: {
+    //     title: "Two-minute intro",
+    // },
 
     cta: {
         book: "Book a call",
