@@ -98,13 +98,13 @@ export const humanFirewallCaseStudyData = {
     behavioralFunnel: {
         stages: [
             { label: "Sent", pct: 100, color: "hsl(220 10% 75%)" },
-            { label: "Opened", pct: 72, color: "hsl(210 60% 65%)" },
-            { label: "Clicked", pct: 38, color: "hsl(35 80% 60%)" },
-            { label: "Compromised", pct: 12, color: "hsl(0 65% 58%)" },
+            { label: "Opened", pct: 78, color: "hsl(210 60% 65%)" },
+            { label: "Clicked", pct: 45, color: "hsl(35 80% 60%)" },
+            { label: "Compromised", pct: 25, color: "hsl(0 65% 58%)" },
         ],
         counterMetric: {
             label: "Reported",
-            pct: 24,
+            pct: 12,
             color: "hsl(140 50% 50%)",
             note: "Measured against all recipients, not a stage in the funnel.",
         },

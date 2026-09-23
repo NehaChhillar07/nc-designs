@@ -409,6 +409,9 @@ function AIShiftSection() {
                             <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
                                 HF 3: AI-Assisted Campaign Creation
                             </span>
+                            <span className="ml-auto text-[10px] font-semibold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full bg-white text-gray-600">
+                                Shipped product UI
+                            </span>
                         </div>
                         <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
                             <Image
@@ -641,6 +644,9 @@ function AILaunchSection() {
                             <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
                                 Campaign Review & Preview: HF 3
                             </span>
+                            <span className="ml-auto text-[10px] font-semibold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full bg-white text-gray-600">
+                                Shipped product UI
+                            </span>
                         </div>
                         <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
                             <Image
@@ -662,6 +668,76 @@ function AILaunchSection() {
 // SECTION 6: RISK SCORE REDESIGN
 // Purpose: Structure > Number
 // ============================================
+
+// The three-factor radar the section's copy builds to ("not a score: a
+// structure"), drawn as a design figure with illustrative values — not a
+// product screenshot. Three axes, one sample user polygon.
+function RiskRadarFigure() {
+    const factors = [
+        { label: "Behavior", desc: "Simulation response", value: 0.82, shown: 82 },
+        { label: "Training", desc: "Compliance & completion", value: 0.48, shown: 48 },
+        { label: "Amplifier", desc: "Role sensitivity", value: 0.65, shown: 65 },
+    ];
+    const cx = 200;
+    const cy = 168;
+    const R = 112;
+    // Axis angles: top, bottom-right, bottom-left
+    const angles = [-Math.PI / 2, Math.PI / 6, (5 * Math.PI) / 6];
+    const pt = (i: number, v: number) =>
+        `${(cx + R * v * Math.cos(angles[i])).toFixed(1)},${(cy + R * v * Math.sin(angles[i])).toFixed(1)}`;
+    const ring = (v: number) => factors.map((_, i) => pt(i, v)).join(" ");
+    const polygon = factors.map((f, i) => pt(i, f.value)).join(" ");
+    const labelPos = [
+        { x: cx, y: cy - R - 26, anchor: "middle" as const },
+        { x: cx + R * 0.92 + 16, y: cy + R * 0.58 + 8, anchor: "start" as const },
+        { x: cx - R * 0.92 - 16, y: cy + R * 0.58 + 8, anchor: "end" as const },
+    ];
+
+    return (
+        <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.2 }}>
+            <div
+                className="rounded-2xl px-6 py-8 md:py-10 mb-10"
+                style={{ background: "#ffffff", border: "1px solid #e4e4e7" }}
+            >
+                <svg viewBox="-70 0 540 330" className="mx-auto block w-full max-w-lg" role="img"
+                    aria-label="Radar figure of the three risk factors: Behavior 82, Training 48, Amplifier 65 for a sample user">
+                    {[1 / 3, 2 / 3, 1].map((v) => (
+                        <polygon key={v} points={ring(v)} fill="none" stroke="#e4e4e7" strokeWidth={1.5} />
+                    ))}
+                    {factors.map((_, i) => (
+                        <line
+                            key={i}
+                            x1={cx}
+                            y1={cy}
+                            x2={pt(i, 1).split(",")[0]}
+                            y2={pt(i, 1).split(",")[1]}
+                            stroke="#d4d4d8"
+                            strokeWidth={1}
+                        />
+                    ))}
+                    <polygon points={polygon} fill="rgba(255,152,0,0.16)" stroke="#FF9800" strokeWidth={2} strokeLinejoin="round" />
+                    {factors.map((f, i) => {
+                        const [x, y] = pt(i, f.value).split(",").map(Number);
+                        return <circle key={f.label} cx={x} cy={y} r={4} fill="#FF9800" />;
+                    })}
+                    {factors.map((f, i) => (
+                        <g key={f.label} textAnchor={labelPos[i].anchor}>
+                            <text x={labelPos[i].x} y={labelPos[i].y} fontSize={14} fontWeight={600} fill="#1f2937">
+                                {f.label} · {f.shown}
+                            </text>
+                            <text x={labelPos[i].x} y={labelPos[i].y + 17} fontSize={11.5} fill="#94a3b8">
+                                {f.desc}
+                            </text>
+                        </g>
+                    ))}
+                </svg>
+                <p className="mt-6 text-center text-xs text-gray-400">
+                    One user, described across the three factors. Illustrative values, not client data.
+                </p>
+            </div>
+        </motion.div>
+    );
+}
 
 function RiskScoreSection() {
     const { riskScore } = data;
@@ -746,6 +822,8 @@ function RiskScoreSection() {
 
                 <PullQuote>{riskScore.pullQuote}</PullQuote>
 
+                <RiskRadarFigure />
+
                 <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.3 }}>
                     <div
                         className="rounded-2xl overflow-hidden"
@@ -765,12 +843,12 @@ function RiskScoreSection() {
                                 <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
                             </div>
                             <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                                vCRO: Radar Chart & Factor Breakdown
+                                vCRO: Risk categories & per-user view
                             </span>
                         </div>
                         <Image
                             src="/work/1st-case study/vcro.jpeg"
-                            alt="vCRO: Radar Chart & Factor Breakdown"
+                            alt="vCRO: risk categories and per-user risk view"
                             width={2852}
                             height={1918}
                             className="w-full h-auto block"
@@ -1138,6 +1216,9 @@ function MigrationSection() {
                                     </div>
                                     <span className="ml-2 text-xs text-gray-500 font-medium tracking-wide">
                                         HF 3: Redesigned
+                                    </span>
+                                    <span className="ml-auto text-[10px] font-semibold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full bg-white text-gray-600 whitespace-nowrap">
+                                        Claude Code prototype
                                     </span>
                                 </div>
                                 <Image
