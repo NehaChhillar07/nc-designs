@@ -18,11 +18,15 @@ export const humanFirewallCaseStudyData = {
         // Scroll-expansion opener — the dashboard grows from a small card to
         // near-fullscreen before the case study text begins
         scrollHero: {
+            // The card's own eyebrow: the title says the product name, so the
+            // eyebrow carries what the title doesn't (kind of work + client)
+            // instead of repeating "Human Firewall" from hero.meta.
+            eyebrow: "Case study · InfoSec Ventures",
             title: "Human Firewall",
             date: "2024 to Q1 2026",
             hint: "Scroll to expand",
-            media: "/work/1st-case study/hf-dashboard-overview.jpeg",
-            mediaAlt: "Human Firewall 3: Dashboard Overview showing campaign stats, action hotspots, and department performance",
+            media: "/work/1st-case study/hero-image.png",
+            mediaAlt: "Human Risk Index dashboard: risk trend, phishing and training stats, and module overview",
             background: "/hero-gradient.avif",
         },
     },
@@ -73,7 +77,7 @@ export const humanFirewallCaseStudyData = {
             desc: "Design around AI, not on top of it.",
         },
         closing: "I used Gen AI tools (Cursor, Claude, ChatGPT) to rapidly explore flows and prototype campaign structures. AI accelerated exploration. Direction and constraints were always human-defined.",
-        collaboration: "Engineering pushed to defer AI-assisted content creation to a later MVP: the LLM fine-tuning needed for realistic phishing templates and landing pages required time we didn't have. We treated base-level AI assistance as essential for launch: users had to feel that HF3 was doing the work from day one. The compromise: ship a pre-made library for MVP1 while building the AI creation flow in parallel. Building that library manually taught us exactly how our backend prompts needed to behave, so when AI creation shipped in MVP2, it was grounded in real content patterns, not guesswork.",
+        collaboration: "Engineering wanted to push AI content creation to a later MVP. Fair point: the fine-tuning for realistic phishing templates needed time we didn't have. But HF3 had to feel like it was doing the work from day one. So we split it: MVP1 shipped with a pre-made library while the AI flow was built in parallel. Writing that library by hand turned out to be the research. By MVP2, we knew exactly how the prompts should behave.",
     },
 
     // Section 03 — Low Compromise ≠ Low Risk

@@ -410,18 +410,16 @@ function AIShiftSection() {
                                 HF 3: AI-Assisted Campaign Creation
                             </span>
                             <span className="ml-auto text-[10px] font-semibold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full bg-white text-gray-600">
-                                Shipped product UI
+                                Claude Code prototype
                             </span>
                         </div>
-                        <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
-                            <Image
-                                src="/work/1st-case study/ai-assisted-campaigncreation.png"
-                                alt="HF 3: AI-Assisted Campaign Creation flow"
-                                width={3360}
-                                height={3970}
-                                className="w-full h-auto block"
-                            />
-                        </div>
+                        <Image
+                            src="/work/1st-case study/ai-campaign-generation.png"
+                            alt="HF 3 campaign creation: AI generating 2,157 personalized templates with per-department progress"
+                            width={2870}
+                            height={1708}
+                            className="w-full h-auto block"
+                        />
                     </div>
                 </motion.div>
             </div>
@@ -1373,13 +1371,12 @@ export function HumanFirewallCaseStudy() {
                 mediaType="image"
                 mediaSrc={scrollHero.media}
                 mediaAlt={scrollHero.mediaAlt}
-                mediaAspect={3360 / 1922}
+                mediaAspect={3246 / 1830}
                 browserChrome
                 bgImageSrc={scrollHero.background}
                 title={scrollHero.title}
-                eyebrow={data.hero.meta}
+                eyebrow={scrollHero.eyebrow}
                 subtitle={data.hero.title}
-                tags={data.hero.tags}
                 date={scrollHero.date}
                 scrollToExpand={scrollHero.hint}
             />

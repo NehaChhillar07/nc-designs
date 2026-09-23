@@ -1018,9 +1018,8 @@ export function ECrimeHubCaseStudy() {
                 browserChrome
                 bgImageSrc={scrollHero.background}
                 title={scrollHero.title}
-                eyebrow={hero.meta}
+                eyebrow={scrollHero.eyebrow}
                 subtitle={hero.title}
-                tags={hero.tags}
                 date={scrollHero.date}
                 scrollToExpand={scrollHero.hint}
             />

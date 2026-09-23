@@ -10,6 +10,7 @@ export interface eCrimeHubData {
         subtitle: string;
         tags: string;
         scrollHero: {
+            eyebrow: string;
             title: string;
             date: string;
             hint: string;
@@ -109,6 +110,9 @@ export const eCrimeHubCaseStudyData: eCrimeHubData = {
         // Scroll-expansion opener — the product demo grows from a small card
         // to near-fullscreen before the case study text begins
         scrollHero: {
+            // The title already says "eCrime Hub", so the eyebrow carries
+            // kind of work + client instead of repeating it from meta.
+            eyebrow: "Case study · Dubai Police",
             title: "eCrime Hub",
             date: "Sep 2025 to Nov 2025",
             hint: "Scroll to expand",

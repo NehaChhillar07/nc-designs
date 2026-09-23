@@ -50,12 +50,10 @@ interface ScrollExpandMediaProps {
     posterSrc?: string;
     bgImageSrc: string;
     title?: string;
-    /** Small line above the title, e.g. "Human Firewall · InfoSec Ventures" */
+    /** Meta line under the deck, e.g. "Case study · InfoSec Ventures" */
     eyebrow?: string;
-    /** One-line project summary under the title */
+    /** One-line project summary directly under the title */
     subtitle?: string;
-    /** Tag row under the subtitle, e.g. "Enterprise SaaS · Cybersecurity" */
-    tags?: string;
     date?: string;
     scrollToExpand?: string;
     textBlend?: boolean;
@@ -73,7 +71,6 @@ const ScrollExpandMedia = ({
     title,
     eyebrow,
     subtitle,
-    tags,
     date,
     scrollToExpand,
     textBlend,
@@ -187,13 +184,16 @@ const ScrollExpandMedia = ({
                                                 className="object-cover"
                                             />
                                         )}
-                                        {/* Frosted glass that clears as the media expands */}
+                                        {/* Frosted glass that clears as the media expands.
+                                            Strong enough while collapsed that the text sits
+                                            on a clean card face — no separate scrim blob
+                                            floating over the layout. */}
                                         <div
                                             className="absolute inset-0"
                                             style={{
-                                                backgroundColor: `rgba(255, 255, 255, ${0.1 * glassStrength})`,
-                                                backdropFilter: `blur(${6 * glassStrength}px)`,
-                                                WebkitBackdropFilter: `blur(${6 * glassStrength}px)`,
+                                                backgroundColor: `rgba(255, 255, 255, ${0.9 * glassStrength})`,
+                                                backdropFilter: `blur(${12 * glassStrength}px)`,
+                                                WebkitBackdropFilter: `blur(${12 * glassStrength}px)`,
                                             }}
                                         />
                                     </div>
@@ -202,7 +202,7 @@ const ScrollExpandMedia = ({
                                 <div className="flex flex-col items-center text-center relative z-10 mt-5 gap-1 transition-none">
                                     {date && (
                                         <p
-                                            className="text-sm md:text-base font-medium text-gray-700"
+                                            className="text-sm md:text-base font-semibold text-gray-800"
                                             style={{ transform: `translateX(-${textTranslateX}vw)` }}
                                         >
                                             {date}
@@ -219,39 +219,20 @@ const ScrollExpandMedia = ({
                                 </div>
                             </div>
 
+                            {/* Type hierarchy: bold display title, the deck sits
+                                tight underneath as its second voice, then air, then
+                                the micro-caps meta line — one grouped block, ordered
+                                by importance. Legibility comes from the card's own
+                                frosted face, not a separate scrim. */}
                             <div
-                                className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
+                                className={`flex items-center justify-center text-center w-full relative z-10 transition-none flex-col ${
                                     textBlend ? "mix-blend-difference" : "mix-blend-normal"
                                 }`}
                             >
-                                {/* Soft scrim behind the text so it stays
-                                    readable over the busy product shot; it
-                                    clears together with the frosted glass as
-                                    the media expands. */}
-                                <div
-                                    aria-hidden
-                                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-[150%] max-w-none h-[220%] md:w-[120%] md:h-[240%]"
-                                    style={{
-                                        background:
-                                            "radial-gradient(ellipse 50% 50% at center, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 80%)",
-                                        opacity: glassStrength,
-                                    }}
-                                />
-                                {eyebrow && (
-                                    <p
-                                        className="text-[11px] md:text-xs font-medium uppercase tracking-[0.2em] text-gray-500 transition-none"
-                                        style={{
-                                            transform: `translateX(-${textTranslateX}vw)`,
-                                            opacity: detailOpacity,
-                                        }}
-                                    >
-                                        {eyebrow}
-                                    </p>
-                                )}
                                 {/* Single line — the two halves slide apart on scroll */}
                                 <div className="flex items-baseline justify-center gap-3 md:gap-5 transition-none">
                                     <motion.h2
-                                        className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-gray-900 leading-none transition-none"
+                                        className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-none transition-none"
                                         style={{
                                             transform: `translateX(-${textTranslateX}vw) scale(${textScale})`,
                                         }}
@@ -260,7 +241,7 @@ const ScrollExpandMedia = ({
                                     </motion.h2>
                                     {restOfTitle && (
                                         <motion.h2
-                                            className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-gray-900 leading-none transition-none"
+                                            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-none transition-none"
                                             style={{
                                                 transform: `translateX(${textTranslateX}vw) scale(${textScale})`,
                                             }}
@@ -271,7 +252,7 @@ const ScrollExpandMedia = ({
                                 </div>
                                 {subtitle && (
                                     <p
-                                        className="text-sm md:text-base font-normal text-gray-600 leading-relaxed max-w-xl px-6 mt-3 transition-none"
+                                        className="mt-1.5 md:mt-2 text-base md:text-lg font-normal text-gray-800 leading-relaxed max-w-xl px-6 transition-none"
                                         style={{
                                             transform: `translateX(${textTranslateX}vw)`,
                                             opacity: detailOpacity,
@@ -280,15 +261,15 @@ const ScrollExpandMedia = ({
                                         {subtitle}
                                     </p>
                                 )}
-                                {tags && (
+                                {eyebrow && (
                                     <p
-                                        className="text-[11px] md:text-xs font-normal text-gray-400 tracking-wide transition-none"
+                                        className="mt-4 md:mt-5 text-[10px] md:text-[11px] font-medium uppercase tracking-[0.14em] text-gray-500 transition-none"
                                         style={{
                                             transform: `translateX(-${textTranslateX}vw)`,
                                             opacity: detailOpacity,
                                         }}
                                     >
-                                        {tags}
+                                        {eyebrow}
                                     </p>
                                 )}
                             </div>
