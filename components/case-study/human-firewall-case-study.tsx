@@ -640,21 +640,19 @@ function AILaunchSection() {
                                 <div className="w-3 h-3 rounded-full" style={{ background: "#28c840" }} />
                             </div>
                             <span className="ml-3 text-xs text-gray-500 font-medium tracking-wide">
-                                Campaign Review & Preview: HF 3
+                                HF 3: Targeted campaign · one email per person
                             </span>
-                            <span className="ml-auto text-[10px] font-semibold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full bg-white text-gray-600">
-                                Shipped product UI
+                            <span className="ml-auto text-[10px] font-semibold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full bg-white text-gray-600 whitespace-nowrap">
+                                Claude Code prototype
                             </span>
                         </div>
-                        <div className="overflow-y-auto" style={{ maxHeight: "50vh" }}>
-                            <Image
-                                src="/work/1st-case study/review.jpeg"
-                                alt="Campaign Review & Preview: HF 3"
-                                width={3360}
-                                height={1922}
-                                className="w-full h-auto block"
-                            />
-                        </div>
+                        <Image
+                            src="/work/1st-case study/targeted-campaign-plan.png"
+                            alt="HF 3 targeted campaign: per-person attack plan with AI-chosen angles, difficulty levels, and the reasoning behind each one"
+                            width={2844}
+                            height={1798}
+                            className="w-full h-auto block"
+                        />
                     </div>
                 </motion.div>
             </div>
