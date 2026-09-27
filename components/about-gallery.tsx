@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { motion, type Variants } from "motion/react";
 import { AboutMedia, aboutStripMedia } from "@/data/about-data";
 import { PixelImage } from "@/components/ui/pixel-image";
+import { LazyVideo } from "@/components/ui/lazy-video";
 
 // Animation variants
 const containerVariants: Variants = {
@@ -27,53 +27,15 @@ const itemVariants: Variants = {
     },
 };
 
-// These sit ~9000px down the page, but autoPlay makes a browser fetch the whole
-// file immediately — preload="metadata" does not override it. That pulled 2.9MB
-// onto the critical path for cards nobody had scrolled to yet. Hold the src back
-// until the card is near the viewport, then attach it and play.
-function LazyVideo({ media }: { media: AboutMedia }) {
-    const ref = useRef<HTMLVideoElement>(null);
-    const [shouldLoad, setShouldLoad] = useState(false);
-
-    useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setShouldLoad(true);
-                    observer.disconnect();
-                }
-            },
-            { rootMargin: "400px" },
-        );
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, []);
-
-    // autoPlay alone is unreliable when src arrives after mount.
-    useEffect(() => {
-        if (shouldLoad) ref.current?.play().catch(() => {});
-    }, [shouldLoad]);
-
-    return (
-        <video
-            ref={ref}
-            src={shouldLoad ? media.src : undefined}
-            className="absolute inset-0 w-full h-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="none"
-        />
-    );
-}
-
 // Media item component
 function MediaItem({ media }: { media: AboutMedia }) {
     if (media.type === "video") {
-        return <LazyVideo media={media} />;
+        return (
+            <LazyVideo
+                src={media.src}
+                className="absolute inset-0 w-full h-full object-cover"
+            />
+        );
     }
 
     return (

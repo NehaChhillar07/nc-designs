@@ -80,6 +80,22 @@ const projects: Project[] = [
         readingTime: "8 mins",
     },
     {
+        id: 7,
+        // A freelance mobile project, placed straight after Human Firewall so the
+        // grid opens with enterprise depth and then mobile craft.
+        // The card asks the same question the case-study hero asks, so the
+        // card and the page open on one thought instead of two clevernesses.
+        title: "You've landed abroad.\nIs your phone working?",
+        category: "Mobile UX · Freelance",
+        description:
+            "Airtel's app sells the roaming pack, then goes quiet. I redesigned it as a Travel Mode that speaks first when you land — and built the working prototype in a month.",
+        image: "/work/thumbs/airtel-travel-mode.png",
+        tags: [],
+        caseStudyLink: "/case-study/airtel-travel-mode",
+        buttonText: "Read case study",
+        readingTime: "9 mins",
+    },
+    {
         id: 5,
         title: "Built in Cursor.\nEngineering shipped the code.",
         category: "Internal tool · AI-native workflow · Enterprise training",

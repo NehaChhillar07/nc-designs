@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { motion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCursor } from "@/components/ui/cursor-context";
 
@@ -9,7 +10,6 @@ interface Project {
     id: number;
     title: string;
     category: string;
-    description: string;
     image: string;
     link: string | null;
     comingSoon?: boolean;
@@ -33,7 +33,7 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
         };
     }, [resetCursor]);
 
-    // Filter out current project - show only the other 2
+    // Every case study except the one being read
     const filteredProjects = currentProjectId
         ? projects.filter(p => p.id !== currentProjectId)
         : projects.slice(0, 2);
@@ -48,49 +48,63 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
         resetCursor();
     };
 
-    // Project card content - shared between Link and div
+    // Project card content - shared between Link and div.
+    // The card is the project's cover, square and full bleed, so the space
+    // shows the work rather than an empty panel. The title and reading time
+    // sit at the bottom, the category at the top, each on its own fade.
     const ProjectCardContent = ({ project }: { project: Project }) => (
-        <div
-            className="relative rounded-2xl overflow-hidden p-8 md:p-10 h-full"
-            style={{
-                background: "linear-gradient(135deg, #FAF6F0 0%, #F1E9DF 100%)",
-                minHeight: "280px"
-            }}
-        >
+        <div className="relative aspect-square overflow-hidden rounded-2xl bg-gray-900">
+            <Image
+                src={project.image}
+                alt=""
+                fill
+                sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDER}
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            />
+            {/* Near-solid under the title, so a cover's own caption dims away
+                instead of reading through it; a lighter fade under the category. */}
+            <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-linear-to-t from-black/95 from-30% via-black/70 via-55% to-transparent to-80%"
+            />
+            <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-linear-to-b from-black/55 to-transparent to-35%"
+            />
+
             {/* Coming Soon Badge */}
             {project.comingSoon && (
-                <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/10 backdrop-blur-sm">
+                <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-sm">
                     <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
-                    <span className="text-sm font-medium text-gray-700">Coming Soon</span>
+                    <span className="text-sm font-medium text-white">Coming Soon</span>
                 </div>
             )}
 
             {/* Category Label */}
-            <p className="text-[12px] md:text-[13px] font-medium text-gray-500 uppercase tracking-wide mb-4">
+            <p className="absolute inset-x-5 top-5 md:inset-x-6 md:top-6 line-clamp-2 text-[11px] md:text-[12px] font-medium uppercase tracking-wide text-white/70">
                 {project.category}
             </p>
 
-            {/* Title */}
-            <h3 className="text-[24px] md:text-[28px] lg:text-[32px] font-semibold text-gray-900 group-hover:text-gray-700 transition-colors mb-4 leading-tight">
-                {project.title}
-            </h3>
+            <div className="absolute inset-x-5 bottom-5 md:inset-x-6 md:bottom-6">
+                {/* Title */}
+                <h3 className="text-[20px] md:text-[22px] xl:text-[19px] font-semibold leading-snug text-white">
+                    {project.title}
+                </h3>
 
-            {/* Description */}
-            <p className="text-[15px] md:text-[16px] text-gray-600 leading-relaxed">
-                {project.description}
-            </p>
-
-            {/* Reading Time / View Indicator */}
-            {project.readingTime && !project.comingSoon && (
-                <div className="absolute bottom-6 right-6 flex items-center gap-2 text-gray-500 group-hover:text-gray-700 transition-colors">
-                    <span className="text-sm font-medium">{project.readingTime}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                </div>
-            )}
+                {/* Reading Time / View Indicator */}
+                {project.readingTime && !project.comingSoon && (
+                    <div className="mt-3 flex items-center gap-2 text-white/70 transition-colors group-hover:text-white">
+                        <span className="text-sm font-medium">{project.readingTime}</span>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                )}
+            </div>
         </div>
-        );
+    );
 
     return (
         <section
@@ -98,8 +112,8 @@ export function ExploreMore({ projects, currentProjectId }: ExploreMoreProps) {
             onMouseLeave={handleMouseLeave}
         >
             <div className="w-full">
-                {/* Project Cards - Simple 2 column grid, no carousel */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                {/* Square cards: one across on a phone, two until there is room for four */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 md:gap-8">
                     {filteredProjects.map((project, index) => (
                         <motion.div
                             key={project.id}

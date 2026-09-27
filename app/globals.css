@@ -50,6 +50,36 @@ html {
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Editorial accents as utilities (text-accent-warm-deep, bg-editorial-dark,
+     text-cream...), so case studies stop carrying their own hex consts. The
+     names sit apart from shadcn's `accent`, which is a neutral grey. */
+  --color-accent-warm: var(--accent-warm);
+  --color-accent-warm-soft: var(--accent-warm-soft);
+  --color-accent-warm-strong: var(--accent-warm-strong);
+  --color-accent-warm-brown: var(--accent-warm-brown);
+  --color-accent-warm-deep: var(--accent-warm-deep);
+  --color-highlight-dark: var(--highlight-dark);
+  --color-editorial-dark: var(--editorial-dark);
+  --color-cream: var(--cream);
+  --color-cream-soft: var(--cream-soft);
+  --color-cream-faint: var(--cream-faint);
+}
+
+/* Height animation for components/ui/accordion (Radix exposes the measured
+   height as a variable). Same curve as the case-study reveals. */
+@theme {
+  --animate-accordion-down: accordion-down 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --animate-accordion-up: accordion-up 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
 }
 
 :root {
@@ -67,6 +97,16 @@ html {
      to separate from. Used on that headline's highlight and underline only —
      everywhere else, including the paragraph beneath it, stays warm. */
   --accent-cool: #79B8FF;        /* hero headline marks over the warm glow */
+  /* The warm accent deep enough to carry text on white and gray-50 (the
+     #FF9800 accent only reads on the dark bands). */
+  --accent-warm-deep: #B45309;
+  /* The dark editorial band, shared by every case study that runs one, so
+     there is a single dark treatment across the site. */
+  --editorial-dark: #1A1512;
+  --editorial-dark-gradient: radial-gradient(125% 120% at 50% 32%, #241D18 0%, #1A1512 54%, #110D0B 100%);
+  --cream: #F1E9DF;              /* text on the dark band */
+  --cream-soft: rgb(241 233 223 / 0.72);
+  --cream-faint: rgb(241 233 223 / 0.5);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

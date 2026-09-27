@@ -1,0 +1,15 @@
+# /case-study/airtel-travel-mode overrides
+
+Only the rules that differ from `../MASTER.md`.
+
+- **Hero is a dark editorial band**, like unsaid: `bg-(image:--editorial-dark-gradient)`, `text-cream`, and the page passes `<Header theme="dark" />` with no `pt-20` on `<main>`. The prototype recording plays in the hero and sits directly under the headline on phones, so the first screen shows the product.
+- **Section 08 is also dark** (`bg-editorial-dark`). Same tokens as the hero, so the site keeps one dark treatment.
+- **Screens are real captures, never rebuilt.** PNGs and mp4s in `public/work/airtel-travel-mode/` come from the prototype (github.com/NehaChhillar07/airtel-travel-mode) via `tools/capture_case_study.mjs` in the Airtel workspace. If a screen the story needs does not exist in the app, the page describes it in text.
+- **No Poppins or Airtel colour tokens on the page.** Airtel's type and colour live inside the screenshots; everything around them uses portfolio tokens only (Tailwind grays plus the `--accent-warm*`, `--editorial-dark*` and `--cream*` utilities in `globals.css`).
+- **Interactive pieces are shadcn primitives** (Tabs, Slider, Accordion, Button) styled with tokens, so arrow keys and tab panels work.
+- **Told from inside one traveller's trip.** After the hero: the three moves (the ending first, each linking to its chapter), a second-person scene in today's Airtel app, then the research as seven questions with their sources (`QuestionMap`), then one chapter per question in the order she asks it (`QuestionHeader`: act and "n of 7", her question as the H2, my answer as the lede). The system, build, evidence and trade-offs come after the trip.
+- **Voice.** "You" only in the hero and the opening scene. Chapter headings are her questions in her words; body copy is my reasoning, "she" for the traveller, "I" for me. The scene is set in Lora so the story and the reasoning never blur.
+- **Lock-screen banners live in the chapter where she would see them**, paired with the screen they open (banner first). The dark band keeps only the Live Activity and the one-trip data flow.
+- **Status is stated up front** (not launched, desk research, no interviews), and the evidence section lists what would be measured, never invented results.
+- **Every section with a screen is a `Split`:** copy on the left (label, headline, body), one large phone on the right (`STAGE_W`, 300px, 320px from xl), a fixed 26rem right column so every section keeps the same rhythm, and a wide gap. The container is `max-w-6xl` for the room. Two screens with their own beats become two Splits one after the other (review then confirmation; banner then ledger); states of one moment become a chip switch over one phone (`ShotTabs`), and the arrival banner and the screen it opens share one switch. Only the motion gallery stays a row (`ShotRow`).
+- **Handwritten notes** (`HandNotes`) sit in the white space right of the phone from xl, one block with one arrow; below xl they sit under the screen.
