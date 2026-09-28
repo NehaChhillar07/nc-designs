@@ -50,3 +50,8 @@ next-env.d.ts
 /_*.cjs
 /_*.mjs
 /_*.ts
+
+# agent instruction files: kept locally, not published
+# (next dev regenerates AGENTS.md on every run)
+AGENTS.md
+CLAUDE.md
