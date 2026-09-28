@@ -520,18 +520,20 @@ function MotionAndBuild() {
                 <H2>{m.h2}</H2>
                 <Lede>{m.lede}</Lede>
 
-                <motion.div {...fadeInUp}>
+                {/* A narrower row than the page, so three recordings read as
+                    one gallery rather than three crowded columns. */}
+                <motion.div {...fadeInUp} className="lg:max-w-4xl">
                     <ShotRow label={d.rows.motion} hint={d.rows.hint} gridFrom="lg" cols={3}>
                         {m.pieces.map((piece) => (
-                            <div key={piece.title} className="w-[min(300px,78vw)] lg:w-auto">
+                            <div key={piece.title} className="w-[min(280px,76vw)] lg:w-auto">
                                 <PhoneClip clip={piece.clip} showCaption={false} width="w-[min(240px,70vw)]" />
-                                <div className="mb-3 mt-6 flex items-baseline justify-between gap-4 border-b border-gray-200 pb-3">
-                                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-900">{piece.title}</p>
+                                <div className="mb-2 mt-5 flex items-baseline justify-between gap-4">
+                                    <p className="text-sm font-medium text-gray-900">{piece.title}</p>
                                     <p className="shrink-0 font-(family-name:--font-space-grotesk) text-sm tabular-nums text-gray-500">
                                         {piece.total}
                                     </p>
                                 </div>
-                                <p className="mb-2 text-sm leading-relaxed text-gray-600">{piece.clip.caption}</p>
+                                <p className="mb-1 text-sm leading-relaxed text-gray-500">{piece.clip.caption}</p>
                                 <Accordion type="single" collapsible>
                                     <AccordionItem value="spec" className="border-gray-200">
                                         <AccordionTrigger className="text-sm font-medium text-gray-900 hover:no-underline">

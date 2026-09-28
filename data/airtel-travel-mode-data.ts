@@ -572,14 +572,14 @@ export const airtelData = {
         specHeaders: { beat: "Beat", what: "What moves", timing: "Timing" },
         pieces: [
             {
-                title: "Home to Travel Mode · first tap",
+                title: "The first tap",
                 total: "about 3.8 s",
                 clip: {
                     src: `${ASSET}/rec-departure.mp4`,
                     poster: `${ASSET}/rec-departure-poster.jpg`,
                     label: "Recording of the departure sequence in the prototype.",
                     caption:
-                        'The tile presses, a blush ground fills the screen, the wordmark settles, a split-flap board turns "after you land" into "before you fly", and an iris opens onto the trip.',
+                        'A split-flap board turns "after you land" into "before you fly", then an iris opens onto the trip.',
                 } satisfies Clip,
                 spec: [
                     { beat: "Press", what: "The Travel tile compresses before anything opens", timing: "90 ms" },
@@ -598,7 +598,7 @@ export const airtelData = {
                     poster: `${ASSET}/rec-confirmation-poster.jpg`,
                     label: "Recording of the review to confirmation transition in the prototype.",
                     caption:
-                        "The review layer parallaxes back a third as the confirmation slides over it: one surface on another, not two screens passing. Then the stamp lands large, from above, and undershoots on the way to rest. That undershoot is the press.",
+                        "The confirmation slides over the review, then the stamp lands and undershoots. That undershoot is the press.",
                 } satisfies Clip,
                 spec: [
                     { beat: "Push", what: "Confirmation slides over; review drops back 32% at 0.55 opacity", timing: "at 0" },
@@ -612,14 +612,14 @@ export const airtelData = {
                 ] satisfies SpecRow[],
             },
             {
-                title: "A day passes on the dashboard",
+                title: "A day passes",
                 total: "per day",
                 clip: {
                     src: `${ASSET}/rec-dashboard.mp4`,
                     poster: `${ASSET}/rec-dashboard-poster.jpg`,
                     label: "Recording of the trip dashboard advancing from day 3 to day 8 in the prototype.",
                     caption:
-                        "Day 3 to day 8. Minutes start each day fresh, texts only go down, data only goes up. The dots never stop.",
+                        "Day 3 to day 8. Minutes reset each midnight; texts and data run for the whole pack.",
                 } satisfies Clip,
                 spec: [
                     { beat: "Minutes", what: "Start again from the new day's allowance", timing: "each midnight" },
