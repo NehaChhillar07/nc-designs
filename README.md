@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# nc-designs
 
-## Getting Started
+My portfolio, designed and built by me.
 
-First, run the development server:
+**Live: [nc-designs.vercel.app](https://nc-designs.vercel.app)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Portfolio home page" width="720" />
+</p>
+
+Five case studies (Human Firewall, Airtel Travel Mode, eCrime Hub, Flashcard Training, unsaid), two long-form writing pieces, a resume viewer and a work-with-me page. Each case study is its own route, and its content lives in a typed data file, so the story can change without touching layout code.
+
+## Built with
+
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, shadcn/ui on Radix, Motion and GSAP, react-pdf, Vercel (hosting, Blob, Analytics). Built with Claude Code as a pair programmer.
+
+## How it's organised
+
+```
+app/              Routes: home, /case-study/*, /writing/*, /resume, /work-with-me
+components/       Page sections (header, work, about, testimonials, footer)
+  case-study/     One component per case study, plus shared motion presets
+  ui/             Reusable primitives: button, tabs, accordion, lightbox, scroll-driven effects
+data/             Content for every page as typed TypeScript
+lib/              Site config, hooks (reduced motion, hydration), helpers
+design-system/    The written design system: tokens, type, motion rules, per-page overrides
+scripts/          Generates the Open Graph images for each page
+docs/             Screenshots and notes for this README
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Design decisions in code
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **One written source of truth.** `design-system/neha-portfolio/MASTER.md` records the real tokens from `globals.css` (colour, type, spacing, motion) and the voice rules. Page files in `design-system/.../pages/` override it where a case study needs its own look.
+- **Content is data.** Case studies read from `data/*.ts`, so a copy edit never risks a layout change.
+- **Motion respects the user.** A global `prefers-reduced-motion` rule plus a `use-reduced-motion-safe` hook tone animations down for anyone who has asked their OS for less motion.
+- **One place for the domain.** `lib/site.ts` holds the site URL, and the sitemap, robots, canonical links and OG tags all derive from it.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Run it locally
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install
+npm run dev     # http://localhost:3000
+npm run build
+```
