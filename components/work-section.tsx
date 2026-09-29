@@ -88,7 +88,7 @@ const projects: Project[] = [
         title: "You've landed abroad.\nIs your phone working?",
         category: "Mobile UX · Freelance",
         description:
-            "Airtel's app sells the roaming pack, then goes quiet. I redesigned it as a Travel Mode that speaks first when you land — and built the working prototype in a month.",
+            "Airtel's app sells the roaming pack, then goes quiet. I redesigned it as a Travel Mode that speaks first when you land, and built the working prototype in a month.",
         image: "/work/thumbs/airtel-travel-mode.png",
         tags: [],
         caseStudyLink: "/case-study/airtel-travel-mode",
@@ -398,6 +398,15 @@ export function WorkSection() {
                 ))}
             </div>
 
+            {/* Below lg there is no sticky cover column or progress rail to say
+                what this is, so the list gets a plain heading. */}
+            <div className="lg:hidden mb-2 md:mb-6">
+                <p className="text-xs font-medium uppercase tracking-[0.2em] text-gray-500">Selected work</p>
+                <h2 className="mt-2 text-[28px] md:text-[36px] font-medium tracking-tight text-gray-900 leading-tight">
+                    {projects.length} case studies
+                </h2>
+            </div>
+
             {/* Two-column layout for desktop */}
             <div className="lg:grid lg:grid-cols-2 lg:gap-16">
                 {/* LEFT COLUMN - Scrolling text content */}
@@ -416,7 +425,7 @@ export function WorkSection() {
                         const block = (
                             <>
                                 {/* Mobile Image */}
-                                <div className="lg:hidden mb-8 rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '4/3' }}>
+                                <div className="lg:hidden mb-5 md:mb-8 rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: '4/3' }}>
                                     {project.id === FLASHCARD_PROJECT_ID ? (
                                         <div className="relative w-full h-full bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-950 flex items-center justify-center p-6">
                                             <div
@@ -457,13 +466,25 @@ export function WorkSection() {
                                 </div>
 
                                 {/* Project Content */}
-                                <div className="space-y-4">
+                                <div className="space-y-2.5 md:space-y-4">
                                     {project.category && (
                                         <div className="flex flex-wrap items-center gap-3">
                                             {/* Same grey as the description below. --muted-foreground
                                                 is rgb(46,46,46) / 13.58:1, which made this small
                                                 uppercase label louder than the sentence it introduces. */}
-                                            <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                                            {/* Phone: the category as tags above the title,
+                                                which with the cover is all a phone card shows. */}
+                                            <ul className="md:hidden flex flex-wrap gap-1.5">
+                                                {project.category.split("·").map((tag) => (
+                                                    <li
+                                                        key={tag}
+                                                        className="rounded-full border border-gray-200 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.06em] text-gray-500"
+                                                    >
+                                                        {tag.trim()}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                            <p className="hidden md:block text-sm font-medium text-gray-500 uppercase tracking-wide">
                                                 {project.category}
                                             </p>
                                             {project.roleTag && (
@@ -484,13 +505,23 @@ export function WorkSection() {
                                         </div>
                                     )}
                                     <h3
-                                        className={`text-[28px] md:text-[36px] font-medium tracking-tight whitespace-pre-line${
+                                        className={`text-[22px] leading-snug md:text-[36px] md:leading-normal font-medium tracking-tight whitespace-pre-line${
                                             project.caseStudyLink ? " transition-colors group-hover:text-primary" : ""
                                         }`}
                                     >
-                                        {project.title}
+                                        {hasExtraLinks && project.caseStudyLink ? (
+                                            <Link
+                                                href={project.caseStudyLink}
+                                                className="max-md:after:absolute max-md:after:inset-0"
+                                            >
+                                                {project.title}
+                                            </Link>
+                                        ) : (
+                                            project.title
+                                        )}
                                     </h3>
-                                    <p className="text-[14px] md:text-[18px] text-gray-500 leading-relaxed max-w-2xl mt-2 whitespace-pre-line">
+                                    {/* From md up. A phone card is the cover, tags and title. */}
+                                    <p className="hidden md:block text-[18px] text-gray-500 leading-relaxed max-w-2xl mt-2 whitespace-pre-line">
                                         {project.description}
                                     </p>
 
@@ -518,7 +549,7 @@ export function WorkSection() {
                                             // Unwrapped block (see above), so these are real
                                             // anchors: the case-study CTA plus external proof
                                             // links, styled like the Experiments card links.
-                                            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                                            <div className="hidden md:flex flex-wrap items-center gap-x-6 gap-y-3">
                                                 <Link
                                                     href={project.caseStudyLink}
                                                     className={cn(
@@ -568,7 +599,7 @@ export function WorkSection() {
                                             <span
                                                 className={cn(
                                                     buttonVariants({ size: "lg" }),
-                                                    "mt-3 rounded-2xl px-10 h-12 text-base"
+                                                    "hidden md:inline-flex mt-3 rounded-2xl px-10 h-12 text-base"
                                                 )}
                                             >
                                                 {project.buttonText || "Understand"}
@@ -578,7 +609,7 @@ export function WorkSection() {
                                         <Button
                                             disabled
                                             size="lg"
-                                            className="mt-3 rounded-2xl px-10 h-12 text-base"
+                                            className="hidden md:inline-flex mt-3 rounded-2xl px-10 h-12 text-base"
                                         >
                                             {project.buttonText || "Read case study"}
                                         </Button>
@@ -592,7 +623,7 @@ export function WorkSection() {
                                 key={project.id}
                                 id={blockId(index)}
                                 ref={(el) => addToTextBlocksRef(el, index)}
-                                className="min-h-screen flex flex-col justify-center py-16 md:py-24 scroll-mt-4"
+                                className="relative py-7 md:min-h-screen md:flex md:flex-col md:justify-center md:py-24 scroll-mt-4"
                             >
                                 {project.caseStudyLink && !hasExtraLinks ? (
                                     <Link

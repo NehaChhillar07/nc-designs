@@ -2,6 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import { useIsDesktop } from "@/lib/use-media-query";
 
 // Stacked-card scroll transition in the style of Aceternity's
 // container-scroll-animation: the first panel pins and recedes (scales down)
@@ -18,6 +19,10 @@ interface StickyScrollStackProps {
 
 export function StickyScrollStack({ first, second }: StickyScrollStackProps) {
     const secondRef = useRef<HTMLDivElement>(null);
+    // Phones get plain scrolling: no pinned hero, no receding scale, no 3D
+    // entry. On a small screen the effect cost a full screen of scroll and a
+    // tilted panel for no new information.
+    const stacked = useIsDesktop();
 
     // 0 when the second panel's top enters the viewport bottom,
     // 1 when it reaches the viewport top.
@@ -53,16 +58,19 @@ export function StickyScrollStack({ first, second }: StickyScrollStackProps) {
     return (
         <div className="relative overflow-x-clip">
             <motion.div
-                style={{ scale: firstScale }}
-                className="sticky top-0 h-screen"
+                // Explicit resting values on a phone, not an absent style: Motion
+                // leaves whatever it last wrote on the element, which kept the
+                // panel frozen mid-tilt after hydration.
+                style={stacked ? { scale: firstScale } : { scale: 1 }}
+                className="md:sticky md:top-0 md:h-screen"
             >
                 {first}
             </motion.div>
             <motion.div
                 ref={secondRef}
                 data-scroll-panel
-                style={{ transform: secondTransform, transformOrigin: "top center" }}
-                className="relative z-10 bg-white rounded-t-[32px] shadow-[0_-24px_60px_rgba(0,0,0,0.08)]"
+                style={stacked ? { transform: secondTransform, transformOrigin: "top center" } : { transform: "none" }}
+                className="relative z-10 bg-white md:rounded-t-[32px] md:shadow-[0_-24px_60px_rgba(0,0,0,0.08)]"
             >
                 {second}
             </motion.div>

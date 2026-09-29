@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { ConnectOverlay } from "@/components/connect-overlay";
+import { MobileMenu } from "@/components/mobile-menu";
 import { scrollToSection, useHashScrollOnLoad } from "@/lib/scroll-to-section";
 
 // Two kinds of entries: homepage anchors (id set — smooth-scrolled on "/")
@@ -21,7 +22,6 @@ const NAV_LINKS = [
 ] as const;
 
 export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [connectOpen, setConnectOpen] = useState(false);
   const pathname = usePathname();
 
@@ -57,7 +57,6 @@ export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
     e: React.MouseEvent<HTMLAnchorElement>,
     id: string
   ) => {
-    setMobileMenuOpen(false);
     // On the homepage, take over the scroll so it stays accurate while the
     // lazy-loaded sections settle. On other pages, let the link navigate to
     // "/#id" and the homepage's hash handler will do the scroll on arrival.
@@ -70,8 +69,11 @@ export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
 
   return (
     <>
+      {/* On a phone the bar carries only the logo and scrolls away with the
+          page; its links, Resume and Connect live in the floating menu at the
+          bottom, where a thumb reaches. From md up it is the fixed bar. */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${headerBgClass}`}
+        className={`absolute md:fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${headerBgClass}`}
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center">
@@ -104,8 +106,8 @@ export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
             ))}
           </nav>
 
-          {/* Buttons - Always visible */}
-          <div className="flex items-center gap-2 md:gap-3">
+          {/* Resume and Connect: in the bar from md up, in the floating menu below. */}
+          <div className="hidden md:flex items-center gap-3">
             <Button variant="outline" size="sm" asChild className="text-xs md:text-sm bg-white/80 backdrop-blur-sm">
               <Link href="/resume">Resume</Link>
             </Button>
@@ -117,84 +119,17 @@ export function Header({ theme = "light" }: { theme?: "light" | "dark" }) {
                 href="/#connect"
                 onClick={(e) => {
                   e.preventDefault();
-                  setMobileMenuOpen(false);
                   setConnectOpen(true);
                 }}
               >
                 Connect
               </Link>
             </Button>
-
-            {/* Mobile Hamburger Menu Button */}
-            <button
-              className="md:hidden ml-2 inline-flex items-center justify-center min-h-11 min-w-11"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={isDark ? "text-white" : "text-foreground"}
-                >
-                  <path
-                    d="M13.5 4.5L4.5 13.5M4.5 4.5L13.5 13.5"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={isDark ? "text-white" : "text-foreground"}
-                >
-                  <path
-                    d="M2.25 4.5H15.75M2.25 9H15.75M2.25 13.5H15.75"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </button>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div
-            className="md:hidden bg-white/95 backdrop-blur-sm border-t"
-          >
-            <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.label}
-                  href={"href" in link ? link.href : `/#${link.id}`}
-                  onClick={
-                    "id" in link
-                      ? (e) => handleNavClick(e, link.id)
-                      : () => setMobileMenuOpen(false)
-                  }
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground py-2"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        )}
       </header>
+
+      <MobileMenu links={NAV_LINKS} onConnect={() => setConnectOpen(true)} />
 
       {/* Connect Overlay */}
       <ConnectOverlay isOpen={connectOpen} onClose={() => setConnectOpen(false)} />

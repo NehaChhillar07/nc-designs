@@ -38,7 +38,7 @@ export default function Home() {
         <div className="w-screen ml-[calc(50%-50vw)]">
         <StickyScrollStack
           first={
-        <div id="hero" className="flex flex-col items-center justify-center h-full text-center relative px-4">
+        <div id="hero" className="flex flex-col items-center justify-center md:h-full text-center relative px-4 pt-8 pb-12 md:pt-0 md:pb-0">
           {/* Gradient lives inside the hero panel so it recedes with it;
               centered so it glows behind the name on short/narrow screens */}
           <div className="absolute inset-0 -z-10 flex items-center justify-center overflow-hidden -translate-y-36 sm:translate-y-0">
@@ -82,7 +82,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+            <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
               <div className="w-[36px] h-[61px] sm:w-[52px] sm:h-[88px] md:w-[66px] md:h-[112px] lg:w-[76px] lg:h-[129px] rounded-full overflow-hidden shadow-2xl transition-transform duration-300 hover:scale-110">
                 <Image
                   src="/hero-portrait.jpg"
@@ -101,11 +101,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Base margins in this block run one step tighter than sm+: the
-              panel is sticky h-screen, so content past one viewport on a
-              320x568 phone is not scrollable — it just never appears. The
-              compact rhythm keeps both CTAs inside the smallest viewports. */}
-          <h1 className="mt-6 sm:mt-8 md:mt-12 text-[18px] sm:text-[22px] md:text-[26px] font-medium tracking-tight max-w-3xl leading-snug relative break-words">
+          {/* On a phone the hero is the name and one line, and the work starts
+              right under it. The credentials, the handwritten line and the two
+              buttons are for md up, where the panel is sticky h-screen. */}
+          <h1 className="mt-7 sm:mt-8 md:mt-12 text-[22px] md:text-[26px] font-medium tracking-tight max-w-3xl leading-snug relative break-words">
             {/* The mark carries the one cool accent on the site (--accent-cool):
                 a warm mark sat straight on the orange gradient blob behind it
                 and had nothing to separate from. */}
@@ -122,7 +121,7 @@ export default function Home() {
                 lg+ the row goes w-max and re-centers itself past the h1's cap
                 (a transform on this leaf is fine; only a transformed ancestor
                 of the pinned stack breaks GSAP pinning). */}
-            <span className="mt-4 sm:mt-5 md:mt-7 flex flex-col lg:flex-row items-center justify-center gap-y-1 lg:gap-x-3 lg:w-max lg:max-w-none lg:relative lg:left-1/2 lg:-translate-x-1/2 text-[11px] sm:text-[12px] md:text-[13px] font-semibold uppercase tracking-[0.18em] text-gray-900">
+            <span className="hidden md:flex mt-7 flex-col lg:flex-row items-center justify-center gap-y-1 lg:gap-x-3 lg:w-max lg:max-w-none lg:relative lg:left-1/2 lg:-translate-x-1/2 text-[13px] font-semibold uppercase tracking-[0.18em] text-gray-900">
               <span className="lg:whitespace-nowrap">First designer at two companies</span>
               {/* Dots only where the claims sit on one line. Left visible on
                   narrow screens the strip wrapped and stranded a dot alone at
@@ -135,7 +134,7 @@ export default function Home() {
           </h1>
           {/* The footer's signature chip, promoted to the hero. Same treatment
               in both places so it reads as one line moving up, not two lines. */}
-          <p className="mt-4 sm:mt-6 md:mt-8">
+          <p className="hidden md:block mt-8">
             <span
               className="inline-block max-w-[92vw] px-4 py-2 rounded-full border border-gray-300 bg-white/50 backdrop-blur-sm text-[16px] sm:text-[18px]"
               style={{
@@ -147,11 +146,7 @@ export default function Home() {
               Started in Claude Code. Documented in Figma. Handed over functional.
             </span>
           </p>
-          <p className="mt-3 sm:mt-5 md:mt-6 flex items-center justify-center gap-2 text-[12px] sm:text-sm text-muted-foreground">
-            <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-green-500" />
-            Open to freelance projects and full-time roles.
-          </p>
-          <div className="mt-4 sm:mt-6 md:mt-8 flex items-center justify-center gap-3">
+          <div className="hidden md:flex mt-8 items-center justify-center gap-3">
             <ScrollLink
               targetId="work"
               ariaLabel="See the work"
@@ -172,7 +167,7 @@ export default function Home() {
           }
           second={
         <Suspense fallback={<div className="min-h-[600px]" />}>
-          <div id="work" className="container mx-auto py-16 md:py-24 lg:py-32 px-4 sm:px-8 lg:px-12">
+          <div id="work" className="container mx-auto pt-10 pb-6 md:py-24 lg:py-32 px-4 sm:px-8 lg:px-12">
             <WorkSection />
           </div>
         </Suspense>
@@ -181,13 +176,14 @@ export default function Home() {
         </div>
 
         <Suspense fallback={<div className="min-h-[400px]" />}>
-          <div id="writings" className="py-16 md:py-24 lg:py-32 px-4 sm:px-8 lg:px-12">
+          <div id="writings" className="py-12 md:py-24 lg:py-32 px-4 sm:px-8 lg:px-12">
             <WritingsSection />
           </div>
         </Suspense>
 
         <Suspense fallback={<div className="min-h-[400px]" />}>
-          <div id="fun-with-claude" className="py-16 md:py-24 lg:py-32">
+          {/* Not on a phone: a visitor there is here for the case studies. */}
+          <div id="fun-with-claude" className="hidden md:block md:py-24 lg:py-32">
             <FunWithClaudeSection />
           </div>
         </Suspense>

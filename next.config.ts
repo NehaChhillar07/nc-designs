@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
   //   ENOENT: .next/next-server.js.nft.json
   // Do not re-add it unless this site starts shipping in a container.
 
+  // Dev only: lets a phone on the same Wi-Fi load the dev server's scripts
+  // (Next blocks other origins by default, so the page would load but never
+  // respond to a tap). This Mac's address on the current network; update it
+  // when the network changes. Production ignores this setting.
+  allowedDevOrigins: ["10.110.5.73"],
+
   // Compress responses
   compress: true,
 

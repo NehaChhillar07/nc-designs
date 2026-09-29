@@ -8,6 +8,12 @@ import { MagicText } from "@/components/ui/magic-text";
 import { motion } from "motion/react";
 import { TestimonialCarousel } from "@/components/testimonial-carousel";
 
+const ABOUT = [
+    "Designing in cybersecurity. Phishing simulations, security awareness, risk scoring, and admin workflows for security teams.",
+    "I prefer understanding things before reacting. I like noticing patterns, sitting with unclear ideas, and bringing structure to chaos. Messy problems don't overwhelm me. They make me curious.",
+    "I learn through experiments rather than theory. Trying things and seeing what actually works matters more to me than assumptions. Outside work, I spend a lot of time with my dog, June. Being around her quietly, without words, is where I slow down and observe. That mindset shapes how I think about people and systems.",
+];
+
 export function AboutSection() {
     return (
         <section className="py-16 md:py-24 lg:py-32 px-4">
@@ -19,8 +25,8 @@ export function AboutSection() {
             </div>
 
             {/* Mobile: static hero portrait */}
-            <div className="md:hidden flex justify-center mb-12">
-                <div className="relative w-full max-w-xs aspect-[3/4] -rotate-1 rounded-3xl overflow-hidden shadow-lg bg-gray-200">
+            <div className="md:hidden flex justify-center mb-8">
+                <div className="relative w-full max-w-[15rem] aspect-[3/4] -rotate-1 rounded-3xl overflow-hidden shadow-lg bg-gray-200">
                     <Image
                         src={aboutChoreography.bottomLeft.src}
                         alt={aboutChoreography.bottomLeft.alt}
@@ -32,10 +38,10 @@ export function AboutSection() {
             </div>
 
             {/* Text Content - Centered Below */}
-            <div className="max-w-3xl mx-auto text-center">
+            <div className="max-w-3xl mx-auto md:text-center">
                 {/* Big Heading */}
                 <motion.h2
-                    className="text-[48px] md:text-[64px] lg:text-[80px] font-light text-gray-500 tracking-tight mb-6 md:mb-8"
+                    className="text-[36px] md:text-[64px] lg:text-[80px] font-light text-gray-500 tracking-tight leading-tight mb-5 md:mb-8"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -46,20 +52,31 @@ export function AboutSection() {
 
                 {/* All three paragraphs share one scroll progress — the reveal
                     runs continuously from the top paragraph to the last word */}
-                <MagicText
-                    text={[
-                        "Designing in cybersecurity. Phishing simulations, security awareness, risk scoring, and admin workflows for security teams.",
-                        "I prefer understanding things before reacting. I like noticing patterns, sitting with unclear ideas, and bringing structure to chaos. Messy problems don't overwhelm me. They make me curious.",
-                        "I learn through experiments rather than theory. Trying things and seeing what actually works matters more to me than assumptions. Outside work, I spend a lot of time with my dog, June. Being around her quietly, without words, is where I slow down and observe. That mindset shapes how I think about people and systems.",
-                    ]}
-                    className="space-y-6"
-                    paragraphClassName="justify-center p-0 leading-relaxed"
-                    wordClassName="mt-0 text-[16px] md:text-[18px] font-normal text-muted-foreground"
-                />
+                <div className="hidden md:block">
+                    <MagicText
+                        text={ABOUT}
+                        className="space-y-6"
+                        paragraphClassName="justify-center p-0 leading-relaxed"
+                        wordClassName="mt-0 text-[16px] md:text-[18px] font-normal text-muted-foreground"
+                    />
+                </div>
+                {/* Phones: plain, left-aligned text with no scroll-driven reveal,
+                    and without the role recap the hero and Work already give. */}
+                <motion.div
+                    className="md:hidden space-y-4 text-[16px] leading-relaxed text-gray-600"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                >
+                    {ABOUT.slice(1).map((p) => (
+                        <p key={p}>{p}</p>
+                    ))}
+                </motion.div>
             </div>
 
             {/* The rest of the moments — right below the text */}
-            <div className="mt-14 md:mt-20">
+            <div className="mt-10 md:mt-20">
                 <AboutMomentsStrip />
             </div>
 
@@ -69,7 +86,8 @@ export function AboutSection() {
                 a slight rotation that straightens on hover. Placed after the
                 personal story so the section reads warm first, practical
                 second. */}
-            <div className="max-w-5xl mx-auto mt-20 md:mt-28">
+            {/* From md up only: on a phone the page stays with the case studies. */}
+            <div className="hidden md:block max-w-5xl mx-auto mt-28">
                 <motion.p
                     className="text-sm font-medium uppercase tracking-[0.18em] text-gray-500 mb-10 text-center"
                     initial={{ opacity: 0, y: 20 }}
@@ -79,11 +97,11 @@ export function AboutSection() {
                 >
                     {workingWithMe.eyebrow}
                 </motion.p>
-                <div className="flex flex-wrap justify-center gap-6 md:gap-10">
+                <div className="flex flex-wrap justify-center gap-10">
                     {workingWithMe.notes.map((note, i) => (
                         <motion.div
                             key={note.lead}
-                            className="relative w-[260px] md:w-[280px] rounded-xl border border-black/[0.06] bg-[#FFFDF7] px-6 pt-8 pb-6 text-left shadow-[0_16px_40px_-18px_rgba(0,0,0,0.25)]"
+                            className="relative w-[280px] rounded-xl border border-black/[0.06] bg-[#FFFDF7] px-6 pt-8 pb-6 text-left shadow-[0_16px_40px_-18px_rgba(0,0,0,0.25)]"
                             style={{ rotate: `${note.rotate}deg` }}
                             initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -120,7 +138,7 @@ export function AboutSection() {
             {/* Testimonials — one at a time, token-gated (the carousel renders
                 nothing in production until the real quotes replace the tokens;
                 dev shows stickered samples). */}
-            <TestimonialCarousel className="max-w-2xl mx-auto mt-16 md:mt-20 text-left" />
+            <TestimonialCarousel className="max-w-2xl mx-auto mt-10 md:mt-20 text-left" />
         </section>
     );
 }

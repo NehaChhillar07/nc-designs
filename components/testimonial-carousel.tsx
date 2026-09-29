@@ -189,7 +189,7 @@ export function TestimonialCarousel({ className, square }: { className?: string;
             </div>
 
             {visible.length > 1 && (
-                <div className="mt-6 flex items-center justify-center gap-2.5">
+                <div className="mt-3 md:mt-6 flex items-center justify-center md:gap-2.5">
                     {visible.map((t, i) => (
                         <button
                             key={t.token}
@@ -197,7 +197,7 @@ export function TestimonialCarousel({ className, square }: { className?: string;
                             aria-label={`Show testimonial from ${t.name}`}
                             aria-current={i === index}
                             onClick={() => select(i)}
-                            className="group p-1.5 cursor-pointer"
+                            className="group px-2.5 py-[19px] md:p-1.5 cursor-pointer"
                         >
                             <span
                                 className="block h-1.5 rounded-full transition-all duration-500"

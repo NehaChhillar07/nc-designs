@@ -72,7 +72,7 @@ export function WritingsSection() {
                 {after}
             </motion.h2>
             {/* Newest first — array order is display order, there is no sort. */}
-            <div className="mt-14 grid gap-x-10 gap-y-16 sm:grid-cols-2 md:mt-16 md:gap-x-14 md:gap-y-20 lg:grid-cols-3 lg:gap-x-16">
+            <div className="mt-8 grid gap-x-10 gap-y-5 sm:mt-14 sm:gap-y-16 sm:grid-cols-2 md:mt-16 md:gap-x-14 md:gap-y-20 lg:grid-cols-3 lg:gap-x-16">
                 {posts.map((post, index) => (
                     <WritingCard
                         key={post.id}
@@ -116,33 +116,35 @@ function WritingCard({
                 }}
             />
 
-            <div className="relative z-10 flex h-full flex-col">
+            <div className="relative z-10 flex h-full items-center gap-4 sm:flex-col sm:items-stretch sm:gap-0">
                 {/* Square cover slot, identical on every card. The artwork fills it
                     (object-cover), so the frame lives on the slot again. */}
-                <div className="relative aspect-square overflow-hidden rounded-2xl border border-black/[0.06] bg-gray-50 shadow-[0_10px_30px_-16px_rgba(16,24,40,0.28)] transition-shadow duration-700 ease-out group-hover:shadow-[0_30px_70px_-24px_rgba(16,24,40,0.42)]">
+                <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl border border-black/[0.06] bg-gray-50 shadow-[0_10px_30px_-16px_rgba(16,24,40,0.28)] transition-shadow duration-700 ease-out group-hover:shadow-[0_30px_70px_-24px_rgba(16,24,40,0.42)] sm:w-auto sm:rounded-2xl">
                     <Image
                         src={post.image}
                         alt={post.imageAlt}
                         fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        sizes="(max-width: 639px) 96px, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover"
                         priority={index < 3}
                     />
                 </div>
 
-                <h3 className="mt-6 text-[21px] md:text-[23px] font-medium tracking-tight leading-[1.18] text-gray-900 transition-colors group-hover:text-gray-600">
+                <div className="min-w-0 sm:contents">
+                <h3 className="text-[17px] sm:mt-6 sm:text-[21px] md:text-[23px] font-medium tracking-tight leading-[1.25] sm:leading-[1.18] text-gray-900 transition-colors group-hover:text-gray-600">
                     {post.title}
                 </h3>
-                <p className="mt-3 text-[15px] md:text-base text-gray-600 leading-relaxed">
+                <p className="hidden sm:block mt-3 text-[15px] md:text-base text-gray-600 leading-relaxed">
                     {post.description}
                 </p>
 
                 {/* Pushed to the bottom so the arrow lines up across cards whose titles
                     and deks run to different lengths. */}
-                <span className="mt-auto flex items-center gap-2 pt-6 text-sm font-medium text-gray-500 transition-colors group-hover:text-gray-900">
+                <span className="mt-2 flex items-center gap-2 text-sm font-medium text-gray-500 transition-colors group-hover:text-gray-900 sm:mt-auto sm:pt-6">
                     {post.comingSoon ? writingsData.comingSoonLabel : writingsData.readFallbackLabel}
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
                 </span>
+                </div>
             </div>
         </div>
     );
