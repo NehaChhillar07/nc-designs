@@ -6,24 +6,27 @@
 export const humanFirewallCaseStudyData = {
     // Hero Section
     hero: {
-        meta: "Human Firewall · InfoSec Ventures",
-        title: "A risk score nobody trusted.",
+        // The before state. The homepage card carries the after ("Admins
+        // stopped calling support..."), so the two read as a pair.
+        // titleHighlight must be a substring of title.
+        title: "Admins couldn’t launch, read, or act without support. The platform couldn’t tell them what to do next.",
+        titleHighlight: "what to do next",
         subtitle: "Rebuilding a 10-year-old security platform into an AI-native one, as the only designer.",
-        tags: "Enterprise SaaS · Cybersecurity · AI-Assisted Design",
-        timeline: "2024 to Q1 2026",
+        timeline: "2025 to Q1 2026",
         team: "Product, Eng, CS",
         role: "Product Designer",
+        buildNoteLabel: "How it was built",
         buildNote:
             "Flows on this platform were ideated as working software in Claude Code before Figma became the single source of truth. Several modules shipped from that loop.",
         // Scroll-expansion opener — the dashboard grows from a small card to
         // near-fullscreen before the case study text begins
         scrollHero: {
             // The card's own eyebrow: the title says the product name, so the
-            // eyebrow carries what the title doesn't (kind of work + client)
-            // instead of repeating "Human Firewall" from hero.meta.
+            // eyebrow carries what the title doesn't (kind of work + client).
+            // This is the only place the client is named up top.
             eyebrow: "Case study · InfoSec Ventures",
             title: "Human Firewall",
-            date: "2024 to Q1 2026",
+            date: "2025 to Q1 2026",
             hint: "Scroll to expand",
             media: "/work/1st-case study/hero-image.png",
             mediaAlt: "Human Risk Index dashboard: risk trend, phishing and training stats, and module overview",

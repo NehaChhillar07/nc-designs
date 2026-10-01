@@ -155,77 +155,62 @@ function CustomerQuote({
 // Purpose: Orientation and authority
 // ============================================
 
+// One label style for every item in the details block, so gray-500 means
+// "label" and nothing else in the hero.
+const heroLabelClass = "text-xs font-medium uppercase tracking-[0.12em] text-gray-500";
+
 function HeroSection() {
     const { hero } = data;
+    // Split around the highlighted phrase so the words stay in the data file
+    const [titleBefore, titleAfter] = hero.title.split(hero.titleHighlight);
 
     return (
         <section className="pt-24 md:pt-32 pb-20 md:pb-28">
             <div className="max-w-5xl mx-auto px-6">
-                {/* Meta */}
-                <motion.p
-                    {...fadeInUp}
-                    className="text-sm font-medium text-gray-900 tracking-wide mb-8"
-                >
-                    {hero.meta}
-                </motion.p>
-
-                {/* Title with Highlighter — same line the work grid card
-                    promises, so arriving here confirms the click */}
+                {/* Story: headline and subtitle read as one unit. The product
+                    name and client already sit on the scroll card above, so
+                    the hero opens straight on the problem. */}
                 <motion.h1
                     {...fadeInUp}
-                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
-                    className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight mb-5 max-w-4xl"
+                    className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-gray-900 leading-tight max-w-4xl"
                 >
-                    A risk score{" "}
-                    <Highlighter action="highlight" color="#FF9800" isView>nobody trusted</Highlighter>.
+                    {titleBefore}
+                    <Highlighter action="highlight" color="#FF9800" isView>{hero.titleHighlight}</Highlighter>
+                    {titleAfter}
                 </motion.h1>
 
-                {/* Subtitle — carries the plain description the headline drops */}
                 <motion.p
                     {...fadeInUp}
-                    transition={{ ...fadeInUp.transition, delay: 0.15 }}
-                    className="text-lg md:text-xl text-gray-600 leading-relaxed mb-8 max-w-3xl"
+                    transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                    className="mt-5 text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl text-pretty"
                 >
                     {hero.subtitle}
                 </motion.p>
 
-                {/* Tags */}
-                <motion.p
+                {/* Details: facts and the build note, fenced off from the story
+                    by one rule. Values sit below the subtitle's size so they
+                    never compete with it. On phones each fact is a label/value
+                    row so the dates don't break across lines. */}
+                <motion.dl
                     {...fadeInUp}
                     transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                    className="text-sm text-gray-500 tracking-wide"
-                >
-                    {hero.tags}
-                </motion.p>
-
-                {/* Timeline / Team / Role */}
-                <motion.div
-                    {...fadeInUp}
-                    transition={{ ...fadeInUp.transition, delay: 0.25 }}
-                    className="mt-12 flex flex-wrap items-start justify-between w-full"
+                    className="mt-14 md:mt-16 pt-8 border-t border-gray-200 max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-5 sm:gap-y-8"
                 >
                     {[
                         ["Timeline", hero.timeline],
                         ["Team", hero.team],
                         ["Role", hero.role],
                     ].map(([label, value]) => (
-                        <div key={label}>
-                            <p className="text-sm md:text-base text-gray-500 mb-1">{label}</p>
-                            <p className="text-lg md:text-xl font-medium text-gray-900">{value}</p>
+                        <div key={label} className="flex items-baseline justify-between gap-4 sm:block">
+                            <dt className={heroLabelClass}>{label}</dt>
+                            <dd className="text-right sm:text-left sm:mt-2 text-base md:text-lg font-medium text-gray-900">{value}</dd>
                         </div>
                     ))}
-                </motion.div>
-
-                {/* Sits with the Timeline/Team/Role block and reads at the same
-                    tier as the tags line above it: meta about how the work was
-                    made, not part of the narrative that starts in section 01. */}
-                <motion.p
-                    {...fadeInUp}
-                    transition={{ ...fadeInUp.transition, delay: 0.3 }}
-                    className="mt-8 max-w-3xl text-sm md:text-base text-gray-500 leading-relaxed"
-                >
-                    {hero.buildNote}
-                </motion.p>
+                    <div className="mt-3 sm:mt-0 sm:col-span-3">
+                        <dt className={heroLabelClass}>{hero.buildNoteLabel}</dt>
+                        <dd className="mt-2 max-w-3xl text-base text-gray-600 leading-relaxed">{hero.buildNote}</dd>
+                    </div>
+                </motion.dl>
             </div>
 
         </section>
@@ -1364,7 +1349,8 @@ export function HumanFirewallCaseStudy() {
     return (
         <article className={`${spaceGrotesk.variable} cs-editorial bg-white`}>
             {/* Scroll-expansion opener — pins the page while the dashboard
-                grows from a small card to near-fullscreen */}
+                grows from a small card to near-fullscreen. No subtitle: the
+                headline is stated once, in the hero right below. */}
             <ScrollExpandMedia
                 mediaType="image"
                 mediaSrc={scrollHero.media}
@@ -1374,7 +1360,6 @@ export function HumanFirewallCaseStudy() {
                 bgImageSrc={scrollHero.background}
                 title={scrollHero.title}
                 eyebrow={scrollHero.eyebrow}
-                subtitle={data.hero.title}
                 date={scrollHero.date}
                 scrollToExpand={scrollHero.hint}
             />

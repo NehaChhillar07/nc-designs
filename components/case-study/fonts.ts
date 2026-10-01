@@ -13,9 +13,12 @@ export const lora = Lora({
     display: "swap",
 });
 
+// No `weight` list: Space Grotesk is a variable font, and listing 500/600/700
+// makes Google return the same file three times, which breaks the Turbopack
+// production build ("next/font/google queries have exactly one entry").
+// The variable axis covers every weight the studies use.
 export const spaceGrotesk = Space_Grotesk({
     subsets: ["latin"],
-    weight: ["500", "600", "700"],
     variable: "--font-space-grotesk",
     display: "swap",
 });
