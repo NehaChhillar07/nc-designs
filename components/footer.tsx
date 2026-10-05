@@ -85,7 +85,7 @@ export function Footer() {
                     </motion.a>
                 </motion.div>
 
-                {/* Connect block: intro line plus booking + email buttons.
+                {/* Connect block: booking + email buttons.
                     Book a call hides in production while its token is
                     unreplaced. Skipped entirely on /work-with-me, which
                     carries its own CTA in the page body. */}
@@ -101,16 +101,10 @@ export function Footer() {
                         const calLink = resolveToken(CAL_LINK);
                         return (
                             <>
-                                <p className="text-[16px] md:text-[18px] text-gray-600 leading-relaxed max-w-2xl">
-                                    Building something and need design that comes with working code? Book a call or email me.
-                                </p>
                                 {/* Intro video, commented out until the
                                     recording exists. To restore: uncomment the
                                     ConnectVideo import and this block, and set
-                                    VIDEO_URL in lib/placeholders.ts. The intro
-                                    line above then reads: "...working code?
-                                    Watch the two-minute intro, then book a
-                                    call or email me."
+                                    VIDEO_URL in lib/placeholders.ts.
                                 {resolveToken(VIDEO_URL) && (
                                     <ConnectVideo url={resolveToken(VIDEO_URL)!} title="Two-minute intro" />
                                 )}
