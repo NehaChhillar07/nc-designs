@@ -13,7 +13,7 @@ export const otherProjects = [
     {
         id: 7,
         title: "Airtel Travel Mode | Roaming, sorted before you fly",
-        category: "Mobile UX · Freelance",
+        category: "Consumer mobile app · Telecom · Travel",
         image: "/work/thumbs/airtel-travel-mode.png",
         link: "/case-study/airtel-travel-mode",
         name: "Airtel Travel Mode",

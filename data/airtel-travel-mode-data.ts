@@ -91,7 +91,7 @@ export const airtelData = {
     },
 
     hero: {
-        metaLine: "Airtel · Travel Mode · Freelance",
+        metaLine: "Airtel · Travel Mode",
         h1Pre: "You've landed. ",
         h1Highlight: "Is your phone working?",
         h1Post: "",

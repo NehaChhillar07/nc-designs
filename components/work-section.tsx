@@ -81,12 +81,12 @@ const projects: Project[] = [
     },
     {
         id: 7,
-        // A freelance mobile project, placed straight after Human Firewall so the
+        // A consumer mobile project, placed straight after Human Firewall so the
         // grid opens with enterprise depth and then mobile craft.
         // The card asks the same question the case-study hero asks, so the
         // card and the page open on one thought instead of two clevernesses.
         title: "You've landed abroad.\nIs your phone working?",
-        category: "Mobile UX · Freelance",
+        category: "Consumer mobile app · Telecom · Travel",
         description:
             "Airtel's app sells the roaming pack, then goes quiet. I redesigned it as a Travel Mode that speaks first when you land, and built the working prototype in a month.",
         image: "/work/thumbs/airtel-travel-mode.png",
