@@ -30,12 +30,11 @@ export function StatsView() {
 
   useEffect(() => {
     const key = new URLSearchParams(window.location.search).get("key");
-    if (!key) {
-      setError("This page needs the access key in the link.");
-      setLoading(false);
-      return;
-    }
-    fetch(`/api/stats?key=${encodeURIComponent(key)}`)
+    // A missing key goes through the same promise chain, so no state is set
+    // synchronously inside the effect.
+    (key
+      ? fetch(`/api/stats?key=${encodeURIComponent(key)}`)
+      : Promise.reject(new Error("This page needs the access key in the link.")))
       .then((r) => {
         if (r.status === 401) throw new Error("That key is not right.");
         if (!r.ok) throw new Error("Could not load the numbers. Try a refresh.");
