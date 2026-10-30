@@ -59,18 +59,14 @@ export function CustomCursor() {
   // Hide the native cursor only while the custom one is active. Single source
   // of truth for the data-cursor attribute the CSS in globals.css keys off.
   useEffect(() => {
+    // "native", not a removed attribute: with no attribute at all, the
+    // first-paint rule in globals.css would keep hiding the cursor.
     const root = document.documentElement;
     if (enabled) {
       root.setAttribute("data-cursor", "none");
-      return () => root.removeAttribute("data-cursor");
+      return () => root.setAttribute("data-cursor", "native");
     }
-    // Disabled (touch or reduced-motion): fully restore the native cursor,
-    // including the inline styles and <style> tag the layout FOUC script may
-    // have applied before this component decided the cursor should stay.
-    root.removeAttribute("data-cursor");
-    root.style.removeProperty("cursor");
-    document.body.style.removeProperty("cursor");
-    document.getElementById("cursor-hide-style")?.remove();
+    root.setAttribute("data-cursor", "native");
   }, [enabled]);
 
   // Pointer tracking + hover detection. All position work happens on the DOM

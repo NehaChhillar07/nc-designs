@@ -1,0 +1,479 @@
+/* Homepage 2.0 (/v2). Every rule is scoped under .home-v2 so nothing leaks
+   into the rest of the site. Rules: design-system/neha-portfolio/pages/home-v2.md */
+
+.home-v2 {
+    --v2-paper: #ede6da;
+    --v2-ink: #1a1414;
+    --v2-oxblood: #6b0f12;
+    --v2-muted: #6e6259;
+    --v2-rule: rgb(107 15 18 / 0.2);
+    --v2-redline: #b42a22;
+
+    background-color: var(--v2-paper);
+    color: var(--v2-ink);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Overscroll and the area behind the page match the paper, not white. */
+html:has(.home-v2),
+body:has(.home-v2) {
+    background-color: #ede6da;
+}
+
+/* Static paper grain. An inline SVG noise tile, so there is no request and no
+   shader. Multiply keeps it in the paper, not on top of the ink. */
+.home-v2::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.33 0 0 0 0 0.26 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.home-v2 ::selection {
+    background: var(--v2-oxblood);
+    color: var(--v2-paper);
+}
+
+.home-v2 .v2-display {
+    font-family: var(--font-instrument), ui-serif, Georgia, serif;
+    font-weight: 400;
+}
+
+.home-v2 .v2-mono {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-feature-settings: "tnum" 1;
+}
+
+.home-v2 :focus-visible {
+    outline: 2px solid var(--v2-oxblood);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* Links: an oxblood hairline that thickens on hover, instead of a color swap. */
+.home-v2 .v2-link {
+    color: var(--v2-oxblood);
+    text-decoration-line: underline;
+    text-decoration-color: var(--v2-rule);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 200ms ease, text-decoration-thickness 200ms ease;
+}
+.home-v2 .v2-link:hover {
+    text-decoration-color: var(--v2-oxblood);
+    text-decoration-thickness: 2px;
+}
+
+/* Portrait: printed in ink on the paper until you look at it. */
+.home-v2 .v2-portrait img {
+    filter: grayscale(1) contrast(1.05);
+    mix-blend-mode: multiply;
+    transition: filter 500ms ease;
+}
+.home-v2 .v2-portrait:hover img {
+    filter: grayscale(0) contrast(1);
+}
+
+/* ---------- the opening sequence ----------
+   Pure CSS on the server markup, so it runs at first paint without waiting
+   for React. --greet is how long the greeting holds the stage; everything in
+   the hero schedules itself after it. The inline script in app/v2/page.tsx
+   sets data-v2-greet="skip" on <html> for repeat visits and reduced motion,
+   and the Greeting component sets it when someone clicks or presses a key. */
+.home-v2 {
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --greet: 0s;
+    /* How long the lifting sheet covers the top of the page, where the name is. */
+    --lift: 0s;
+    /* The name is signed, then set (see "signature → type" below). */
+    --sign-dur: 1.4s;
+    --sign-at: calc(var(--greet) + var(--lift) + 0.25s);
+    --spec-at: calc(var(--sign-at) + var(--sign-dur));
+    --set-at: calc(var(--spec-at) + 0.9s);
+}
+/* Only a page that renders the greeting waits for it (the homepage). */
+.home-v2:has(.v2-greet) {
+    --greet: 1.25s;
+    --lift: 0.3s;
+}
+html[data-v2-greet="skip"] .home-v2 {
+    --greet: 0s;
+    --lift: 0s;
+}
+/* No signature: everything after the name keeps its old place in line. */
+html[data-v2-sign="skip"] .home-v2 {
+    --sign-at: var(--greet);
+    --spec-at: var(--greet);
+    --set-at: var(--greet);
+}
+
+.home-v2 .v2-greet {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: grid;
+    place-items: center;
+    background: var(--v2-paper);
+    color: var(--v2-oxblood);
+    /* Lifts away like a sheet of paper once the last word lands. */
+    animation: v2-greet-out 0.7s cubic-bezier(0.65, 0, 0.35, 1) var(--greet) forwards;
+}
+html[data-v2-greet="skip"] .home-v2 .v2-greet {
+    display: none;
+}
+.home-v2 .v2-greet > span {
+    grid-area: 1 / 1;
+    opacity: 0;
+    animation: v2-greet-word 0.32s var(--ease-out) calc(var(--i) * 0.28s) both;
+}
+/* The last word stays until the sheet lifts. */
+.home-v2 .v2-greet > span:last-child {
+    animation-name: v2-greet-last;
+    animation-duration: 0.36s;
+}
+@keyframes v2-greet-word {
+    0% { opacity: 0; transform: translateY(0.25em); filter: blur(6px); }
+    35%, 70% { opacity: 1; transform: none; filter: blur(0); }
+    100% { opacity: 0; transform: translateY(-0.25em); filter: blur(6px); }
+}
+@keyframes v2-greet-last {
+    from { opacity: 0; transform: translateY(0.25em); filter: blur(6px); }
+    to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes v2-greet-out {
+    to { clip-path: inset(0 0 100% 0); visibility: hidden; }
+}
+
+/* ---------- signature → type ----------
+   The name goes through the same three steps as the work: sketch, spec, ship.
+   1. Sketch (--sign-at): each letter's strip (.v2-sign-pen) widens in turn at
+      a pen's pace.
+   2. Spec (--spec-at): the handwriting fades to a faint underlay, redline
+      type guides draw across, and the serif name appears in outline over it.
+   3. Ship (--set-at): the outline fills with ink; guides and sketch clear.
+   data-v2-sign="skip" (signature.tsx, the inline script) and reduced motion
+   go straight to the set name. */
+.home-v2 .v2-sign-pen {
+    transform-box: fill-box;
+    transform-origin: left center;
+    animation: v2-pen calc(var(--dur) * var(--span, 1) * var(--sign-dur)) cubic-bezier(0.45, 0, 0.55, 1)
+        calc(var(--sign-at) + (var(--from, 0) + var(--at) * var(--span, 1)) * var(--sign-dur)) both;
+}
+@keyframes v2-pen {
+    from { transform: scaleX(0); }
+}
+.home-v2 .v2-sign[data-variant="hero"] {
+    animation:
+        v2-sign-ghost 0.5s var(--ease-out) var(--spec-at) both,
+        /* forwards, not both: its start state must not apply while the pen writes. */
+        v2-sign-out 0.5s var(--ease-out) calc(var(--set-at) + 0.1s) forwards;
+}
+@keyframes v2-sign-ghost {
+    to { opacity: 0.18; }
+}
+@keyframes v2-sign-out {
+    from { opacity: 0.18; }
+    to { opacity: 0; visibility: hidden; }
+}
+.home-v2 .v2-guides {
+    color: var(--v2-redline);
+    animation: v2-guides-out 0.4s var(--ease-out) calc(var(--set-at) + 0.3s) both;
+}
+.home-v2 .v2-guide {
+    background: currentColor;
+    opacity: 0.55;
+    transform-origin: left center;
+    animation: v2-guide 0.55s var(--ease-out) calc(var(--spec-at) + (var(--line, 0) * 3 + var(--g)) * 50ms) both;
+}
+.home-v2 .v2-guide > span {
+    background: var(--v2-paper);
+}
+@keyframes v2-guide {
+    from { transform: scaleX(0); }
+}
+@keyframes v2-guides-out {
+    to { opacity: 0; visibility: hidden; }
+}
+/* The serif arrives as an outline on the guides, then fills with ink. */
+.home-v2 .v2-set {
+    animation:
+        v2-outline 0.4s var(--ease-out) calc(var(--spec-at) + 0.25s + var(--line, 0) * 90ms) both,
+        v2-ink 0.6s var(--ease-out) calc(var(--set-at) + var(--line, 0) * 90ms) both;
+}
+@keyframes v2-outline {
+    from { opacity: 0; }
+}
+@keyframes v2-ink {
+    from { color: transparent; -webkit-text-stroke: 1px var(--v2-redline); }
+    to { -webkit-text-stroke: 0 transparent; }
+}
+@keyframes v2-set {
+    from { opacity: 0; filter: blur(10px); }
+}
+/* A case study's sign-off writes itself when it scrolls into view. */
+.home-v2 .v2-sign[data-variant="signoff"] .v2-sign-pen {
+    --sign-at: 0s;
+    animation-play-state: paused;
+}
+.home-v2 .v2-sign[data-variant="signoff"][data-play] .v2-sign-pen {
+    animation-play-state: running;
+}
+html[data-v2-sign="skip"] .home-v2 .v2-sign[data-variant="hero"],
+html[data-v2-sign="skip"] .home-v2 .v2-guides {
+    display: none;
+}
+html[data-v2-sign="skip"] .home-v2 .v2-set {
+    animation: none;
+}
+
+/* Titles that aren't a name are only set, never signed. */
+.home-v2 .v2-title {
+    animation: v2-set 0.7s var(--ease-out) calc(var(--line, 0) * 120ms) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-v2 .v2-sign[data-variant="hero"],
+    .home-v2 .v2-guides {
+        display: none;
+    }
+    .home-v2 .v2-set,
+    .home-v2 .v2-title,
+    .home-v2 .v2-sign-pen {
+        animation: none;
+    }
+}
+
+/* Desk pieces drop onto the paper one after another, once the name is set. */
+.home-v2 .v2-drop {
+    animation: v2-drop 0.7s var(--ease-out) both;
+    animation-delay: calc(var(--set-at) + 0.15s + var(--i) * 70ms);
+}
+@keyframes v2-drop {
+    from { translate: 0 -28px; scale: 1.06; opacity: 0; }
+    to { translate: 0 0; scale: 1; opacity: 1; }
+}
+
+/* The hero note writes itself in, left to right, once the name is set.
+   The padding in the clip keeps Caveat's loops from being shaved. */
+.home-v2 .v2-write {
+    animation: v2-write 1.3s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--set-at) + 0.75s) both;
+}
+/* Its arrow is drawn first, pointing at where the note is about to appear. */
+/* The gap is longer than the path, so the hidden state has no zero-length
+   dash: round caps would otherwise leave a dot at each end. */
+.home-v2 .v2-write-arrow {
+    stroke-dasharray: 1 2;
+    animation: v2-write-arrow var(--len, 0.4s) cubic-bezier(0.45, 0, 0.55, 1) calc(var(--set-at) + 0.3s + var(--wait, 0s)) both;
+}
+@keyframes v2-write-arrow {
+    from { stroke-dashoffset: 1.01; }
+    to { stroke-dashoffset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .home-v2 .v2-write,
+    .home-v2 .v2-write-arrow {
+        animation: none;
+    }
+}
+@keyframes v2-write {
+    from {
+        clip-path: inset(-20% 100% -20% -4%);
+    }
+    to {
+        clip-path: inset(-20% -4% -20% -4%);
+    }
+}
+
+/* Work rows: the title steps right, and in the number slot the number rolls
+   up and out while an arrow rolls in from below. Keyboard focus gets the same
+   arrow, so the selected row reads the same either way. */
+.home-v2 .v2-row-title {
+    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms ease;
+}
+.home-v2 .v2-row-num,
+.home-v2 .v2-row-arrow {
+    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease;
+}
+.home-v2 .v2-row-arrow {
+    transform: translateY(100%);
+    opacity: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+    .home-v2 .group:hover .v2-row-title {
+        transform: translateX(0.12em);
+    }
+    .home-v2 .group:hover .v2-row-num {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    .home-v2 .group:hover .v2-row-arrow {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.home-v2 .group:focus-visible .v2-row-num {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+.home-v2 .group:focus-visible .v2-row-arrow {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ---------- resume: the route ---------- */
+
+/* The contour map fades in once its first frame is drawn. */
+.home-v2 .v2-contours {
+    opacity: 0;
+    transition: opacity 1.4s ease;
+}
+.home-v2 .v2-contours[data-ready] {
+    opacity: 1;
+}
+
+/* The route runs down the centre of grid column 2 (md), or the left gutter
+   on phones. Same maths as GRID: px-8, 12 columns, 1.5rem gutters. */
+.home-v2 .v2-route {
+    left: 1.5rem;
+}
+@media (min-width: 768px) {
+    .home-v2 .v2-route {
+        left: calc(2rem + 1.5rem + (100% - 4rem - 16.5rem) / 12 * 1.5);
+    }
+}
+
+/* "you are here": the last stop breathes, like a live location dot. */
+.home-v2 .v2-here {
+    background: var(--v2-oxblood);
+}
+.home-v2 .v2-here::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid var(--v2-oxblood);
+    animation: v2-here 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes v2-here {
+    from { transform: scale(1); opacity: 0.7; }
+    to { transform: scale(3.2); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .home-v2 .v2-here::after { animation: none; }
+}
+
+/* ---------- spec mode ---------- */
+
+/* On toggle, a scan line sweeps the viewport and the boxes appear behind it
+   (each box's --spec-delay comes from its distance down the screen). */
+.home-v2 .v2-spec-scan {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: var(--v2-redline);
+    box-shadow: 0 0 12px 1px rgb(180 42 34 / 0.5);
+    pointer-events: none;
+    z-index: 35;
+    animation: v2-scan 520ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@keyframes v2-scan {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+.home-v2 .v2-spec-box {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 1px dashed var(--v2-redline);
+    /* Opacity only: a clip-path here would also clip the tags, which sit
+       outside the box. */
+    animation: v2-spec-fade 200ms ease-out var(--spec-delay, 0ms) both;
+    z-index: 30;
+}
+
+.home-v2 .v2-spec-tag {
+    position: absolute;
+    left: -1px;
+    bottom: 100%;
+    white-space: nowrap;
+    padding: 1px 5px;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 0;
+    font-style: normal;
+    font-weight: 400;
+    text-transform: none;
+    background: var(--v2-redline);
+    color: #fff;
+}
+
+.home-v2 .v2-spec-size {
+    left: auto;
+    right: -1px;
+    bottom: auto;
+    top: 100%;
+    background: transparent;
+    color: var(--v2-redline);
+}
+
+.home-v2 .v2-spec-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 25;
+    animation: v2-spec-in 260ms ease-out both;
+}
+
+.home-v2 .v2-spec-grid > div > div {
+    background: rgb(180 42 34 / 0.06);
+    border-inline: 1px solid rgb(180 42 34 / 0.18);
+}
+
+@keyframes v2-spec-fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes v2-spec-in {
+    from {
+        opacity: 0;
+        clip-path: inset(0 100% 0 0);
+    }
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* ---------- phones ----------
+   Labels drawn at 10-11px read fine beside a cursor on a big screen, but are
+   too small on a phone held at arm's length. Below md nothing is smaller
+   than 12px. */
+@media (max-width: 767px) {
+    .home-v2 .text-\[10px\],
+    .home-v2 .text-\[11px\] {
+        font-size: 12px;
+    }
+}

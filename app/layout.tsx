@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { TimeTracker } from "@/components/time-tracker";
 import { CursorProvider } from "@/components/ui/cursor-context";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { ScrollRestoration } from "@/components/scroll-restoration";
 import { SITE_URL } from "@/lib/site";
 import { OG_HOME } from "@/lib/og-home";
 
@@ -74,47 +75,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Inline script AND style to hide cursor IMMEDIATELY before any content renders */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  // Reloads must start at the top. Restoring a mid-page offset
-                  // lands on lazy sections that are still short placeholders, so
-                  // the page reflows under the viewport for a second or two.
-                  if ('scrollRestoration' in history) {
-                    history.scrollRestoration = 'manual';
-                  }
-                } catch(e) {}
-                try {
-                  var isTouch = window.matchMedia('(pointer: coarse)').matches ||
-                                'ontouchstart' in window ||
-                                navigator.maxTouchPoints > 0;
-                  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                  // Only pre-hide the native cursor for users who will actually
-                  // get the custom one. Must match CustomCursor's enable check,
-                  // otherwise reduced-motion users are left with no cursor.
-                  if (!isTouch && !reducedMotion) {
-                    document.documentElement.setAttribute('data-cursor', 'none');
-                    document.documentElement.style.setProperty('cursor', 'none', 'important');
-                    var style = document.createElement('style');
-                    style.id = 'cursor-hide-style';
-                    style.textContent = 'html[data-cursor="none"], html[data-cursor="none"] * { cursor: none !important; }';
-                    document.head.appendChild(style);
-                    if (document.body) {
-                      document.body.style.setProperty('cursor', 'none', 'important');
-                    } else {
-                      document.addEventListener('DOMContentLoaded', function() {
-                        document.body.style.setProperty('cursor', 'none', 'important');
-                      });
-                    }
-                  }
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
+        {/* No boot script: React 19 errors on <script> it renders. The
+            native cursor is pre-hidden in CSS (globals.css) and scroll
+            restoration is set in components/scroll-restoration.tsx. */}
         {/* No manual image preloads here. Both hero assets render through
             next/image, which serves /_next/image?url=... — preloading the raw
             originals fetched 158KB of files the page never used, at high
@@ -141,6 +104,7 @@ export default function RootLayout({
             {children}
           </CursorProvider>
         </MotionConfig>
+        <ScrollRestoration />
         <Analytics />
         <TimeTracker />
       </body>
