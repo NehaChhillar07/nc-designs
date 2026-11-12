@@ -6,10 +6,11 @@
 // Plays once on arrival; "pass it again" replays it. Reduced motion: the card
 // is already at the end, and the trail is a plain ordered list either way.
 
-import { LayoutGroup, motion, useInView, useReducedMotion } from "motion/react";
+import { LayoutGroup, motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 import { fcV2 } from "@/data/v2-flashcard-data";
+import { useReducedMotionSafe } from "@/lib/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";
 
 import { springT, useTempo } from "./deck";
@@ -19,19 +20,17 @@ const HOPS = stops.length - 1;
 
 export function HandoffPass() {
     const t = useTempo();
-    const reduce = useReducedMotion();
+    // Hydration-safe: it decides where the card sits in the markup.
+    const reduce = useReducedMotionSafe();
     const ref = useRef<HTMLOListElement>(null);
     const inView = useInView(ref, { once: true, margin: "0px 0px -20% 0px" });
     const [at, setAt] = useState(0);
     const [run, setRun] = useState(0);
+    // No motion: the card is already at the end.
+    const shown = reduce ? HOPS : at;
 
     useEffect(() => {
-        if (!inView) return;
-        if (reduce) {
-            // No motion: land at the end.
-            setAt(HOPS);
-            return;
-        }
+        if (!inView || reduce) return;
         const timers: number[] = [];
         let when = 400;
         for (let i = 1; i <= HOPS; i++) {
@@ -47,12 +46,12 @@ export function HandoffPass() {
                 <ol ref={ref} aria-label={handoffLabel} className="grid gap-3 md:grid-cols-5 md:gap-2">
                     {stops.map((s, i) => (
                         <li key={s} className="flex items-center gap-4 md:flex-col md:items-stretch md:gap-3">
-                            <span className={cn("v2-mono w-36 shrink-0 text-[12px] md:w-auto", i <= at ? "text-[var(--v2-ink)]" : "text-[var(--v2-muted)]")}>
+                            <span className={cn("v2-mono w-36 shrink-0 text-[12px] md:w-auto", i <= shown ? "text-[var(--v2-ink)]" : "text-[var(--v2-muted)]")}>
                                 <span className="text-[var(--v2-oxblood)]">{String(i + 1).padStart(2, "0")}</span> {s.toLowerCase()}
                             </span>
                             {/* the hand that holds it */}
                             <span className="relative grid h-16 flex-1 place-items-center border border-dashed border-[var(--v2-rule)] md:h-24">
-                                {at === i && (
+                                {shown === i && (
                                     <motion.span
                                         layoutId="handoff-card"
                                         transition={springT(t, 140, 20)}
@@ -71,11 +70,11 @@ export function HandoffPass() {
             </LayoutGroup>
             <div className="mt-4 flex items-center justify-between gap-4">
                 <p className="v2-mono text-[12px] text-[var(--v2-muted)]" aria-live="polite">
-                    {hopLabel} {at} / {HOPS}
+                    {hopLabel} {shown} / {HOPS}
                 </p>
                 <button
                     type="button"
-                    disabled={at < HOPS}
+                    disabled={shown < HOPS}
                     onClick={() => {
                         setAt(0);
                         setRun((r) => r + 1);
