@@ -247,15 +247,10 @@ html {
  * This is truly comprehensive - covers ALL possible cursor sources.
  */
 
-/* Before CustomCursor decides, hide the native cursor wherever it will
-   probably run, so it never flashes on first paint. CustomCursor then sets
-   data-cursor to "none" (keep it hidden) or "native" (give it back). */
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  html:not([data-cursor]),
-  html:not([data-cursor]) * {
-    cursor: none !important;
-  }
-}
+/* The native cursor is never hidden up front. CustomCursor sets
+   data-cursor="none" only once its own cursor has drawn at the pointer, so if
+   its script is slow, blocked or broken, the native cursor simply stays.
+   (Hiding it before hydration once left some browsers with no cursor at all.) */
 
 /* Base rule - hide cursor on everything */
 html[data-cursor="none"],

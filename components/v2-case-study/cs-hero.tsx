@@ -5,11 +5,12 @@
 // that straightens and settles as the reader scrolls (a scroll-linked
 // transform, not a scroll-jack: the page scrolls normally the whole time).
 
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
 import { useRef } from "react";
 
 import { GRID } from "@/components/home-v2/grid";
+import { useReducedMotionSafe } from "@/lib/use-reduced-motion-safe";
 import { Spec } from "@/components/home-v2/spec-mode";
 import { hfV2 } from "@/data/v2-human-firewall-data";
 
@@ -31,7 +32,8 @@ function Problem() {
 
 export function CaseHero() {
     const shotRef = useRef<HTMLDivElement>(null);
-    const reduce = useReducedMotion();
+    // Hydration-safe: the scroll-linked style must match the server render.
+    const reduce = useReducedMotionSafe();
     const { scrollYProgress } = useScroll({ target: shotRef, offset: ["start end", "center center"] });
     const rotate = useTransform(scrollYProgress, [0, 1], [-4, 0]);
     const scale = useTransform(scrollYProgress, [0, 1], [0.86, 1]);

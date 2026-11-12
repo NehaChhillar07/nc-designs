@@ -16,7 +16,9 @@ const IMG = "/work/1st-case study";
 // The flashcard cover with the client's logo blurred.
 const CARDS = "/work/flashcard/hf-cards.png";
 
-export type Shot = { src: string; alt: string; w: number; h: number; bar: string; stamp?: string };
+// A print on the desk. With `video`, `src` is the poster frame and the clip
+// plays muted while on screen (not at all under reduced motion).
+export type Shot = { src: string; alt: string; w: number; h: number; bar: string; stamp?: string; video?: string };
 
 const PROTOTYPE = "Claude Code prototype"; // from the component
 
@@ -193,7 +195,7 @@ export const hfV2 = {
                 bar: "Flashcard Training",
             },
         ] satisfies Shot[],
-        link: { text: "See how the training builder was designed", href: "/case-study/flashcard-training" }, // from the component
+        link: { text: "See how the training builder was designed", href: "/v2/case-study/flashcard-training" }, // from the component
     },
 
     migration: {
@@ -255,8 +257,8 @@ export const hfV2 = {
     next: {
         label: "next case study",
         title: "Flashcard Builder",
-        line: "training engagement from 20% to 80%. engineering built on my prototype",
-        href: "/case-study/flashcard-training",
+        line: "training completion from 20% to 80%. engineering built on my prototype",
+        href: "/v2/case-study/flashcard-training",
         shot: { src: CARDS, alt: "", w: 2458, h: 1720, bar: "flashcard builder" } satisfies Shot,
     },
 };

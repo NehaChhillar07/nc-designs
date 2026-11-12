@@ -134,7 +134,7 @@ function Stop({ stop, first }: { stop: JourneyStop; first: boolean }) {
                                 <div key={s.label} className="flex flex-col-reverse">
                                     <dt className="v2-mono mt-1 text-[11px] text-[var(--v2-muted)]">{s.label}</dt>
                                     <dd className="v2-display text-[40px] leading-none text-[var(--v2-ink)]">
-                                        <CountUp prefix={s.prefix} value={s.value} suffix={s.suffix} />
+                                        <CountUp prefix={s.prefix} value={s.value} suffix={s.suffix} decimals={s.decimals} />
                                     </dd>
                                 </div>
                             ))}

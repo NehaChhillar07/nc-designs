@@ -23,7 +23,7 @@ export const v2Essays = {
 } as const;
 export type V2EssaySlug = keyof typeof v2Essays;
 
-export type JourneyStat = { prefix: string; value: number; suffix: string; label: string };
+export type JourneyStat = { prefix: string; value: number; suffix: string; label: string; decimals?: number };
 export type JourneyStop = {
     id: string;
     mark: string;
@@ -98,7 +98,8 @@ export const v2Pages = {
                 stats: [
                     { prefix: "+", value: 48, suffix: "%", label: "admin engagement" },
                     { prefix: "+", value: 32, suffix: "%", label: "report adoption" },
-                    { prefix: "", value: 50, suffix: "k+", label: "ecrime hub visitors, week one" },
+                    // Emirates 24|7, 9 Aug 2026: "more than 1.42 million visitors since its launch on 12 July 2025".
+                    { prefix: "", value: 1.42, decimals: 2, suffix: "M", label: "ecrime hub visitors, first year" },
                 ],
                 work: ["human-firewall", "flashcard-training", "ecrime-hub"],
             },
@@ -108,7 +109,7 @@ export const v2Pages = {
                 when: "2026, alongside",
                 role: "on my own",
                 place: "nights and weekends",
-                line: "an app taken from idea to live, solo, and a roaming redesign tested as working software.",
+                line: "an app taken from idea to live, solo, and a roaming redesign built as working software.",
                 stats: [{ prefix: "", value: 3, suffix: " weeks", label: "unsaid, idea to live" }],
                 work: ["unsaid", "airtel-travel-mode"],
             },
@@ -140,7 +141,7 @@ export const v2Pages = {
         body: "i find the problem worth solving, test the answer with real users as working software, and hand your engineers a front end they can ship on.",
         proof: [
             { value: "+52%", label: "onboarding completion" },
-            { value: "20% → 80%", label: "training engagement" },
+            { value: "20% → 80%", label: "training completion" },
         ],
         whoFor: {
             heading: "who this is for",

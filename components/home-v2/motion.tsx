@@ -169,7 +169,20 @@ export function useProximity(count: number, radius = 280, maxLift = 0.09) {
 
 // ---------- CountUp: numbers count to their value once, on arrival ----------
 
-export function CountUp({ value, prefix = "", suffix = "", className }: { value: number; prefix?: string; suffix?: string; className?: string }) {
+// `decimals` keeps figures like 1.42M from rounding to 1M (default 0).
+export function CountUp({
+    value,
+    prefix = "",
+    suffix = "",
+    decimals = 0,
+    className,
+}: {
+    value: number;
+    prefix?: string;
+    suffix?: string;
+    decimals?: number;
+    className?: string;
+}) {
     const ref = useRef<HTMLSpanElement>(null);
     const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
     const reduce = useReducedMotion();
@@ -181,16 +194,16 @@ export function CountUp({ value, prefix = "", suffix = "", className }: { value:
             duration: 1.4,
             ease: EASE,
             onUpdate: (v) => {
-                el.textContent = `${prefix}${Math.round(v)}${suffix}`;
+                el.textContent = `${prefix}${v.toFixed(decimals)}${suffix}`;
             },
         });
         return () => controls.stop();
-    }, [inView, reduce, value, prefix, suffix]);
+    }, [inView, reduce, value, prefix, suffix, decimals]);
 
     // Server and no-JS render the final number; the count only replays it.
     return (
         <span ref={ref} className={cn("tabular-nums", className)}>
-            {`${prefix}${value}${suffix}`}
+            {`${prefix}${value.toFixed(decimals)}${suffix}`}
         </span>
     );
 }

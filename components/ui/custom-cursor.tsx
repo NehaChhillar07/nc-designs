@@ -56,17 +56,14 @@ export function CustomCursor() {
   const isTagVariant = cursorContext?.variant === "tag" && !!tagText;
   const showOrange = isHovering && !isTagVariant;
 
-  // Hide the native cursor only while the custom one is active. Single source
-  // of truth for the data-cursor attribute the CSS in globals.css keys off.
+  // The native cursor stays until the custom one has proved it works: the
+  // pointer-move handler below hides it only after the custom cursor has
+  // drawn at the pointer. Single source of truth for the data-cursor
+  // attribute the CSS in globals.css keys off.
   useEffect(() => {
-    // "native", not a removed attribute: with no attribute at all, the
-    // first-paint rule in globals.css would keep hiding the cursor.
     const root = document.documentElement;
-    if (enabled) {
-      root.setAttribute("data-cursor", "none");
-      return () => root.setAttribute("data-cursor", "native");
-    }
     root.setAttribute("data-cursor", "native");
+    return () => root.setAttribute("data-cursor", "native");
   }, [enabled]);
 
   // Pointer tracking + hover detection. All position work happens on the DOM
@@ -81,17 +78,43 @@ export function CustomCursor() {
     let currentY = -100;
     let targetX = -100;
     let targetY = -100;
-    let focused = document.hasFocus();
+    // Parked off-screen until the pointer is over the page.
+    let parked = true;
+    // Whether the native cursor has been handed over (hidden).
+    let handedOver = false;
+    const root = document.documentElement;
+
+    // Hide the native cursor only once the custom one is really on screen:
+    // rendered at a real size, at the pointer.
+    const handOver = () => {
+      if (handedOver) return;
+      const box = el.firstElementChild?.getBoundingClientRect();
+      if (!box || box.width < 4 || box.height < 4) return;
+      handedOver = true;
+      root.setAttribute("data-cursor", "none");
+    };
 
     const parkOffscreen = () => {
+      parked = true;
       targetX = -100;
       targetY = -100;
     };
 
+    // A mousemove means the pointer is over the page, whether or not the page
+    // has keyboard focus. Gating on focus left the cursor parked off-screen
+    // (with the native one hidden) in embedded browsers and after clicking
+    // into another window: no cursor at all.
     const handleMove = (e: MouseEvent) => {
-      if (!focused) return;
       targetX = e.clientX;
       targetY = e.clientY;
+      // Coming back from parked: appear at the pointer, don't glide in from the corner.
+      if (parked) {
+        parked = false;
+        currentX = targetX;
+        currentY = targetY;
+        el.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      }
+      handOver();
     };
 
     // Hover changes only when the pointer crosses an element boundary, so this
@@ -106,21 +129,13 @@ export function CustomCursor() {
       setIsHovering(false);
     };
 
-    const handleBlur = () => {
-      focused = false;
+    // The tab is hidden: park it, and the next move brings it straight back.
+    const handleVisibility = () => {
+      if (!document.hidden) return;
       parkOffscreen();
       currentX = -100;
       currentY = -100;
       setIsHovering(false);
-    };
-
-    const handleFocus = () => {
-      focused = true;
-      parkOffscreen();
-    };
-
-    const handleVisibility = () => {
-      if (document.hidden) handleBlur();
     };
 
     const tick = () => {
@@ -134,8 +149,6 @@ export function CustomCursor() {
     document.addEventListener("mousemove", handleMove);
     document.addEventListener("mouseover", handleOver);
     document.addEventListener("mouseleave", handleLeave);
-    window.addEventListener("blur", handleBlur);
-    window.addEventListener("focus", handleFocus);
     document.addEventListener("visibilitychange", handleVisibility);
 
     rafId = requestAnimationFrame(tick);
@@ -144,8 +157,6 @@ export function CustomCursor() {
       document.removeEventListener("mousemove", handleMove);
       document.removeEventListener("mouseover", handleOver);
       document.removeEventListener("mouseleave", handleLeave);
-      window.removeEventListener("blur", handleBlur);
-      window.removeEventListener("focus", handleFocus);
       document.removeEventListener("visibilitychange", handleVisibility);
       cancelAnimationFrame(rafId);
     };
@@ -178,6 +189,12 @@ export function CustomCursor() {
             <path
               d="M5.5 3.21V20.8C5.5 21.39 6.19 21.72 6.63 21.35L11.24 17.28L15.39 20.49C15.61 20.66 15.92 20.69 16.18 20.56L21.18 18.06C21.68 17.81 21.75 17.13 21.32 16.79L6.63 4.55C6.19 4.18 5.5 4.51 5.5 5.1V3.21Z"
               fill={showOrange ? hoverColor : defaultColor}
+              // A white outline keeps it visible on any ground: the orange
+              // hover arrow on oxblood buttons, the black one on dark cards.
+              stroke="#ffffff"
+              strokeWidth={1.25}
+              strokeLinejoin="round"
+              paintOrder="stroke"
             />
           </svg>
         )}

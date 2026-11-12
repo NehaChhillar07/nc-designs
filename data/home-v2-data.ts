@@ -86,7 +86,35 @@ export const homeV2Data = {
         },
         polaroid: {
             caption: "me, probably redlining something",
-            desk: { desktop: { x: 89, y: 3, w: 125, r: 5 }, phone: { x: 72, y: 1, w: 80, r: 6 } },
+            // The polaroid is a component with variants: hover or tap it and a
+            // Figma-style properties panel swaps the photo, which develops
+            // from a negative into a print. Named by what each photo shows
+            // (the /about filenames don't always match). Captions are Neha's
+            // to rewrite.
+            // The inspect frame names it like a component layer.
+            layer: "me.polaroid",
+            variantLabel: "variant",
+            panelTitle: "polaroid · properties",
+            variants: [
+                { id: "default", label: "default", caption: "me, probably redlining something", src: "/hero-portrait.jpg", alt: "Neha Chhillar", position: "top" },
+                { id: "june", label: "with june", caption: "me and june", src: "/about/about-night-selfie.jpeg", alt: "Neha with June, her shih tzu, at night", position: "center 35%" },
+                { id: "june-solo", label: "june", caption: "june, the actual boss", src: "/about/about-standing-pose.png", alt: "June, a shih tzu, looking at the camera", position: "center 40%" },
+                { id: "mountains", label: "mountains", caption: "a puppy, a mountain", src: "/about/about-puppy-mountains.jpeg", alt: "Neha holding a puppy outdoors in the hills", position: "center 30%" },
+                { id: "travel", label: "travel", caption: "somewhere old and beautiful", src: "/about/about-yamuna-ghat.jpeg", alt: "A carved white marble archway", position: "center" },
+                { id: "golden", label: "golden", caption: "golden hour, again", src: "/about/about-golden-hour-selfie.jpeg", alt: "Neha in a yellow top, in warm light", position: "center 45%" },
+                { id: "night", label: "night", caption: "night out", src: "/about/about-night-balcony-portrait.jpeg", alt: "Neha on a balcony at night", position: "center 60%" },
+                {
+                    id: "moving",
+                    label: "moving ▶",
+                    caption: "never still for long",
+                    src: "/about/about-video-moment-1.jpg",
+                    video: "/about/about-video-moment-1.mp4",
+                    alt: "A short clip, walking",
+                    position: "center",
+                },
+            ],
+            // y 6, not 3: the inspect label above it clears the top bar.
+            desk: { desktop: { x: 89, y: 6, w: 125, r: 5 }, phone: { x: 72, y: 1, w: 80, r: 6 } },
         },
         pileLabel: {
             text: "more work",
@@ -138,7 +166,7 @@ export const homeV2Data = {
     // Numbers count up on arrival, so value is a number and the symbols sit apart.
     proof: [
         // One outcome per line, each from a shipped project.
-        { prefix: "", value: 80, suffix: "%", label: "training engagement, was 20%" },
+        { prefix: "", value: 80, suffix: "%", label: "training completion, was 20%" },
         { prefix: "+", value: 52, suffix: "%", label: "onboarding completion" },
         { prefix: "+", value: 48, suffix: "%", label: "engagement after the rebuild" },
     ],
@@ -175,10 +203,10 @@ export const homeV2Data = {
             {
                 id: "flashcard-training",
                 name: "Flashcard Builder",
-                outcome: "training engagement from 20% to 80%. engineering built on my prototype",
+                outcome: "training completion from 20% to 80%. engineering built on my prototype",
                 status: "shipped",
                 year: "2025",
-                href: "/case-study/flashcard-training",
+                href: "/v2/case-study/flashcard-training",
                 thumb: "/work/flashcard/hf-cards.png", // client logo blurred
                 thumbAlt: "Flashcard training cards",
                 readingTime: "6 min",
@@ -191,8 +219,8 @@ export const homeV2Data = {
                 outcome: "idea to live product, solo, in three weeks",
                 status: "live",
                 year: "2026",
-                href: "/case-study/unsaid",
-                thumb: "/work/thumbs/unsaid.png",
+                href: "/v2/case-study/unsaid",
+                thumb: "/work/thumbs/unsaid-v2.png",
                 thumbAlt: "unsaid app screens",
                 readingTime: "6 min",
                 tier: "more",
@@ -202,10 +230,10 @@ export const homeV2Data = {
             {
                 id: "airtel-travel-mode",
                 name: "Airtel Travel Mode",
-                outcome: "roaming that explains itself before you call support. freelance concept, working prototype",
+                outcome: "roaming that explains itself before you call support. self-initiated concept, working prototype",
                 status: "prototype",
                 year: "2026",
-                href: "/case-study/airtel-travel-mode",
+                href: "/v2/case-study/airtel-travel-mode",
                 thumb: "/work/thumbs/airtel-travel-mode.png",
                 thumbAlt: "Airtel Travel Mode screens",
                 readingTime: "9 min",
@@ -216,10 +244,11 @@ export const homeV2Data = {
             {
                 id: "ecrime-hub",
                 name: "eCrime Hub",
-                outcome: "reporting a cybercrime in under 3 clicks, down from 6+. for Dubai Police",
+                // "<3 clicks, down from 6+" waits for a source (see the v2 study's notes).
+                outcome: "1.42 million visitors in its first year, for dubai police. every report click alerts a security team",
                 status: "client",
                 year: "2025",
-                href: "/case-study/ecrime-hub",
+                href: "/v2/case-study/ecrime-hub",
                 thumb: "/work/thumbs/ecrime-hub.png",
                 thumbAlt: "eCrime Hub website",
                 readingTime: "4 min",
@@ -247,7 +276,7 @@ export const homeV2Data = {
             {
                 line: "i test ideas as working software, so the team learns before it builds.",
                 receipt: "engineering shipped the flashcard builder on my front end",
-                href: "/case-study/flashcard-training",
+                href: "/v2/case-study/flashcard-training",
             },
             {
                 line: "i own the outcome, end to end.",
@@ -262,10 +291,10 @@ export const homeV2Data = {
         nowLabel: "now",
         items: [
             { date: "oct 2026", text: `joined ${COMPANY}. designing wholesale banking for ${CLIENT}` },
-            { date: "sep 2026", text: "redesigned airtel roaming as a travel mode", href: "/case-study/airtel-travel-mode" },
+            { date: "sep 2026", text: "redesigned airtel roaming as a travel mode", href: "/v2/case-study/airtel-travel-mode" },
             { date: "aug 2026", text: "wrote “where is the deliverability?”", href: "/v2/writing/where-is-the-deliverability" },
             { date: "jul 2026", text: "wrote what being the first designer costs you", href: "/v2/writing/first-designer" },
-            { date: "jul 2026", text: "shipped unsaid, solo", href: "/case-study/unsaid" },
+            { date: "jul 2026", text: "shipped unsaid, solo", href: "/v2/case-study/unsaid" },
         ],
     },
 

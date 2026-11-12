@@ -100,21 +100,21 @@ export function WorkIndex() {
                                     }}
                                     onFocus={() => setActive(null)}
                                     className={cn(
-                                        "group grid items-center gap-x-4 lg:gap-x-6",
+                                        "group grid items-center gap-x-4 xl:gap-x-6",
                                         featured
-                                            ? "grid-cols-[6.5rem_1fr] py-6 lg:grid-cols-[10.5rem_2.5rem_21rem_1fr_6rem_4.5rem] lg:py-7"
-                                            : "grid-cols-[3.5rem_1fr] py-3 lg:grid-cols-[4.5rem_2.5rem_21rem_1fr_6rem_4.5rem] lg:py-3",
+                                            ? "grid-cols-[6.5rem_1fr] py-6 xl:grid-cols-[10.5rem_2.5rem_21rem_1fr_6rem_4.5rem] xl:py-7"
+                                            : "grid-cols-[3.5rem_1fr] py-3 xl:grid-cols-[4.5rem_2.5rem_21rem_1fr_6rem_4.5rem] xl:py-3",
                                         "transition-opacity duration-300",
-                                        active && active.id !== row.id && "lg:opacity-35",
+                                        active && active.id !== row.id && "xl:opacity-35",
                                     )}
                                 >
                                     {/* Where this project's print lands when the desk is tidied. */}
-                                    <span className="row-span-3 self-start lg:row-span-1 lg:self-center">
+                                    <span className="row-span-3 self-start xl:row-span-1 xl:self-center">
                                         <WorkSlot row={row} index={i} />
                                     </span>
 
                                     {/* On hover the number rolls up and an arrow rolls in where it was. */}
-                                    <span className="v2-mono relative hidden h-[14px] overflow-hidden text-[11px] leading-[14px] lg:block">
+                                    <span className="v2-mono relative hidden h-[14px] overflow-hidden text-[11px] leading-[14px] xl:block">
                                         <span className="v2-row-num block text-[var(--v2-muted)]">{String(i + 1).padStart(2, "0")}</span>
                                         <span aria-hidden className="v2-row-arrow absolute inset-0 text-[13px] text-[var(--v2-oxblood)]">
                                             →
@@ -127,7 +127,7 @@ export function WorkIndex() {
                                         type={i === 0 || firstMore}
                                         className={cn(
                                             "v2-display v2-row-title leading-none text-[var(--v2-ink)] group-hover:text-[var(--v2-oxblood)]",
-                                            featured ? "text-[32px] lg:whitespace-nowrap md:text-[44px]" : "whitespace-nowrap text-[24px] md:text-[28px]",
+                                            featured ? "text-[32px] xl:whitespace-nowrap md:text-[44px]" : "whitespace-nowrap text-[24px] md:text-[28px]",
                                         )}
                                     >
                                         {row.name}
@@ -135,10 +135,10 @@ export function WorkIndex() {
 
                                     <span
                                         className={cn(
-                                            "mt-1 leading-snug lg:mt-0",
+                                            "mt-1 leading-snug xl:mt-0",
                                             // Phones only list "more work": name, status and year are enough.
                                             !featured && "hidden md:block",
-                                            featured ? "text-[15px] text-[var(--v2-ink)] lg:text-[17px]" : "text-[14px] text-[var(--v2-muted)] lg:text-[15px]",
+                                            featured ? "text-[15px] text-[var(--v2-ink)] xl:text-[17px]" : "text-[14px] text-[var(--v2-muted)] xl:text-[15px]",
                                         )}
                                     >
                                         {row.outcome}
@@ -149,13 +149,13 @@ export function WorkIndex() {
                                         )}
                                     </span>
 
-                                    <span className="v2-mono mt-2 text-[11px] text-[var(--v2-oxblood)] lg:mt-0">
+                                    <span className="v2-mono mt-2 text-[11px] text-[var(--v2-oxblood)] xl:mt-0">
                                         <span className="mr-1.5 inline-block h-1.5 w-1.5 -translate-y-px rounded-full bg-current align-middle" />
                                         {work.statusLabels[row.status]}
-                                        <span className="ml-3 text-[var(--v2-muted)] lg:hidden">{row.year}</span>
+                                        <span className="ml-3 text-[var(--v2-muted)] xl:hidden">{row.year}</span>
                                     </span>
 
-                                    <span className="v2-mono hidden text-right text-[11px] text-[var(--v2-muted)] lg:block">{row.year}</span>
+                                    <span className="v2-mono hidden text-right text-[11px] text-[var(--v2-muted)] xl:block">{row.year}</span>
                                 </Link>
                             </li>
                         );
@@ -169,7 +169,7 @@ export function WorkIndex() {
                 on retina screens. */}
             <motion.div
                 aria-hidden
-                className="pointer-events-none fixed left-0 top-0 z-20 hidden aspect-square w-[260px] lg:block"
+                className="pointer-events-none fixed left-0 top-0 z-20 hidden aspect-square w-[260px] xl:block"
                 style={{ x: sx, y: sy, rotate }}
                 initial={false}
                 // Opens like a window from its center rather than just fading.

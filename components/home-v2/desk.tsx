@@ -42,8 +42,9 @@ import { useIsDesktop } from "@/lib/use-media-query";
 import { cn } from "@/lib/utils";
 
 import { useFinePointer } from "./motion";
+import { PolaroidPanel, PolaroidPhoto, VARIANTS } from "./polaroid-variants";
 
-const { work, desk, hero } = homeV2Data;
+const { work, desk } = homeV2Data;
 
 // Thumbnails render at this size on the desk AND in the slots, so both ask
 // for the same image URL and the slot never waits on a download mid-flight.
@@ -119,7 +120,8 @@ export function WorkSlot({ row, index }: { row: WorkRow; index: number }) {
     const desktop = useIsDesktop();
     const filled = tidy || !desktop;
     // Featured work gets a big slot, so its big print lands big.
-    const size = row.tier === "featured" ? "w-[104px] lg:w-[168px]" : "w-14 lg:w-[72px]";
+    // The big slot sizes move with the work list's six-column row (xl).
+    const size = row.tier === "featured" ? "w-[104px] xl:w-[168px]" : "w-14 xl:w-[72px]";
     return (
         <span className={cn("relative block shrink-0", size, PRINT_ASPECT)}>
             {/* The empty slot reads as a place waiting for its print. */}
@@ -188,6 +190,8 @@ type PieceSpec = {
     fan?: DeskFan;
     // The inspect frame's link text, when it isn't "open case study".
     openLabel?: string;
+    // Extra controls shown beside the inspect frame (the polaroid's variants).
+    panel?: ReactNode;
 };
 
 const isExternal = (href: string) => /^https?:/.test(href);
@@ -196,6 +200,8 @@ export function Desk({ className }: { className?: string }) {
     const { tidy } = useDesk();
     const deskRef = useRef<HTMLDivElement>(null);
     const [selected, setSelected] = useState<string | null>(null);
+    // Which polaroid variant is showing. Kept here so it survives a tidy.
+    const [look, setLook] = useState(0);
     const [order, setOrder] = useState<string[]>([]);
     // Where each piece was left and how wide it was resized. Kept here, not in
     // the piece, because work pieces unmount while they sit in the list; this
@@ -293,24 +299,17 @@ export function Desk({ className }: { className?: string }) {
         {
             key: "polaroid",
             placement: desk.polaroid.desk,
-            label: desk.polaroid.caption,
+            label: desk.polaroid.layer,
+            meta: `${VARIANTS.length} variants`,
             render: (sel) => (
                 <span className="block bg-[#f7f3ec] p-1.5 pb-0">
-                    <span className="relative block aspect-[4/5] w-full overflow-hidden">
-                        <Image
-                            src={hero.portrait}
-                            alt={hero.portraitAlt}
-                            fill
-                            sizes="140px"
-                            draggable={false}
-                            className={cn("pointer-events-none object-cover object-top transition-[filter] duration-500", sel ? "grayscale-0" : "grayscale")}
-                        />
-                    </span>
-                    <span className="block px-1 py-2 text-[13px] leading-tight text-[var(--v2-ink)]" style={{ fontFamily: "var(--font-caveat), cursive" }}>
-                        {desk.polaroid.caption}
+                    <PolaroidPhoto index={look} developed={sel} />
+                    <span aria-live="polite" className="block px-1 py-2 text-[13px] leading-tight text-[var(--v2-ink)]" style={{ fontFamily: "var(--font-caveat), cursive" }}>
+                        {VARIANTS[look].caption}
                     </span>
                 </span>
             ),
+            panel: <PolaroidPanel index={look} onChange={setLook} />,
         },
     ];
 
@@ -578,7 +577,9 @@ function Piece({
                 setPeek(true);
                 onPileHover?.(true);
             }}
-            onBlur={() => {
+            onBlur={(e) => {
+                // Focus moving into the piece's own panel keeps it open.
+                if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
                 setPeek(false);
                 onPileHover?.(false);
             }}
@@ -600,6 +601,7 @@ function Piece({
                     onResize={spec.resizable && fine ? onResize : undefined}
                 />
             )}
+            {inspecting && spec.panel}
         </motion.div>
     );
 

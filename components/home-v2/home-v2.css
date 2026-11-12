@@ -368,6 +368,41 @@ html[data-v2-sign="skip"] .home-v2 .v2-set {
     .home-v2 .v2-here::after { animation: none; }
 }
 
+/* ---------- case study decks (flashcard) ---------- */
+
+/* The table under a deck. This gradient is the whole table without WebGL and
+   on the server; the grain shader fades in over it when it can. */
+.home-v2 .v2-grain-table {
+    background-color: #1a1414;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.92 0 0 0 0 0.85 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+        radial-gradient(90% 70% at 12% 8%, rgb(185 119 46 / 0.85), transparent 60%),
+        radial-gradient(80% 80% at 92% 30%, rgb(107 15 18 / 0.95), transparent 65%),
+        radial-gradient(70% 60% at 40% 100%, rgb(58 16 18 / 0.9), transparent 70%);
+}
+.home-v2 .v2-grain-canvas {
+    animation: v2-spec-fade 1.2s ease both;
+}
+
+/* Stock card photos printed in two inks (oxblood and amber), so they sit on
+   the dark card and the paper alike. */
+.home-v2 .v2-riso {
+    background: linear-gradient(140deg, #b9772e, #6b0f12);
+}
+.home-v2 .v2-riso img {
+    filter: grayscale(1) contrast(1.15) brightness(1.05);
+    mix-blend-mode: multiply;
+}
+.home-v2 .v2-riso::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 /* ---------- spec mode ---------- */
 
 /* On toggle, a scan line sweeps the viewport and the boxes appear behind it

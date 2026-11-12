@@ -4,11 +4,12 @@
 // homepage (components/home-v2/), arranged for long-form reading.
 // Rules: design-system/neha-portfolio/pages/case-study-v2.md
 
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 import { GRID } from "@/components/home-v2/grid";
+import { useReducedMotionSafe } from "@/lib/use-reduced-motion-safe";
 import { DUR, EASE } from "@/components/home-v2/motion";
 import { Spec } from "@/components/home-v2/spec-mode";
 import type { Shot } from "@/data/v2-human-firewall-data";
@@ -149,7 +150,9 @@ export function PrintFigure({
     className?: string;
 }) {
     const ref = useRef<HTMLElement>(null);
-    const reduce = useReducedMotion();
+    // Hydration-safe: false on the server and during hydration, so the
+    // parallax style matches; the real preference applies a tick later.
+    const reduce = useReducedMotionSafe();
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
     const y = useTransform(scrollYProgress, [0, 1], [36 * depth, -36 * depth]);
 
@@ -160,21 +163,54 @@ export function PrintFigure({
             className={cn("relative block", className)}
         >
             <div className="p-[1.4%] pb-0 shadow-[0_30px_50px_-32px_rgba(60,10,12,0.55)]" style={{ background: PAPER }}>
-                <Image
-                    src={shot.src}
-                    alt={shot.alt}
-                    width={shot.w}
-                    height={shot.h}
-                    sizes={sizes}
-                    priority={priority}
-                    className="block h-auto w-full"
-                />
+                {shot.video ? (
+                    <PrintVideo shot={shot} />
+                ) : (
+                    <Image
+                        src={shot.src}
+                        alt={shot.alt}
+                        width={shot.w}
+                        height={shot.h}
+                        sizes={sizes}
+                        priority={priority}
+                        className="block h-auto w-full"
+                    />
+                )}
                 <figcaption className="v2-mono flex min-h-9 items-center justify-between gap-3 px-1 py-2 text-[11px] text-[var(--v2-ink)] md:text-[12px]">
                     <span className="truncate">{shot.bar.toLowerCase()}</span>
                 </figcaption>
             </div>
             {shot.stamp && <Stamp className="absolute -top-3 right-4 md:right-6">{shot.stamp}</Stamp>}
         </motion.figure>
+    );
+}
+
+// A recording on a print: the poster is in the server markup, and the clip
+// plays muted and looped only while on screen. Reduced motion: the poster.
+export function PrintVideo({ shot, className = "block h-auto w-full" }: { shot: Shot; className?: string }) {
+    const ref = useRef<HTMLVideoElement>(null);
+    const reduce = useReducedMotion();
+    const inView = useInView(ref, { margin: "0px 0px -10% 0px" });
+    useEffect(() => {
+        const v = ref.current;
+        if (!v) return;
+        if (inView && !reduce) v.play().catch(() => {});
+        else v.pause();
+    }, [inView, reduce]);
+    return (
+        <video
+            ref={ref}
+            src={shot.video}
+            poster={shot.src}
+            width={shot.w}
+            height={shot.h}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={shot.alt}
+            className={className}
+        />
     );
 }
 
