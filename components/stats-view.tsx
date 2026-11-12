@@ -29,13 +29,23 @@ export function StatsView() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const key = new URLSearchParams(window.location.search).get("key");
-    if (!key) {
-      setError("This page needs the access key in the link.");
-      setLoading(false);
-      return;
-    }
-    fetch(`/api/stats?key=${encodeURIComponent(key)}`)
+    // The key comes from the link's #key=… (never sent to the server) or,
+    // for old bookmarks, ?key=…. Either way it's moved into this tab's
+    // session storage and wiped from the address bar, then sent to the API
+    // in a header, so it never lands in history or request logs.
+    const fromHash = new URLSearchParams(window.location.hash.slice(1)).get("key");
+    const fromQuery = new URLSearchParams(window.location.search).get("key");
+    let key = fromHash ?? fromQuery;
+    try {
+      if (key) sessionStorage.setItem("stats-key", key);
+      else key = sessionStorage.getItem("stats-key");
+    } catch {}
+    if (fromHash || fromQuery) window.history.replaceState(null, "", window.location.pathname);
+    // A missing key goes through the same promise chain, so no state is set
+    // synchronously inside the effect.
+    (key
+      ? fetch("/api/stats", { headers: { "x-stats-key": key }, cache: "no-store" })
+      : Promise.reject(new Error("This page needs the access key in the link.")))
       .then((r) => {
         if (r.status === 401) throw new Error("That key is not right.");
         if (!r.ok) throw new Error("Could not load the numbers. Try a refresh.");

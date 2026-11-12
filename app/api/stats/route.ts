@@ -1,15 +1,26 @@
+import { createHash, timingSafeEqual } from "node:crypto";
+
 import { list } from "@vercel/blob";
 
 export const dynamic = "force-dynamic";
 
 type PageAgg = { totalMs: number; sessions: Set<string> };
 
+// The key arrives in a header, never the URL, so it stays out of
+// history and request logs. Compared in constant time (hashes first, so
+// the lengths always match).
+function keyMatches(given: string | null): boolean {
+  const want = process.env.STATS_KEY;
+  if (!want || !given) return false;
+  const h = (v: string) => createHash("sha256").update(v).digest();
+  return timingSafeEqual(h(given), h(want));
+}
+
 // Aggregates the beacons stored by /api/t into per-page and per-day
 // numbers. Guarded by STATS_KEY so only Neha can read it.
 export async function GET(req: Request) {
-  const key = new URL(req.url).searchParams.get("key");
-  if (!process.env.STATS_KEY || key !== process.env.STATS_KEY) {
-    return new Response("unauthorized", { status: 401 });
+  if (!keyMatches(req.headers.get("x-stats-key"))) {
+    return new Response("unauthorized", { status: 401, headers: { "cache-control": "no-store" } });
   }
 
   const pages = new Map<string, PageAgg>();
@@ -45,20 +56,23 @@ export async function GET(req: Request) {
     cursor = page.hasMore ? page.cursor : undefined;
   } while (cursor);
 
-  return Response.json({
-    since: "2026-09-03",
-    visitors: allSessions.size,
-    totalMs,
-    pages: [...pages.entries()]
-      .map(([path, a]) => ({
-        path,
-        visitors: a.sessions.size,
-        totalMs: a.totalMs,
-        avgMs: Math.round(a.totalMs / a.sessions.size),
-      }))
-      .sort((a, b) => b.totalMs - a.totalMs),
-    days: [...days.entries()]
-      .map(([day, a]) => ({ day, visitors: a.sessions.size, totalMs: a.totalMs }))
-      .sort((a, b) => a.day.localeCompare(b.day)),
-  });
+  return Response.json(
+    {
+      since: "2026-09-03",
+      visitors: allSessions.size,
+      totalMs,
+      pages: [...pages.entries()]
+        .map(([path, a]) => ({
+          path,
+          visitors: a.sessions.size,
+          totalMs: a.totalMs,
+          avgMs: Math.round(a.totalMs / a.sessions.size),
+        }))
+        .sort((a, b) => b.totalMs - a.totalMs),
+      days: [...days.entries()]
+        .map(([day, a]) => ({ day, visitors: a.sessions.size, totalMs: a.totalMs }))
+        .sort((a, b) => a.day.localeCompare(b.day)),
+    },
+    { headers: { "cache-control": "no-store" } },
+  );
 }
