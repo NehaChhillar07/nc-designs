@@ -55,6 +55,11 @@ body:has(.home-v2) {
     outline-offset: 3px;
     border-radius: 2px;
 }
+/* A listbox shows focus on its active option (the highlight), not as a ring
+   around the whole list: the work-with-me sentence's answer panels. */
+.home-v2 [role="listbox"]:focus-visible {
+    outline: none;
+}
 
 /* Links: an oxblood hairline that thickens on hover, instead of a color swap. */
 .home-v2 .v2-link {
