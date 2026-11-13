@@ -31,7 +31,7 @@ for (const [w, reduce] of [[1440, false], [390, false], [1440, true]]) {
     await page.goto(`${BASE}/work-with-me`, { waitUntil: "networkidle0", timeout: 120000 });
 
     r.ok(`${tag}: one h1, the page's subject`, (await page.evaluate(() => [...document.querySelectorAll("h1")].map((h) => h.textContent))).join() === "freelance product design · for founders building AI products");
-    r.ok(`${tag}: starts on onboarding, with its source`, (await proof(page)).includes("+52%") && (await proof(page)).includes("texlaculture"));
+    r.ok(`${tag}: starts on onboarding, with its source`, (await proof(page)).includes("+48%") && (await proof(page)).includes("all 10 migrated clients"));
     await pick(page, "wwm-stuck", "getting people to finish");
     r.ok(`${tag}: the panel closes after a choice`, !(await page.$("#wwm-stuck-list")));
     r.ok(`${tag}: "getting people to finish" deals the flashcard proof`, (await proof(page)).includes("20% → 80%") && (await proof(page)).includes("flashcard builder"));
@@ -50,7 +50,7 @@ for (const [w, reduce] of [[1440, false], [390, false], [1440, true]]) {
         await page.keyboard.press("ArrowDown");
         await page.keyboard.press("Enter");
         await wait(900);
-        r.ok(`${tag}: arrows and Enter choose from the keyboard`, (await proof(page)).includes("+48%"));
+        r.ok(`${tag}: arrows and Enter choose from the keyboard`, (await proof(page)).includes("+32%"));
         r.ok(`${tag}: focus returns to the word`, await page.evaluate(() => document.activeElement?.getAttribute("aria-controls") === "wwm-stuck-list"));
         await page.keyboard.press("Enter");
         await wait(250);
@@ -62,6 +62,25 @@ for (const [w, reduce] of [[1440, false], [390, false], [1440, true]]) {
         await page.mouse.click(5, 880);
         await wait(300);
         r.ok(`${tag}: a click outside closes it`, !(await page.$("#wwm-who-list")));
+    }
+    if (!reduce && w === 1440) {
+        // Every sticking point deals a real screen, a stamped result and a source.
+        await page.click('[aria-controls="wwm-stuck-list"]');
+        await wait(300);
+        const ids = await page.evaluate(() => [...document.querySelectorAll("#wwm-stuck-list [role=option]")].map((o) => o.textContent.replace("✓", "").trim()));
+        await page.keyboard.press("Escape");
+        await wait(250);
+        const bad = [];
+        for (const label of ids) {
+            await pick(page, "wwm-stuck", label);
+            const ok = await page.evaluate(() => {
+                const f = document.querySelector("[aria-live=polite] figure");
+                const img = f?.querySelector("img");
+                return !!img && img.complete && img.naturalWidth > 0 && f.innerText.includes("·") && f.innerText.includes("read how");
+            });
+            if (!ok) bad.push(label);
+        }
+        r.ok(`${tag}: all ${ids.length} answers deal a screen, a result and a source`, ids.length >= 10 && bad.length === 0, bad.join(", "));
     }
     r.ok(`${tag}: no horizontal overflow`, (await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)) <= 0);
     r.ok(`${tag}: no console errors`, errors.length === 0, errors.join(" | "));

@@ -203,7 +203,7 @@ function ProofPrint({ p }: { p: Stuck }) {
                 </span>
             ) : (
                 <span className="grid aspect-[4/3] place-items-center border border-dashed border-[var(--v2-rule)]">
-                    <span className="v2-display px-8 text-center text-[clamp(1.6rem,2.6vw,2.2rem)] leading-tight text-[var(--v2-ink)]">{"card" in p ? p.card : p.what}</span>
+                    <span className="v2-display px-8 text-center text-[clamp(1.6rem,2.6vw,2.2rem)] leading-tight text-[var(--v2-ink)]">{p.what}</span>
                 </span>
             )}
             <figcaption className="px-1 pb-3 pt-4">
