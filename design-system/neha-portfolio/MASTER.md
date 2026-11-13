@@ -1,3 +1,5 @@
+> **ARCHIVED (2026-11-13).** This file describes the original design, which now lives only in git (tag `v1-final`, branch `archive/v1`). The site uses the v2 system: see `pages/home-v2.md` and `pages/case-study-v2.md`.
+
 # Design System Master File
 
 > **LOGIC:** When building a specific page, first check `design-system/neha-portfolio/pages/[page-name].md`.

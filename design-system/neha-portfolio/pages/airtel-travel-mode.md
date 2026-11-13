@@ -1,3 +1,5 @@
+> **ARCHIVED (2026-11-13).** Rules for the original Airtel case study page. The v2 page follows `case-study-v2.md`.
+
 # /case-study/airtel-travel-mode overrides
 
 Only the rules that differ from `../MASTER.md`.

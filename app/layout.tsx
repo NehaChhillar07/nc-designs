@@ -6,8 +6,10 @@ import { Analytics } from "@vercel/analytics/next";
 import { TimeTracker } from "@/components/time-tracker";
 import { CursorProvider } from "@/components/ui/cursor-context";
 import { CustomCursor } from "@/components/ui/custom-cursor";
-import { SITE_URL } from "@/lib/site";
-import { OG_HOME } from "@/lib/og-home";
+import { ScrollRestoration } from "@/components/scroll-restoration";
+import { homeV2Data } from "@/data/home-v2-data";
+import { SITE_LOCALE, SITE_NAME, SITE_URL } from "@/lib/site";
+import { ogImage } from "@/lib/v2-seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,42 +25,35 @@ const caveat = Caveat({
   preload: true,
 });
 
+// Site-wide defaults. Every page sets its own title, description, canonical
+// and preview card through lib/v2-seo.ts; these cover anything that doesn't.
+const DESCRIPTION = homeV2Data.meta.description;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Neha Chhillar - Product Designer",
-    template: "%s | Neha Chhillar",
+    default: homeV2Data.meta.title,
+    template: "%s · Neha Chhillar",
   },
-  description: "Product designer who ships working code. First designer at two companies. Design systems in Figma, front ends built in Claude Code.",
-  keywords: ["Product Designer", "UX Designer", "Design Engineer", "Claude Code", "Next.js", "Freelance Product Designer", "Cybersecurity", "AI", "SaaS"],
+  description: DESCRIPTION,
   authors: [{ name: "Neha Chhillar" }],
   creator: "Neha Chhillar",
-  // Every other route sets its own canonical; without this the homepage emitted
-  // none at all, while the sitemap still listed it.
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Neha Chhillar - Product Designer",
-    description: "Product designer who ships working code. First designer at two companies. Design systems in Figma, front ends built in Claude Code.",
+    title: homeV2Data.meta.title,
+    description: DESCRIPTION,
     type: "website",
     url: SITE_URL,
-    siteName: "Neha Chhillar Portfolio",
-    images: [
-      {
-        url: OG_HOME,
-        width: 1200,
-        height: 630,
-        alt: "Neha Chhillar - Product Designer",
-      },
-    ],
-    locale: "en_US",
+    siteName: SITE_NAME,
+    images: [{ url: ogImage("home"), width: 1200, height: 630, alt: "Neha Chhillar, product designer" }],
+    locale: SITE_LOCALE,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Neha Chhillar - Product Designer",
-    description: "Product designer who ships working code. First designer at two companies. Design systems in Figma, front ends built in Claude Code.",
-    images: [OG_HOME],
+    title: homeV2Data.meta.title,
+    description: DESCRIPTION,
+    images: [ogImage("home")],
   },
   robots: {
     index: true,
@@ -73,65 +68,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Inline script AND style to hide cursor IMMEDIATELY before any content renders */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  // Reloads must start at the top. Restoring a mid-page offset
-                  // lands on lazy sections that are still short placeholders, so
-                  // the page reflows under the viewport for a second or two.
-                  if ('scrollRestoration' in history) {
-                    history.scrollRestoration = 'manual';
-                  }
-                } catch(e) {}
-                try {
-                  var isTouch = window.matchMedia('(pointer: coarse)').matches ||
-                                'ontouchstart' in window ||
-                                navigator.maxTouchPoints > 0;
-                  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                  // Only pre-hide the native cursor for users who will actually
-                  // get the custom one. Must match CustomCursor's enable check,
-                  // otherwise reduced-motion users are left with no cursor.
-                  if (!isTouch && !reducedMotion) {
-                    document.documentElement.setAttribute('data-cursor', 'none');
-                    document.documentElement.style.setProperty('cursor', 'none', 'important');
-                    var style = document.createElement('style');
-                    style.id = 'cursor-hide-style';
-                    style.textContent = 'html[data-cursor="none"], html[data-cursor="none"] * { cursor: none !important; }';
-                    document.head.appendChild(style);
-                    if (document.body) {
-                      document.body.style.setProperty('cursor', 'none', 'important');
-                    } else {
-                      document.addEventListener('DOMContentLoaded', function() {
-                        document.body.style.setProperty('cursor', 'none', 'important');
-                      });
-                    }
-                  }
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
-        {/* No manual image preloads here. Both hero assets render through
-            next/image, which serves /_next/image?url=... — preloading the raw
-            originals fetched 158KB of files the page never used, at high
-            priority, competing with CSS and fonts for first paint. The Image
-            `priority` prop already emits the preload for the URL actually used. */}
-
-        {/* DNS prefetch for external resources */}
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
       <body
         className={`${inter.variable} ${caveat.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         {/* First focusable element in the body: lets keyboard users jump the
-            header nav straight to the page content. Hidden until focused. */}
+            top bar straight to the page content. Hidden until focused. */}
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
@@ -141,6 +83,7 @@ export default function RootLayout({
             {children}
           </CursorProvider>
         </MotionConfig>
+        <ScrollRestoration />
         <Analytics />
         <TimeTracker />
       </body>
