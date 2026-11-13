@@ -1,8 +1,8 @@
 "use client";
 
 // The work-with-me hero: a sentence the founder finishes. "i'm building [ ]
-// for [ ], and i'm stuck on [ ]." Each blank is a native select laid over
-// the word it shows (keyboard, screen readers and phone pickers come free).
+// for [ ], and i'm stuck on [ ]." Each blank is its chosen word, which opens
+// a small panel of answers in the site's own type (an ARIA listbox).
 // The "stuck on" answer deals the matching proof onto the desk: a print of
 // the real work, stamped with its result and its source. The finished
 // sentence goes with the booking as its note, so the first call starts
@@ -12,7 +12,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { v2Pages } from "@/data/v2-pages-data";
 import { CAL_LINK, resolveToken } from "@/lib/placeholders";
@@ -28,32 +28,144 @@ const { workWithMe: w } = v2Pages;
 const S = w.sentence;
 type Stuck = (typeof S.stuck)[number];
 const CAVEAT = { fontFamily: "var(--font-caveat), cursive" } as const;
+const PANEL_W = 288; // the answer panel's widest (18rem)
 
-// One blank: the chosen word, underlined, with a select stretched over it.
-function Blank({ label, value, options, onChange }: { label: string; value: string; options: { value: string; label: string }[]; onChange: (v: string) => void }) {
-    const shown = options.find((o) => o.value === value)?.label ?? value;
+// One blank: the chosen word, underlined, opening a small paper panel of
+// answers in the site's own type (a native select would open its menu at the
+// headline's size). The ARIA listbox pattern: the word is a button that
+// opens the list; arrows, Home and End move, Enter or Space choose, Escape
+// or a click outside close, and focus goes back to the word.
+function Blank({ id, label, value, options, onChange }: { id: string; label: string; value: string; options: { value: string; label: string }[]; onChange: (v: string) => void }) {
+    const [open, setOpen] = useState(false);
+    const [active, setActive] = useState(0);
+    const [pos, setPos] = useState({ top: 0, left: 0 });
+    const word = useRef<HTMLSpanElement>(null);
+    const list = useRef<HTMLSpanElement>(null);
+    const at = Math.max(0, options.findIndex((o) => o.value === value));
+    const shown = options[at]?.label ?? value;
+
+    const show = (start = at) => {
+        // Place the panel under the word's last line (a blank can wrap), inside
+        // the sentence's box and never past the screen edge.
+        const el = word.current;
+        const box = el?.closest("p")?.getBoundingClientRect();
+        const lines = el?.getClientRects();
+        if (el && box && lines?.length) {
+            const last = lines[lines.length - 1];
+            const panel = Math.min(PANEL_W, window.innerWidth - 32);
+            const room = Math.min(box.width, window.innerWidth - 16 - box.left) - panel;
+            setPos({ top: last.bottom - box.top + 12, left: Math.max(0, Math.min(last.left - box.left, room)) });
+        }
+        setActive(start);
+        setOpen(true);
+    };
+    const close = (refocus = true) => {
+        setOpen(false);
+        if (refocus) word.current?.focus();
+    };
+    const choose = (i: number) => {
+        onChange(options[i].value);
+        close();
+    };
+    useEffect(() => {
+        if (open) list.current?.focus();
+    }, [open]);
+
     return (
-        <span className="relative inline">
-            <select
-                aria-label={label}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                className="peer absolute inset-0 z-10 w-full cursor-pointer appearance-none opacity-0"
-            >
-                {options.map((o) => (
-                    <option key={o.value} value={o.value}>
-                        {o.label}
-                    </option>
-                ))}
-            </select>
+        <span
+            className="inline"
+            onBlur={(e) => {
+                if (open && !e.currentTarget.contains(e.relatedTarget as Node)) close(false);
+            }}
+        >
             <span
-                aria-hidden
-                className="italic text-[var(--v2-oxblood)] underline decoration-[var(--v2-oxblood)] decoration-dashed decoration-[0.04em] underline-offset-[0.12em] transition-colors peer-hover:decoration-solid peer-focus-visible:rounded-sm peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-[var(--v2-redline)]"
+                ref={word}
+                role="button"
+                tabIndex={0}
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                aria-controls={`${id}-list`}
+                aria-label={`${label}: ${shown}`}
+                onClick={() => (open ? close() : show())}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+                        e.preventDefault();
+                        show();
+                    } else if (e.key === "ArrowUp") {
+                        e.preventDefault();
+                        show(Math.max(0, at - 1));
+                    }
+                }}
+                className="cursor-pointer italic text-[var(--v2-oxblood)] underline decoration-[var(--v2-oxblood)] decoration-dashed decoration-[0.04em] underline-offset-[0.12em] outline-none hover:decoration-solid focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--v2-redline)]"
             >
                 {shown}
                 {"\u2060"}
-                <span className="relative -top-[0.12em] ml-[0.08em] text-[0.42em] not-italic">▾</span>
+                <span aria-hidden className="relative -top-[0.12em] ml-[0.08em] text-[0.42em] not-italic">
+                    ▾
+                </span>
             </span>
+
+            <AnimatePresence>
+                {open && (
+                    <motion.span
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4, transition: { duration: 0.12 } }}
+                        transition={{ duration: 0.18, ease: EASE }}
+                        style={{ top: pos.top, left: pos.left }}
+                        className="absolute z-30 block w-max min-w-[13rem] max-w-[min(18rem,calc(100vw-2rem))] border border-[var(--v2-redline)] bg-[#f7f3ec] p-1.5 text-left not-italic leading-normal tracking-normal shadow-[0_18px_30px_-20px_rgba(60,10,12,0.55)]"
+                    >
+                        <span id={`${id}-label`} className="v2-mono block border-b border-[var(--v2-rule)] px-2 pb-1.5 pt-1 text-[10px] text-[var(--v2-redline)]">
+                            {label}
+                        </span>
+                        {/* Spans with listbox roles: the sentence is a <p>, which can't hold a <ul>. */}
+                        <span
+                            ref={list}
+                            id={`${id}-list`}
+                            role="listbox"
+                            tabIndex={-1}
+                            aria-labelledby={`${id}-label`}
+                            aria-activedescendant={`${id}-opt-${active}`}
+                            onKeyDown={(e) => {
+                                const last = options.length - 1;
+                                const move: Record<string, number> = { ArrowDown: Math.min(last, active + 1), ArrowUp: Math.max(0, active - 1), Home: 0, End: last };
+                                if (e.key in move) {
+                                    e.preventDefault();
+                                    setActive(move[e.key]);
+                                } else if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    choose(active);
+                                } else if (e.key === "Escape") {
+                                    e.preventDefault();
+                                    close();
+                                } else if (e.key === "Tab") {
+                                    close(false);
+                                }
+                            }}
+                            className="mt-1 block outline-none"
+                        >
+                            {options.map((o, i) => (
+                                <span
+                                    key={o.value}
+                                    id={`${id}-opt-${i}`}
+                                    role="option"
+                                    aria-selected={i === at}
+                                    onMouseDown={(e) => e.preventDefault()}
+                                    onMouseEnter={() => setActive(i)}
+                                    onClick={() => choose(i)}
+                                    className={cn(
+                                        "v2-display flex min-h-11 cursor-pointer items-center justify-between gap-4 px-2 text-[21px] leading-tight md:min-h-10",
+                                        i === active ? "bg-[rgb(107_15_18/0.08)] text-[var(--v2-oxblood)]" : "text-[var(--v2-ink)]",
+                                    )}
+                                >
+                                    <span className={i === at ? "italic" : ""}>{o.label}</span>
+                                    {i === at && <span className="v2-mono text-[12px] text-[var(--v2-oxblood)]">✓</span>}
+                                </span>
+                            ))}
+                        </span>
+                    </motion.span>
+                )}
+            </AnimatePresence>
         </span>
     );
 }
@@ -133,10 +245,11 @@ export function SentenceHero() {
                     {w.eyebrow}
                 </h1>
                 <Spec name="display / sentence" type className="v2-display mt-6 text-[clamp(2.6rem,5.6vw,5.4rem)] leading-[1.08] tracking-[-0.015em] text-[var(--v2-ink)]">
-                    <p>
-                        {S.pre} <Blank label={S.labels.building} value={building} options={opts(S.building)} onChange={setBuilding} /> {S.mid}{" "}
-                        <Blank label={S.labels.who} value={who} options={opts(S.who)} onChange={setWho} />, {S.post}{" "}
-                        <Blank label={S.labels.stuck} value={stuckId} options={S.stuck.map((s) => ({ value: s.id, label: s.label }))} onChange={setStuckId} />
+                    {/* relative: the answer panels are placed against the sentence's box. */}
+                    <p className="relative">
+                        {S.pre} <Blank id="wwm-building" label={S.labels.building} value={building} options={opts(S.building)} onChange={setBuilding} /> {S.mid}{" "}
+                        <Blank id="wwm-who" label={S.labels.who} value={who} options={opts(S.who)} onChange={setWho} />, {S.post}{" "}
+                        <Blank id="wwm-stuck" label={S.labels.stuck} value={stuckId} options={S.stuck.map((s) => ({ value: s.id, label: s.label }))} onChange={setStuckId} />
                         {S.end}
                     </p>
                 </Spec>
