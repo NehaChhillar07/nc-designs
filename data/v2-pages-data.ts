@@ -137,14 +137,76 @@ export const v2Pages = {
             description:
                 "Freelance product design for founders building AI products. I find the problem worth solving, and prove the answer works with real users.",
         },
-        eyebrow: "freelance",
-        // One line each: letterpress lines never wrap, so each must fit a phone.
-        headline: ["product design for", "founders building", "AI products."],
+        eyebrow: "freelance product design · for founders building AI products",
+        // The hero is a sentence the founder finishes. Each "stuck on" answer
+        // pulls the matching proof onto the desk: a real result from a real
+        // project, with its source, never a number on its own. The finished
+        // sentence travels with the booking as its note.
+        sentence: {
+            pre: "i'm building",
+            mid: "for",
+            post: "and i'm stuck on",
+            end: ".",
+            labels: { building: "what you're building", who: "who it's for", stuck: "where you're stuck" },
+            building: ["an AI product", "a SaaS platform", "an internal tool", "a consumer app"],
+            who: ["teams at work", "security teams", "everyday people"],
+            stuck: [
+                {
+                    id: "onboarding",
+                    label: "onboarding",
+                    value: "+52%",
+                    what: "onboarding completion",
+                    // No screen to show from this one: the print carries the project instead.
+                    card: "an hrms, built from scratch. 8k+ employees in year one.",
+                    source: "texlaculture · founding designer, 2023–24",
+                    href: "/resume",
+                    link: "on the resume",
+                },
+                {
+                    id: "finishing",
+                    label: "getting people to finish",
+                    value: "20% → 80%",
+                    what: "training completion",
+                    source: "flashcard builder · live on 10 enterprise clients",
+                    href: "/case-study/flashcard-training",
+                    link: "read how",
+                    image: { src: "/work/flashcard/hf-cards.png", alt: "The real cover card of a live training pack, client logo blurred", crop: { x: 30.75, y: 15.1, w: 39, h: 67.4 }, ratio: (2458 * 39) / (1720 * 67.4) },
+                },
+                {
+                    id: "support",
+                    label: "users who need support to start",
+                    value: "+48%",
+                    what: "engagement after the rebuild",
+                    source: "human firewall · admins launch without calling support",
+                    href: "/case-study/human-firewall",
+                    link: "read how",
+                    image: { src: "/work/1st-case study/hero-image.png", alt: "The Human Firewall dashboard: the human risk index for an organisation", position: "left top", ratio: 4 / 3 },
+                },
+                {
+                    id: "acting",
+                    label: "getting people to act",
+                    value: "1.42M",
+                    what: "visitors in its first year",
+                    source: "ecrime hub · for dubai police. every report click alerts a security team",
+                    href: "/case-study/ecrime-hub",
+                    link: "read how",
+                    image: { src: "/work/ecrime-hub/hero-poster.jpg", alt: "The eCrime Hub homepage over the Dubai skyline", position: "center", ratio: 4 / 3 },
+                },
+                {
+                    id: "first",
+                    label: "shipping the first version",
+                    value: "3 weeks",
+                    what: "idea to live, solo",
+                    source: "unsaid · designed in claude design, built in claude code",
+                    href: "/case-study/unsaid",
+                    link: "read how",
+                    image: { src: "/work/unsaid/home-dark.png", alt: "The unsaid home screen: say the thing you've never said", position: "center top", ratio: 4 / 3 },
+                },
+            ],
+            hint: "pick yours. the proof changes with it",
+            note: "your sentence comes with the booking",
+        },
         body: "i find the problem worth solving, test the answer with real users as working software, and hand your engineers a front end they can ship on.",
-        proof: [
-            { value: "+52%", label: "onboarding completion" },
-            { value: "20% → 80%", label: "training completion" },
-        ],
         whoFor: {
             heading: "who this is for",
             body: "founders and small teams building AI products, who need product judgment, not just screens.",

@@ -5,49 +5,12 @@ import { CONTACT_EMAIL } from "@/lib/site";
 
 import { GRID } from "./grid";
 import { Reveal } from "./motion";
-import { Spec } from "./spec-mode";
 
 const { workWithMe: w } = v2Pages;
 
-// The freelance page, in the homepage's voice: the claim, the proof, who it's
-// for, then one ask. The kind words section is reused from the homepage by
-// the route, between "who this is for" and the ask.
-export function WorkWithMeHero() {
-    return (
-        <section aria-labelledby="v2-wwm" className={GRID}>
-            <div className="col-span-4 md:col-span-10 md:col-start-2">
-                <p className="v2-mono text-[12px] text-[var(--v2-muted)]">{w.eyebrow}</p>
-                {/* Set, not signed: only the name on the homepage is handwritten first. */}
-                <Spec name="display / headline" type className="v2-display mt-6 text-[clamp(3rem,8vw,7.5rem)] leading-[0.92] tracking-[-0.02em] text-[var(--v2-oxblood)]">
-                    <h1 id="v2-wwm">
-                        {w.headline.map((text, i) => (
-                            <span key={text} className={`v2-title block${i > 0 ? " italic" : ""}`} style={{ "--line": i } as React.CSSProperties}>
-                                {text}
-                            </span>
-                        ))}
-                    </h1>
-                </Spec>
-            </div>
-
-            <div className="col-span-4 mt-10 md:col-span-5 md:col-start-2 md:mt-14">
-                <Spec as="p" name="body / lead" type className="text-[20px] leading-[1.45] text-[var(--v2-ink)] md:text-[24px]">
-                    {w.body}
-                </Spec>
-                <p className="v2-mono mt-6 text-[12px] text-[var(--v2-muted)]">{w.availability}</p>
-            </div>
-
-            <Spec as="dl" name="proof" className="col-span-4 mt-10 grid grid-cols-2 gap-x-6 border-t border-[var(--v2-rule)] pt-4 md:col-span-5 md:col-start-7 md:mt-14">
-                {w.proof.map((p) => (
-                    <div key={p.label} className="flex flex-col-reverse justify-end gap-1">
-                        <dt className="v2-mono text-[11px] text-[var(--v2-muted)]">{p.label}</dt>
-                        <dd className="v2-display whitespace-nowrap text-[32px] leading-none text-[var(--v2-oxblood)] md:text-[44px]">{p.value}</dd>
-                    </div>
-                ))}
-            </Spec>
-        </section>
-    );
-}
-
+// The freelance page, in the homepage's voice: the sentence the founder
+// finishes (wwm-sentence.tsx), who it's for, then one ask. The kind words
+// section is reused from the homepage by the route, between the two.
 export function WorkWithMeWhoFor() {
     return (
         <Reveal className={GRID}>

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 
 import { KindWords } from "@/components/home-v2/kind-words";
 import { SpecGap } from "@/components/home-v2/spec-mode";
-import { WorkWithMeAsk, WorkWithMeHero, WorkWithMeWhoFor } from "@/components/home-v2/work-with-me-v2";
+import { WorkWithMeAsk, WorkWithMeWhoFor } from "@/components/home-v2/work-with-me-v2";
+import { SentenceHero } from "@/components/home-v2/wwm-sentence";
 import { v2Pages } from "@/data/v2-pages-data";
 import { v2Metadata } from "@/lib/v2-seo";
 
@@ -21,7 +22,7 @@ export default function V2WorkWithMePage() {
     return (
         <main id="main-content" tabIndex={-1} className="outline-none">
             <SpecGap className="h-14 md:h-24" />
-            <WorkWithMeHero />
+            <SentenceHero />
             <SpecGap className="h-28 md:h-40" />
             <WorkWithMeWhoFor />
             <SpecGap className="h-28 md:h-40" />
