@@ -49,7 +49,7 @@ export const homeV2Data = {
         title: "Neha Chhillar · Product designer",
         description:
             "Senior product designer for AI products. I find the problem worth solving, and prove the answer works with real users before engineering builds it.",
-        url: "/v2",
+        url: "/",
     },
 
     topBar: {
@@ -60,8 +60,8 @@ export const homeV2Data = {
         specToggle: "redlines",
         specHint: "S",
         resume: "resume",
-        resumeHref: "/v2/resume",
-        homeHref: "/v2",
+        resumeHref: "/resume",
+        homeHref: "/",
         connect: "connect",
     },
 
@@ -157,7 +157,7 @@ export const homeV2Data = {
             short: "before that, first designer at two companies.",
             before: "before that, first designer at two companies. i rebuilt",
             linkText: "human firewall",
-            linkHref: "/v2/case-study/human-firewall",
+            linkHref: "/case-study/human-firewall",
             after: "as an AI-native platform, solo, for 100+ enterprise security teams.",
         },
     },
@@ -193,7 +193,7 @@ export const homeV2Data = {
                 outcome: "admins launch without calling support. engagement +48%",
                 status: "shipped",
                 year: "2025–26",
-                href: "/v2/case-study/human-firewall",
+                href: "/case-study/human-firewall",
                 thumb: "/work/thumbs/human-firewall.png",
                 thumbAlt: "Human Risk Index dashboard",
                 readingTime: "8 min",
@@ -206,7 +206,7 @@ export const homeV2Data = {
                 outcome: "training completion from 20% to 80%. engineering built on my prototype",
                 status: "shipped",
                 year: "2025",
-                href: "/v2/case-study/flashcard-training",
+                href: "/case-study/flashcard-training",
                 thumb: "/work/flashcard/hf-cards.png", // client logo blurred
                 thumbAlt: "Flashcard training cards",
                 readingTime: "6 min",
@@ -219,7 +219,7 @@ export const homeV2Data = {
                 outcome: "idea to live product, solo, in three weeks",
                 status: "live",
                 year: "2026",
-                href: "/v2/case-study/unsaid",
+                href: "/case-study/unsaid",
                 thumb: "/work/thumbs/unsaid-v2.png",
                 thumbAlt: "unsaid app screens",
                 readingTime: "6 min",
@@ -233,7 +233,7 @@ export const homeV2Data = {
                 outcome: "roaming that explains itself before you call support. self-initiated concept, working prototype",
                 status: "prototype",
                 year: "2026",
-                href: "/v2/case-study/airtel-travel-mode",
+                href: "/case-study/airtel-travel-mode",
                 thumb: "/work/thumbs/airtel-travel-mode.png",
                 thumbAlt: "Airtel Travel Mode screens",
                 readingTime: "9 min",
@@ -248,7 +248,7 @@ export const homeV2Data = {
                 outcome: "1.42 million visitors in its first year, for dubai police. every report click alerts a security team",
                 status: "client",
                 year: "2025",
-                href: "/v2/case-study/ecrime-hub",
+                href: "/case-study/ecrime-hub",
                 thumb: "/work/thumbs/ecrime-hub.png",
                 thumbAlt: "eCrime Hub website",
                 readingTime: "4 min",
@@ -266,7 +266,7 @@ export const homeV2Data = {
             {
                 line: "i start with the problem, not the screen.",
                 receipt: "low compromise meant low engagement, not low risk",
-                href: "/v2/case-study/human-firewall",
+                href: "/case-study/human-firewall",
             },
             {
                 line: "my calls come with evidence, not taste.",
@@ -276,7 +276,7 @@ export const homeV2Data = {
             {
                 line: "i test ideas as working software, so the team learns before it builds.",
                 receipt: "engineering shipped the flashcard builder on my front end",
-                href: "/v2/case-study/flashcard-training",
+                href: "/case-study/flashcard-training",
             },
             {
                 line: "i own the outcome, end to end.",
@@ -291,10 +291,10 @@ export const homeV2Data = {
         nowLabel: "now",
         items: [
             { date: "oct 2026", text: `joined ${COMPANY}. designing wholesale banking for ${CLIENT}` },
-            { date: "sep 2026", text: "redesigned airtel roaming as a travel mode", href: "/v2/case-study/airtel-travel-mode" },
-            { date: "aug 2026", text: "wrote “where is the deliverability?”", href: "/v2/writing/where-is-the-deliverability" },
-            { date: "jul 2026", text: "wrote what being the first designer costs you", href: "/v2/writing/first-designer" },
-            { date: "jul 2026", text: "shipped unsaid, solo", href: "/v2/case-study/unsaid" },
+            { date: "sep 2026", text: "redesigned airtel roaming as a travel mode", href: "/case-study/airtel-travel-mode" },
+            { date: "aug 2026", text: "wrote “where is the deliverability?”", href: "/writing/where-is-the-deliverability" },
+            { date: "jul 2026", text: "wrote what being the first designer costs you", href: "/writing/first-designer" },
+            { date: "jul 2026", text: "shipped unsaid, solo", href: "/case-study/unsaid" },
         ],
     },
 
@@ -334,9 +334,9 @@ export const homeV2Data = {
         linkedin: "linkedin",
         github: "github",
         workWithMe: "work with me",
-        workWithMeHref: "/v2/work-with-me",
+        workWithMeHref: "/work-with-me",
         resume: "resume",
-        resumeHref: "/v2/resume",
+        resumeHref: "/resume",
         // Commits are in +05:30, so the clock runs on India time.
         timeZone: "Asia/Kolkata",
         timeLabel: "ist",

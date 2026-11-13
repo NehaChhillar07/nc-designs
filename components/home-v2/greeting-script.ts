@@ -6,7 +6,7 @@ const GREETED_KEY = "v2-greeted";
 export const PLAYING_FLAG = "__v2GreetPlaying";
 export const SIGN_FLAG = "__v2SignPlaying";
 
-// Runs inline, before first paint, from app/v2/page.tsx. The name is signed
+// Runs inline, before first paint, from app/(site)/page.tsx. The name is signed
 // on every page load (signature.tsx); the greeting plays once per session.
 // Reduced-motion users get neither. Phones skip the greeting itself (on a
 // phone a full-screen greeting reads as a loader, not a hello) but still see

@@ -1,4 +1,4 @@
-// unsaid case study 2.0 (/v2/case-study/unsaid).
+// unsaid case study 2.0 (/case-study/unsaid).
 //
 // The story is not rewritten: its claims, decisions and lowercase voice are
 // the live study's (data/unsaid-data.ts, imported, never retyped). The copy
@@ -305,7 +305,7 @@ export const unV2 = {
         label: "next case study",
         title: "Airtel Travel Mode",
         line: "roaming redesigned around a traveller's questions. a self-initiated concept, built as a working prototype",
-        href: "/v2/case-study/airtel-travel-mode",
+        href: "/case-study/airtel-travel-mode",
         shot: { src: "/work/thumbs/airtel-travel-mode.png", alt: "", w: 1800, h: 1800, bar: "airtel travel mode" } satisfies Shot,
     },
 };

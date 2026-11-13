@@ -1,4 +1,4 @@
-// Flashcard Builder case study 2.0 (/v2/case-study/flashcard-training).
+// Flashcard Builder case study 2.0 (/case-study/flashcard-training).
 //
 // The story is not rewritten here: its claims, decisions, numbers and order
 // are the live study's. The body copy is shortened (TRIM, approved by Neha);
@@ -233,7 +233,7 @@ export const fcV2 = {
     whereItIs: {
         ...fc.whereItIs,
         body: TRIM.whereItIs,
-        crossLinkHref: "/v2/case-study/human-firewall",
+        crossLinkHref: "/case-study/human-firewall",
         outcome: {
             prefix: "~",
             value: 80,
@@ -263,7 +263,7 @@ export const fcV2 = {
         label: "next case study",
         title: "eCrime Hub",
         line: "1.42 million visitors in its first year, for dubai police. every report click alerts a security team",
-        href: "/v2/case-study/ecrime-hub",
+        href: "/case-study/ecrime-hub",
         shot: { src: "/work/ecrime-hub/hero-poster.jpg", alt: "", w: 1600, h: 852, bar: "ecrime hub" } satisfies Shot,
     },
 };

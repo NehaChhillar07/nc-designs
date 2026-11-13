@@ -1,4 +1,4 @@
-// eCrime Hub case study 2.0 (/v2/case-study/ecrime-hub).
+// eCrime Hub case study 2.0 (/case-study/ecrime-hub).
 //
 // The story is not rewritten here: its claims, decisions and order are the
 // live study's (data/ecrime-hub-data.ts, imported, never retyped, plus the
@@ -299,7 +299,7 @@ export const ecV2 = {
         label: "next case study",
         title: "unsaid",
         line: "idea to live product, solo, in three weeks",
-        href: "/v2/case-study/unsaid",
+        href: "/case-study/unsaid",
         shot: { src: "/work/unsaid/home-dark.png", alt: "", w: 796, h: 1731, bar: "unsaid" } satisfies Shot,
     },
 };

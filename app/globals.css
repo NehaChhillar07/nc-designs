@@ -1,10 +1,7 @@
 @import "tailwindcss";
 
 html {
-  /* NOTE: no `scroll-behavior: smooth` — it conflicts with GSAP ScrollTrigger
-     pinning in the Work section (cancels programmatic scrolls mid-pin). Section
-     nav uses the manual rAF tween in lib/scroll-to-section.ts instead. */
-  /* Offset anchor scrolling by the fixed header height (h-16) for any native anchor. */
+  /* Offset anchor scrolling by the top bar's height for any native anchor. */
   scroll-padding-top: 4rem;
   /* `clip` (not `hidden`: no scroll container, sticky keeps working) guards against
      the w-screen full-bleed sections overflowing by a scrollbar-width on Windows. */

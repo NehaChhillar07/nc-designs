@@ -11,7 +11,7 @@ import { useIsHydrated } from "@/lib/use-is-hydrated";
 // instead of creating one); on a client navigation, render nothing.
 //
 // Next's <Script strategy="beforeInteractive"> would also work, but it must
-// live in the root layout, which /v2 doesn't touch. Callers must handle the
+// live in the root layout, and the script belongs to the homepage only. Callers must handle the
 // navigation case themselves (the greeting skips when the script didn't run).
 export function BeforePaintScript({ code }: { code: string }) {
     const hydrated = useIsHydrated();

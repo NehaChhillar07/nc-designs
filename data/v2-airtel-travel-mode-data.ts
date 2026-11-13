@@ -1,4 +1,4 @@
-// Airtel Travel Mode case study 2.0 (/v2/case-study/airtel-travel-mode).
+// Airtel Travel Mode case study 2.0 (/case-study/airtel-travel-mode).
 //
 // The story is not rewritten: its questions, decisions and reasoning are the
 // live study's (data/airtel-travel-mode-data.ts, imported where a line is
@@ -388,7 +388,7 @@ export const atV2 = {
         label: "next case study",
         title: "Human Firewall",
         line: "a 10-year-old security platform, rebuilt AI-native. admins launch without calling support",
-        href: "/v2/case-study/human-firewall",
+        href: "/case-study/human-firewall",
         shot: { src: hf.hero.scrollHero.media, alt: "", w: 3246, h: 1830, bar: "human firewall" } satisfies Shot,
     },
 };

@@ -1,4 +1,4 @@
-// Human Firewall case study 2.0 (/v2/case-study/human-firewall).
+// Human Firewall case study 2.0 (/case-study/human-firewall).
 //
 // The story is NOT rewritten here. Every string comes from the live case
 // study: data/human-firewall-data.ts (imported, never retyped) plus the few
@@ -195,7 +195,7 @@ export const hfV2 = {
                 bar: "Flashcard Training",
             },
         ] satisfies Shot[],
-        link: { text: "See how the training builder was designed", href: "/v2/case-study/flashcard-training" }, // from the component
+        link: { text: "See how the training builder was designed", href: "/case-study/flashcard-training" }, // from the component
     },
 
     migration: {
@@ -258,7 +258,7 @@ export const hfV2 = {
         label: "next case study",
         title: "Flashcard Builder",
         line: "training completion from 20% to 80%. engineering built on my prototype",
-        href: "/v2/case-study/flashcard-training",
+        href: "/case-study/flashcard-training",
         shot: { src: CARDS, alt: "", w: 2458, h: 1720, bar: "flashcard builder" } satisfies Shot,
     },
 };

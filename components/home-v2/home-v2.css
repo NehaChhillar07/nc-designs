@@ -83,7 +83,7 @@ body:has(.home-v2) {
 /* ---------- the opening sequence ----------
    Pure CSS on the server markup, so it runs at first paint without waiting
    for React. --greet is how long the greeting holds the stage; everything in
-   the hero schedules itself after it. The inline script in app/v2/page.tsx
+   the hero schedules itself after it. The inline script in app/(site)/page.tsx
    sets data-v2-greet="skip" on <html> for repeat visits and reduced motion,
    and the Greeting component sets it when someone clicks or presses a key. */
 .home-v2 {

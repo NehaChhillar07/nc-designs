@@ -1,6 +1,5 @@
-// The redirect map for the switch to v2 (launch plan, Phase 4). NOT wired
-// into next.config.ts yet: /v2 has to keep working until v2 moves to the
-// root. At cutover, replace the redirects() list with this one.
+// The site's redirects, applied in next.config.ts. Written for the switch to
+// the v2 design: the original site's anchor URLs and the /v2 preview links.
 //
 // Rules: every old URL reaches its final page in one hop. The /v2 spellings
 // of the old anchor URLs get their own direct rules, so /v2/about never goes

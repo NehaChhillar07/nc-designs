@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { CUTOVER_REDIRECTS } from "./lib/cutover-redirects";
+
 const nextConfig: NextConfig = {
   // No `output` mode on purpose. "standalone" is for containerised self-hosting
   // (see Next's deploying guide: it exists to build a minimal Docker image) and
@@ -39,14 +41,9 @@ const nextConfig: NextConfig = {
   },
 
   // Redirect guessed URLs to home page anchors
+  // Old addresses and shared /v2 links, one hop each (lib/cutover-redirects.ts).
   async redirects() {
-    return [
-      { source: "/about", destination: "/#about", permanent: true },
-      { source: "/work", destination: "/#work", permanent: true },
-      // Not permanent: writings may become its own page later
-      { source: "/writings", destination: "/#writings", permanent: false },
-      { source: "/writing", destination: "/#writings", permanent: false },
-    ];
+    return CUTOVER_REDIRECTS;
   },
 
   // Performance headers
@@ -68,9 +65,9 @@ const nextConfig: NextConfig = {
             key: "X-DNS-Prefetch-Control",
             value: "on",
           },
-          // Security headers. A strict CSP is deliberately omitted: Motion and
-          // GSAP set inline styles, and Next injects inline scripts, so a safe
-          // CSP here would need nonce plumbing — separate task if ever needed.
+          // Security headers. A strict CSP is deliberately omitted: Motion sets
+          // inline styles and Next injects inline scripts, so a safe CSP here
+          // would need nonce plumbing. A separate task if ever needed.
           {
             key: "X-Content-Type-Options",
             value: "nosniff",

@@ -8,12 +8,12 @@ import { whereIsTheDeliverabilityEssay } from "@/data/writing-where-is-the-deliv
 
 // Every v2 route in one place, so links never drift back to the old site.
 export const V2 = {
-    home: "/v2",
-    work: "/v2#v2-work",
-    resume: "/v2/resume",
-    workWithMe: "/v2/work-with-me",
-    writing: (slug: string) => `/v2/writing/${slug}`,
-    caseStudy: (slug: string) => `/v2/case-study/${slug}`,
+    home: "/",
+    work: "/#v2-work",
+    resume: "/resume",
+    workWithMe: "/work-with-me",
+    writing: (slug: string) => `/writing/${slug}`,
+    caseStudy: (slug: string) => `/case-study/${slug}`,
 } as const;
 
 // The essays reuse their existing content verbatim; only the layout is new.
