@@ -1,9 +1,9 @@
-import { SketchyArrow } from "@/components/ui/sketchy-note";
 import { v2Pages } from "@/data/v2-pages-data";
 import { CAL_LINK, resolveToken } from "@/lib/placeholders";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 import { GRID } from "./grid";
+import { HandArrow } from "./hand-arrow";
 import { Reveal } from "./motion";
 
 const { workWithMe: w } = v2Pages;
@@ -32,7 +32,7 @@ export function WorkWithMeAsk() {
                     <p className="-rotate-1 text-[22px] leading-none" style={{ fontFamily: "var(--font-caveat), cursive" }}>
                         {w.cta.note}
                     </p>
-                    <SketchyArrow direction="down" color="currentColor" className="-mt-1 h-10 w-10" />
+                    <HandArrow direction="down" className="mt-1 h-10 w-10" />
                 </div>
                 <div className="mt-3 flex flex-wrap items-baseline gap-x-8 gap-y-3">
                     {cal && (

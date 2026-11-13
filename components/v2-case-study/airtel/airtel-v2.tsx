@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { GRID } from "@/components/home-v2/grid";
+import { HandArrow } from "@/components/home-v2/hand-arrow";
 import { Reveal } from "@/components/home-v2/motion";
 import { Signature } from "@/components/home-v2/signature";
 import { SpecGap } from "@/components/home-v2/spec-mode";
@@ -264,8 +265,11 @@ export function AirtelV2() {
                                 <PhonePrint key={s.src} {...s} caption={s.bar} tilt={[-1.5, 1, -1][i]} sizes="(min-width: 768px) 280px, 31vw" className={i === 1 ? "mt-8" : ""} />
                             ))}
                         </div>
-                        <p className="col-span-4 mt-6 text-[19px] leading-tight text-[var(--v2-oxblood)] md:col-span-8 lg:col-start-3" style={CAVEAT}>
-                            ↑ {days.runsOut.autoAdd}
+                        <p className="col-span-4 mt-4 flex items-end gap-1.5 text-[var(--v2-oxblood)] md:col-span-8 lg:col-start-3">
+                            <HandArrow direction="up" className="h-8 w-8" />
+                            <span className="pb-0.5 text-[19px] leading-tight" style={CAVEAT}>
+                                {days.runsOut.autoAdd}
+                            </span>
                         </p>
                     </div>
                 </C>

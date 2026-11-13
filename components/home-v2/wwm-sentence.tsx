@@ -21,6 +21,7 @@ import { useReducedMotionSafe } from "@/lib/use-reduced-motion-safe";
 import { cn } from "@/lib/utils";
 
 import { GRID } from "./grid";
+import { HandArrow } from "./hand-arrow";
 import { EASE } from "./motion";
 import { Spec } from "./spec-mode";
 
@@ -253,9 +254,11 @@ export function SentenceHero() {
                         {S.end}
                     </p>
                 </Spec>
-                <p className="mt-5 -rotate-1 text-[22px] leading-none text-[var(--v2-oxblood)]" style={CAVEAT}>
-                    <span aria-hidden>↑ </span>
-                    {S.hint}
+                <p className="mt-3 flex items-end gap-1.5 text-[var(--v2-oxblood)]">
+                    <HandArrow direction="up" className="h-9 w-9" />
+                    <span className="-rotate-1 pb-0.5 text-[22px] leading-none" style={CAVEAT}>
+                        {S.hint}
+                    </span>
                 </p>
 
             </div>
