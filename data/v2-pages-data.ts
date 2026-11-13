@@ -41,6 +41,8 @@ export const v2Pages = {
         back: "home",
         eyebrow: "writing",
         next: "read next",
+        byline: "by",
+        author: "neha chhillar",
     },
 
     resume: {

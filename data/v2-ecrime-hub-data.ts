@@ -91,7 +91,8 @@ export const ecV2 = {
         ],
         shot: {
             src: `${V2}/hero-poster.jpg`,
-            video: `${LIVE}/hero.mp4`,
+            // Re-encoded for v2: 1280px, 24 fps, 2.4 MB (the live file is 5.5 MB at 60 fps).
+            video: `${V2}/hero.mp4`,
             alt: "The eCrime Hub homepage: the Dubai skyline under the site header, with Report in the top right",
             w: 1600,
             h: 852,

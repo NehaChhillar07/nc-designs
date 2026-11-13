@@ -46,7 +46,8 @@ export function PrinciplesAndLately() {
 
             {/* Desktop only: on phones the "now" line in the hero covers it. */}
             <div className="col-span-4 mt-16 hidden md:col-span-4 md:col-start-9 md:mt-0 md:block">
-                <h2 className="v2-mono text-[11px] text-[var(--v2-muted)]">{lately.heading}</h2>
+                {/* #lately: where the old /writing and /writings links land. */}
+                <h2 id="lately" className="scroll-mt-24 v2-mono text-[11px] text-[var(--v2-muted)]">{lately.heading}</h2>
                 <Spec as="ul" name="log" className="mt-4 border-t border-[var(--v2-rule)]">
                     {lately.items.map((item, i) => {
                         const row = (

@@ -101,7 +101,8 @@ export function CaseHero() {
                             width={hero.shot.w}
                             height={hero.shot.h}
                             sizes="(min-width: 1024px) 80vw, 100vw"
-                            priority
+                            loading="eager"
+                            fetchPriority="high"
                             className="block h-auto w-full"
                         />
                         <p className="v2-mono flex min-h-10 items-center justify-between px-1 py-2 text-[12px] text-[var(--v2-ink)]">

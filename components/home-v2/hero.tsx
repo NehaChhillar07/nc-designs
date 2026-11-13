@@ -40,10 +40,16 @@ function NameLine({ text, word, line, className }: { text: string; word: "neha" 
                 {GUIDES.map((g, i) => (line && i === 0 ? null : (
                     <span key={g.label} className="v2-guide absolute inset-x-0 h-px" style={{ top: g.at, "--g": i } as React.CSSProperties}>
                         {/* Labelled once, on the first line, in the empty space left of the letters. */}
+                        {/* Drawn by CSS from data-label, so it's no part of the h1's text
+                            (crawlers read the h1 as "neha chhillar"). */}
                         {!line && (
-                            <span className={cn("v2-mono absolute left-0 text-[11px] leading-none tracking-tight", i === 2 ? "top-1.5" : "bottom-1")}>
-                                {g.label}
-                            </span>
+                            <span
+                                data-label={g.label}
+                                className={cn(
+                                    "v2-mono absolute left-0 text-[11px] leading-none tracking-tight before:content-[attr(data-label)]",
+                                    i === 2 ? "top-1.5" : "bottom-1",
+                                )}
+                            />
                         )}
                     </span>
                 )))}

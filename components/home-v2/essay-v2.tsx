@@ -37,6 +37,13 @@ export function EssayV2({ essay, next }: { essay: Essay; next?: { slug: string; 
                         {essay.dek}
                     </p>
                     <p className="v2-mono mt-6 text-[12px] text-[var(--v2-muted)]">
+                        {copy.byline}{" "}
+                        <Link href={V2.home} rel="author" className="v2-link">
+                            {copy.author}
+                        </Link>
+                        <span aria-hidden className="mx-2">
+                            ·
+                        </span>
                         <time dateTime={essay.dateISO}>{essay.dateDisplay.toLowerCase()}</time>
                         <span aria-hidden className="mx-2">
                             ·
@@ -53,7 +60,8 @@ export function EssayV2({ essay, next }: { essay: Essay; next?: { slug: string; 
                             width={essay.coverWidth ?? 2400}
                             height={essay.coverHeight ?? 1120}
                             sizes="(min-width: 768px) 80vw, 100vw"
-                            priority
+                            loading="eager"
+                            fetchPriority="high"
                             className="block h-auto w-full"
                         />
                     </span>

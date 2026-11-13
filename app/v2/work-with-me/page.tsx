@@ -4,15 +4,18 @@ import { KindWords } from "@/components/home-v2/kind-words";
 import { SpecGap } from "@/components/home-v2/spec-mode";
 import { WorkWithMeAsk, WorkWithMeHero, WorkWithMeWhoFor } from "@/components/home-v2/work-with-me-v2";
 import { v2Pages } from "@/data/v2-pages-data";
-import { SITE_URL } from "@/lib/site";
+import { v2Metadata } from "@/lib/v2-seo";
 
 const { meta } = v2Pages.workWithMe;
 
-export const metadata: Metadata = {
-    title: { absolute: meta.title },
+export const metadata: Metadata = v2Metadata({
+    title: meta.title,
     description: meta.description,
-    alternates: { canonical: `${SITE_URL}/work-with-me` },
-};
+    path: "/work-with-me",
+    card: "work-with-me",
+    cardAlt: "Work with Neha Chhillar",
+    type: "website",
+});
 
 export default function V2WorkWithMePage() {
     return (

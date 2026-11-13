@@ -43,7 +43,7 @@ export function PhonePrint({
                 {video ? (
                     <PrintVideo shot={{ src, alt, w, h, bar: "", video }} className="block h-auto w-full rounded-[18px]" />
                 ) : (
-                    <Image src={src} alt={alt} width={w} height={h} sizes={sizes} priority={priority} className="block h-auto w-full rounded-[18px]" />
+                    <Image src={src} alt={alt} width={w} height={h} sizes={sizes} loading={priority ? "eager" : undefined} fetchPriority={priority ? "high" : undefined} className="block h-auto w-full rounded-[18px]" />
                 )}
                 {caption && <figcaption className="v2-mono flex min-h-9 items-center px-1 py-2 text-[11px] text-[var(--v2-ink)] md:text-[12px]">{caption}</figcaption>}
             </div>

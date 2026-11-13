@@ -172,7 +172,7 @@ export function PrintFigure({
                         width={shot.w}
                         height={shot.h}
                         sizes={sizes}
-                        priority={priority}
+                        loading={priority ? "eager" : undefined} fetchPriority={priority ? "high" : undefined}
                         className="block h-auto w-full"
                     />
                 )}

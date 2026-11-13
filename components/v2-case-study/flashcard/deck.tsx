@@ -130,7 +130,7 @@ function Head({ tag, n, total }: { tag: string; n: number; total: number }) {
 function Riso({ src, alt, sizes, priority }: { src: string; alt: string; sizes: string; priority?: boolean }) {
     return (
         <span className="v2-riso relative block h-full w-full overflow-hidden rounded-[10px]">
-            <Image src={src} alt={alt} fill sizes={sizes} priority={priority} draggable={false} className="pointer-events-none object-cover" />
+            <Image src={src} alt={alt} fill sizes={sizes} loading={priority ? "eager" : undefined} fetchPriority={priority ? "high" : undefined} draggable={false} className="pointer-events-none object-cover" />
         </span>
     );
 }
@@ -147,7 +147,7 @@ export function CoverFace({ className, priority }: { className?: string; priorit
                 width={cover.w}
                 height={cover.h}
                 sizes="(min-width: 768px) 900px, 240vw"
-                priority={priority}
+                loading={priority ? "eager" : undefined} fetchPriority={priority ? "high" : undefined}
                 draggable={false}
                 className="pointer-events-none absolute max-w-none select-none"
                 style={{

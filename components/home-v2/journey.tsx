@@ -183,8 +183,9 @@ function StackedPrint({
             <motion.div style={{ y }}>
                 <Link
                     href={row.href}
-                    // relative: anchors the desktop hover tag.
-                    aria-label={`${resume.readPrefix} ${row.name}, ${row.readingTime}`}
+                    // relative: anchors the desktop hover tag. No aria-label: the
+                    // spoken name is the visible "read · 6 min" plus the project,
+                    // so voice users can say what they see.
                     className="group relative block"
                 >
                     <motion.span
@@ -199,7 +200,9 @@ function StackedPrint({
                     {/* On a phone the label sits under the print; in the desktop stack the prints
                         overlap, so it appears as a tag above the print on hover or focus. */}
                     <span className="v2-mono mt-2 block text-[11px] text-[var(--v2-muted)] transition-[opacity,color] duration-200 group-hover:text-[var(--v2-oxblood)] md:absolute md:-top-7 md:left-0 md:mt-0 md:bg-[var(--v2-oxblood)] md:px-1.5 md:py-0.5 md:text-[var(--v2-paper)] md:opacity-0 md:group-hover:text-[var(--v2-paper)] md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
-                        {resume.readPrefix} · {row.readingTime} →
+                        {resume.readPrefix} · {row.readingTime}
+                        <span aria-hidden> →</span>
+                        <span className="sr-only">, {row.name}</span>
                     </span>
                 </Link>
             </motion.div>

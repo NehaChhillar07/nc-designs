@@ -114,16 +114,20 @@ export function FunnelToggle() {
                             <dt className={cn("v2-mono text-[12px]", hot ? "text-[var(--v2-oxblood)]" : "text-[var(--v2-muted)]")}>
                                 {s.label.toLowerCase()}
                             </dt>
-                            <div className="h-7 bg-[rgb(26_20_20/0.05)]">
-                                <motion.div
-                                    className={cn("h-full", hot ? "bg-[var(--v2-oxblood)]" : "bg-[rgb(26_20_20/0.22)]")}
-                                    initial={false}
-                                    animate={{ width: `${s.pct}%` }}
-                                    transition={{ type: "spring", stiffness: 140, damping: 22 }}
-                                />
-                            </div>
-                            <dd className={cn("v2-display text-right text-[24px] leading-none", hot ? "text-[var(--v2-oxblood)]" : "text-[var(--v2-ink)]")}>
-                                <Num value={s.pct} />
+                            {/* The bar sits inside the dd (a dl group holds only dt and
+                                dd); display: contents keeps the three-column grid. */}
+                            <dd className="contents">
+                                <span aria-hidden className="block h-7 bg-[rgb(26_20_20/0.05)]">
+                                    <motion.span
+                                        className={cn("block h-full", hot ? "bg-[var(--v2-oxblood)]" : "bg-[rgb(26_20_20/0.22)]")}
+                                        initial={false}
+                                        animate={{ width: `${s.pct}%` }}
+                                        transition={{ type: "spring", stiffness: 140, damping: 22 }}
+                                    />
+                                </span>
+                                <span className={cn("v2-display text-right text-[24px] leading-none", hot ? "text-[var(--v2-oxblood)]" : "text-[var(--v2-ink)]")}>
+                                    <Num value={s.pct} />
+                                </span>
                             </dd>
                         </div>
                     );
@@ -132,16 +136,18 @@ export function FunnelToggle() {
                 {/* counter-metric, outside the funnel */}
                 <div className="grid grid-cols-[6.5rem_1fr_3.25rem] items-center gap-3 border-t border-dashed border-[var(--v2-rule)] pt-3 md:grid-cols-[8rem_1fr_3.5rem]">
                     <dt className="v2-mono text-[12px] text-[var(--v2-muted)]">{funnel.counter.label.toLowerCase()}</dt>
-                    <div className="h-3 bg-[rgb(26_20_20/0.05)]">
-                        <motion.div
-                            className="h-full bg-[rgb(26_20_20/0.45)]"
-                            initial={false}
-                            animate={{ width: `${reported}%` }}
-                            transition={{ type: "spring", stiffness: 140, damping: 22 }}
-                        />
-                    </div>
-                    <dd className="v2-display text-right text-[20px] leading-none text-[var(--v2-ink)]">
-                        <Num value={reported} />
+                    <dd className="contents">
+                        <span aria-hidden className="block h-3 bg-[rgb(26_20_20/0.05)]">
+                            <motion.span
+                                className="block h-full bg-[rgb(26_20_20/0.45)]"
+                                initial={false}
+                                animate={{ width: `${reported}%` }}
+                                transition={{ type: "spring", stiffness: 140, damping: 22 }}
+                            />
+                        </span>
+                        <span className="v2-display text-right text-[20px] leading-none text-[var(--v2-ink)]">
+                            <Num value={reported} />
+                        </span>
                     </dd>
                 </div>
             </dl>
